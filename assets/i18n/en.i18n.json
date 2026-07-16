@@ -1,0 +1,38 @@
+{
+  "core": {
+    "error": {
+      "title": "Something went wrong",
+      "body": "Something went wrong on our end.",
+      "tryAgain": "Try Again"
+    },
+    "empty": {
+      "title": "No data yet",
+      "body": "There's nothing here yet."
+    },
+    "loading": {
+      "message": "Loading..."
+    },
+    "search": {
+      "hint": "Search...",
+      "noResults": "No results found."
+    }
+  },
+  "auth": {
+    "login": "Login",
+    "signUp": "Sign Up",
+    "forgotPassword": "Forgot Password",
+    "logout": "Logout",
+    "email": "Email",
+    "password": "Password"
+  },
+  "navigation": {
+    "home": "Home",
+    "assets": "Assets",
+    "insights": "Insights",
+    "goals": "Goals",
+    "marketPrices": "Market Prices",
+    "notifications": "Notifications",
+    "profile": "Profile",
+    "settings": "Settings"
+  }
+}
