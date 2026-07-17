@@ -1,0 +1,1 @@
+enum InsightSeverity { info, attention }

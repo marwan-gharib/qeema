@@ -1,9 +1,8 @@
 import 'package:decimal/decimal.dart';
-
-import '../constants/asset_type_codes.dart';
-import '../error/failures.dart';
-import '../utils/api_result.dart';
-import 'models/asset_in_base_currency.dart';
+import 'package:qeema/core/constants/asset_type_codes.dart';
+import 'package:qeema/core/error/failures.dart';
+import 'package:qeema/core/financial/models/asset_in_base_currency.dart';
+import 'package:qeema/core/utils/api_result.dart';
 
 class CurrencyConverter {
   static const _baseCurrencyAssetCode = AssetTypeCodes.cashEgp;
@@ -23,11 +22,7 @@ class CurrencyConverter {
       );
     }
     if (!isMarketBased) {
-      return ResultFailure(
-        CalculationFailure(
-          'Asset type $assetTypeCode is not market-based but is not base currency',
-        ),
-      );
+      return ResultFailure(CalculationFailure(assetTypeCode));
     }
     if (latestPrice == null) {
       return ResultFailure(PriceFetchFailure(assetTypeCode));

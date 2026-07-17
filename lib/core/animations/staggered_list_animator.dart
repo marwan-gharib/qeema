@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-
-import 'app_animated_entry.dart';
-import 'app_motion.dart';
-import 'entry_animation_type.dart';
+import 'package:qeema/core/animations/app_animated_entry.dart';
+import 'package:qeema/core/animations/app_motion.dart';
+import 'package:qeema/core/animations/entry_animation_type.dart';
 
 /// Wraps each [children] in an [AppAnimatedEntry] with an incremental
 /// [AppMotion.staggerStep] delay, producing a cascade effect.
@@ -18,14 +17,13 @@ import 'entry_animation_type.dart';
 /// )
 /// ```
 class StaggeredListAnimator extends StatelessWidget {
-  final List<Widget> children;
-  final EntryAnimationType type;
-
   const StaggeredListAnimator({
     super.key,
     required this.children,
     this.type = EntryAnimationType.fadeSlideUp,
   });
+  final List<Widget> children;
+  final EntryAnimationType type;
 
   @override
   Widget build(BuildContext context) {

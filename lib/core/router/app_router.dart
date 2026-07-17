@@ -1,157 +1,202 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-
-import 'route_guards.dart';
-import 'route_names.dart';
+import 'package:qeema/core/animations/app_page_transitions.dart';
+import 'package:qeema/core/di/injection_container.dart';
+import 'package:qeema/core/i18n/strings.g.dart';
+import 'package:qeema/core/router/route_guards.dart';
+import 'package:qeema/core/router/route_names.dart';
+import 'package:qeema/core/router/route_paths.dart';
+import 'package:qeema/core/router/route_segments.dart';
+import 'package:qeema/features/onboarding/presentation/cubits/onboarding_cubit/onboarding_cubit.dart';
+import 'package:qeema/features/onboarding/presentation/screens/onboarding_screen.dart';
 
 class AppRouter {
-  final RouteGuards _routeGuards;
-  AppRouter(this._routeGuards);
+  AppRouter._();
+  static final RouteGuards _routeGuards = getIt<RouteGuards>();
 
-  GoRouter create() {
-    return GoRouter(
-      initialLocation: RoutePaths.splash,
-      refreshListenable: _routeGuards.authListenable,
-      redirect: _routeGuards.redirectUnauthenticated,
-      routes: [
-        GoRoute(
-          path: RoutePaths.splash,
-          name: RouteNames.splash,
-          builder: (context, state) =>
-              const Scaffold(body: Center(child: Text('Splash'))),
+  static GoRouter router = GoRouter(
+    initialLocation: RoutePaths.onboarding,
+    refreshListenable: _routeGuards.authListenable,
+    redirect: _routeGuards.redirectUnauthenticated,
+    routes: [
+      GoRoute(
+        path: RoutePaths.splash,
+        name: RouteNames.splash,
+        builder: (context, state) =>
+            Scaffold(body: Center(child: Text(context.t.navigation.splash))),
+      ),
+      GoRoute(
+        path: RoutePaths.onboarding,
+        name: RouteNames.onboarding,
+        pageBuilder: (context, state) => fadeThroughPage(
+          child: BlocProvider(
+            create: (context) => getIt<OnboardingCubit>(),
+            child: const OnboardingScreen(),
+          ),
+          pageKey: const ValueKey('onboarding'),
         ),
-        GoRoute(
-          path: RoutePaths.welcome,
-          name: RouteNames.welcome,
-          builder: (context, state) =>
-              const Scaffold(body: Center(child: Text('Welcome'))),
+      ),
+      GoRoute(
+        path: RoutePaths.welcome,
+        name: RouteNames.welcome,
+        builder: (context, state) =>
+            Scaffold(body: Center(child: Text(context.t.navigation.welcome))),
+      ),
+      GoRoute(
+        path: RoutePaths.login,
+        name: RouteNames.login,
+        builder: (context, state) =>
+            Scaffold(body: Center(child: Text(context.t.auth.login))),
+      ),
+      GoRoute(
+        path: RoutePaths.signUp,
+        name: RouteNames.signUp,
+        builder: (context, state) =>
+            Scaffold(body: Center(child: Text(context.t.auth.signUp))),
+      ),
+      GoRoute(
+        path: RoutePaths.forgotPassword,
+        name: RouteNames.forgotPassword,
+        builder: (context, state) =>
+            Scaffold(body: Center(child: Text(context.t.auth.forgotPassword))),
+      ),
+      GoRoute(
+        path: RoutePaths.biometricSetup,
+        name: RouteNames.biometricSetup,
+        builder: (context, state) => Scaffold(
+          body: Center(child: Text(context.t.navigation.biometricSetup)),
         ),
-        GoRoute(
-          path: RoutePaths.login,
-          name: RouteNames.login,
-          builder: (context, state) =>
-              const Scaffold(body: Center(child: Text('Login'))),
-        ),
-        GoRoute(
-          path: RoutePaths.signUp,
-          name: RouteNames.signUp,
-          builder: (context, state) =>
-              const Scaffold(body: Center(child: Text('Sign Up'))),
-        ),
-        GoRoute(
-          path: RoutePaths.forgotPassword,
-          name: RouteNames.forgotPassword,
-          builder: (context, state) =>
-              const Scaffold(body: Center(child: Text('Forgot Password'))),
-        ),
-        GoRoute(
-          path: RoutePaths.biometricSetup,
-          name: RouteNames.biometricSetup,
-          builder: (context, state) =>
-              const Scaffold(body: Center(child: Text('Biometric Setup'))),
-        ),
-        GoRoute(
-          path: RoutePaths.home,
-          name: RouteNames.home,
-          builder: (context, state) =>
-              const Scaffold(body: Center(child: Text('Home'))),
-        ),
-        GoRoute(
-          path: RoutePaths.assets,
-          name: RouteNames.assets,
-          builder: (context, state) =>
-              const Scaffold(body: Center(child: Text('Assets'))),
-          routes: [
-            GoRoute(
-              path: RouteSegments.add,
-              name: RouteNames.addAsset,
-              builder: (context, state) =>
-                  const Scaffold(body: Center(child: Text('Add Asset'))),
+      ),
+      GoRoute(
+        path: RoutePaths.home,
+        name: RouteNames.home,
+        builder: (context, state) =>
+            Scaffold(body: Center(child: Text(context.t.navigation.home))),
+      ),
+      GoRoute(
+        path: RoutePaths.assets,
+        name: RouteNames.assets,
+        builder: (context, state) =>
+            Scaffold(body: Center(child: Text(context.t.navigation.assets))),
+        routes: [
+          GoRoute(
+            path: RouteSegments.add,
+            name: RouteNames.addAsset,
+            builder: (context, state) => Scaffold(
+              body: Center(child: Text(context.t.navigation.addAsset)),
             ),
-            GoRoute(
-              path: RouteSegments.assetId,
-              name: RouteNames.assetDetail,
-              builder: (context, state) {
-                final assetId = state.pathParameters['assetId']!;
-                return Scaffold(body: Center(child: Text('Asset $assetId')));
-              },
-              routes: [
-                GoRoute(
-                  path: RouteSegments.edit,
-                  name: RouteNames.editAsset,
-                  builder: (context, state) {
-                    final assetId = state.pathParameters['assetId']!;
-                    return Scaffold(
-                      body: Center(child: Text('Edit Asset $assetId')),
-                    );
-                  },
+          ),
+          GoRoute(
+            path: RouteSegments.assetId,
+            name: RouteNames.assetDetail,
+            builder: (context, state) {
+              final assetId = state.pathParameters['assetId']!;
+              return Scaffold(
+                body: Center(
+                  child: Text(
+                    context.t.navigation.assetDetail.replaceAll(
+                      '{id}',
+                      assetId,
+                    ),
+                  ),
                 ),
-              ],
+              );
+            },
+            routes: [
+              GoRoute(
+                path: RouteSegments.edit,
+                name: RouteNames.editAsset,
+                builder: (context, state) {
+                  final assetId = state.pathParameters['assetId']!;
+                  return Scaffold(
+                    body: Center(
+                      child: Text(
+                        context.t.navigation.editAsset.replaceAll(
+                          '{id}',
+                          assetId,
+                        ),
+                      ),
+                    ),
+                  );
+                },
+              ),
+            ],
+          ),
+        ],
+      ),
+      GoRoute(
+        path: RoutePaths.insights,
+        name: RouteNames.insights,
+        builder: (context, state) =>
+            Scaffold(body: Center(child: Text(context.t.navigation.insights))),
+      ),
+      GoRoute(
+        path: RoutePaths.goals,
+        name: RouteNames.goals,
+        builder: (context, state) =>
+            Scaffold(body: Center(child: Text(context.t.navigation.goals))),
+        routes: [
+          GoRoute(
+            path: RouteSegments.add,
+            name: RouteNames.addGoal,
+            builder: (context, state) => Scaffold(
+              body: Center(child: Text(context.t.navigation.addGoal)),
             ),
-          ],
+          ),
+          GoRoute(
+            path: RouteSegments.goalId,
+            name: RouteNames.goalDetail,
+            builder: (context, state) {
+              final goalId = state.pathParameters['goalId']!;
+              return Scaffold(
+                body: Center(
+                  child: Text(
+                    context.t.navigation.goalDetail.replaceAll('{id}', goalId),
+                  ),
+                ),
+              );
+            },
+          ),
+        ],
+      ),
+      GoRoute(
+        path: RoutePaths.marketPrices,
+        name: RouteNames.marketPrices,
+        builder: (context, state) => Scaffold(
+          body: Center(child: Text(context.t.navigation.marketPrices)),
         ),
-        GoRoute(
-          path: RoutePaths.insights,
-          name: RouteNames.insights,
-          builder: (context, state) =>
-              const Scaffold(body: Center(child: Text('Insights'))),
+      ),
+      GoRoute(
+        path: RoutePaths.notifications,
+        name: RouteNames.notifications,
+        builder: (context, state) => Scaffold(
+          body: Center(child: Text(context.t.navigation.notifications)),
         ),
-        GoRoute(
-          path: RoutePaths.goals,
-          name: RouteNames.goals,
-          builder: (context, state) =>
-              const Scaffold(body: Center(child: Text('Goals'))),
-          routes: [
-            GoRoute(
-              path: RouteSegments.add,
-              name: RouteNames.addGoal,
-              builder: (context, state) =>
-                  const Scaffold(body: Center(child: Text('Add Goal'))),
-            ),
-            GoRoute(
-              path: RouteSegments.goalId,
-              name: RouteNames.goalDetail,
-              builder: (context, state) {
-                final goalId = state.pathParameters['goalId']!;
-                return Scaffold(body: Center(child: Text('Goal $goalId')));
-              },
-            ),
-          ],
-        ),
-        GoRoute(
-          path: RoutePaths.marketPrices,
-          name: RouteNames.marketPrices,
-          builder: (context, state) =>
-              const Scaffold(body: Center(child: Text('Market Prices'))),
-        ),
-        GoRoute(
-          path: RoutePaths.notifications,
-          name: RouteNames.notifications,
-          builder: (context, state) =>
-              const Scaffold(body: Center(child: Text('Notifications'))),
-          routes: [
-            GoRoute(
-              path: RouteSegments.settings,
-              name: RouteNames.notificationSettings,
-              builder: (context, state) => const Scaffold(
-                body: Center(child: Text('Notification Settings')),
+        routes: [
+          GoRoute(
+            path: RouteSegments.settings,
+            name: RouteNames.notificationSettings,
+            builder: (context, state) => Scaffold(
+              body: Center(
+                child: Text(context.t.navigation.notificationSettings),
               ),
             ),
-          ],
-        ),
-        GoRoute(
-          path: RoutePaths.profile,
-          name: RouteNames.profile,
-          builder: (context, state) =>
-              const Scaffold(body: Center(child: Text('Profile'))),
-        ),
-        GoRoute(
-          path: RoutePaths.settings,
-          name: RouteNames.settings,
-          builder: (context, state) =>
-              const Scaffold(body: Center(child: Text('Settings'))),
-        ),
-      ],
-    );
-  }
+          ),
+        ],
+      ),
+      GoRoute(
+        path: RoutePaths.profile,
+        name: RouteNames.profile,
+        builder: (context, state) =>
+            Scaffold(body: Center(child: Text(context.t.navigation.profile))),
+      ),
+      GoRoute(
+        path: RoutePaths.settings,
+        name: RouteNames.settings,
+        builder: (context, state) =>
+            Scaffold(body: Center(child: Text(context.t.navigation.settings))),
+      ),
+    ],
+  );
 }

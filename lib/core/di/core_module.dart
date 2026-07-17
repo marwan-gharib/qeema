@@ -1,37 +1,37 @@
 import 'package:connectivity_plus/connectivity_plus.dart';
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:get_it/get_it.dart';
 import 'package:local_auth/local_auth.dart';
-
-import '../financial/asset_valuator.dart';
-import '../financial/currency_converter.dart';
-import '../financial/financial_insight_engine.dart';
-import '../financial/inflation_calculator.dart';
-import '../financial/insight_rules/asset_performance_rule.dart';
-import '../financial/insight_rules/concentration_risk_rule.dart';
-import '../financial/insight_rules/goal_feasibility_rule.dart';
-import '../financial/insight_rules/inflation_loss_rule.dart';
-import '../financial/insight_rules/insight_rule.dart';
-import '../local/cache/app_database.dart';
-import '../local/cache/daos/assets_dao.dart';
-import '../local/cache/daos/goals_dao.dart';
-import '../local/cache/daos/inflation_rates_dao.dart';
-import '../local/cache/daos/market_prices_dao.dart';
-import '../local/cache/daos/snapshots_dao.dart';
-import '../local/secure/secure_storage_service.dart';
-import '../local/secure/secure_storage_service_impl.dart';
-import '../network/base_api_client.dart';
-import '../network/dio_api_client.dart';
-import '../network/network_info.dart';
-import '../network/supabase_client_provider.dart';
-import '../network/supabase_query_executor.dart';
-import '../router/app_router.dart';
-import '../router/route_guards.dart';
-import '../services/biometric_auth_service.dart';
-import '../services/connectivity_service.dart';
-import '../services/local_notification_service.dart';
-import '../services/sync_service.dart';
+import 'package:qeema/core/financial/asset_valuator.dart';
+import 'package:qeema/core/financial/currency_converter.dart';
+import 'package:qeema/core/financial/financial_insight_engine.dart';
+import 'package:qeema/core/financial/inflation_calculator.dart';
+import 'package:qeema/core/financial/insight_rules/asset_performance_rule.dart';
+import 'package:qeema/core/financial/insight_rules/concentration_risk_rule.dart';
+import 'package:qeema/core/financial/insight_rules/goal_feasibility_rule.dart';
+import 'package:qeema/core/financial/insight_rules/inflation_loss_rule.dart';
+import 'package:qeema/core/financial/insight_rules/insight_rule.dart';
+import 'package:qeema/core/local/cache/app_database.dart';
+import 'package:qeema/core/local/cache/cache_service.dart';
+import 'package:qeema/core/local/cache/cache_service_impl.dart';
+import 'package:qeema/core/local/cache/daos/assets_dao.dart';
+import 'package:qeema/core/local/cache/daos/goals_dao.dart';
+import 'package:qeema/core/local/cache/daos/inflation_rates_dao.dart';
+import 'package:qeema/core/local/cache/daos/market_prices_dao.dart';
+import 'package:qeema/core/local/cache/daos/snapshots_dao.dart';
+import 'package:qeema/core/local/secure/secure_storage_service.dart';
+import 'package:qeema/core/local/secure/secure_storage_service_impl.dart';
+import 'package:qeema/core/network/base_api_client.dart';
+import 'package:qeema/core/network/dio_api_client.dart';
+import 'package:qeema/core/network/network_info.dart';
+import 'package:qeema/core/network/supabase_client_provider.dart';
+import 'package:qeema/core/network/supabase_query_executor.dart';
+import 'package:qeema/core/services/biometric_auth_service.dart';
+import 'package:qeema/core/services/connectivity_service.dart';
+import 'package:qeema/core/services/local_notification_service.dart';
+import 'package:qeema/core/services/sync_service.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 Future<void> initCoreModule(GetIt getIt) async {
   getIt.registerLazySingleton<SupabaseClientProvider>(
@@ -48,6 +48,9 @@ Future<void> initCoreModule(GetIt getIt) async {
   getIt.registerLazySingleton<SecureStorageService>(
     () => SecureStorageServiceImpl(const FlutterSecureStorage()),
   );
+
+  final prefs = await SharedPreferences.getInstance();
+  getIt.registerLazySingleton<CacheService>(() => CacheServiceImpl(prefs));
 
   getIt.registerLazySingleton<AppDatabase>(() => AppDatabase());
 
@@ -109,9 +112,4 @@ Future<void> initCoreModule(GetIt getIt) async {
   getIt.registerLazySingleton<FinancialInsightEngine>(
     () => FinancialInsightEngine(getIt<List<InsightRule>>()),
   );
-
-  getIt.registerLazySingleton<RouteGuards>(
-    () => RouteGuards(getIt<SupabaseClientProvider>()),
-  );
-  getIt.registerLazySingleton<AppRouter>(() => AppRouter(getIt<RouteGuards>()));
 }

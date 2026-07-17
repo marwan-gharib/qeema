@@ -1,9 +1,8 @@
 import 'package:dio/dio.dart';
 
 class AuthInterceptor extends Interceptor {
-  final String Function() _tokenProvider;
-
   AuthInterceptor(this._tokenProvider);
+  final String Function() _tokenProvider;
 
   @override
   void onRequest(RequestOptions options, RequestInterceptorHandler handler) {

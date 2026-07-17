@@ -1,15 +1,8 @@
 import 'package:flutter/material.dart';
-
-import '../extensions/build_context_extensions.dart';
-import 'app_button.dart';
+import 'package:qeema/core/extensions/build_context_extensions.dart';
+import 'package:qeema/core/widgets/app_button.dart';
 
 class AppEmptyState extends StatelessWidget {
-  final IconData icon;
-  final String title;
-  final String? subtitle;
-  final String? actionLabel;
-  final VoidCallback? onAction;
-
   const AppEmptyState({
     super.key,
     required this.icon,
@@ -18,6 +11,11 @@ class AppEmptyState extends StatelessWidget {
     this.actionLabel,
     this.onAction,
   });
+  final IconData icon;
+  final String title;
+  final String? subtitle;
+  final String? actionLabel;
+  final VoidCallback? onAction;
 
   @override
   Widget build(BuildContext context) {

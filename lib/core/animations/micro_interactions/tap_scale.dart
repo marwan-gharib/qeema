@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-
-import '../app_motion.dart';
+import 'package:qeema/core/animations/app_motion.dart';
 
 /// Scales [child] down slightly on press-down and back on release/cancel.
 ///
@@ -15,16 +14,15 @@ import '../app_motion.dart';
 /// )
 /// ```
 class TapScale extends StatefulWidget {
-  final Widget child;
-  final VoidCallback? onTap;
-  final double scaleDown;
-
   const TapScale({
     super.key,
     required this.child,
     this.onTap,
     this.scaleDown = 0.96,
   });
+  final Widget child;
+  final VoidCallback? onTap;
+  final double scaleDown;
 
   @override
   State<TapScale> createState() => _TapScaleState();

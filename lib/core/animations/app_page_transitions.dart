@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-
-import 'app_motion.dart';
+import 'package:qeema/core/animations/app_motion.dart';
 
 Page<void> fadeThroughPage({required Widget child, required LocalKey pageKey}) {
   return CustomTransitionPage<void>(

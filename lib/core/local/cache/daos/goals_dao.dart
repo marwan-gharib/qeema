@@ -1,10 +1,9 @@
 import 'package:drift/drift.dart';
-
-import '../app_database.dart';
+import 'package:qeema/core/local/cache/app_database.dart';
 
 class GoalsDao {
-  final AppDatabase _db;
   const GoalsDao(this._db);
+  final AppDatabase _db;
 
   Future<List<CachedSavingsGoalsTableData>> forUser(String userId) async {
     return await (_db.select(

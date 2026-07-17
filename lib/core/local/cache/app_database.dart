@@ -4,14 +4,13 @@ import 'package:drift/drift.dart';
 import 'package:drift/native.dart';
 import 'package:path/path.dart' as p;
 import 'package:path_provider/path_provider.dart';
-
-import 'tables/cached_asset_history_table.dart';
-import 'tables/cached_asset_types_table.dart';
-import 'tables/cached_assets_table.dart';
-import 'tables/cached_inflation_rates_table.dart';
-import 'tables/cached_market_prices_table.dart';
-import 'tables/cached_portfolio_snapshots_table.dart';
-import 'tables/cached_savings_goals_table.dart';
+import 'package:qeema/core/local/cache/tables/cached_asset_history_table.dart';
+import 'package:qeema/core/local/cache/tables/cached_asset_types_table.dart';
+import 'package:qeema/core/local/cache/tables/cached_assets_table.dart';
+import 'package:qeema/core/local/cache/tables/cached_inflation_rates_table.dart';
+import 'package:qeema/core/local/cache/tables/cached_market_prices_table.dart';
+import 'package:qeema/core/local/cache/tables/cached_portfolio_snapshots_table.dart';
+import 'package:qeema/core/local/cache/tables/cached_savings_goals_table.dart';
 
 part 'app_database.g.dart';
 

@@ -1,14 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:qeema/core/extensions/build_context_extensions.dart';
 import 'package:qeema/core/i18n/strings.g.dart';
-
-import '../extensions/build_context_extensions.dart';
-import 'app_button.dart';
+import 'package:qeema/core/widgets/app_button.dart';
 
 class AppErrorState extends StatelessWidget {
+  const AppErrorState({super.key, this.message, this.onRetry});
   final String? message;
   final VoidCallback? onRetry;
-
-  const AppErrorState({super.key, this.message, this.onRetry});
 
   @override
   Widget build(BuildContext context) {

@@ -1,14 +1,15 @@
 import 'package:decimal/decimal.dart';
-
-import '../models/asset_in_base_currency.dart';
-import '../models/insight.dart';
-import '../models/portfolio_snapshot_data.dart';
-import 'insight_rule.dart';
+import 'package:qeema/core/financial/insight_rules/insight_rule.dart';
+import 'package:qeema/core/financial/models/asset_in_base_currency.dart';
+import 'package:qeema/core/financial/models/insight.dart';
+import 'package:qeema/core/financial/models/insight_severity.dart';
+import 'package:qeema/core/financial/models/insight_type.dart';
+import 'package:qeema/core/financial/models/portfolio_snapshot_data.dart';
 
 class ConcentrationRiskRule implements InsightRule {
-  final Decimal _threshold;
   ConcentrationRiskRule({Decimal? threshold})
     : _threshold = threshold ?? Decimal.parse('0.8');
+  final Decimal _threshold;
 
   Decimal _d(dynamic v) => Decimal.parse(v.toString());
 
@@ -27,7 +28,7 @@ class ConcentrationRiskRule implements InsightRule {
       );
       if (share > _threshold) {
         return [
-          Insight(
+          const Insight(
             title: 'High concentration risk',
             body:
                 'Over 80% of your portfolio is in one asset type. Consider diversifying to reduce risk.',

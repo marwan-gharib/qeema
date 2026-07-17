@@ -1,12 +1,11 @@
+import 'package:qeema/core/error/failure_mapper.dart';
+import 'package:qeema/core/network/supabase_client_provider.dart';
+import 'package:qeema/core/utils/api_result.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
-import '../error/failure_mapper.dart';
-import '../utils/api_result.dart';
-import 'supabase_client_provider.dart';
-
 class SupabaseQueryExecutor {
-  final SupabaseClientProvider _provider;
   const SupabaseQueryExecutor(this._provider);
+  final SupabaseClientProvider _provider;
 
   Future<ApiResult<T>> run<T>(
     Future<T> Function(SupabaseClient client) query,

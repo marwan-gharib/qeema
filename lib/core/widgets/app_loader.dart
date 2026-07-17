@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
-
-import '../extensions/build_context_extensions.dart';
+import 'package:qeema/core/extensions/build_context_extensions.dart';
 
 class AppLoader extends StatelessWidget {
-  final String? message;
-
   const AppLoader({super.key, this.message});
+  final String? message;
 
   @override
   Widget build(BuildContext context) {

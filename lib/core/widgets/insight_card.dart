@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
-
-import '../extensions/build_context_extensions.dart';
-import '../financial/models/insight.dart';
+import 'package:qeema/core/extensions/build_context_extensions.dart';
+import 'package:qeema/core/financial/models/insight.dart';
+import 'package:qeema/core/financial/models/insight_severity.dart';
 
 class InsightCard extends StatelessWidget {
-  final Insight insight;
-
   const InsightCard({super.key, required this.insight});
+  final Insight insight;
 
   @override
   Widget build(BuildContext context) {

@@ -1,20 +1,7 @@
 import 'package:flutter/material.dart';
-
-import 'app_colors.dart';
+import 'package:qeema/core/theme/app_colors.dart';
 
 class AppColorsExtension extends ThemeExtension<AppColorsExtension> {
-  final Color primary;
-  final Color primaryVariant;
-  final Color secondary;
-  final Color secondaryVariant;
-  final Color background;
-  final Color surface;
-  final Color surfaceAlt;
-  final Color textPrimary;
-  final Color textSecondary;
-  final Color error;
-  final Color divider;
-
   const AppColorsExtension({
     required this.primary,
     required this.primaryVariant,
@@ -27,21 +14,8 @@ class AppColorsExtension extends ThemeExtension<AppColorsExtension> {
     required this.textSecondary,
     required this.error,
     required this.divider,
+    required this.onPrimary,
   });
-
-  AppColors get asAppColors => AppColors(
-    primary: primary,
-    primaryVariant: primaryVariant,
-    secondary: secondary,
-    secondaryVariant: secondaryVariant,
-    background: background,
-    surface: surface,
-    surfaceAlt: surfaceAlt,
-    textPrimary: textPrimary,
-    textSecondary: textSecondary,
-    error: error,
-    divider: divider,
-  );
 
   factory AppColorsExtension.fromAppColors(AppColors colors) {
     return AppColorsExtension(
@@ -56,8 +30,36 @@ class AppColorsExtension extends ThemeExtension<AppColorsExtension> {
       textSecondary: colors.textSecondary,
       error: colors.error,
       divider: colors.divider,
+      onPrimary: colors.onPrimary,
     );
   }
+  final Color primary;
+  final Color primaryVariant;
+  final Color secondary;
+  final Color secondaryVariant;
+  final Color background;
+  final Color surface;
+  final Color surfaceAlt;
+  final Color textPrimary;
+  final Color textSecondary;
+  final Color error;
+  final Color divider;
+  final Color onPrimary;
+
+  AppColors get asAppColors => AppColors(
+    primary: primary,
+    primaryVariant: primaryVariant,
+    secondary: secondary,
+    secondaryVariant: secondaryVariant,
+    background: background,
+    surface: surface,
+    surfaceAlt: surfaceAlt,
+    textPrimary: textPrimary,
+    textSecondary: textSecondary,
+    error: error,
+    divider: divider,
+    onPrimary: onPrimary,
+  );
 
   @override
   AppColorsExtension copyWith({
@@ -72,6 +74,7 @@ class AppColorsExtension extends ThemeExtension<AppColorsExtension> {
     Color? textSecondary,
     Color? error,
     Color? divider,
+    Color? onPrimary,
   }) {
     return AppColorsExtension(
       primary: primary ?? this.primary,
@@ -85,6 +88,7 @@ class AppColorsExtension extends ThemeExtension<AppColorsExtension> {
       textSecondary: textSecondary ?? this.textSecondary,
       error: error ?? this.error,
       divider: divider ?? this.divider,
+      onPrimary: onPrimary ?? this.onPrimary,
     );
   }
 
@@ -107,6 +111,7 @@ class AppColorsExtension extends ThemeExtension<AppColorsExtension> {
       textSecondary: Color.lerp(textSecondary, other.textSecondary, t)!,
       error: Color.lerp(error, other.error, t)!,
       divider: Color.lerp(divider, other.divider, t)!,
+      onPrimary: Color.lerp(onPrimary, other.onPrimary, t)!,
     );
   }
 }

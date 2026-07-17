@@ -1,49 +1,47 @@
 class Failure {
-  final String message;
   const Failure(this.message);
-}
-
-final class ServerFailure extends Failure {
-  const ServerFailure([super.message = 'Something went wrong on our end.']);
-}
-
-final class NetworkFailure extends Failure {
-  const NetworkFailure([super.message = 'No internet connection.']);
-}
-
-final class CacheFailure extends Failure {
-  const CacheFailure([super.message = 'Could not read local data.']);
+  final String? message;
 }
 
 final class AuthFailure extends Failure {
-  const AuthFailure(super.message);
+  const AuthFailure([super.message]);
 }
 
-final class ValidationFailure extends Failure {
-  const ValidationFailure(super.message);
+final class CacheFailure extends Failure {
+  const CacheFailure([super.message]);
+}
+
+final class NetworkFailure extends Failure {
+  const NetworkFailure([super.message]);
+}
+
+final class ServerFailure extends Failure {
+  const ServerFailure([super.message]);
 }
 
 final class UnknownFailure extends Failure {
-  const UnknownFailure([super.message = 'An unexpected error occurred.']);
+  const UnknownFailure([super.message]);
 }
 
-final class FinancialFailure extends Failure {
-  const FinancialFailure(super.message);
+final class ValidationFailure extends Failure {
+  const ValidationFailure([super.message]);
 }
 
-final class PriceFetchFailure extends FinancialFailure {
-  final String assetTypeCode;
-  PriceFetchFailure(this.assetTypeCode)
-    : super('Could not fetch price for $assetTypeCode');
-}
-
-final class InflationDataMissingFailure extends FinancialFailure {
-  final List<DateTime> missingMonths;
-  InflationDataMissingFailure(this.missingMonths)
-    : super('Inflation data missing for ${missingMonths.length} month(s)');
+class FinancialFailure extends Failure {
+  const FinancialFailure([super.message]);
 }
 
 final class CalculationFailure extends FinancialFailure {
+  const CalculationFailure(this.reason, [super.message]);
   final String reason;
-  CalculationFailure(this.reason) : super('Calculation failed: $reason');
+}
+
+final class InflationDataMissingFailure extends FinancialFailure {
+  const InflationDataMissingFailure(this.missingMonths, [super.message]);
+  final List<DateTime> missingMonths;
+}
+
+final class PriceFetchFailure extends FinancialFailure {
+  const PriceFetchFailure(this.assetTypeCode, [super.message]);
+  final String assetTypeCode;
 }

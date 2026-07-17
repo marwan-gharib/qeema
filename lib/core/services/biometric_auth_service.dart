@@ -1,23 +1,21 @@
 import 'package:local_auth/local_auth.dart';
-
-import '../error/failures.dart';
-import '../utils/api_result.dart';
+import 'package:qeema/core/error/failures.dart';
+import 'package:qeema/core/utils/api_result.dart';
 
 class BiometricAuthService {
+  BiometricAuthService(this._localAuth);
   final LocalAuthentication _localAuth;
 
-  BiometricAuthService(this._localAuth);
-
-  Future<ApiResult<bool>> authenticate() async {
+  Future<ApiResult<bool>> authenticate({
+    required String localizedReason,
+  }) async {
     try {
       final authenticated = await _localAuth.authenticate(
-        localizedReason: 'Unlock Qeema to view your finances',
+        localizedReason: localizedReason,
       );
       return Success(authenticated);
     } catch (e) {
-      return ResultFailure(
-        const AuthFailure('Biometric authentication failed'),
-      );
+      return const ResultFailure(AuthFailure(null));
     }
   }
 

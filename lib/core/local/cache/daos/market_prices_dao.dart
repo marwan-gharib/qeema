@@ -1,10 +1,9 @@
 import 'package:drift/drift.dart';
-
-import '../app_database.dart';
+import 'package:qeema/core/local/cache/app_database.dart';
 
 class MarketPricesDao {
-  final AppDatabase _db;
   const MarketPricesDao(this._db);
+  final AppDatabase _db;
 
   Future<List<CachedMarketPricesTableData>> getAll() async {
     return await _db.select(_db.cachedMarketPricesTable).get();

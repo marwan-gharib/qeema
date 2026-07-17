@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
-
-import 'app_color_scheme.dart';
-import 'app_colors.dart';
-import 'app_colors_extension.dart';
-import 'app_text_theme.dart';
+import 'package:qeema/core/theme/app_color_scheme.dart';
+import 'package:qeema/core/theme/app_colors.dart';
+import 'package:qeema/core/theme/app_colors_extension.dart';
+import 'package:qeema/core/theme/app_text_theme.dart';
 
 class AppTheme {
   const AppTheme._();
@@ -48,8 +47,8 @@ class AppTheme {
       elevatedButtonTheme: ElevatedButtonThemeData(
         style: ElevatedButton.styleFrom(
           backgroundColor: colors.primary,
-          foregroundColor: Colors.white,
-          minimumSize: const Size(double.infinity, 48),
+          foregroundColor: colors.onPrimary,
+          minimumSize: const Size.fromHeight(48),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(12),
           ),
@@ -99,8 +98,8 @@ class AppTheme {
       elevatedButtonTheme: ElevatedButtonThemeData(
         style: ElevatedButton.styleFrom(
           backgroundColor: colors.primary,
-          foregroundColor: colors.background,
-          minimumSize: const Size(double.infinity, 48),
+          foregroundColor: colors.onPrimary,
+          minimumSize: const Size.fromHeight(48),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(12),
           ),

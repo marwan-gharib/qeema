@@ -1,9 +1,28 @@
 {
+  "app": {
+    "name": "قيّمة"
+  },
   "core": {
     "error": {
       "title": "حدث خطأ ما",
       "body": "حدث خطأ ما من جانبنا.",
-      "tryAgain": "حاول مرة أخرى"
+      "tryAgain": "حاول مرة أخرى",
+      "serverError": "خطأ في الخادم",
+      "cacheError": "خطأ في التخزين المؤقت",
+      "authError": "خطأ في المصادقة",
+      "syncFailed": "فشلت المزامنة",
+      "connectionTimeout": "انتهت مهلة الاتصال",
+      "serverNotResponding": "الخادم لم يستجب",
+      "couldNotConnect": "تعذر الاتصال بالخادم",
+      "requestFailed": "فشل الطلب"
+    },
+    "failure": {
+      "networkFailure": "لا يوجد اتصال بالإنترنت.",
+      "cacheFailure": "تعذر قراءة البيانات المحلية.",
+      "unknownFailure": "حدث خطأ غير متوقع.",
+      "priceFetchFailure": "تعذر جلب السعر لـ {assetTypeCode}",
+      "inflationDataMissing": "بيانات التضخم مفقودة لـ {count} شهر",
+      "calculationFailed": "فشل الحساب: {reason}"
     },
     "empty": {
       "title": "لا توجد بيانات بعد",
@@ -15,6 +34,28 @@
     "search": {
       "hint": "بحث...",
       "noResults": "لم يتم العثور على نتائج."
+    },
+    "validation": {
+      "emailRequired": "البريد الإلكتروني مطلوب",
+      "emailInvalid": "أدخل عنوان بريد إلكتروني صالح",
+      "passwordRequired": "كلمة المرور مطلوبة",
+      "passwordMinLength": "يجب أن تكون كلمة المرور 8 أحرف على الأقل",
+      "amountRequired": "المبلغ مطلوب",
+      "amountInvalid": "أدخل مبلغاً إيجابياً صالحاً"
+    },
+    "dates": {
+      "justNow": "الآن",
+      "minutesAgo": "منذ {minutes} دقيقة",
+      "hoursAgo": "منذ {hours} ساعة",
+      "daysAgo": "منذ {days} يوم"
+    },
+    "auth": {
+      "unlockReason": "افتح قيّمة لعرض أموالك",
+      "biometricFailed": "فشل التحقق البيومتري"
+    },
+    "notification": {
+      "channelName": "تنبيهات الأسعار",
+      "channelDescription": "إشعارات حول تغيرات الأسعار"
     }
   },
   "auth": {
@@ -25,7 +66,27 @@
     "email": "البريد الإلكتروني",
     "password": "كلمة المرور"
   },
+  "onboarding": {
+    "skip": "تخطي",
+    "next": "التالي",
+    "getStarted": "ابدأ الآن",
+    "slide1Headline": "أموالك لها رقم.\nهل لا تزال لها نفس القيمة؟",
+    "slide1Body": "الفجوة بين ما تملكه وما يساويه تتسع كل يوم. شاهدها تحدث لأموالك الخاصة.",
+    "slide2Headline": "تتبع ما تملكه فعلاً",
+    "slide2Body": "نقداً، دولاراً، ذهباً — سجّل في ثوانٍ واطّلع عليه دائماً. اعرف أين أموالك بنظرة واحدة.",
+    "slide3Headline": "شاهد التضخم يحدث،\nلا تسمع عنه فقط",
+    "slide3Body": "راقب كيف تتحرك قيمتك الحقيقية مقابل الرقم الاسمي عبر الوقت — بشكل شخصي، ليس نظرياً.",
+    "slide4Headline": "لنرَ أين تقف",
+    "slide4Body": "لا رابط بنكي، ولا تحويلات — فقط وضوح حول القيمة الحقيقية لمدخراتك.",
+    "assetType": {
+      "egp": "جنيه",
+      "usd": "دولار",
+      "gold": "ذهب"
+    }
+  },
   "navigation": {
+    "splash": "شاشة البداية",
+    "welcome": "مرحباً",
     "home": "الرئيسية",
     "assets": "الأصول",
     "insights": "التوصيات",
@@ -33,6 +94,31 @@
     "marketPrices": "أسعار السوق",
     "notifications": "الإشعارات",
     "profile": "الملف الشخصي",
-    "settings": "الإعدادات"
+    "settings": "الإعدادات",
+    "biometricSetup": "إعداد التحقق البيومتري",
+    "addAsset": "إضافة أصل",
+    "assetDetail": "الأصل {id}",
+    "editAsset": "تعديل الأصل {id}",
+    "addGoal": "إضافة هدف",
+    "goalDetail": "الهدف {id}",
+    "notificationSettings": "إعدادات الإشعارات"
+  },
+  "insights": {
+    "assetPerformance": {
+      "title": "أفضل أصل أداءً",
+      "body": "الأصل {id} يتصدر محفظتك بقيمة {value} جنيه."
+    },
+    "concentrationRisk": {
+      "title": "مخاطر التركيز العالي",
+      "body": "أكثر من 80% من محفظتك في نوع أصل واحد. فكّر في التنويع لتقليل المخاطر."
+    },
+    "inflationLoss": {
+      "title": "تم اكتشاف تآكل تضخمي",
+      "body": "فقدت أموالك {erosion}% من قوتها الشرائية منذ أن بدأت التتبع."
+    },
+    "goalFeasibility": {
+      "title": "فحص هدف الادخار",
+      "body": "بالمعدل الحالي للتضخم، قد تحتاج أهداف الادخار الخاصة بك إلى المراجعة upward للحفاظ على قيمتها الحقيقية."
+    }
   }
 }
