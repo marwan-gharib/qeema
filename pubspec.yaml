@@ -35,6 +35,26 @@ dev_dependencies:
   flutter_lints: ^6.0.0
   drift_dev: ^2.34.4
   build_runner: ^2.15.1
+  flutter_launcher_icons: ^0.14.3
+
+flutter_launcher_icons:
+  image_path: "assets/icon/app_icon.png"
+  
+  android: "launcher_icon"
+  ios: true
+  
+  macos:
+    generate: true
+    image_path: "assets/icon/app_icon.png"
+    
+  windows:
+    generate: true
+    image_path: "assets/icon/app_icon.png"
+    icon_size: 48 # Size within 48 <= icon_size <= 256
+    
+  linux:
+    generate: true
+    image_path: "assets/icon/app_icon.png"
 
 flutter:
   uses-material-design: true
