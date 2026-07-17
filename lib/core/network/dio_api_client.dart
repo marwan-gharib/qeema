@@ -1,15 +1,12 @@
 import 'package:dio/dio.dart';
-
-import '../error/failure_mapper.dart';
-import '../utils/api_result.dart';
-import 'base_api_client.dart';
-import 'interceptors/auth_interceptor.dart';
-import 'interceptors/error_mapping_interceptor.dart';
-import 'interceptors/logging_interceptor.dart';
+import 'package:qeema/core/error/failure_mapper.dart';
+import 'package:qeema/core/network/base_api_client.dart';
+import 'package:qeema/core/network/interceptors/auth_interceptor.dart';
+import 'package:qeema/core/network/interceptors/error_mapping_interceptor.dart';
+import 'package:qeema/core/network/interceptors/logging_interceptor.dart';
+import 'package:qeema/core/utils/api_result.dart';
 
 class DioApiClient implements BaseApiClient {
-  late final Dio _dio;
-
   DioApiClient({required String baseUrl, AuthInterceptor? authInterceptor}) {
     _dio = Dio(
       BaseOptions(
@@ -27,6 +24,7 @@ class DioApiClient implements BaseApiClient {
     }
     _dio.interceptors.addAll(interceptors);
   }
+  late final Dio _dio;
 
   @override
   Future<ApiResult<T>> get<T>(

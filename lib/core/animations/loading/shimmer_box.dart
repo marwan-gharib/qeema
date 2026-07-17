@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-
-import '../../extensions/build_context_extensions.dart';
-import '../app_motion.dart';
+import 'package:qeema/core/animations/app_motion.dart';
+import 'package:qeema/core/extensions/build_context_extensions.dart';
 
 /// A themed shimmer placeholder — an animated gradient sweep over a rounded
 /// rectangle. Gradient colors use [context.colors] (surface / surfaceAlt / divider)
@@ -9,16 +8,15 @@ import '../app_motion.dart';
 ///
 /// When [MediaQuery.disableAnimations] is true, renders a static filled box.
 class ShimmerBox extends StatefulWidget {
-  final double width;
-  final double height;
-  final double borderRadius;
-
   const ShimmerBox({
     super.key,
     this.width = double.infinity,
     this.height = 16,
     this.borderRadius = 8,
   });
+  final double width;
+  final double height;
+  final double borderRadius;
 
   @override
   State<ShimmerBox> createState() => _ShimmerBoxState();

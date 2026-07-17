@@ -1,4 +1,4 @@
-import '../utils/api_result.dart';
+import 'package:qeema/core/utils/api_result.dart';
 
 abstract class BaseApiClient {
   Future<ApiResult<T>> get<T>(

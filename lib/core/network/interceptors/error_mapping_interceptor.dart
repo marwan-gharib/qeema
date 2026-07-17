@@ -1,22 +1,15 @@
 import 'package:dio/dio.dart';
-
-import '../../error/exceptions.dart';
+import 'package:qeema/core/error/exceptions.dart';
 
 class ErrorMappingInterceptor extends Interceptor {
   @override
   void onError(DioException err, ErrorInterceptorHandler handler) {
     final mapped = switch (err.type) {
-      DioExceptionType.connectionTimeout => ServerException(
-        'Connection timed out',
-      ),
-      DioExceptionType.receiveTimeout => ServerException(
-        'Server did not respond',
-      ),
-      DioExceptionType.connectionError => const ServerException(
-        'Could not connect to server',
-      ),
+      DioExceptionType.connectionTimeout => const ServerException(null),
+      DioExceptionType.receiveTimeout => const ServerException(null),
+      DioExceptionType.connectionError => const ServerException(null),
       DioExceptionType.badResponse => ServerException(
-        '${err.response?.statusCode ?? "Unknown"}: ${err.response?.statusMessage ?? "Request failed"}',
+        err.response?.statusMessage,
       ),
       _ => ServerException(err.message),
     };

@@ -3,9 +3,8 @@ import 'dart:async';
 import 'package:connectivity_plus/connectivity_plus.dart';
 
 class NetworkInfo {
-  final Connectivity _connectivity;
-
   NetworkInfo(this._connectivity);
+  final Connectivity _connectivity;
 
   Stream<bool> get onConnectivityChanged {
     return _connectivity.onConnectivityChanged.map(

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-
-import '../extensions/build_context_extensions.dart';
+import 'package:qeema/core/extensions/build_context_extensions.dart';
 
 class AppSnackBar {
   const AppSnackBar._();

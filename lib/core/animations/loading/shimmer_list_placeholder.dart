@@ -1,14 +1,12 @@
 import 'package:flutter/material.dart';
-
-import '../../theme/app_spacing.dart';
-import 'shimmer_box.dart';
+import 'package:qeema/core/animations/loading/shimmer_box.dart';
+import 'package:qeema/core/theme/app_spacing.dart';
 
 /// A ready-made list of [ShimmerBox]es shaped like a typical asset row,
 /// for use as the loading state on list-based screens.
 class ShimmerListPlaceholder extends StatelessWidget {
-  final int itemCount;
-
   const ShimmerListPlaceholder({super.key, this.itemCount = 6});
+  final int itemCount;
 
   @override
   Widget build(BuildContext context) {

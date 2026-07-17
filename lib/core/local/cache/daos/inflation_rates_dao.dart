@@ -1,10 +1,9 @@
 import 'package:drift/drift.dart';
-
-import '../app_database.dart';
+import 'package:qeema/core/local/cache/app_database.dart';
 
 class InflationRatesDao {
-  final AppDatabase _db;
   const InflationRatesDao(this._db);
+  final AppDatabase _db;
 
   Future<List<CachedInflationRatesTableData>> getAll() async {
     return await _db.select(_db.cachedInflationRatesTable).get();

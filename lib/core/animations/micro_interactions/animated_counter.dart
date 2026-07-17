@@ -1,7 +1,6 @@
 import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
-
-import '../app_motion.dart';
+import 'package:qeema/core/animations/app_motion.dart';
 
 /// Animates counting from the previous [value] to the new one whenever
 /// [value] changes, formatting through [formatter] on each frame.
@@ -11,16 +10,15 @@ import '../app_motion.dart';
 /// When [MediaQuery.disableAnimations] is true, renders the final value
 /// directly without animation.
 class AnimatedCounter extends StatefulWidget {
-  final Decimal value;
-  final TextStyle? style;
-  final String Function(Decimal) formatter;
-
   const AnimatedCounter({
     super.key,
     required this.value,
     required this.formatter,
     this.style,
   });
+  final Decimal value;
+  final TextStyle? style;
+  final String Function(Decimal) formatter;
 
   @override
   State<AnimatedCounter> createState() => _AnimatedCounterState();

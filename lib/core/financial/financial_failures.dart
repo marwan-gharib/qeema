@@ -1,6 +1,1 @@
-export '../error/failures.dart'
-    show
-        FinancialFailure,
-        PriceFetchFailure,
-        InflationDataMissingFailure,
-        CalculationFailure;
+export '../error/failures.dart';

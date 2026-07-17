@@ -1,9 +1,28 @@
 {
+  "app": {
+    "name": "Qeema"
+  },
   "core": {
     "error": {
       "title": "Something went wrong",
       "body": "Something went wrong on our end.",
-      "tryAgain": "Try Again"
+      "tryAgain": "Try Again",
+      "serverError": "Server error",
+      "cacheError": "Cache error",
+      "authError": "Authentication error",
+      "syncFailed": "Sync failed",
+      "connectionTimeout": "Connection timed out",
+      "serverNotResponding": "Server did not respond",
+      "couldNotConnect": "Could not connect to server",
+      "requestFailed": "Request failed"
+    },
+    "failure": {
+      "networkFailure": "No internet connection.",
+      "cacheFailure": "Could not read local data.",
+      "unknownFailure": "An unexpected error occurred.",
+      "priceFetchFailure": "Could not fetch price for {assetTypeCode}",
+      "inflationDataMissing": "Inflation data missing for {count} month(s)",
+      "calculationFailed": "Calculation failed: {reason}"
     },
     "empty": {
       "title": "No data yet",
@@ -15,6 +34,28 @@
     "search": {
       "hint": "Search...",
       "noResults": "No results found."
+    },
+    "validation": {
+      "emailRequired": "Email is required",
+      "emailInvalid": "Enter a valid email address",
+      "passwordRequired": "Password is required",
+      "passwordMinLength": "Password must be at least 8 characters",
+      "amountRequired": "Amount is required",
+      "amountInvalid": "Enter a valid positive amount"
+    },
+    "dates": {
+      "justNow": "just now",
+      "minutesAgo": "{minutes}m ago",
+      "hoursAgo": "{hours}h ago",
+      "daysAgo": "{days}d ago"
+    },
+    "auth": {
+      "unlockReason": "Unlock Qeema to view your finances",
+      "biometricFailed": "Biometric authentication failed"
+    },
+    "notification": {
+      "channelName": "Price Alerts",
+      "channelDescription": "Notifications about price changes"
     }
   },
   "auth": {
@@ -25,7 +66,27 @@
     "email": "Email",
     "password": "Password"
   },
+  "onboarding": {
+    "skip": "Skip",
+    "next": "Next",
+    "getStarted": "Get Started",
+    "slide1Headline": "Your money has a number.\nDoes it still have the same value?",
+    "slide1Body": "The gap between what you have and what it's worth grows every day. See it happen to your own savings.",
+    "slide2Headline": "Track what you actually hold",
+    "slide2Body": "Cash, dollars, gold — logged in seconds, always in view. Know where your money is at a glance.",
+    "slide3Headline": "See inflation happening,\nnot just hear about it",
+    "slide3Body": "Watch how your real value moves against the nominal number over time — made personal, not abstract.",
+    "slide4Headline": "Let's see where you stand",
+    "slide4Body": "No bank connection, no transfers — just clarity on what your savings are really worth.",
+    "assetType": {
+      "egp": "EGP",
+      "usd": "USD",
+      "gold": "Gold"
+    }
+  },
   "navigation": {
+    "splash": "Splash",
+    "welcome": "Welcome",
     "home": "Home",
     "assets": "Assets",
     "insights": "Insights",
@@ -33,6 +94,31 @@
     "marketPrices": "Market Prices",
     "notifications": "Notifications",
     "profile": "Profile",
-    "settings": "Settings"
+    "settings": "Settings",
+    "biometricSetup": "Biometric Setup",
+    "addAsset": "Add Asset",
+    "assetDetail": "Asset {id}",
+    "editAsset": "Edit Asset {id}",
+    "addGoal": "Add Goal",
+    "goalDetail": "Goal {id}",
+    "notificationSettings": "Notification Settings"
+  },
+  "insights": {
+    "assetPerformance": {
+      "title": "Best performing asset",
+      "body": "Asset {id} leads your portfolio with a value of {value} EGP."
+    },
+    "concentrationRisk": {
+      "title": "High concentration risk",
+      "body": "Over 80% of your portfolio is in one asset type. Consider diversifying to reduce risk."
+    },
+    "inflationLoss": {
+      "title": "Inflation erosion detected",
+      "body": "Your money has lost {erosion}% of its purchasing power since you started tracking."
+    },
+    "goalFeasibility": {
+      "title": "Savings goal check",
+      "body": "At the current pace of inflation, your savings goals may need to be revised upward to maintain their real value."
+    }
   }
 }

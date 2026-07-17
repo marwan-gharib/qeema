@@ -1,4 +1,4 @@
-import '../error/failures.dart';
+import 'package:qeema/core/error/failures.dart';
 
 sealed class ApiResult<T> {
   const ApiResult();
@@ -10,8 +10,8 @@ sealed class ApiResult<T> {
 }
 
 final class Success<T> extends ApiResult<T> {
-  final T data;
   const Success(this.data);
+  final T data;
 
   @override
   R fold<R>({
@@ -21,8 +21,8 @@ final class Success<T> extends ApiResult<T> {
 }
 
 final class ResultFailure<T> extends ApiResult<T> {
-  final Failure failure;
   const ResultFailure(this.failure);
+  final Failure failure;
 
   @override
   R fold<R>({

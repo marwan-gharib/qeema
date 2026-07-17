@@ -1,10 +1,9 @@
 import 'package:drift/drift.dart';
-
-import '../app_database.dart';
+import 'package:qeema/core/local/cache/app_database.dart';
 
 class SnapshotsDao {
-  final AppDatabase _db;
   const SnapshotsDao(this._db);
+  final AppDatabase _db;
 
   Future<List<CachedPortfolioSnapshotsTableData>> forUser(String userId) async {
     return await (_db.select(_db.cachedPortfolioSnapshotsTable)

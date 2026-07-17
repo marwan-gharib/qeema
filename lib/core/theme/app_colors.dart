@@ -1,18 +1,6 @@
 import 'package:flutter/material.dart';
 
 class AppColors {
-  final Color primary;
-  final Color primaryVariant;
-  final Color secondary;
-  final Color secondaryVariant;
-  final Color background;
-  final Color surface;
-  final Color surfaceAlt;
-  final Color textPrimary;
-  final Color textSecondary;
-  final Color error;
-  final Color divider;
-
   const AppColors({
     required this.primary,
     required this.primaryVariant,
@@ -25,7 +13,20 @@ class AppColors {
     required this.textSecondary,
     required this.error,
     required this.divider,
+    required this.onPrimary,
   });
+  final Color primary;
+  final Color primaryVariant;
+  final Color secondary;
+  final Color secondaryVariant;
+  final Color background;
+  final Color surface;
+  final Color surfaceAlt;
+  final Color textPrimary;
+  final Color textSecondary;
+  final Color error;
+  final Color divider;
+  final Color onPrimary;
 
   static const light = AppColors(
     primary: Color(0xFFF5A623),
@@ -39,6 +40,7 @@ class AppColors {
     textSecondary: Color(0xFF79766D),
     error: Color(0xFFD96C4B),
     divider: Color(0xFFEFE7D6),
+    onPrimary: Color(0xFFFFFFFF),
   );
 
   static const dark = AppColors(
@@ -53,5 +55,6 @@ class AppColors {
     textSecondary: Color(0xFFA69E8C),
     error: Color(0xFFE38468),
     divider: Color(0xFF3A3527),
+    onPrimary: Color(0xFFFFFFFF),
   );
 }

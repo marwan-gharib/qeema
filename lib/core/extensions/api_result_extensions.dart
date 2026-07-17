@@ -1,5 +1,5 @@
-import '../error/failures.dart';
-import '../utils/api_result.dart';
+import 'package:qeema/core/error/failures.dart';
+import 'package:qeema/core/utils/api_result.dart';
 
 extension ApiResultExtensions<T> on ApiResult<T> {
   bool get isSuccess => this is Success<T>;

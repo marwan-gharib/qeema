@@ -1,6 +1,6 @@
 import 'package:dio/dio.dart';
 
-import '../../utils/logger.dart';
+import 'package:qeema/core/utils/logger.dart';
 
 class LoggingInterceptor extends Interceptor {
   @override
@@ -10,7 +10,10 @@ class LoggingInterceptor extends Interceptor {
   }
 
   @override
-  void onResponse(Response response, ResponseInterceptorHandler handler) {
+  void onResponse(
+    Response<dynamic> response,
+    ResponseInterceptorHandler handler,
+  ) {
     Logger.info('${response.statusCode} ${response.requestOptions.uri}');
     handler.next(response);
   }

@@ -1,8 +1,7 @@
 import 'package:decimal/decimal.dart';
-
-import '../error/failures.dart';
-import '../utils/api_result.dart';
-import 'models/monthly_inflation_rate.dart';
+import 'package:qeema/core/error/failures.dart';
+import 'package:qeema/core/financial/models/monthly_inflation_rate.dart';
+import 'package:qeema/core/utils/api_result.dart';
 
 class InflationCalculator {
   Decimal _d(dynamic v) => Decimal.parse(v.toString());
@@ -29,9 +28,7 @@ class InflationCalculator {
       compoundFactor *= (Decimal.one + r.rate);
     }
     if (compoundFactor == Decimal.zero) {
-      return ResultFailure(
-        CalculationFailure('Compound factor resolved to zero'),
-      );
+      return const ResultFailure(CalculationFailure('compoundFactorZero'));
     }
     return Success(_d(nominalValue / compoundFactor));
   }

@@ -1,10 +1,9 @@
 import 'package:drift/drift.dart';
-
-import '../app_database.dart';
+import 'package:qeema/core/local/cache/app_database.dart';
 
 class AssetsDao {
-  final AppDatabase _db;
   const AssetsDao(this._db);
+  final AppDatabase _db;
 
   Future<List<CachedAssetsTableData>> watchActiveAssets(String userId) async {
     return await (_db.select(

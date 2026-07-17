@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-
-import '../../extensions/build_context_extensions.dart';
-import '../app_motion.dart';
+import 'package:qeema/core/animations/app_motion.dart';
+import 'package:qeema/core/extensions/build_context_extensions.dart';
 
 /// A celebratory scale-pulse + checkmark fade-in, triggered once when
 /// [triggered] becomes true.
@@ -9,16 +8,15 @@ import '../app_motion.dart';
 /// When [MediaQuery.disableAnimations] is true, shows the checkmark
 /// immediately with no animation.
 class SuccessPulse extends StatefulWidget {
-  final bool triggered;
-  final Widget child;
-  final Widget? checkmark;
-
   const SuccessPulse({
     super.key,
     required this.triggered,
     required this.child,
     this.checkmark,
   });
+  final bool triggered;
+  final Widget child;
+  final Widget? checkmark;
 
   @override
   State<SuccessPulse> createState() => _SuccessPulseState();

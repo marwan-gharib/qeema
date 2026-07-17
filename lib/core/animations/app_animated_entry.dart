@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-
-import 'app_motion.dart';
-import 'entry_animation_type.dart';
+import 'package:qeema/core/animations/app_motion.dart';
+import 'package:qeema/core/animations/entry_animation_type.dart';
 
 /// Wraps [child] in an entrance animation chosen via [type].
 ///
@@ -16,12 +15,6 @@ import 'entry_animation_type.dart';
 /// )
 /// ```
 class AppAnimatedEntry extends StatefulWidget {
-  final Widget child;
-  final EntryAnimationType type;
-  final Duration duration;
-  final Duration delay;
-  final Curve? curve;
-
   const AppAnimatedEntry({
     super.key,
     required this.child,
@@ -30,6 +23,11 @@ class AppAnimatedEntry extends StatefulWidget {
     this.delay = Duration.zero,
     this.curve,
   });
+  final Widget child;
+  final EntryAnimationType type;
+  final Duration duration;
+  final Duration delay;
+  final Curve? curve;
 
   @override
   State<AppAnimatedEntry> createState() => _AppAnimatedEntryState();

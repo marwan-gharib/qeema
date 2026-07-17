@@ -1,9 +1,8 @@
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 
 class LocalNotificationService {
-  final FlutterLocalNotificationsPlugin _plugin;
-
   LocalNotificationService(this._plugin);
+  final FlutterLocalNotificationsPlugin _plugin;
 
   Future<void> initialize() async {
     const androidSettings = AndroidInitializationSettings(
@@ -20,16 +19,18 @@ class LocalNotificationService {
   Future<void> showPriceAlert({
     required String title,
     required String body,
+    required String channelName,
+    required String channelDescription,
   }) async {
-    const androidDetails = AndroidNotificationDetails(
+    final androidDetails = AndroidNotificationDetails(
       'price_alerts',
-      'Price Alerts',
-      channelDescription: 'Notifications about price changes',
+      channelName,
+      channelDescription: channelDescription,
       importance: Importance.defaultImportance,
       priority: Priority.defaultPriority,
     );
     const iosDetails = DarwinNotificationDetails();
-    const details = NotificationDetails(
+    final details = NotificationDetails(
       android: androidDetails,
       iOS: iosDetails,
     );

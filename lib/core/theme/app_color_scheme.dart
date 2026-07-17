@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-
-import 'app_colors.dart';
+import 'package:qeema/core/theme/app_colors.dart';
 
 Color _onColor(Color bg) {
   final lum = 0.299 * bg.r + 0.587 * bg.g + 0.114 * bg.b;
