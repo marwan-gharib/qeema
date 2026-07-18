@@ -55,6 +55,7 @@ class _Translations$app$ar extends Translations$app$en {
 
 	// Translations
 	@override String get name => 'قيّمة';
+	@override String get tagline => 'قيمة';
 }
 
 // Path: core
@@ -332,6 +333,7 @@ extension on TranslationsAr {
 	dynamic _flatMapFunction(String path) {
 		return switch (path) {
 			'app.name' => 'قيّمة',
+			'app.tagline' => 'قيمة',
 			'core.error.title' => 'حدث خطأ ما',
 			'core.error.body' => 'حدث خطأ ما من جانبنا.',
 			'core.error.tryAgain' => 'حاول مرة أخرى',

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:qeema/core/extensions/build_context_extensions.dart';
-import 'package:qeema/core/router/route_paths.dart';
+import 'package:qeema/core/router/route_names.dart';
 import 'package:qeema/features/onboarding/presentation/cubits/onboarding_cubit/onboarding_cubit.dart';
 import 'package:qeema/features/onboarding/presentation/cubits/onboarding_cubit/onboarding_state.dart';
 import 'package:qeema/features/onboarding/presentation/widgets/onboarding_page_view.dart';
@@ -17,7 +17,7 @@ class OnboardingScreen extends StatelessWidget {
       listener: (context, state) {
         switch (state) {
           case OnboardingCompleted():
-            context.go(RoutePaths.login);
+            context.goNamed(RouteNames.welcome);
           default:
             break;
         }
