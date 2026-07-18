@@ -1,6 +1,7 @@
 {
   "app": {
-    "name": "Qeema"
+    "name": "Qeema",
+    "tagline": "Value"
   },
   "core": {
     "error": {

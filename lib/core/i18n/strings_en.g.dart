@@ -58,6 +58,9 @@ class Translations$app$en {
 
 	/// en: 'Qeema'
 	String get name => 'Qeema';
+
+	/// en: 'Value'
+	String get tagline => 'Value';
 }
 
 // Path: core
@@ -498,6 +501,7 @@ extension on Translations {
 	dynamic _flatMapFunction(String path) {
 		return switch (path) {
 			'app.name' => 'Qeema',
+			'app.tagline' => 'Value',
 			'core.error.title' => 'Something went wrong',
 			'core.error.body' => 'Something went wrong on our end.',
 			'core.error.tryAgain' => 'Try Again',

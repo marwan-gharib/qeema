@@ -1,6 +1,7 @@
 {
   "app": {
-    "name": "قيّمة"
+    "name": "قيّمة",
+    "tagline": "قيمة"
   },
   "core": {
     "error": {

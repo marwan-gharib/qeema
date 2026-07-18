@@ -10,6 +10,7 @@ class RouteGuards {
       authListenable.value++;
     });
   }
+
   final SupabaseClientProvider _provider;
   final ValueNotifier<int> authListenable = ValueNotifier(0);
   final GetOnboardingSeenUseCase _getOnboardingSeenUseCase;
@@ -18,22 +19,30 @@ class RouteGuards {
     BuildContext context,
     GoRouterState state,
   ) async {
-    final onOnboarding = state.matchedLocation == RoutePaths.onboarding;
     final onSplash = state.matchedLocation == RoutePaths.splash;
-    if (onOnboarding || onSplash) return null;
+    if (onSplash) {
+      return null;
+    }
 
-    final result = await _getOnboardingSeenUseCase();
-    result.fold(
-      onSuccess: (hasSeenOnboarding) {
-        if (!hasSeenOnboarding) {
-          return RoutePaths.onboarding;
-        }
-      },
-      onFailure: (_) {},
+    final onboardingResult = await _getOnboardingSeenUseCase();
+    final hasSeenOnboarding = onboardingResult.fold(
+      onSuccess: (seen) => seen,
+      onFailure: (_) => true,
     );
+
+    final onOnboarding = state.matchedLocation == RoutePaths.onboarding;
+
+    if (!hasSeenOnboarding) {
+      return onOnboarding ? null : RoutePaths.onboarding;
+    }
 
     final session = _provider.client.auth.currentSession;
     final isLoggedIn = session != null;
+
+    if (onOnboarding) {
+      return isLoggedIn ? RoutePaths.home : RoutePaths.welcome;
+    }
+
     final onAuthScreen =
         state.matchedLocation.startsWith(RoutePaths.login) ||
         state.matchedLocation.startsWith(RoutePaths.signUp) ||
@@ -41,7 +50,7 @@ class RouteGuards {
         state.matchedLocation.startsWith(RoutePaths.welcome);
 
     if (!isLoggedIn && !onAuthScreen) {
-      return RoutePaths.login;
+      return RoutePaths.welcome;
     }
 
     if (isLoggedIn && onAuthScreen) {

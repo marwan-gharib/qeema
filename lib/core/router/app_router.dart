@@ -10,21 +10,21 @@ import 'package:qeema/core/router/route_paths.dart';
 import 'package:qeema/core/router/route_segments.dart';
 import 'package:qeema/features/onboarding/presentation/cubits/onboarding_cubit/onboarding_cubit.dart';
 import 'package:qeema/features/onboarding/presentation/screens/onboarding_screen.dart';
+import 'package:qeema/features/splash/presentation/screens/splash_screen.dart';
 
 class AppRouter {
   AppRouter._();
   static final RouteGuards _routeGuards = getIt<RouteGuards>();
 
   static GoRouter router = GoRouter(
-    initialLocation: RoutePaths.onboarding,
+    initialLocation: RoutePaths.splash,
     refreshListenable: _routeGuards.authListenable,
     redirect: _routeGuards.redirectUnauthenticated,
     routes: [
       GoRoute(
         path: RoutePaths.splash,
         name: RouteNames.splash,
-        builder: (context, state) =>
-            Scaffold(body: Center(child: Text(context.t.navigation.splash))),
+        builder: (context, state) => const SplashScreen(),
       ),
       GoRoute(
         path: RoutePaths.onboarding,
