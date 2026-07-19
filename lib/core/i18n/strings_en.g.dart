@@ -88,24 +88,8 @@ class Translations$auth$en {
 	final Translations _root; // ignore: unused_field
 
 	// Translations
-
-	/// en: 'Login'
-	String get login => 'Login';
-
-	/// en: 'Sign Up'
-	String get signUp => 'Sign Up';
-
-	/// en: 'Forgot Password'
-	String get forgotPassword => 'Forgot Password';
-
-	/// en: 'Logout'
-	String get logout => 'Logout';
-
-	/// en: 'Email'
-	String get email => 'Email';
-
-	/// en: 'Password'
-	String get password => 'Password';
+	late final Translations$auth$welcome$en welcome = Translations$auth$welcome$en.internal(_root);
+	late final Translations$auth$error$en error = Translations$auth$error$en.internal(_root);
 }
 
 // Path: onboarding
@@ -414,6 +398,48 @@ class Translations$core$notification$en {
 	String get channelDescription => 'Notifications about price changes';
 }
 
+// Path: auth.welcome
+class Translations$auth$welcome$en {
+	Translations$auth$welcome$en.internal(this._root);
+
+	final Translations _root; // ignore: unused_field
+
+	// Translations
+
+	/// en: 'Know what your money is really worth'
+	String get headline => 'Know what your money is really worth';
+
+	/// en: 'Track your savings against inflation and see your real purchasing power over time.'
+	String get subtext => 'Track your savings against inflation and see your real purchasing power over time.';
+
+	/// en: 'Start Tracking Your Savings'
+	String get primaryCta => 'Start Tracking Your Savings';
+
+	/// en: 'No account needed. You can create one later.'
+	String get guestDisclosure => 'No account needed. You can create one later.';
+}
+
+// Path: auth.error
+class Translations$auth$error$en {
+	Translations$auth$error$en.internal(this._root);
+
+	final Translations _root; // ignore: unused_field
+
+	// Translations
+
+	/// en: 'No internet connection. Please check your network and try again.'
+	String get networkError => 'No internet connection. Please check your network and try again.';
+
+	/// en: 'Too many attempts. Please wait a moment and try again.'
+	String get tooManyRequests => 'Too many attempts. Please wait a moment and try again.';
+
+	/// en: 'Something went wrong. Please try again.'
+	String get unknownError => 'Something went wrong. Please try again.';
+
+	/// en: 'Guest sign-in is currently unavailable. Please try again later.'
+	String get anonymousSignInDisabled => 'Guest sign-in is currently unavailable. Please try again later.';
+}
+
 // Path: onboarding.assetType
 class Translations$onboarding$assetType$en {
 	Translations$onboarding$assetType$en.internal(this._root);
@@ -538,12 +564,14 @@ extension on Translations {
 			'core.auth.biometricFailed' => 'Biometric authentication failed',
 			'core.notification.channelName' => 'Price Alerts',
 			'core.notification.channelDescription' => 'Notifications about price changes',
-			'auth.login' => 'Login',
-			'auth.signUp' => 'Sign Up',
-			'auth.forgotPassword' => 'Forgot Password',
-			'auth.logout' => 'Logout',
-			'auth.email' => 'Email',
-			'auth.password' => 'Password',
+			'auth.welcome.headline' => 'Know what your money is really worth',
+			'auth.welcome.subtext' => 'Track your savings against inflation and see your real purchasing power over time.',
+			'auth.welcome.primaryCta' => 'Start Tracking Your Savings',
+			'auth.welcome.guestDisclosure' => 'No account needed. You can create one later.',
+			'auth.error.networkError' => 'No internet connection. Please check your network and try again.',
+			'auth.error.tooManyRequests' => 'Too many attempts. Please wait a moment and try again.',
+			'auth.error.unknownError' => 'Something went wrong. Please try again.',
+			'auth.error.anonymousSignInDisabled' => 'Guest sign-in is currently unavailable. Please try again later.',
 			'onboarding.skip' => 'Skip',
 			'onboarding.next' => 'Next',
 			'onboarding.getStarted' => 'Get Started',

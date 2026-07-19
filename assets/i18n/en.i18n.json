@@ -60,12 +60,18 @@
     }
   },
   "auth": {
-    "login": "Login",
-    "signUp": "Sign Up",
-    "forgotPassword": "Forgot Password",
-    "logout": "Logout",
-    "email": "Email",
-    "password": "Password"
+    "welcome": {
+      "headline": "Know what your money is really worth",
+      "subtext": "Track your savings against inflation and see your real purchasing power over time.",
+      "primaryCta": "Start Tracking Your Savings",
+      "guestDisclosure": "No account needed. You can create one later."
+    },
+    "error": {
+      "networkError": "No internet connection. Please check your network and try again.",
+      "tooManyRequests": "Too many attempts. Please wait a moment and try again.",
+      "unknownError": "Something went wrong. Please try again.",
+      "anonymousSignInDisabled": "Guest sign-in is currently unavailable. Please try again later."
+    }
   },
   "onboarding": {
     "skip": "Skip",

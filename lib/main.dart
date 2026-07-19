@@ -1,18 +1,23 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:qeema/core/constants/env_config.dart';
 import 'package:qeema/core/di/injection_container.dart';
 import 'package:qeema/core/i18n/strings.g.dart';
 import 'package:qeema/core/router/app_router.dart';
 import 'package:qeema/core/theme/app_theme.dart';
+import 'package:qeema/core/utils/logger.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
+  Logger.info('URL: ${EnvConfig.supabaseUrl}');
+  Logger.info('KEY: ${EnvConfig.supabasepublishableKey}');
+
   await Supabase.initialize(
-    url: 'https://your-project-id.supabase.co',
-    publishableKey: 'your-anon-key',
+    url: EnvConfig.supabaseUrl,
+    publishableKey: EnvConfig.supabasepublishableKey,
   );
 
   await initDependencies();

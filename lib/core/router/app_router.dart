@@ -8,6 +8,8 @@ import 'package:qeema/core/router/route_guards.dart';
 import 'package:qeema/core/router/route_names.dart';
 import 'package:qeema/core/router/route_paths.dart';
 import 'package:qeema/core/router/route_segments.dart';
+import 'package:qeema/features/auth/presentation/cubits/welcome_cubit/welcome_cubit.dart';
+import 'package:qeema/features/auth/presentation/screens/welcome_screen.dart';
 import 'package:qeema/features/onboarding/presentation/cubits/onboarding_cubit/onboarding_cubit.dart';
 import 'package:qeema/features/onboarding/presentation/screens/onboarding_screen.dart';
 import 'package:qeema/features/splash/presentation/screens/splash_screen.dart';
@@ -40,26 +42,13 @@ class AppRouter {
       GoRoute(
         path: RoutePaths.welcome,
         name: RouteNames.welcome,
-        builder: (context, state) =>
-            Scaffold(body: Center(child: Text(context.t.navigation.welcome))),
-      ),
-      GoRoute(
-        path: RoutePaths.login,
-        name: RouteNames.login,
-        builder: (context, state) =>
-            Scaffold(body: Center(child: Text(context.t.auth.login))),
-      ),
-      GoRoute(
-        path: RoutePaths.signUp,
-        name: RouteNames.signUp,
-        builder: (context, state) =>
-            Scaffold(body: Center(child: Text(context.t.auth.signUp))),
-      ),
-      GoRoute(
-        path: RoutePaths.forgotPassword,
-        name: RouteNames.forgotPassword,
-        builder: (context, state) =>
-            Scaffold(body: Center(child: Text(context.t.auth.forgotPassword))),
+        pageBuilder: (context, state) => slideUpPage(
+          child: BlocProvider(
+            create: (context) => getIt<WelcomeCubit>(),
+            child: const WelcomeScreen(),
+          ),
+          pageKey: const ValueKey('welcome'),
+        ),
       ),
       GoRoute(
         path: RoutePaths.biometricSetup,

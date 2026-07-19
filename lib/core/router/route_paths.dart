@@ -4,9 +4,6 @@ class RoutePaths {
   static const String splash = '/';
   static const String onboarding = '/onboarding';
   static const String welcome = '/welcome';
-  static const String login = '/login';
-  static const String signUp = '/sign-up';
-  static const String forgotPassword = '/forgot-password';
   static const String biometricSetup = '/biometric-setup';
   static const String home = '/home';
   static const String assets = '/assets';

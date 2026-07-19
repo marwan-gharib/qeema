@@ -1,6 +1,9 @@
 import 'package:qeema/core/error/failures.dart';
 import 'package:qeema/core/local/cache/cache_service.dart';
 import 'package:qeema/core/utils/api_result.dart';
+import 'package:qeema/features/auth/domain/entities/auth_user_entity.dart';
+import 'package:qeema/features/auth/domain/repositories/auth_repository.dart';
+import 'package:qeema/features/auth/domain/usecases/continue_as_guest_usecase.dart';
 import 'package:qeema/features/onboarding/domain/repositories/onboarding_repository.dart';
 import 'package:qeema/features/onboarding/domain/usecases/complete_onboarding_usecase.dart';
 import 'package:qeema/features/onboarding/domain/usecases/get_onboarding_seen_usecase.dart';
@@ -71,4 +74,23 @@ class MockGetOnboardingSeenUseCase implements GetOnboardingSeenUseCase {
 
   @override
   Future<ApiResult<bool>> call() async => result;
+}
+
+class MockAuthRepository implements AuthRepository {
+  ApiResult<AuthUserEntity> continueAsGuestResult = const Success(
+    AuthUserEntity(id: 'anon-1', email: '', isAnonymous: true),
+  );
+
+  @override
+  Future<ApiResult<AuthUserEntity>> continueAsGuest() async =>
+      continueAsGuestResult;
+}
+
+class MockContinueAsGuestUseCase implements ContinueAsGuestUseCase {
+  ApiResult<AuthUserEntity> result = const Success(
+    AuthUserEntity(id: 'anon-1', email: '', isAnonymous: true),
+  );
+
+  @override
+  Future<ApiResult<AuthUserEntity>> call() async => result;
 }

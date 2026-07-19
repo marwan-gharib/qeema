@@ -45,3 +45,19 @@ final class PriceFetchFailure extends FinancialFailure {
   const PriceFetchFailure(this.assetTypeCode, [super.message]);
   final String assetTypeCode;
 }
+
+final class NetworkAuthFailure extends AuthFailure {
+  const NetworkAuthFailure([super.message]);
+}
+
+final class TooManyRequestsFailure extends AuthFailure {
+  const TooManyRequestsFailure([super.message]);
+}
+
+final class UnknownAuthFailure extends AuthFailure {
+  const UnknownAuthFailure([super.message]);
+}
+
+final class AnonymousSignInDisabledFailure extends AuthFailure {
+  const AnonymousSignInDisabledFailure([super.message]);
+}
