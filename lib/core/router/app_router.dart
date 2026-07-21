@@ -12,6 +12,7 @@ import 'package:qeema/features/auth/presentation/cubits/welcome_cubit/welcome_cu
 import 'package:qeema/features/auth/presentation/screens/welcome_screen.dart';
 import 'package:qeema/features/onboarding/presentation/cubits/onboarding_cubit/onboarding_cubit.dart';
 import 'package:qeema/features/onboarding/presentation/screens/onboarding_screen.dart';
+import 'package:qeema/features/settings/presentation/screens/settings_screen.dart';
 import 'package:qeema/features/splash/presentation/screens/splash_screen.dart';
 
 class AppRouter {
@@ -183,8 +184,7 @@ class AppRouter {
       GoRoute(
         path: RoutePaths.settings,
         name: RouteNames.settings,
-        builder: (context, state) =>
-            Scaffold(body: Center(child: Text(context.t.navigation.settings))),
+        builder: (context, state) => const SettingsScreen(),
       ),
     ],
   );

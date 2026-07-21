@@ -44,6 +44,8 @@ class TranslationsAr extends Translations with BaseTranslations<AppLocale, Trans
 	@override late final _Translations$auth$ar auth = _Translations$auth$ar._(_root);
 	@override late final _Translations$onboarding$ar onboarding = _Translations$onboarding$ar._(_root);
 	@override late final _Translations$navigation$ar navigation = _Translations$navigation$ar._(_root);
+	@override late final _Translations$appLock$ar appLock = _Translations$appLock$ar._(_root);
+	@override late final _Translations$settings$ar settings = _Translations$settings$ar._(_root);
 	@override late final _Translations$insights$ar insights = _Translations$insights$ar._(_root);
 }
 
@@ -132,6 +134,31 @@ class _Translations$navigation$ar extends Translations$navigation$en {
 	@override String get addGoal => 'إضافة هدف';
 	@override String get goalDetail => 'الهدف {id}';
 	@override String get notificationSettings => 'إعدادات الإشعارات';
+}
+
+// Path: appLock
+class _Translations$appLock$ar extends Translations$appLock$en {
+	_Translations$appLock$ar._(TranslationsAr root) : this._root = root, super.internal(root);
+
+	final TranslationsAr _root; // ignore: unused_field
+
+	// Translations
+	@override String get tooManyAttempts => 'محاولات كثيرة جداً. حاول مرة أخرى لاحقاً.';
+	@override String get noCredentials => 'لم يتم إعداد قفل للجهاز. قم بإعداد قفل شاشة في إعدادات جهازك.';
+	@override String get unavailable => 'التحقق من الجهاز غير متاح على هذا الجهاز.';
+}
+
+// Path: settings
+class _Translations$settings$ar extends Translations$settings$en {
+	_Translations$settings$ar._(TranslationsAr root) : this._root = root, super.internal(root);
+
+	final TranslationsAr _root; // ignore: unused_field
+
+	// Translations
+	@override String get securitySection => 'الأمان';
+	@override String get requireUnlock => 'طلب فتح قفل الجهاز لفتح قيّمة';
+	@override String get noDeviceLock => 'جهازك لا يحتوي على قفل شاشة. قم بإعداد واحد في إعدادات جهازك لاستخدام هذه الميزة.';
+	@override String get authCancelled => 'تم إلغاء التحقق.';
 }
 
 // Path: insights
@@ -431,6 +458,13 @@ extension on TranslationsAr {
 			'navigation.addGoal' => 'إضافة هدف',
 			'navigation.goalDetail' => 'الهدف {id}',
 			'navigation.notificationSettings' => 'إعدادات الإشعارات',
+			'appLock.tooManyAttempts' => 'محاولات كثيرة جداً. حاول مرة أخرى لاحقاً.',
+			'appLock.noCredentials' => 'لم يتم إعداد قفل للجهاز. قم بإعداد قفل شاشة في إعدادات جهازك.',
+			'appLock.unavailable' => 'التحقق من الجهاز غير متاح على هذا الجهاز.',
+			'settings.securitySection' => 'الأمان',
+			'settings.requireUnlock' => 'طلب فتح قفل الجهاز لفتح قيّمة',
+			'settings.noDeviceLock' => 'جهازك لا يحتوي على قفل شاشة. قم بإعداد واحد في إعدادات جهازك لاستخدام هذه الميزة.',
+			'settings.authCancelled' => 'تم إلغاء التحقق.',
 			'insights.assetPerformance.title' => 'أفضل أصل أداءً',
 			'insights.assetPerformance.body' => 'الأصل {id} يتصدر محفظتك بقيمة {value} جنيه.',
 			'insights.concentrationRisk.title' => 'مخاطر التركيز العالي',

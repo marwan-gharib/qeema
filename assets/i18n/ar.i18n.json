@@ -110,6 +110,17 @@
     "goalDetail": "الهدف {id}",
     "notificationSettings": "إعدادات الإشعارات"
   },
+  "appLock": {
+    "tooManyAttempts": "محاولات كثيرة جداً. حاول مرة أخرى لاحقاً.",
+    "noCredentials": "لم يتم إعداد قفل للجهاز. قم بإعداد قفل شاشة في إعدادات جهازك.",
+    "unavailable": "التحقق من الجهاز غير متاح على هذا الجهاز."
+  },
+  "settings": {
+    "securitySection": "الأمان",
+    "requireUnlock": "طلب فتح قفل الجهاز لفتح قيّمة",
+    "noDeviceLock": "جهازك لا يحتوي على قفل شاشة. قم بإعداد واحد في إعدادات جهازك لاستخدام هذه الميزة.",
+    "authCancelled": "تم إلغاء التحقق."
+  },
   "insights": {
     "assetPerformance": {
       "title": "أفضل أصل أداءً",

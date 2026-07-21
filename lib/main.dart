@@ -6,14 +6,10 @@ import 'package:qeema/core/di/injection_container.dart';
 import 'package:qeema/core/i18n/strings.g.dart';
 import 'package:qeema/core/router/app_router.dart';
 import 'package:qeema/core/theme/app_theme.dart';
-import 'package:qeema/core/utils/logger.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-
-  Logger.info('URL: ${EnvConfig.supabaseUrl}');
-  Logger.info('KEY: ${EnvConfig.supabasepublishableKey}');
 
   await Supabase.initialize(
     url: EnvConfig.supabaseUrl,

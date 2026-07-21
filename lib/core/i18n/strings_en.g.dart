@@ -45,6 +45,8 @@ class Translations with BaseTranslations<AppLocale, Translations> {
 	late final Translations$auth$en auth = Translations$auth$en.internal(_root);
 	late final Translations$onboarding$en onboarding = Translations$onboarding$en.internal(_root);
 	late final Translations$navigation$en navigation = Translations$navigation$en.internal(_root);
+	late final Translations$appLock$en appLock = Translations$appLock$en.internal(_root);
+	late final Translations$settings$en settings = Translations$settings$en.internal(_root);
 	late final Translations$insights$en insights = Translations$insights$en.internal(_root);
 }
 
@@ -194,6 +196,45 @@ class Translations$navigation$en {
 
 	/// en: 'Notification Settings'
 	String get notificationSettings => 'Notification Settings';
+}
+
+// Path: appLock
+class Translations$appLock$en {
+	Translations$appLock$en.internal(this._root);
+
+	final Translations _root; // ignore: unused_field
+
+	// Translations
+
+	/// en: 'Too many attempts. Try again later.'
+	String get tooManyAttempts => 'Too many attempts. Try again later.';
+
+	/// en: 'No device lock set up. Set up a screen lock in your device settings.'
+	String get noCredentials => 'No device lock set up. Set up a screen lock in your device settings.';
+
+	/// en: 'Device authentication is not available on this device.'
+	String get unavailable => 'Device authentication is not available on this device.';
+}
+
+// Path: settings
+class Translations$settings$en {
+	Translations$settings$en.internal(this._root);
+
+	final Translations _root; // ignore: unused_field
+
+	// Translations
+
+	/// en: 'Security'
+	String get securitySection => 'Security';
+
+	/// en: 'Require device unlock to open Qeema'
+	String get requireUnlock => 'Require device unlock to open Qeema';
+
+	/// en: 'Your device doesn't have a screen lock set up. Set one up in your device settings to use this feature.'
+	String get noDeviceLock => 'Your device doesn\'t have a screen lock set up. Set one up in your device settings to use this feature.';
+
+	/// en: 'Authentication was cancelled.'
+	String get authCancelled => 'Authentication was cancelled.';
 }
 
 // Path: insights
@@ -603,6 +644,13 @@ extension on Translations {
 			'navigation.addGoal' => 'Add Goal',
 			'navigation.goalDetail' => 'Goal {id}',
 			'navigation.notificationSettings' => 'Notification Settings',
+			'appLock.tooManyAttempts' => 'Too many attempts. Try again later.',
+			'appLock.noCredentials' => 'No device lock set up. Set up a screen lock in your device settings.',
+			'appLock.unavailable' => 'Device authentication is not available on this device.',
+			'settings.securitySection' => 'Security',
+			'settings.requireUnlock' => 'Require device unlock to open Qeema',
+			'settings.noDeviceLock' => 'Your device doesn\'t have a screen lock set up. Set one up in your device settings to use this feature.',
+			'settings.authCancelled' => 'Authentication was cancelled.',
 			'insights.assetPerformance.title' => 'Best performing asset',
 			'insights.assetPerformance.body' => 'Asset {id} leads your portfolio with a value of {value} EGP.',
 			'insights.concentrationRisk.title' => 'High concentration risk',
