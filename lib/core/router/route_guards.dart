@@ -43,17 +43,13 @@ class RouteGuards {
       return isLoggedIn ? RoutePaths.home : RoutePaths.welcome;
     }
 
-    final onAuthScreen =
-        state.matchedLocation.startsWith(RoutePaths.login) ||
-        state.matchedLocation.startsWith(RoutePaths.signUp) ||
-        state.matchedLocation.startsWith(RoutePaths.forgotPassword) ||
-        state.matchedLocation.startsWith(RoutePaths.welcome);
+    final onWelcome = state.matchedLocation == RoutePaths.welcome;
 
-    if (!isLoggedIn && !onAuthScreen) {
+    if (!isLoggedIn && !onWelcome) {
       return RoutePaths.welcome;
     }
 
-    if (isLoggedIn && onAuthScreen) {
+    if (isLoggedIn && onWelcome) {
       return RoutePaths.home;
     }
 

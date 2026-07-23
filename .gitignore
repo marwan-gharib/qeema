@@ -48,3 +48,4 @@ app.*.map.json
 !README.md
 *.env
 *.txt
+env.json

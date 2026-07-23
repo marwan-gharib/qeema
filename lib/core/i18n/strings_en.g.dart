@@ -45,6 +45,8 @@ class Translations with BaseTranslations<AppLocale, Translations> {
 	late final Translations$auth$en auth = Translations$auth$en.internal(_root);
 	late final Translations$onboarding$en onboarding = Translations$onboarding$en.internal(_root);
 	late final Translations$navigation$en navigation = Translations$navigation$en.internal(_root);
+	late final Translations$appLock$en appLock = Translations$appLock$en.internal(_root);
+	late final Translations$settings$en settings = Translations$settings$en.internal(_root);
 	late final Translations$insights$en insights = Translations$insights$en.internal(_root);
 }
 
@@ -88,24 +90,8 @@ class Translations$auth$en {
 	final Translations _root; // ignore: unused_field
 
 	// Translations
-
-	/// en: 'Login'
-	String get login => 'Login';
-
-	/// en: 'Sign Up'
-	String get signUp => 'Sign Up';
-
-	/// en: 'Forgot Password'
-	String get forgotPassword => 'Forgot Password';
-
-	/// en: 'Logout'
-	String get logout => 'Logout';
-
-	/// en: 'Email'
-	String get email => 'Email';
-
-	/// en: 'Password'
-	String get password => 'Password';
+	late final Translations$auth$welcome$en welcome = Translations$auth$welcome$en.internal(_root);
+	late final Translations$auth$error$en error = Translations$auth$error$en.internal(_root);
 }
 
 // Path: onboarding
@@ -210,6 +196,45 @@ class Translations$navigation$en {
 
 	/// en: 'Notification Settings'
 	String get notificationSettings => 'Notification Settings';
+}
+
+// Path: appLock
+class Translations$appLock$en {
+	Translations$appLock$en.internal(this._root);
+
+	final Translations _root; // ignore: unused_field
+
+	// Translations
+
+	/// en: 'Too many attempts. Try again later.'
+	String get tooManyAttempts => 'Too many attempts. Try again later.';
+
+	/// en: 'No device lock set up. Set up a screen lock in your device settings.'
+	String get noCredentials => 'No device lock set up. Set up a screen lock in your device settings.';
+
+	/// en: 'Device authentication is not available on this device.'
+	String get unavailable => 'Device authentication is not available on this device.';
+}
+
+// Path: settings
+class Translations$settings$en {
+	Translations$settings$en.internal(this._root);
+
+	final Translations _root; // ignore: unused_field
+
+	// Translations
+
+	/// en: 'Security'
+	String get securitySection => 'Security';
+
+	/// en: 'Require device unlock to open Qeema'
+	String get requireUnlock => 'Require device unlock to open Qeema';
+
+	/// en: 'Your device doesn't have a screen lock set up. Set one up in your device settings to use this feature.'
+	String get noDeviceLock => 'Your device doesn\'t have a screen lock set up. Set one up in your device settings to use this feature.';
+
+	/// en: 'Authentication was cancelled.'
+	String get authCancelled => 'Authentication was cancelled.';
 }
 
 // Path: insights
@@ -414,6 +439,48 @@ class Translations$core$notification$en {
 	String get channelDescription => 'Notifications about price changes';
 }
 
+// Path: auth.welcome
+class Translations$auth$welcome$en {
+	Translations$auth$welcome$en.internal(this._root);
+
+	final Translations _root; // ignore: unused_field
+
+	// Translations
+
+	/// en: 'Know what your money is really worth'
+	String get headline => 'Know what your money is really worth';
+
+	/// en: 'Track your savings against inflation and see your real purchasing power over time.'
+	String get subtext => 'Track your savings against inflation and see your real purchasing power over time.';
+
+	/// en: 'Start Tracking Your Savings'
+	String get primaryCta => 'Start Tracking Your Savings';
+
+	/// en: 'No account needed. You can create one later.'
+	String get guestDisclosure => 'No account needed. You can create one later.';
+}
+
+// Path: auth.error
+class Translations$auth$error$en {
+	Translations$auth$error$en.internal(this._root);
+
+	final Translations _root; // ignore: unused_field
+
+	// Translations
+
+	/// en: 'No internet connection. Please check your network and try again.'
+	String get networkError => 'No internet connection. Please check your network and try again.';
+
+	/// en: 'Too many attempts. Please wait a moment and try again.'
+	String get tooManyRequests => 'Too many attempts. Please wait a moment and try again.';
+
+	/// en: 'Something went wrong. Please try again.'
+	String get unknownError => 'Something went wrong. Please try again.';
+
+	/// en: 'Guest sign-in is currently unavailable. Please try again later.'
+	String get anonymousSignInDisabled => 'Guest sign-in is currently unavailable. Please try again later.';
+}
+
 // Path: onboarding.assetType
 class Translations$onboarding$assetType$en {
 	Translations$onboarding$assetType$en.internal(this._root);
@@ -538,12 +605,14 @@ extension on Translations {
 			'core.auth.biometricFailed' => 'Biometric authentication failed',
 			'core.notification.channelName' => 'Price Alerts',
 			'core.notification.channelDescription' => 'Notifications about price changes',
-			'auth.login' => 'Login',
-			'auth.signUp' => 'Sign Up',
-			'auth.forgotPassword' => 'Forgot Password',
-			'auth.logout' => 'Logout',
-			'auth.email' => 'Email',
-			'auth.password' => 'Password',
+			'auth.welcome.headline' => 'Know what your money is really worth',
+			'auth.welcome.subtext' => 'Track your savings against inflation and see your real purchasing power over time.',
+			'auth.welcome.primaryCta' => 'Start Tracking Your Savings',
+			'auth.welcome.guestDisclosure' => 'No account needed. You can create one later.',
+			'auth.error.networkError' => 'No internet connection. Please check your network and try again.',
+			'auth.error.tooManyRequests' => 'Too many attempts. Please wait a moment and try again.',
+			'auth.error.unknownError' => 'Something went wrong. Please try again.',
+			'auth.error.anonymousSignInDisabled' => 'Guest sign-in is currently unavailable. Please try again later.',
 			'onboarding.skip' => 'Skip',
 			'onboarding.next' => 'Next',
 			'onboarding.getStarted' => 'Get Started',
@@ -575,6 +644,13 @@ extension on Translations {
 			'navigation.addGoal' => 'Add Goal',
 			'navigation.goalDetail' => 'Goal {id}',
 			'navigation.notificationSettings' => 'Notification Settings',
+			'appLock.tooManyAttempts' => 'Too many attempts. Try again later.',
+			'appLock.noCredentials' => 'No device lock set up. Set up a screen lock in your device settings.',
+			'appLock.unavailable' => 'Device authentication is not available on this device.',
+			'settings.securitySection' => 'Security',
+			'settings.requireUnlock' => 'Require device unlock to open Qeema',
+			'settings.noDeviceLock' => 'Your device doesn\'t have a screen lock set up. Set one up in your device settings to use this feature.',
+			'settings.authCancelled' => 'Authentication was cancelled.',
 			'insights.assetPerformance.title' => 'Best performing asset',
 			'insights.assetPerformance.body' => 'Asset {id} leads your portfolio with a value of {value} EGP.',
 			'insights.concentrationRisk.title' => 'High concentration risk',

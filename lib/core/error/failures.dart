@@ -45,3 +45,39 @@ final class PriceFetchFailure extends FinancialFailure {
   const PriceFetchFailure(this.assetTypeCode, [super.message]);
   final String assetTypeCode;
 }
+
+final class NetworkAuthFailure extends AuthFailure {
+  const NetworkAuthFailure([super.message]);
+}
+
+final class TooManyRequestsFailure extends AuthFailure {
+  const TooManyRequestsFailure([super.message]);
+}
+
+final class UnknownAuthFailure extends AuthFailure {
+  const UnknownAuthFailure([super.message]);
+}
+
+final class AnonymousSignInDisabledFailure extends AuthFailure {
+  const AnonymousSignInDisabledFailure([super.message]);
+}
+
+final class LocalAuthCancelledFailure extends Failure {
+  const LocalAuthCancelledFailure([super.message]);
+}
+
+final class LocalAuthLockoutFailure extends Failure {
+  const LocalAuthLockoutFailure([super.message]);
+}
+
+final class LocalAuthNoCredentialsFailure extends Failure {
+  const LocalAuthNoCredentialsFailure([super.message]);
+}
+
+final class LocalAuthUnavailableFailure extends Failure {
+  const LocalAuthUnavailableFailure([super.message]);
+}
+
+final class LocalAuthUnknownFailure extends Failure {
+  const LocalAuthUnknownFailure([super.message]);
+}

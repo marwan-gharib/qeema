@@ -60,12 +60,18 @@
     }
   },
   "auth": {
-    "login": "Login",
-    "signUp": "Sign Up",
-    "forgotPassword": "Forgot Password",
-    "logout": "Logout",
-    "email": "Email",
-    "password": "Password"
+    "welcome": {
+      "headline": "Know what your money is really worth",
+      "subtext": "Track your savings against inflation and see your real purchasing power over time.",
+      "primaryCta": "Start Tracking Your Savings",
+      "guestDisclosure": "No account needed. You can create one later."
+    },
+    "error": {
+      "networkError": "No internet connection. Please check your network and try again.",
+      "tooManyRequests": "Too many attempts. Please wait a moment and try again.",
+      "unknownError": "Something went wrong. Please try again.",
+      "anonymousSignInDisabled": "Guest sign-in is currently unavailable. Please try again later."
+    }
   },
   "onboarding": {
     "skip": "Skip",
@@ -103,6 +109,17 @@
     "addGoal": "Add Goal",
     "goalDetail": "Goal {id}",
     "notificationSettings": "Notification Settings"
+  },
+  "appLock": {
+    "tooManyAttempts": "Too many attempts. Try again later.",
+    "noCredentials": "No device lock set up. Set up a screen lock in your device settings.",
+    "unavailable": "Device authentication is not available on this device."
+  },
+  "settings": {
+    "securitySection": "Security",
+    "requireUnlock": "Require device unlock to open Qeema",
+    "noDeviceLock": "Your device doesn't have a screen lock set up. Set one up in your device settings to use this feature.",
+    "authCancelled": "Authentication was cancelled."
   },
   "insights": {
     "assetPerformance": {

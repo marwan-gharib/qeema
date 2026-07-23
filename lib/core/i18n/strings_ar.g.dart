@@ -44,6 +44,8 @@ class TranslationsAr extends Translations with BaseTranslations<AppLocale, Trans
 	@override late final _Translations$auth$ar auth = _Translations$auth$ar._(_root);
 	@override late final _Translations$onboarding$ar onboarding = _Translations$onboarding$ar._(_root);
 	@override late final _Translations$navigation$ar navigation = _Translations$navigation$ar._(_root);
+	@override late final _Translations$appLock$ar appLock = _Translations$appLock$ar._(_root);
+	@override late final _Translations$settings$ar settings = _Translations$settings$ar._(_root);
 	@override late final _Translations$insights$ar insights = _Translations$insights$ar._(_root);
 }
 
@@ -83,12 +85,8 @@ class _Translations$auth$ar extends Translations$auth$en {
 	final TranslationsAr _root; // ignore: unused_field
 
 	// Translations
-	@override String get login => 'تسجيل الدخول';
-	@override String get signUp => 'إنشاء حساب';
-	@override String get forgotPassword => 'نسيت كلمة المرور';
-	@override String get logout => 'تسجيل الخروج';
-	@override String get email => 'البريد الإلكتروني';
-	@override String get password => 'كلمة المرور';
+	@override late final _Translations$auth$welcome$ar welcome = _Translations$auth$welcome$ar._(_root);
+	@override late final _Translations$auth$error$ar error = _Translations$auth$error$ar._(_root);
 }
 
 // Path: onboarding
@@ -136,6 +134,31 @@ class _Translations$navigation$ar extends Translations$navigation$en {
 	@override String get addGoal => 'إضافة هدف';
 	@override String get goalDetail => 'الهدف {id}';
 	@override String get notificationSettings => 'إعدادات الإشعارات';
+}
+
+// Path: appLock
+class _Translations$appLock$ar extends Translations$appLock$en {
+	_Translations$appLock$ar._(TranslationsAr root) : this._root = root, super.internal(root);
+
+	final TranslationsAr _root; // ignore: unused_field
+
+	// Translations
+	@override String get tooManyAttempts => 'محاولات كثيرة جداً. حاول مرة أخرى لاحقاً.';
+	@override String get noCredentials => 'لم يتم إعداد قفل للجهاز. قم بإعداد قفل شاشة في إعدادات جهازك.';
+	@override String get unavailable => 'التحقق من الجهاز غير متاح على هذا الجهاز.';
+}
+
+// Path: settings
+class _Translations$settings$ar extends Translations$settings$en {
+	_Translations$settings$ar._(TranslationsAr root) : this._root = root, super.internal(root);
+
+	final TranslationsAr _root; // ignore: unused_field
+
+	// Translations
+	@override String get securitySection => 'الأمان';
+	@override String get requireUnlock => 'طلب فتح قفل الجهاز لفتح قيّمة';
+	@override String get noDeviceLock => 'جهازك لا يحتوي على قفل شاشة. قم بإعداد واحد في إعدادات جهازك لاستخدام هذه الميزة.';
+	@override String get authCancelled => 'تم إلغاء التحقق.';
 }
 
 // Path: insights
@@ -268,6 +291,32 @@ class _Translations$core$notification$ar extends Translations$core$notification$
 	@override String get channelDescription => 'إشعارات حول تغيرات الأسعار';
 }
 
+// Path: auth.welcome
+class _Translations$auth$welcome$ar extends Translations$auth$welcome$en {
+	_Translations$auth$welcome$ar._(TranslationsAr root) : this._root = root, super.internal(root);
+
+	final TranslationsAr _root; // ignore: unused_field
+
+	// Translations
+	@override String get headline => 'اعرف القيمة الحقيقية لأموالك';
+	@override String get subtext => 'تتبع مدخراتك مقابل التضخم وشاهد قوتك الشرائية الحقيقية عبر الزمن.';
+	@override String get primaryCta => 'ابدأ بتتبع مدخراتك';
+	@override String get guestDisclosure => 'لا حاجة لحساب. يمكنك إنشاء واحد لاحقاً.';
+}
+
+// Path: auth.error
+class _Translations$auth$error$ar extends Translations$auth$error$en {
+	_Translations$auth$error$ar._(TranslationsAr root) : this._root = root, super.internal(root);
+
+	final TranslationsAr _root; // ignore: unused_field
+
+	// Translations
+	@override String get networkError => 'لا يوجد اتصال بالإنترنت. يرجى التحقق من شبكتك والمحاولة مرة أخرى.';
+	@override String get tooManyRequests => 'محاولات كثيرة جداً. يرجى الانتظار لحظة والمحاولة مرة أخرى.';
+	@override String get unknownError => 'حدث خطأ ما. يرجى المحاولة مرة أخرى.';
+	@override String get anonymousSignInDisabled => 'دخول الزوار غير متاح حالياً. يرجى المحاولة لاحقاً.';
+}
+
 // Path: onboarding.assetType
 class _Translations$onboarding$assetType$ar extends Translations$onboarding$assetType$en {
 	_Translations$onboarding$assetType$ar._(TranslationsAr root) : this._root = root, super.internal(root);
@@ -370,12 +419,14 @@ extension on TranslationsAr {
 			'core.auth.biometricFailed' => 'فشل التحقق البيومتري',
 			'core.notification.channelName' => 'تنبيهات الأسعار',
 			'core.notification.channelDescription' => 'إشعارات حول تغيرات الأسعار',
-			'auth.login' => 'تسجيل الدخول',
-			'auth.signUp' => 'إنشاء حساب',
-			'auth.forgotPassword' => 'نسيت كلمة المرور',
-			'auth.logout' => 'تسجيل الخروج',
-			'auth.email' => 'البريد الإلكتروني',
-			'auth.password' => 'كلمة المرور',
+			'auth.welcome.headline' => 'اعرف القيمة الحقيقية لأموالك',
+			'auth.welcome.subtext' => 'تتبع مدخراتك مقابل التضخم وشاهد قوتك الشرائية الحقيقية عبر الزمن.',
+			'auth.welcome.primaryCta' => 'ابدأ بتتبع مدخراتك',
+			'auth.welcome.guestDisclosure' => 'لا حاجة لحساب. يمكنك إنشاء واحد لاحقاً.',
+			'auth.error.networkError' => 'لا يوجد اتصال بالإنترنت. يرجى التحقق من شبكتك والمحاولة مرة أخرى.',
+			'auth.error.tooManyRequests' => 'محاولات كثيرة جداً. يرجى الانتظار لحظة والمحاولة مرة أخرى.',
+			'auth.error.unknownError' => 'حدث خطأ ما. يرجى المحاولة مرة أخرى.',
+			'auth.error.anonymousSignInDisabled' => 'دخول الزوار غير متاح حالياً. يرجى المحاولة لاحقاً.',
 			'onboarding.skip' => 'تخطي',
 			'onboarding.next' => 'التالي',
 			'onboarding.getStarted' => 'ابدأ الآن',
@@ -407,6 +458,13 @@ extension on TranslationsAr {
 			'navigation.addGoal' => 'إضافة هدف',
 			'navigation.goalDetail' => 'الهدف {id}',
 			'navigation.notificationSettings' => 'إعدادات الإشعارات',
+			'appLock.tooManyAttempts' => 'محاولات كثيرة جداً. حاول مرة أخرى لاحقاً.',
+			'appLock.noCredentials' => 'لم يتم إعداد قفل للجهاز. قم بإعداد قفل شاشة في إعدادات جهازك.',
+			'appLock.unavailable' => 'التحقق من الجهاز غير متاح على هذا الجهاز.',
+			'settings.securitySection' => 'الأمان',
+			'settings.requireUnlock' => 'طلب فتح قفل الجهاز لفتح قيّمة',
+			'settings.noDeviceLock' => 'جهازك لا يحتوي على قفل شاشة. قم بإعداد واحد في إعدادات جهازك لاستخدام هذه الميزة.',
+			'settings.authCancelled' => 'تم إلغاء التحقق.',
 			'insights.assetPerformance.title' => 'أفضل أصل أداءً',
 			'insights.assetPerformance.body' => 'الأصل {id} يتصدر محفظتك بقيمة {value} جنيه.',
 			'insights.concentrationRisk.title' => 'مخاطر التركيز العالي',

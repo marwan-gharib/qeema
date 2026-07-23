@@ -1,4 +1,6 @@
 import 'package:get_it/get_it.dart';
+import 'package:qeema/core/di/app_lock_module.dart';
+import 'package:qeema/core/di/auth_module.dart';
 import 'package:qeema/core/di/core_module.dart';
 import 'package:qeema/core/di/onboarding_module.dart';
 import 'package:qeema/core/network/supabase_client_provider.dart';
@@ -10,6 +12,8 @@ final getIt = GetIt.instance;
 Future<void> initDependencies() async {
   await initCoreModule(getIt);
   await initOnboardingModule(getIt);
+  await initAuthModule(getIt);
+  initAppLockModule(getIt);
 
   /*
   this is a temporary solution to avoid circular dependency between core_module and onboarding_module
