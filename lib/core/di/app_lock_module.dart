@@ -5,7 +5,10 @@ import 'package:qeema/features/app_lock/presentation/cubits/lock_cubit/lock_cubi
 
 void initAppLockModule(GetIt getIt) {
   getIt.registerLazySingleton<AppLockService>(
-    () => AppLockService(getIt(), getIt<BiometricAuthService>()),
+    () => AppLockService(
+      getIt(),
+      //  getIt<BiometricAuthService>()
+    ),
   );
 
   getIt.registerFactory<LockCubit>(

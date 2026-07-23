@@ -7,7 +7,7 @@ class BiometricAuthService {
   BiometricAuthService(this._localAuth);
   final LocalAuthentication _localAuth;
 
-  Future<ApiResult<bool>> authenticate({
+  Future<ApiResult<void>> authenticate({
     required String localizedReason,
   }) async {
     Logger.info(
@@ -20,7 +20,9 @@ class BiometricAuthService {
         persistAcrossBackgrounding: true,
       );
       Logger.info('[Biometric] authenticate → Success($authenticated)');
-      return Success(authenticated);
+      return authenticated
+          ? const Success(null)
+          : const ResultFailure(LocalAuthUnknownFailure());
     } on LocalAuthException catch (e) {
       Logger.warning(
         '[Biometric] authenticate → ${e.runtimeType}(code: ${e.code})',

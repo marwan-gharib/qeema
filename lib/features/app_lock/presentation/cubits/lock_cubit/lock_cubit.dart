@@ -7,6 +7,11 @@ class LockCubit extends Cubit<AppLockState> {
 
   final BiometricAuthService _biometricAuthService;
 
+  void reset() => emit(const AppLockInitial());
+
+  Future<bool> get canCheckBiometrics async =>
+      await _biometricAuthService.canCheckBiometrics;
+
   Future<void> authenticate({required String localizedReason}) async {
     emit(const AppLockAuthenticating());
     final result = await _biometricAuthService.authenticate(
