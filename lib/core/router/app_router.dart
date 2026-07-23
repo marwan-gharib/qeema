@@ -1,3 +1,4 @@
+import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -8,11 +9,29 @@ import 'package:qeema/core/router/route_guards.dart';
 import 'package:qeema/core/router/route_names.dart';
 import 'package:qeema/core/router/route_paths.dart';
 import 'package:qeema/core/router/route_segments.dart';
+import 'package:qeema/features/assets/domain/entities/asset_entity.dart';
+import 'package:qeema/features/assets/presentation/blocs/assets_bloc/assets_bloc.dart';
+import 'package:qeema/features/assets/presentation/blocs/assets_bloc/assets_state.dart';
+import 'package:qeema/features/assets/presentation/screens/add_asset_screen.dart';
+import 'package:qeema/features/assets/presentation/screens/asset_detail_screen.dart';
+import 'package:qeema/features/assets/presentation/screens/assets_list_screen.dart';
+import 'package:qeema/features/assets/presentation/screens/edit_asset_screen.dart';
 import 'package:qeema/features/auth/presentation/cubits/welcome_cubit/welcome_cubit.dart';
 import 'package:qeema/features/auth/presentation/screens/welcome_screen.dart';
 import 'package:qeema/features/onboarding/presentation/cubits/onboarding_cubit/onboarding_cubit.dart';
 import 'package:qeema/features/onboarding/presentation/screens/onboarding_screen.dart';
 import 'package:qeema/features/splash/presentation/screens/splash_screen.dart';
+
+final AssetEntity _placeholderEntity = AssetEntity(
+  id: '',
+  assetTypeId: '',
+  assetTypeCode: '',
+  amount: Decimal.zero,
+  priceAtEntry: Decimal.zero,
+  entryDate: DateTime.now(),
+  createdAt: DateTime.now(),
+  updatedAt: DateTime.now(),
+);
 
 class AppRouter {
   AppRouter._();
@@ -66,47 +85,84 @@ class AppRouter {
       GoRoute(
         path: RoutePaths.assets,
         name: RouteNames.assets,
-        builder: (context, state) =>
-            Scaffold(body: Center(child: Text(context.t.navigation.assets))),
+        pageBuilder: (context, state) => fadeThroughPage(
+          child: BlocProvider(
+            create: (context) => getIt<AssetsBloc>(),
+            child: const AssetsListScreen(),
+          ),
+          pageKey: const ValueKey('assets'),
+        ),
         routes: [
           GoRoute(
             path: RouteSegments.add,
             name: RouteNames.addAsset,
-            builder: (context, state) => Scaffold(
-              body: Center(child: Text(context.t.navigation.addAsset)),
+            pageBuilder: (context, state) => slideUpPage(
+              child: BlocProvider.value(
+                value: getIt<AssetsBloc>(),
+                child: const AddAssetScreen(),
+              ),
+              pageKey: const ValueKey('addAsset'),
             ),
           ),
           GoRoute(
             path: RouteSegments.assetId,
             name: RouteNames.assetDetail,
-            builder: (context, state) {
+            pageBuilder: (context, state) {
               final assetId = state.pathParameters['assetId']!;
-              return Scaffold(
-                body: Center(
-                  child: Text(
-                    context.t.navigation.assetDetail.replaceAll(
-                      '{id}',
-                      assetId,
+              final bloc = getIt<AssetsBloc>();
+              final currentState = bloc.state;
+              if (currentState is AssetsLoadSuccess) {
+                final asset = currentState.assets
+                    .where((a) => a.id == assetId)
+                    .firstOrNull;
+                return sharedAxisPage(
+                  child: BlocProvider.value(
+                    value: bloc,
+                    child: AssetDetailScreen(
+                      asset: asset ?? _placeholderEntity,
                     ),
                   ),
+                  pageKey: ValueKey(assetId),
+                  forward: true,
+                );
+              }
+              return sharedAxisPage(
+                child: const Scaffold(
+                  body: Center(child: Text('Asset not found')),
                 ),
+                pageKey: const ValueKey('assetDetailFallback'),
+                forward: true,
               );
             },
             routes: [
               GoRoute(
                 path: RouteSegments.edit,
                 name: RouteNames.editAsset,
-                builder: (context, state) {
+                pageBuilder: (context, state) {
                   final assetId = state.pathParameters['assetId']!;
-                  return Scaffold(
-                    body: Center(
-                      child: Text(
-                        context.t.navigation.editAsset.replaceAll(
-                          '{id}',
-                          assetId,
+                  final bloc = getIt<AssetsBloc>();
+                  final currentState = bloc.state;
+                  if (currentState is AssetsLoadSuccess) {
+                    final asset = currentState.assets
+                        .where((a) => a.id == assetId)
+                        .firstOrNull;
+                    return sharedAxisPage(
+                      child: BlocProvider.value(
+                        value: bloc,
+                        child: EditAssetScreen(
+                          asset: asset ?? _placeholderEntity,
                         ),
                       ),
+                      pageKey: ValueKey('edit$assetId'),
+                      forward: true,
+                    );
+                  }
+                  return sharedAxisPage(
+                    child: const Scaffold(
+                      body: Center(child: Text('Asset not found')),
                     ),
+                    pageKey: const ValueKey('editFallback'),
+                    forward: true,
                   );
                 },
               ),

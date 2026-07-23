@@ -115,6 +115,65 @@
     "noCredentials": "لم يتم إعداد قفل للجهاز. قم بإعداد قفل شاشة في إعدادات جهازك.",
     "unavailable": "التحقق من الجهاز غير متاح على هذا الجهاز."
   },
+  "assets": {
+    "list": {
+      "title": "الأصول",
+      "emptyNoAssets": "لا توجد أصول بعد",
+      "emptyNoAssetsSubtitle": "أضف أصلَك الأول لبدء التتبع",
+      "emptyNoFiltered": "لا توجد أصول من هذا النوع",
+      "emptyNoFilteredSubtitle": "جرّب تصفية مختلفة",
+      "addFirst": "إضافة أصل"
+    },
+    "add": {
+      "title": "إضافة أصل",
+      "selectType": "اختر نوع الأصل",
+      "amount": "الكمية",
+      "priceAtEntry": "سعر الشراء",
+      "note": "ملاحظة (اختياري)",
+      "noteHint": "أضف ملاحظة...",
+      "submit": "إضافة أصل",
+      "amountRequired": "الكمية مطلوبة",
+      "amountInvalid": "أدخل كمية موجبة صالحة",
+      "priceRequired": "السعر مطلوب",
+      "priceInvalid": "أدخل سعراً موجباً صالحاً"
+    },
+    "edit": {
+      "title": "تعديل {type}",
+      "submit": "حفظ التغييرات"
+    },
+    "detail": {
+      "entryPrice": "سعر الشراء: {price} جنيه للوحدة",
+      "valueTrend": "اتجاه القيمة",
+      "editHistory": "سجل التعديلات",
+      "noHistory": "لا يوجد سجل تعديلات بعد",
+      "cashFlatValue": "الأصول النقدية تحافظ على قيمة ثابتة"
+    },
+    "sort": {
+      "title": "ترتيب حسب",
+      "date": "التاريخ",
+      "value": "القيمة",
+      "type": "النوع"
+    },
+    "filter": {
+      "all": "الكل"
+    },
+    "chart": {
+      "cashPlaceholder": "الأصول النقدية تحافظ على قيمة ثابتة"
+    },
+    "history": {
+      "created": "تم الإنشاء",
+      "updated": "تم التحديث",
+      "deleted": "تم الحذف"
+    },
+    "delete": {
+      "confirmTitle": "حذف الأصل؟",
+      "confirmBody": "سيؤدي هذا إلى حذف سجل الأصل بشكل دائم."
+    },
+    "failure": {
+      "assetNotFound": "الأصل غير موجود.",
+      "invalidAmount": "يجب أن تكون الكمية أكبر من الصفر."
+    }
+  },
   "settings": {
     "securitySection": "الأمان",
     "requireUnlock": "طلب فتح قفل الجهاز لفتح قيّمة",

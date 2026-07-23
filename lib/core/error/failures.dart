@@ -81,3 +81,11 @@ final class LocalAuthUnavailableFailure extends Failure {
 final class LocalAuthUnknownFailure extends Failure {
   const LocalAuthUnknownFailure([super.message]);
 }
+
+final class AssetNotFoundFailure extends Failure {
+  const AssetNotFoundFailure() : super('Asset not found.');
+}
+
+final class InvalidAssetAmountFailure extends Failure {
+  const InvalidAssetAmountFailure() : super('Amount must be greater than zero.');
+}

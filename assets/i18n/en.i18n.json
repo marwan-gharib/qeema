@@ -115,6 +115,65 @@
     "noCredentials": "No device lock set up. Set up a screen lock in your device settings.",
     "unavailable": "Device authentication is not available on this device."
   },
+  "assets": {
+    "list": {
+      "title": "Assets",
+      "emptyNoAssets": "No assets yet",
+      "emptyNoAssetsSubtitle": "Add your first asset to start tracking",
+      "emptyNoFiltered": "No holdings of this type",
+      "emptyNoFilteredSubtitle": "Try a different filter",
+      "addFirst": "Add Asset"
+    },
+    "add": {
+      "title": "Add Asset",
+      "selectType": "Select Asset Type",
+      "amount": "Amount",
+      "priceAtEntry": "Price at entry",
+      "note": "Note (optional)",
+      "noteHint": "Add a note...",
+      "submit": "Add Asset",
+      "amountRequired": "Amount is required",
+      "amountInvalid": "Enter a valid positive amount",
+      "priceRequired": "Price is required",
+      "priceInvalid": "Enter a valid positive price"
+    },
+    "edit": {
+      "title": "Edit {type}",
+      "submit": "Save Changes"
+    },
+    "detail": {
+      "entryPrice": "Entry: {price} EGP per unit",
+      "valueTrend": "Value Trend",
+      "editHistory": "Edit History",
+      "noHistory": "No edit history yet",
+      "cashFlatValue": "Cash assets maintain a constant value"
+    },
+    "sort": {
+      "title": "Sort by",
+      "date": "Date",
+      "value": "Value",
+      "type": "Type"
+    },
+    "filter": {
+      "all": "All"
+    },
+    "chart": {
+      "cashPlaceholder": "Cash assets maintain a constant value"
+    },
+    "history": {
+      "created": "Created",
+      "updated": "Updated",
+      "deleted": "Deleted"
+    },
+    "delete": {
+      "confirmTitle": "Delete Asset?",
+      "confirmBody": "This will permanently delete this asset record."
+    },
+    "failure": {
+      "assetNotFound": "Asset not found.",
+      "invalidAmount": "Amount must be greater than zero."
+    }
+  },
   "settings": {
     "securitySection": "Security",
     "requireUnlock": "Require device unlock to open Qeema",

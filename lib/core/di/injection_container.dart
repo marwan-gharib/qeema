@@ -1,5 +1,6 @@
 import 'package:get_it/get_it.dart';
 import 'package:qeema/core/di/app_lock_module.dart';
+import 'package:qeema/core/di/assets_module.dart';
 import 'package:qeema/core/di/auth_module.dart';
 import 'package:qeema/core/di/core_module.dart';
 import 'package:qeema/core/di/onboarding_module.dart';
@@ -25,4 +26,6 @@ Future<void> initDependencies() async {
       getIt<GetOnboardingSeenUseCase>(),
     ),
   );
+
+  await initAssetsModule(getIt);
 }

@@ -40,7 +40,7 @@ class RouteGuards {
     final isLoggedIn = session != null;
 
     if (onOnboarding) {
-      return isLoggedIn ? RoutePaths.home : RoutePaths.welcome;
+      return isLoggedIn ? RoutePaths.assets : RoutePaths.welcome;
     }
 
     final onWelcome = state.matchedLocation == RoutePaths.welcome;
@@ -50,7 +50,7 @@ class RouteGuards {
     }
 
     if (isLoggedIn && onWelcome) {
-      return RoutePaths.home;
+      return RoutePaths.assets;
     }
 
     return null;

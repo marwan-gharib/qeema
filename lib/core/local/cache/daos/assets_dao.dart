@@ -5,7 +5,13 @@ class AssetsDao {
   const AssetsDao(this._db);
   final AppDatabase _db;
 
-  Future<List<CachedAssetsTableData>> watchActiveAssets(String userId) async {
+  Stream<List<CachedAssetsTableData>> watchActiveAssets(String userId) {
+    return (_db.select(
+      _db.cachedAssetsTable,
+    )..where((t) => t.userId.equals(userId))).watch();
+  }
+
+  Future<List<CachedAssetsTableData>> getActiveAssets(String userId) async {
     return await (_db.select(
       _db.cachedAssetsTable,
     )..where((t) => t.userId.equals(userId))).get();

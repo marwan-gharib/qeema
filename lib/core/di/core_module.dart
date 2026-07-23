@@ -15,6 +15,8 @@ import 'package:qeema/core/financial/insight_rules/insight_rule.dart';
 import 'package:qeema/core/local/cache/app_database.dart';
 import 'package:qeema/core/local/cache/cache_service.dart';
 import 'package:qeema/core/local/cache/cache_service_impl.dart';
+import 'package:qeema/core/local/cache/daos/asset_history_dao.dart';
+import 'package:qeema/core/local/cache/daos/asset_types_dao.dart';
 import 'package:qeema/core/local/cache/daos/assets_dao.dart';
 import 'package:qeema/core/local/cache/daos/goals_dao.dart';
 import 'package:qeema/core/local/cache/daos/inflation_rates_dao.dart';
@@ -65,6 +67,12 @@ Future<void> initCoreModule(GetIt getIt) async {
     () => SnapshotsDao(getIt<AppDatabase>()),
   );
   getIt.registerLazySingleton<GoalsDao>(() => GoalsDao(getIt<AppDatabase>()));
+  getIt.registerLazySingleton<AssetTypesDao>(
+    () => AssetTypesDao(getIt<AppDatabase>()),
+  );
+  getIt.registerLazySingleton<AssetHistoryDao>(
+    () => AssetHistoryDao(getIt<AppDatabase>()),
+  );
 
   getIt.registerLazySingleton<ConnectivityService>(
     () => ConnectivityService(Connectivity()),
