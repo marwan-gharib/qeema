@@ -563,8 +563,29 @@ class Translations$assets$add$en {
 	/// en: 'Amount'
 	String get amount => 'Amount';
 
+	/// en: 'Amount (grams)'
+	String get amountGrams => 'Amount (grams)';
+
+	/// en: 'Amount (EGP)'
+	String get amountEgp => 'Amount (EGP)';
+
+	/// en: 'Amount (USD)'
+	String get amountUsd => 'Amount (USD)';
+
 	/// en: 'Price at entry'
 	String get priceAtEntry => 'Price at entry';
+
+	/// en: 'Price per gram at entry'
+	String get pricePerGram => 'Price per gram at entry';
+
+	/// en: 'Price per unit at entry'
+	String get pricePerUnit => 'Price per unit at entry';
+
+	/// en: 'Entry Date'
+	String get entryDate => 'Entry Date';
+
+	/// en: 'Select date'
+	String get selectDate => 'Select date';
 
 	/// en: 'Note (optional)'
 	String get note => 'Note (optional)';
@@ -586,6 +607,9 @@ class Translations$assets$add$en {
 
 	/// en: 'Enter a valid positive price'
 	String get priceInvalid => 'Enter a valid positive price';
+
+	/// en: 'Select an asset type first'
+	String get selectTypeFirst => 'Select an asset type first';
 }
 
 // Path: assets.edit
@@ -877,7 +901,14 @@ extension on Translations {
 			'assets.add.title' => 'Add Asset',
 			'assets.add.selectType' => 'Select Asset Type',
 			'assets.add.amount' => 'Amount',
+			'assets.add.amountGrams' => 'Amount (grams)',
+			'assets.add.amountEgp' => 'Amount (EGP)',
+			'assets.add.amountUsd' => 'Amount (USD)',
 			'assets.add.priceAtEntry' => 'Price at entry',
+			'assets.add.pricePerGram' => 'Price per gram at entry',
+			'assets.add.pricePerUnit' => 'Price per unit at entry',
+			'assets.add.entryDate' => 'Entry Date',
+			'assets.add.selectDate' => 'Select date',
 			'assets.add.note' => 'Note (optional)',
 			'assets.add.noteHint' => 'Add a note...',
 			'assets.add.submit' => 'Add Asset',
@@ -885,6 +916,7 @@ extension on Translations {
 			'assets.add.amountInvalid' => 'Enter a valid positive amount',
 			'assets.add.priceRequired' => 'Price is required',
 			'assets.add.priceInvalid' => 'Enter a valid positive price',
+			'assets.add.selectTypeFirst' => 'Select an asset type first',
 			'assets.edit.title' => 'Edit {type}',
 			'assets.edit.submit' => 'Save Changes',
 			'assets.detail.entryPrice' => 'Entry: {price} EGP per unit',

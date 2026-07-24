@@ -128,14 +128,22 @@
       "title": "إضافة أصل",
       "selectType": "اختر نوع الأصل",
       "amount": "الكمية",
+      "amountGrams": "الكمية (جرام)",
+      "amountEgp": "الكمية (جنيه)",
+      "amountUsd": "الكمية (دولار)",
       "priceAtEntry": "سعر الشراء",
+      "pricePerGram": "سعر الجرام عند الشراء",
+      "pricePerUnit": "سعر الوحدة عند الشراء",
+      "entryDate": "تاريخ الشراء",
+      "selectDate": "اختر التاريخ",
       "note": "ملاحظة (اختياري)",
       "noteHint": "أضف ملاحظة...",
       "submit": "إضافة أصل",
       "amountRequired": "الكمية مطلوبة",
       "amountInvalid": "أدخل كمية موجبة صالحة",
       "priceRequired": "السعر مطلوب",
-      "priceInvalid": "أدخل سعراً موجباً صالحاً"
+      "priceInvalid": "أدخل سعراً موجباً صالحاً",
+      "selectTypeFirst": "اختر نوع الأصل أولاً"
     },
     "edit": {
       "title": "تعديل {type}",
