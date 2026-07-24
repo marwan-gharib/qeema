@@ -21,4 +21,3 @@ Future<void> main() async {
 
   runApp(TranslationProvider(child: const AppRoot()));
 }
-

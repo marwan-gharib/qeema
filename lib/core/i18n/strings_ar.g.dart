@@ -374,7 +374,14 @@ class _Translations$assets$add$ar extends Translations$assets$add$en {
 	@override String get title => 'إضافة أصل';
 	@override String get selectType => 'اختر نوع الأصل';
 	@override String get amount => 'الكمية';
+	@override String get amountGrams => 'الكمية (جرام)';
+	@override String get amountEgp => 'الكمية (جنيه)';
+	@override String get amountUsd => 'الكمية (دولار)';
 	@override String get priceAtEntry => 'سعر الشراء';
+	@override String get pricePerGram => 'سعر الجرام عند الشراء';
+	@override String get pricePerUnit => 'سعر الوحدة عند الشراء';
+	@override String get entryDate => 'تاريخ الشراء';
+	@override String get selectDate => 'اختر التاريخ';
 	@override String get note => 'ملاحظة (اختياري)';
 	@override String get noteHint => 'أضف ملاحظة...';
 	@override String get submit => 'إضافة أصل';
@@ -382,6 +389,7 @@ class _Translations$assets$add$ar extends Translations$assets$add$en {
 	@override String get amountInvalid => 'أدخل كمية موجبة صالحة';
 	@override String get priceRequired => 'السعر مطلوب';
 	@override String get priceInvalid => 'أدخل سعراً موجباً صالحاً';
+	@override String get selectTypeFirst => 'اختر نوع الأصل أولاً';
 }
 
 // Path: assets.edit
@@ -617,7 +625,14 @@ extension on TranslationsAr {
 			'assets.add.title' => 'إضافة أصل',
 			'assets.add.selectType' => 'اختر نوع الأصل',
 			'assets.add.amount' => 'الكمية',
+			'assets.add.amountGrams' => 'الكمية (جرام)',
+			'assets.add.amountEgp' => 'الكمية (جنيه)',
+			'assets.add.amountUsd' => 'الكمية (دولار)',
 			'assets.add.priceAtEntry' => 'سعر الشراء',
+			'assets.add.pricePerGram' => 'سعر الجرام عند الشراء',
+			'assets.add.pricePerUnit' => 'سعر الوحدة عند الشراء',
+			'assets.add.entryDate' => 'تاريخ الشراء',
+			'assets.add.selectDate' => 'اختر التاريخ',
 			'assets.add.note' => 'ملاحظة (اختياري)',
 			'assets.add.noteHint' => 'أضف ملاحظة...',
 			'assets.add.submit' => 'إضافة أصل',
@@ -625,6 +640,7 @@ extension on TranslationsAr {
 			'assets.add.amountInvalid' => 'أدخل كمية موجبة صالحة',
 			'assets.add.priceRequired' => 'السعر مطلوب',
 			'assets.add.priceInvalid' => 'أدخل سعراً موجباً صالحاً',
+			'assets.add.selectTypeFirst' => 'اختر نوع الأصل أولاً',
 			'assets.edit.title' => 'تعديل {type}',
 			'assets.edit.submit' => 'حفظ التغييرات',
 			'assets.detail.entryPrice' => 'سعر الشراء: {price} جنيه للوحدة',

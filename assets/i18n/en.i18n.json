@@ -128,14 +128,22 @@
       "title": "Add Asset",
       "selectType": "Select Asset Type",
       "amount": "Amount",
+      "amountGrams": "Amount (grams)",
+      "amountEgp": "Amount (EGP)",
+      "amountUsd": "Amount (USD)",
       "priceAtEntry": "Price at entry",
+      "pricePerGram": "Price per gram at entry",
+      "pricePerUnit": "Price per unit at entry",
+      "entryDate": "Entry Date",
+      "selectDate": "Select date",
       "note": "Note (optional)",
       "noteHint": "Add a note...",
       "submit": "Add Asset",
       "amountRequired": "Amount is required",
       "amountInvalid": "Enter a valid positive amount",
       "priceRequired": "Price is required",
-      "priceInvalid": "Enter a valid positive price"
+      "priceInvalid": "Enter a valid positive price",
+      "selectTypeFirst": "Select an asset type first"
     },
     "edit": {
       "title": "Edit {type}",

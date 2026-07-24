@@ -87,5 +87,6 @@ final class AssetNotFoundFailure extends Failure {
 }
 
 final class InvalidAssetAmountFailure extends Failure {
-  const InvalidAssetAmountFailure() : super('Amount must be greater than zero.');
+  const InvalidAssetAmountFailure()
+    : super('Amount must be greater than zero.');
 }
