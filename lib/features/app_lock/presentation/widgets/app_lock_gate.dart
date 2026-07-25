@@ -94,8 +94,7 @@ class _AppLockGateState extends State<AppLockGate> with WidgetsBindingObserver {
     return Stack(
       children: [
         widget.child,
-        if (_isLocked)
-          LockScreen(onUnlocked: _onUnlocked, lockCubit: _cubit),
+        if (_isLocked) LockScreen(onUnlocked: _onUnlocked, lockCubit: _cubit),
       ],
     );
   }

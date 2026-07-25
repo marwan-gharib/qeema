@@ -8,11 +8,10 @@ import 'package:qeema/core/router/route_guards.dart';
 import 'package:qeema/core/router/route_names.dart';
 import 'package:qeema/core/router/route_paths.dart';
 import 'package:qeema/core/router/route_segments.dart';
-<<<<<<< HEAD
+import 'package:qeema/features/assets/presentation/cubits/add_asset_cubit/add_asset_cubit.dart';
 import 'package:qeema/features/assets/presentation/cubits/assets_list_cubit/assets_list_cubit.dart';
+import 'package:qeema/features/assets/presentation/screens/add_asset_screen.dart';
 import 'package:qeema/features/assets/presentation/screens/assets_list_screen.dart';
-=======
->>>>>>> 1abc4a21580b8a24c120570e2dc162ec5c028cb6
 import 'package:qeema/features/auth/presentation/cubits/welcome_cubit/welcome_cubit.dart';
 import 'package:qeema/features/auth/presentation/screens/welcome_screen.dart';
 import 'package:qeema/features/onboarding/presentation/cubits/onboarding_cubit/onboarding_cubit.dart';
@@ -69,7 +68,6 @@ class AppRouter {
             Scaffold(body: Center(child: Text(context.t.navigation.home))),
       ),
       GoRoute(
-<<<<<<< HEAD
         path: RoutePaths.assets,
         name: RouteNames.assets,
         builder: (context, state) => BlocProvider(
@@ -80,22 +78,23 @@ class AppRouter {
           GoRoute(
             path: RouteSegments.add,
             name: RouteNames.addAsset,
-            builder: (context, state) => const _PlaceholderScreen(
-              title: 'Add Asset — Coming Soon',
+            pageBuilder: (context, state) => slideUpPage(
+              child: BlocProvider(
+                create: (_) => getIt<AddAssetCubit>()..loadAssetTypes(),
+                child: const AddAssetScreen(),
+              ),
+              pageKey: const ValueKey('addAsset'),
             ),
           ),
           GoRoute(
             path: RouteSegments.assetId,
             name: RouteNames.assetDetail,
-            builder: (context, state) => const _PlaceholderScreen(
-              title: 'Asset Detail — Coming Soon',
-            ),
+            builder: (context, state) =>
+                const _PlaceholderScreen(title: 'Asset Detail — Coming Soon'),
           ),
         ],
       ),
       GoRoute(
-=======
->>>>>>> 1abc4a21580b8a24c120570e2dc162ec5c028cb6
         path: RoutePaths.insights,
         name: RouteNames.insights,
         builder: (context, state) =>
@@ -175,10 +174,7 @@ class _PlaceholderScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(),
       body: Center(
-        child: Text(
-          title,
-          style: Theme.of(context).textTheme.titleMedium,
-        ),
+        child: Text(title, style: Theme.of(context).textTheme.titleMedium),
       ),
     );
   }
