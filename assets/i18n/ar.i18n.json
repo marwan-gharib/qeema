@@ -118,6 +118,15 @@
   "assets": {
     "list": {
       "title": "الأصول",
+      "tabEgp": "نقدي جنيه",
+      "tabUsd": "دولار",
+      "tabGold21": "ذهب 21",
+      "tabGold24": "ذهب 24",
+      "sortFilter": "ترتيب وتصفية",
+      "sortDateNewest": "الأحدث أولاً",
+      "sortDateOldest": "الأقدم أولاً",
+      "sortValueHighest": "الأعلى قيمة",
+      "sortValueLowest": "الأقل قيمة",
       "emptyNoAssets": "لا توجد أصول بعد",
       "emptyNoAssetsSubtitle": "أضف أصلَك الأول لبدء التتبع",
       "emptyNoFiltered": "لا توجد أصول من هذا النوع",

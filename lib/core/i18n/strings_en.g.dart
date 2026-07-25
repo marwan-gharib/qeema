@@ -530,6 +530,33 @@ class Translations$assets$list$en {
 	/// en: 'Assets'
 	String get title => 'Assets';
 
+	/// en: 'EGP Cash'
+	String get tabEgp => 'EGP Cash';
+
+	/// en: 'USD'
+	String get tabUsd => 'USD';
+
+	/// en: 'Gold 21K'
+	String get tabGold21 => 'Gold 21K';
+
+	/// en: 'Gold 24K'
+	String get tabGold24 => 'Gold 24K';
+
+	/// en: 'Sort & Filter'
+	String get sortFilter => 'Sort & Filter';
+
+	/// en: 'Newest first'
+	String get sortDateNewest => 'Newest first';
+
+	/// en: 'Oldest first'
+	String get sortDateOldest => 'Oldest first';
+
+	/// en: 'Highest value'
+	String get sortValueHighest => 'Highest value';
+
+	/// en: 'Lowest value'
+	String get sortValueLowest => 'Lowest value';
+
 	/// en: 'No assets yet'
 	String get emptyNoAssets => 'No assets yet';
 
@@ -893,6 +920,15 @@ extension on Translations {
 			'appLock.noCredentials' => 'No device lock set up. Set up a screen lock in your device settings.',
 			'appLock.unavailable' => 'Device authentication is not available on this device.',
 			'assets.list.title' => 'Assets',
+			'assets.list.tabEgp' => 'EGP Cash',
+			'assets.list.tabUsd' => 'USD',
+			'assets.list.tabGold21' => 'Gold 21K',
+			'assets.list.tabGold24' => 'Gold 24K',
+			'assets.list.sortFilter' => 'Sort & Filter',
+			'assets.list.sortDateNewest' => 'Newest first',
+			'assets.list.sortDateOldest' => 'Oldest first',
+			'assets.list.sortValueHighest' => 'Highest value',
+			'assets.list.sortValueLowest' => 'Lowest value',
 			'assets.list.emptyNoAssets' => 'No assets yet',
 			'assets.list.emptyNoAssetsSubtitle' => 'Add your first asset to start tracking',
 			'assets.list.emptyNoFiltered' => 'No holdings of this type',

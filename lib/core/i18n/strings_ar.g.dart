@@ -357,6 +357,15 @@ class _Translations$assets$list$ar extends Translations$assets$list$en {
 
 	// Translations
 	@override String get title => 'الأصول';
+	@override String get tabEgp => 'نقدي جنيه';
+	@override String get tabUsd => 'دولار';
+	@override String get tabGold21 => 'ذهب 21';
+	@override String get tabGold24 => 'ذهب 24';
+	@override String get sortFilter => 'ترتيب وتصفية';
+	@override String get sortDateNewest => 'الأحدث أولاً';
+	@override String get sortDateOldest => 'الأقدم أولاً';
+	@override String get sortValueHighest => 'الأعلى قيمة';
+	@override String get sortValueLowest => 'الأقل قيمة';
 	@override String get emptyNoAssets => 'لا توجد أصول بعد';
 	@override String get emptyNoAssetsSubtitle => 'أضف أصلَك الأول لبدء التتبع';
 	@override String get emptyNoFiltered => 'لا توجد أصول من هذا النوع';
@@ -617,6 +626,15 @@ extension on TranslationsAr {
 			'appLock.noCredentials' => 'لم يتم إعداد قفل للجهاز. قم بإعداد قفل شاشة في إعدادات جهازك.',
 			'appLock.unavailable' => 'التحقق من الجهاز غير متاح على هذا الجهاز.',
 			'assets.list.title' => 'الأصول',
+			'assets.list.tabEgp' => 'نقدي جنيه',
+			'assets.list.tabUsd' => 'دولار',
+			'assets.list.tabGold21' => 'ذهب 21',
+			'assets.list.tabGold24' => 'ذهب 24',
+			'assets.list.sortFilter' => 'ترتيب وتصفية',
+			'assets.list.sortDateNewest' => 'الأحدث أولاً',
+			'assets.list.sortDateOldest' => 'الأقدم أولاً',
+			'assets.list.sortValueHighest' => 'الأعلى قيمة',
+			'assets.list.sortValueLowest' => 'الأقل قيمة',
 			'assets.list.emptyNoAssets' => 'لا توجد أصول بعد',
 			'assets.list.emptyNoAssetsSubtitle' => 'أضف أصلَك الأول لبدء التتبع',
 			'assets.list.emptyNoFiltered' => 'لا توجد أصول من هذا النوع',

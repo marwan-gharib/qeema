@@ -118,6 +118,15 @@
   "assets": {
     "list": {
       "title": "Assets",
+      "tabEgp": "EGP Cash",
+      "tabUsd": "USD",
+      "tabGold21": "Gold 21K",
+      "tabGold24": "Gold 24K",
+      "sortFilter": "Sort & Filter",
+      "sortDateNewest": "Newest first",
+      "sortDateOldest": "Oldest first",
+      "sortValueHighest": "Highest value",
+      "sortValueLowest": "Lowest value",
       "emptyNoAssets": "No assets yet",
       "emptyNoAssetsSubtitle": "Add your first asset to start tracking",
       "emptyNoFiltered": "No holdings of this type",
