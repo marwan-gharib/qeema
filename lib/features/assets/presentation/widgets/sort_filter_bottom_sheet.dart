@@ -9,6 +9,7 @@ class SortFilterBottomSheet extends StatelessWidget {
   const SortFilterBottomSheet({super.key});
 
   static void show(BuildContext context) {
+    final cubit = context.read<AssetsListCubit>();
     showModalBottomSheet<void>(
       context: context,
       backgroundColor: Theme.of(
@@ -17,7 +18,10 @@ class SortFilterBottomSheet extends StatelessWidget {
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
       ),
-      builder: (_) => const SortFilterBottomSheet(),
+      builder: (_) => BlocProvider.value(
+        value: cubit,
+        child: const SortFilterBottomSheet(),
+      ),
     );
   }
 

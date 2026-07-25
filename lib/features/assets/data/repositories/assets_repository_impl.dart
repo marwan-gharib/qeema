@@ -6,9 +6,12 @@ import 'package:qeema/core/local/cache/app_database.dart';
 import 'package:qeema/core/local/cache/daos/assets_dao.dart';
 import 'package:qeema/core/utils/api_result.dart';
 import 'package:qeema/features/assets/data/datasources/assets_remote_datasource.dart';
+import 'package:qeema/features/assets/data/mappers/asset_history_mapper.dart';
 import 'package:qeema/features/assets/domain/entities/asset_entity.dart';
+import 'package:qeema/features/assets/domain/entities/asset_history_entry_entity.dart';
 import 'package:qeema/features/assets/domain/entities/asset_type_entity.dart';
 import 'package:qeema/features/assets/domain/params/add_asset_params.dart';
+import 'package:qeema/features/assets/domain/params/update_asset_params.dart';
 import 'package:qeema/features/assets/domain/repositories/assets_repository.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
@@ -149,6 +152,112 @@ class AssetsRepositoryImpl implements AssetsRepository {
       return const ResultFailure(
         ServerFailure('مش قادرين نضيف الأصل دلوقتي، حاول تاني.'),
       );
+    }
+  }
+
+  @override
+  Future<ApiResult<AssetEntity>> updateAsset(UpdateAssetParams params) async {
+    if (params.amount <= Decimal.zero) {
+      return const ResultFailure(InvalidAssetAmountFailure());
+    }
+
+    final priceAtEntry = (params.priceAtEntry ?? Decimal.one).toDouble();
+    final amountDouble = params.amount.toDouble();
+    final now = DateTime.now();
+    final entryDateStr =
+        '${params.entryDate.year.toString().padLeft(4, '0')}-${params.entryDate.month.toString().padLeft(2, '0')}-${params.entryDate.day.toString().padLeft(2, '0')}';
+
+    try {
+      await _assetsDao.insertOrUpdate(
+        CachedAssetsTableCompanion(
+          id: Value(params.assetId),
+          amount: Value(amountDouble.toString()),
+          priceAtEntry: Value(priceAtEntry.toString()),
+          entryDate: Value(params.entryDate),
+          note: Value(params.note),
+          pendingSync: const Value(true),
+          updatedAt: Value(now),
+        ),
+      );
+    } catch (_) {}
+
+    try {
+      final result = await _remoteDataSource.updateAsset(params.assetId, {
+        'amount': amountDouble,
+        'price_at_entry': priceAtEntry,
+        'entry_date': entryDateStr,
+        if (params.note != null) 'note': params.note,
+      });
+
+      final serverAmount = (result['amount'] as num).toDouble();
+      final serverPrice = (result['price_at_entry'] as num).toDouble();
+      final serverEntryDate = DateTime.parse(result['entry_date'] as String);
+      final serverNote = result['note'] as String?;
+
+      try {
+        await _assetsDao.insertOrUpdate(
+          CachedAssetsTableCompanion(
+            id: Value(params.assetId),
+            amount: Value(serverAmount.toString()),
+            priceAtEntry: Value(serverPrice.toString()),
+            entryDate: Value(serverEntryDate),
+            note: Value(serverNote),
+            pendingSync: const Value(false),
+            updatedAt: Value(now),
+            lastSyncedAt: Value(now),
+          ),
+        );
+      } catch (_) {}
+
+      return Success(
+        AssetEntity(
+          id: params.assetId,
+          assetType: _codeToEnum(
+            result['asset_types'] is Map
+                ? ((result['asset_types'] as Map)['code'] as String? ?? '')
+                : '',
+          ),
+          amount: serverAmount,
+          priceAtEntry: serverPrice,
+          entryDate: serverEntryDate,
+          note: serverNote,
+        ),
+      );
+    } on PostgrestException catch (e) {
+      return ResultFailure(_mapSupabaseError(e));
+    } catch (e) {
+      return const ResultFailure(ServerFailure('Update failed.'));
+    }
+  }
+
+  @override
+  Future<ApiResult<void>> softDeleteAsset(String assetId) async {
+    try {
+      await _assetsDao.deleteById(assetId);
+    } catch (_) {}
+
+    try {
+      await _remoteDataSource.softDeleteAsset(assetId);
+      return const Success(null);
+    } on PostgrestException catch (e) {
+      return ResultFailure(_mapSupabaseError(e));
+    } catch (e) {
+      return const ResultFailure(ServerFailure('Delete failed.'));
+    }
+  }
+
+  @override
+  Future<ApiResult<List<AssetHistoryEntryEntity>>> getAssetHistory(
+    String assetId,
+  ) async {
+    try {
+      final rows = await _remoteDataSource.getAssetHistory(assetId);
+      final entries = rows.map(AssetHistoryMapper.fromRow).toList();
+      return Success(entries);
+    } on PostgrestException catch (e) {
+      return ResultFailure(_mapSupabaseError(e));
+    } catch (e) {
+      return const ResultFailure(ServerFailure('Failed to load history.'));
     }
   }
 

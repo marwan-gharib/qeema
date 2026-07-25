@@ -81,6 +81,7 @@ class Translations$core$en {
 	late final Translations$core$validation$en validation = Translations$core$validation$en.internal(_root);
 	late final Translations$core$dates$en dates = Translations$core$dates$en.internal(_root);
 	late final Translations$core$auth$en auth = Translations$core$auth$en.internal(_root);
+	late final Translations$core$actions$en actions = Translations$core$actions$en.internal(_root);
 	late final Translations$core$notification$en notification = Translations$core$notification$en.internal(_root);
 }
 
@@ -444,6 +445,21 @@ class Translations$core$auth$en {
 	String get biometricFailed => 'Biometric authentication failed';
 }
 
+// Path: core.actions
+class Translations$core$actions$en {
+	Translations$core$actions$en.internal(this._root);
+
+	final Translations _root; // ignore: unused_field
+
+	// Translations
+
+	/// en: 'Cancel'
+	String get cancel => 'Cancel';
+
+	/// en: 'Delete'
+	String get delete => 'Delete';
+}
+
 // Path: core.notification
 class Translations$core$notification$en {
 	Translations$core$notification$en.internal(this._root);
@@ -676,6 +692,15 @@ class Translations$assets$detail$en {
 
 	/// en: 'Cash assets maintain a constant value'
 	String get cashFlatValue => 'Cash assets maintain a constant value';
+
+	/// en: 'Asset not found'
+	String get notFoundTitle => 'Asset not found';
+
+	/// en: 'This asset is no longer available.'
+	String get notFoundBody => 'This asset is no longer available.';
+
+	/// en: 'Edit'
+	String get edit => 'Edit';
 }
 
 // Path: assets.sort
@@ -721,6 +746,12 @@ class Translations$assets$chart$en {
 
 	/// en: 'Cash assets maintain a constant value'
 	String get cashPlaceholder => 'Cash assets maintain a constant value';
+
+	/// en: 'Not enough price history yet'
+	String get noDataTitle => 'Not enough price history yet';
+
+	/// en: 'Historical prices will appear here once market data is available.'
+	String get noDataSubtitle => 'Historical prices will appear here once market data is available.';
 }
 
 // Path: assets.history
@@ -875,6 +906,8 @@ extension on Translations {
 			'core.dates.daysAgo' => '{days}d ago',
 			'core.auth.unlockReason' => 'Unlock Qeema to view your finances',
 			'core.auth.biometricFailed' => 'Biometric authentication failed',
+			'core.actions.cancel' => 'Cancel',
+			'core.actions.delete' => 'Delete',
 			'core.notification.channelName' => 'Price Alerts',
 			'core.notification.channelDescription' => 'Notifications about price changes',
 			'auth.welcome.headline' => 'Know what your money is really worth',
@@ -960,12 +993,17 @@ extension on Translations {
 			'assets.detail.editHistory' => 'Edit History',
 			'assets.detail.noHistory' => 'No edit history yet',
 			'assets.detail.cashFlatValue' => 'Cash assets maintain a constant value',
+			'assets.detail.notFoundTitle' => 'Asset not found',
+			'assets.detail.notFoundBody' => 'This asset is no longer available.',
+			'assets.detail.edit' => 'Edit',
 			'assets.sort.title' => 'Sort by',
 			'assets.sort.date' => 'Date',
 			'assets.sort.value' => 'Value',
 			'assets.sort.type' => 'Type',
 			'assets.filter.all' => 'All',
 			'assets.chart.cashPlaceholder' => 'Cash assets maintain a constant value',
+			'assets.chart.noDataTitle' => 'Not enough price history yet',
+			'assets.chart.noDataSubtitle' => 'Historical prices will appear here once market data is available.',
 			'assets.history.created' => 'Created',
 			'assets.history.updated' => 'Updated',
 			'assets.history.deleted' => 'Deleted',

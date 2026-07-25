@@ -54,6 +54,10 @@
       "unlockReason": "Unlock Qeema to view your finances",
       "biometricFailed": "Biometric authentication failed"
     },
+    "actions": {
+      "cancel": "Cancel",
+      "delete": "Delete"
+    },
     "notification": {
       "channelName": "Price Alerts",
       "channelDescription": "Notifications about price changes"
@@ -163,7 +167,10 @@
       "valueTrend": "Value Trend",
       "editHistory": "Edit History",
       "noHistory": "No edit history yet",
-      "cashFlatValue": "Cash assets maintain a constant value"
+      "cashFlatValue": "Cash assets maintain a constant value",
+      "notFoundTitle": "Asset not found",
+      "notFoundBody": "This asset is no longer available.",
+      "edit": "Edit"
     },
     "sort": {
       "title": "Sort by",
@@ -175,7 +182,9 @@
       "all": "All"
     },
     "chart": {
-      "cashPlaceholder": "Cash assets maintain a constant value"
+      "cashPlaceholder": "Cash assets maintain a constant value",
+      "noDataTitle": "Not enough price history yet",
+      "noDataSubtitle": "Historical prices will appear here once market data is available."
     },
     "history": {
       "created": "Created",

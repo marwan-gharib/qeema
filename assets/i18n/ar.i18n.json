@@ -54,6 +54,10 @@
       "unlockReason": "افتح قيّمة لعرض أموالك",
       "biometricFailed": "فشل التحقق البيومتري"
     },
+    "actions": {
+      "cancel": "إلغاء",
+      "delete": "حذف"
+    },
     "notification": {
       "channelName": "تنبيهات الأسعار",
       "channelDescription": "إشعارات حول تغيرات الأسعار"
@@ -163,7 +167,10 @@
       "valueTrend": "اتجاه القيمة",
       "editHistory": "سجل التعديلات",
       "noHistory": "لا يوجد سجل تعديلات بعد",
-      "cashFlatValue": "الأصول النقدية تحافظ على قيمة ثابتة"
+      "cashFlatValue": "الأصول النقدية تحافظ على قيمة ثابتة",
+      "notFoundTitle": "الأصل غير موجود",
+      "notFoundBody": "هذا الأصل لم يعد متاحاً.",
+      "edit": "تعديل"
     },
     "sort": {
       "title": "ترتيب حسب",
@@ -175,7 +182,9 @@
       "all": "الكل"
     },
     "chart": {
-      "cashPlaceholder": "الأصول النقدية تحافظ على قيمة ثابتة"
+      "cashPlaceholder": "الأصول النقدية تحافظ على قيمة ثابتة",
+      "noDataTitle": "لا يوجد تاريخ أسعار كافٍ بعد",
+      "noDataSubtitle": "ستظهر الأسعار التاريخية هنا بمجرد توفر بيانات السوق."
     },
     "history": {
       "created": "تم الإنشاء",

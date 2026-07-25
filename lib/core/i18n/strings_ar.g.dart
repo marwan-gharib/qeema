@@ -76,6 +76,7 @@ class _Translations$core$ar extends Translations$core$en {
 	@override late final _Translations$core$validation$ar validation = _Translations$core$validation$ar._(_root);
 	@override late final _Translations$core$dates$ar dates = _Translations$core$dates$ar._(_root);
 	@override late final _Translations$core$auth$ar auth = _Translations$core$auth$ar._(_root);
+	@override late final _Translations$core$actions$ar actions = _Translations$core$actions$ar._(_root);
 	@override late final _Translations$core$notification$ar notification = _Translations$core$notification$ar._(_root);
 }
 
@@ -300,6 +301,17 @@ class _Translations$core$auth$ar extends Translations$core$auth$en {
 	@override String get biometricFailed => 'فشل التحقق البيومتري';
 }
 
+// Path: core.actions
+class _Translations$core$actions$ar extends Translations$core$actions$en {
+	_Translations$core$actions$ar._(TranslationsAr root) : this._root = root, super.internal(root);
+
+	final TranslationsAr _root; // ignore: unused_field
+
+	// Translations
+	@override String get cancel => 'إلغاء';
+	@override String get delete => 'حذف';
+}
+
 // Path: core.notification
 class _Translations$core$notification$ar extends Translations$core$notification$en {
 	_Translations$core$notification$ar._(TranslationsAr root) : this._root = root, super.internal(root);
@@ -424,6 +436,9 @@ class _Translations$assets$detail$ar extends Translations$assets$detail$en {
 	@override String get editHistory => 'سجل التعديلات';
 	@override String get noHistory => 'لا يوجد سجل تعديلات بعد';
 	@override String get cashFlatValue => 'الأصول النقدية تحافظ على قيمة ثابتة';
+	@override String get notFoundTitle => 'الأصل غير موجود';
+	@override String get notFoundBody => 'هذا الأصل لم يعد متاحاً.';
+	@override String get edit => 'تعديل';
 }
 
 // Path: assets.sort
@@ -457,6 +472,8 @@ class _Translations$assets$chart$ar extends Translations$assets$chart$en {
 
 	// Translations
 	@override String get cashPlaceholder => 'الأصول النقدية تحافظ على قيمة ثابتة';
+	@override String get noDataTitle => 'لا يوجد تاريخ أسعار كافٍ بعد';
+	@override String get noDataSubtitle => 'ستظهر الأسعار التاريخية هنا بمجرد توفر بيانات السوق.';
 }
 
 // Path: assets.history
@@ -581,6 +598,8 @@ extension on TranslationsAr {
 			'core.dates.daysAgo' => 'منذ {days} يوم',
 			'core.auth.unlockReason' => 'افتح قيّمة لعرض أموالك',
 			'core.auth.biometricFailed' => 'فشل التحقق البيومتري',
+			'core.actions.cancel' => 'إلغاء',
+			'core.actions.delete' => 'حذف',
 			'core.notification.channelName' => 'تنبيهات الأسعار',
 			'core.notification.channelDescription' => 'إشعارات حول تغيرات الأسعار',
 			'auth.welcome.headline' => 'اعرف القيمة الحقيقية لأموالك',
@@ -666,12 +685,17 @@ extension on TranslationsAr {
 			'assets.detail.editHistory' => 'سجل التعديلات',
 			'assets.detail.noHistory' => 'لا يوجد سجل تعديلات بعد',
 			'assets.detail.cashFlatValue' => 'الأصول النقدية تحافظ على قيمة ثابتة',
+			'assets.detail.notFoundTitle' => 'الأصل غير موجود',
+			'assets.detail.notFoundBody' => 'هذا الأصل لم يعد متاحاً.',
+			'assets.detail.edit' => 'تعديل',
 			'assets.sort.title' => 'ترتيب حسب',
 			'assets.sort.date' => 'التاريخ',
 			'assets.sort.value' => 'القيمة',
 			'assets.sort.type' => 'النوع',
 			'assets.filter.all' => 'الكل',
 			'assets.chart.cashPlaceholder' => 'الأصول النقدية تحافظ على قيمة ثابتة',
+			'assets.chart.noDataTitle' => 'لا يوجد تاريخ أسعار كافٍ بعد',
+			'assets.chart.noDataSubtitle' => 'ستظهر الأسعار التاريخية هنا بمجرد توفر بيانات السوق.',
 			'assets.history.created' => 'تم الإنشاء',
 			'assets.history.updated' => 'تم التحديث',
 			'assets.history.deleted' => 'تم الحذف',

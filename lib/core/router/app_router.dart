@@ -9,9 +9,13 @@ import 'package:qeema/core/router/route_names.dart';
 import 'package:qeema/core/router/route_paths.dart';
 import 'package:qeema/core/router/route_segments.dart';
 import 'package:qeema/features/assets/presentation/cubits/add_asset_cubit/add_asset_cubit.dart';
+import 'package:qeema/features/assets/presentation/cubits/asset_detail_cubit/asset_detail_cubit.dart';
 import 'package:qeema/features/assets/presentation/cubits/assets_list_cubit/assets_list_cubit.dart';
+import 'package:qeema/features/assets/presentation/cubits/edit_asset_cubit/edit_asset_cubit.dart';
 import 'package:qeema/features/assets/presentation/screens/add_asset_screen.dart';
+import 'package:qeema/features/assets/presentation/screens/asset_detail_screen.dart';
 import 'package:qeema/features/assets/presentation/screens/assets_list_screen.dart';
+import 'package:qeema/features/assets/presentation/screens/edit_asset_screen.dart';
 import 'package:qeema/features/auth/presentation/cubits/welcome_cubit/welcome_cubit.dart';
 import 'package:qeema/features/auth/presentation/screens/welcome_screen.dart';
 import 'package:qeema/features/onboarding/presentation/cubits/onboarding_cubit/onboarding_cubit.dart';
@@ -89,8 +93,31 @@ class AppRouter {
           GoRoute(
             path: RouteSegments.assetId,
             name: RouteNames.assetDetail,
-            builder: (context, state) =>
-                const _PlaceholderScreen(title: 'Asset Detail — Coming Soon'),
+            pageBuilder: (context, state) => sharedAxisPage(
+              child: BlocProvider(
+                create: (_) => getIt<AssetDetailCubit>(
+                  param1: state.pathParameters['assetId']!,
+                ),
+                child: const AssetDetailScreen(),
+              ),
+              pageKey: const ValueKey('assetDetail'),
+              forward: true,
+            ),
+            routes: [
+              GoRoute(
+                path: RouteSegments.edit,
+                name: RouteNames.editAsset,
+                pageBuilder: (context, state) => slideUpPage(
+                  child: BlocProvider(
+                    create: (_) => getIt<EditAssetCubit>(
+                      param1: state.pathParameters['assetId']!,
+                    ),
+                    child: const EditAssetScreen(),
+                  ),
+                  pageKey: const ValueKey('editAsset'),
+                ),
+              ),
+            ],
           ),
         ],
       ),
@@ -162,20 +189,4 @@ class AppRouter {
       ),
     ],
   );
-}
-
-class _PlaceholderScreen extends StatelessWidget {
-  const _PlaceholderScreen({required this.title});
-
-  final String title;
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(),
-      body: Center(
-        child: Text(title, style: Theme.of(context).textTheme.titleMedium),
-      ),
-    );
-  }
 }

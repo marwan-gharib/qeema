@@ -72,6 +72,49 @@ class AssetsRemoteDataSource {
     if (rows.isEmpty) throw Exception('Failed to insert asset');
     return rows.first as Map<String, dynamic>;
   }
+
+  Future<Map<String, dynamic>> updateAsset(
+    String assetId,
+    Map<String, dynamic> data,
+  ) async {
+    final userId = _client.auth.currentUser?.id;
+    if (userId == null) throw Exception('No authenticated user');
+
+    final response = await _client
+        .from('assets')
+        .update(data)
+        .eq('id', assetId)
+        .eq('user_id', userId)
+        .select();
+
+    final rows = response as List;
+    if (rows.isEmpty) throw Exception('Asset not found or not owned by user');
+    return rows.first as Map<String, dynamic>;
+  }
+
+  Future<void> softDeleteAsset(String assetId) async {
+    final userId = _client.auth.currentUser?.id;
+    if (userId == null) throw Exception('No authenticated user');
+
+    await _client
+        .from('assets')
+        .update({
+          'is_deleted': true,
+          'deleted_at': DateTime.now().toUtc().toIso8601String(),
+        })
+        .eq('id', assetId)
+        .eq('user_id', userId);
+  }
+
+  Future<List<Map<String, dynamic>>> getAssetHistory(String assetId) async {
+    final response = await _client
+        .from('asset_history')
+        .select()
+        .eq('asset_id', assetId)
+        .order('changed_at', ascending: false);
+
+    return (response as List).cast<Map<String, dynamic>>();
+  }
 }
 
 class AssetModelFromServer {
