@@ -3,6 +3,7 @@ import 'package:qeema/features/assets/domain/entities/asset_type_entity.dart';
 
 class AddAssetState {
   const AddAssetState({
+    this.isLoadingTypes = true,
     this.selectedType,
     this.availableTypes = const [],
     this.isSubmitting = false,
@@ -10,6 +11,7 @@ class AddAssetState {
     this.submitSucceeded = false,
   });
 
+  final bool isLoadingTypes;
   final AssetTypeEntity? selectedType;
   final List<AssetTypeEntity> availableTypes;
   final bool isSubmitting;
@@ -17,6 +19,7 @@ class AddAssetState {
   final bool submitSucceeded;
 
   AddAssetState copyWith({
+    bool? isLoadingTypes,
     AssetTypeEntity? selectedType,
     List<AssetTypeEntity>? availableTypes,
     bool? isSubmitting,
@@ -25,6 +28,7 @@ class AddAssetState {
     bool? submitSucceeded,
   }) {
     return AddAssetState(
+      isLoadingTypes: isLoadingTypes ?? this.isLoadingTypes,
       selectedType: selectedType ?? this.selectedType,
       availableTypes: availableTypes ?? this.availableTypes,
       isSubmitting: isSubmitting ?? this.isSubmitting,
