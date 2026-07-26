@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:qeema/features/assets/domain/entities/asset_type_entity.dart';
 import 'package:qeema/features/assets/domain/params/add_asset_params.dart';
@@ -16,8 +17,23 @@ class AddAssetCubit extends Cubit<AddAssetState> {
     final result = await _getAssetTypes();
     if (isClosed) return;
     result.fold(
-      onSuccess: (types) => emit(state.copyWith(availableTypes: types)),
-      onFailure: (failure) => emit(state.copyWith(submitFailure: failure)),
+      onSuccess: (types) {
+        final usd = types.where((t) => t.code == 'usd');
+        emit(
+          state.copyWith(
+            availableTypes: types,
+            isLoadingTypes: false,
+            selectedType: usd.isNotEmpty ? usd.first : null,
+          ),
+        );
+        if (usd.isEmpty) {
+          debugPrint(
+            '[AddAssetCubit] USD type not found in loaded asset types',
+          );
+        }
+      },
+      onFailure: (failure) =>
+          emit(state.copyWith(isLoadingTypes: false, submitFailure: failure)),
     );
   }
 

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:qeema/core/animations/app_animated_entry.dart';
 import 'package:qeema/core/animations/app_motion.dart';
-import 'package:qeema/core/animations/entry_animation_type.dart';
+import 'package:qeema/core/animations/micro_interactions/tap_scale.dart';
+import 'package:qeema/core/animations/staggered_list_animator.dart';
 import 'package:qeema/core/extensions/build_context_extensions.dart';
 import 'package:qeema/core/i18n/strings.g.dart';
 import 'package:qeema/core/theme/app_spacing.dart';
@@ -34,32 +34,121 @@ class AssetTypePicker extends StatelessWidget {
           buildWhen: (previous, current) =>
               previous.selectedType != current.selectedType,
           builder: (context, state) {
-            return Wrap(
-              spacing: AppSpacing.sm,
-              runSpacing: AppSpacing.sm,
-              children: assetTypes.asMap().entries.map((entry) {
-                final index = entry.key;
-                final type = entry.value;
-                final isSelected = state.selectedType?.id == type.id;
-                return AppAnimatedEntry(
-                  type: EntryAnimationType.fadeSlideUp,
-                  delay: Duration(
-                    milliseconds: (index * AppMotion.staggerStep.inMilliseconds)
-                        .clamp(0, AppMotion.maxStaggerTotal.inMilliseconds),
-                  ),
-                  key: ValueKey('type_tile_${type.id}'),
-                  child: AssetTypeTile(
-                    type: type,
-                    isSelected: isSelected,
-                    onTap: () =>
-                        context.read<AddAssetCubit>().selectAssetType(type),
-                  ),
-                );
-              }).toList(),
+            return TapScale(
+              onTap: () => _showTypeSheet(context, state.selectedType),
+              child: _buildClosedField(context, state.selectedType),
             );
           },
         ),
       ],
+    );
+  }
+
+  Widget _buildClosedField(
+    BuildContext context,
+    AssetTypeEntity? selectedType,
+  ) {
+    return Container(
+      decoration: BoxDecoration(
+        color: context.colors.surfaceAlt,
+        borderRadius: BorderRadius.circular(12),
+        border: Border.all(color: context.colors.divider),
+      ),
+      padding: const EdgeInsets.symmetric(
+        horizontal: AppSpacing.md,
+        vertical: AppSpacing.sm,
+      ),
+      child: Row(
+        children: [
+          AnimatedSwitcher(
+            duration: AppMotion.fast,
+            child: selectedType != null
+                ? _buildTypeBadge(context, selectedType)
+                : const SizedBox(width: 28, height: 28),
+          ),
+          const SizedBox(width: AppSpacing.md),
+          AnimatedSwitcher(
+            duration: AppMotion.fast,
+            child: Text(
+              selectedType?.name ?? '',
+              key: ValueKey(selectedType?.id ?? 'none'),
+              style: Theme.of(context).textTheme.bodyLarge,
+            ),
+          ),
+          const Expanded(child: SizedBox.shrink()),
+          Icon(Icons.keyboard_arrow_down, color: context.colors.textSecondary),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildTypeBadge(BuildContext context, AssetTypeEntity type) {
+    final colors = context.colors;
+
+    return Stack(
+      clipBehavior: Clip.none,
+      key: ValueKey(type.id),
+      children: [
+        Icon(
+          AssetTypeTile.iconForType(type.code),
+          size: 28,
+          color: colors.textPrimary,
+        ),
+        if (type.code.startsWith('gold_'))
+          Positioned(
+            right: -10,
+            top: -6,
+            child: Container(
+              padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 1),
+              decoration: BoxDecoration(
+                color: colors.primary,
+                borderRadius: BorderRadius.circular(4),
+              ),
+              child: Text(
+                type.code == 'gold_21' ? '21K' : '24K',
+                style: TextStyle(
+                  fontSize: 10,
+                  fontWeight: FontWeight.bold,
+                  color: colors.onPrimary,
+                ),
+              ),
+            ),
+          ),
+      ],
+    );
+  }
+
+  void _showTypeSheet(BuildContext context, AssetTypeEntity? currentSelection) {
+    showModalBottomSheet<void>(
+      context: context,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
+      ),
+      builder: (sheetContext) {
+        return SafeArea(
+          child: SingleChildScrollView(
+            padding: const EdgeInsets.all(AppSpacing.md),
+            child: StaggeredListAnimator(
+              children: [
+                for (final type in assetTypes)
+                  Padding(
+                    padding: const EdgeInsets.only(bottom: AppSpacing.xs),
+                    child: TapScale(
+                      onTap: () {
+                        context.read<AddAssetCubit>().selectAssetType(type);
+                        Navigator.pop(sheetContext);
+                      },
+                      child: AssetTypeTile(
+                        type: type,
+                        isSelected: currentSelection?.id == type.id,
+                      ),
+                    ),
+                  ),
+              ],
+            ),
+          ),
+        );
+      },
     );
   }
 }
