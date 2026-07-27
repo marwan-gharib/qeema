@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 import 'package:qeema/core/animations/app_animated_entry.dart';
+import 'package:qeema/core/animations/app_motion.dart';
 import 'package:qeema/core/animations/entry_animation_type.dart';
 import 'package:qeema/core/animations/micro_interactions/tap_scale.dart';
 import 'package:qeema/core/extensions/build_context_extensions.dart';
@@ -16,6 +17,7 @@ import 'package:qeema/features/assets/domain/entities/asset_entity.dart';
 import 'package:qeema/features/assets/domain/entities/asset_history_entry_entity.dart';
 import 'package:qeema/features/assets/presentation/cubits/asset_detail_cubit/asset_detail_cubit.dart';
 import 'package:qeema/features/assets/presentation/cubits/asset_detail_cubit/asset_detail_state.dart';
+import 'package:qeema/features/assets/presentation/widgets/asset_detail_skeleton.dart';
 import 'package:qeema/features/assets/presentation/widgets/asset_history_timeline.dart';
 import 'package:qeema/features/assets/presentation/widgets/asset_value_chart.dart';
 import 'package:qeema/features/assets/presentation/widgets/delete_asset_confirmation_dialog.dart';
@@ -36,31 +38,35 @@ class AssetDetailScreen extends StatelessWidget {
         }
       },
       builder: (context, state) {
-        return switch (state) {
-          AssetDetailInitial() || AssetDetailLoading() => Scaffold(
-            appBar: AppBar(),
-            body: const Center(child: CircularProgressIndicator()),
+        return Scaffold(
+          appBar: AppBar(
+            title: state is AssetDetailLoaded
+                ? Text(_typeLabel(state.asset.assetType))
+                : null,
           ),
-          AssetDetailError(:final failure) => Scaffold(
-            appBar: AppBar(),
-            body: AppErrorState(
-              message: failure.message,
-              onRetry: () => context.read<AssetDetailCubit>().refresh(),
-            ),
+          body: AnimatedSwitcher(
+            duration: MediaQuery.of(context).disableAnimations
+                ? Duration.zero
+                : AppMotion.normal,
+            child: switch (state) {
+              AssetDetailInitial() ||
+              AssetDetailLoading() => const AssetDetailSkeleton(),
+              AssetDetailError(:final failure) => AppErrorState(
+                message: failure.message,
+                onRetry: () => context.read<AssetDetailCubit>().refresh(),
+              ),
+              AssetDetailNotFound() => AppEmptyState(
+                icon: Icons.search_off_rounded,
+                title: t.assets.detail.notFoundTitle,
+                subtitle: t.assets.detail.notFoundBody,
+                actionLabel: t.assets.list.title,
+                onAction: () => context.pop(),
+              ),
+              AssetDetailLoaded(:final asset, :final history) =>
+                _AssetDetailContent(asset: asset, history: history),
+            },
           ),
-          AssetDetailNotFound() => Scaffold(
-            appBar: AppBar(),
-            body: AppEmptyState(
-              icon: Icons.search_off_rounded,
-              title: t.assets.detail.notFoundTitle,
-              subtitle: t.assets.detail.notFoundBody,
-              actionLabel: t.assets.list.title,
-              onAction: () => context.pop(),
-            ),
-          ),
-          AssetDetailLoaded(:final asset, :final history) =>
-            _AssetDetailContent(asset: asset, history: history),
-        };
+        );
       },
     );
   }
@@ -84,162 +90,188 @@ class _AssetDetailContent extends StatelessWidget {
     );
     final isGain = asset.isGain;
 
-    return Scaffold(
-      appBar: AppBar(title: Text(_typeLabel(asset.assetType))),
-      body: SingleChildScrollView(
-        padding: const EdgeInsets.all(AppSpacing.md),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            AppAnimatedEntry(
-              type: EntryAnimationType.scaleIn,
-              child: _HeaderBlock(asset: asset),
-            ),
-            const SizedBox(height: AppSpacing.sm),
-            AppAnimatedEntry(
-              type: EntryAnimationType.fadeSlideUp,
-              delay: const Duration(milliseconds: 100),
-              child: Container(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: AppSpacing.md,
-                  vertical: AppSpacing.sm,
-                ),
-                decoration: BoxDecoration(
-                  color: (isGain ? colors.secondaryVariant : colors.error)
-                      .withAlpha(25),
-                  borderRadius: BorderRadius.circular(12),
-                ),
-                child: Row(
-                  children: [
-                    Icon(
-                      isGain ? Icons.arrow_upward : Icons.arrow_downward,
-                      color: isGain ? colors.secondaryVariant : colors.error,
-                      size: 20,
-                    ),
-                    const SizedBox(width: AppSpacing.sm),
-                    Text(
-                      currencyFormat.format(asset.gainLossAmount ?? 0),
-                      style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                        color: isGain ? colors.secondaryVariant : colors.error,
-                        fontWeight: FontWeight.w700,
-                      ),
-                    ),
-                    const SizedBox(width: AppSpacing.sm),
-                    Container(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 8,
-                        vertical: 2,
-                      ),
-                      decoration: BoxDecoration(
-                        color: (isGain ? colors.secondaryVariant : colors.error)
-                            .withAlpha(38),
-                        borderRadius: BorderRadius.circular(12),
-                      ),
-                      child: Text(
-                        '${asset.gainLossPercent?.toStringAsFixed(1) ?? "—"}%',
-                        style: Theme.of(context).textTheme.labelMedium
-                            ?.copyWith(
-                              color: isGain
-                                  ? colors.secondaryVariant
-                                  : colors.error,
-                              fontWeight: FontWeight.w600,
-                            ),
-                      ),
-                    ),
-                  ],
-                ),
+    return SingleChildScrollView(
+      padding: const EdgeInsets.all(AppSpacing.md),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          AppAnimatedEntry(
+            type: EntryAnimationType.scaleIn,
+            child: _HeaderBlock(asset: asset),
+          ),
+          const SizedBox(height: AppSpacing.sm),
+          AppAnimatedEntry(
+            type: EntryAnimationType.fadeSlideUp,
+            delay: const Duration(milliseconds: 100),
+            child: Container(
+              padding: const EdgeInsets.symmetric(
+                horizontal: AppSpacing.md,
+                vertical: AppSpacing.sm,
               ),
-            ),
-            const SizedBox(height: AppSpacing.md),
-            AppAnimatedEntry(
-              type: EntryAnimationType.fadeSlideUp,
-              delay: const Duration(milliseconds: 200),
-              child: AssetValueChart(asset: asset),
-            ),
-            const SizedBox(height: AppSpacing.md),
-            AppAnimatedEntry(
-              type: EntryAnimationType.fadeSlideUp,
-              delay: const Duration(milliseconds: 300),
-              child: AssetHistoryTimeline(history: history),
-            ),
-            const SizedBox(height: AppSpacing.lg),
-            AppAnimatedEntry(
-              type: EntryAnimationType.fadeSlideUp,
-              delay: const Duration(milliseconds: 400),
+              decoration: BoxDecoration(
+                color: (isGain ? colors.secondaryVariant : colors.error)
+                    .withAlpha(25),
+                borderRadius: BorderRadius.circular(12),
+              ),
               child: Row(
                 children: [
-                  Expanded(
-                    child: TapScale(
-                      onTap: () async {
-                        final result = await context
-                            .pushNamed<(double, double)>(
-                              RouteNames.editAsset,
-                              pathParameters: {'assetId': asset.id},
-                            );
-                        if (result != null && context.mounted) {
-                          context.read<AssetDetailCubit>().applyUpdate(
-                            result.$1,
-                            result.$2,
-                          );
-                        }
-                      },
-                      child: AppButton(
-                        label: t.assets.detail.edit,
-                        isOutline: true,
-                      ),
+                  Icon(
+                    isGain ? Icons.arrow_upward : Icons.arrow_downward,
+                    color: isGain ? colors.secondaryVariant : colors.error,
+                    size: 20,
+                  ),
+                  const SizedBox(width: AppSpacing.sm),
+                  Text(
+                    currencyFormat.format(asset.gainLossAmount ?? 0),
+                    style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                      color: isGain ? colors.secondaryVariant : colors.error,
+                      fontWeight: FontWeight.w700,
                     ),
                   ),
                   const SizedBox(width: AppSpacing.sm),
-                  Expanded(
-                    child: TapScale(
-                      onTap: () async {
-                        final confirmed =
-                            await DeleteAssetConfirmationDialog.show(context);
-                        if (confirmed == true && context.mounted) {
-                          final cubit = context.read<AssetDetailCubit>();
-                          final result = await cubit.softDeleteAsset(asset.id);
-                          result.fold(
-                            onSuccess: (_) => context.pop(),
-                            onFailure: (failure) {
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                SnackBar(
-                                  content: Text(
-                                    failure.message ?? 'Delete failed',
-                                  ),
-                                  backgroundColor: colors.error,
-                                ),
-                              );
-                            },
-                          );
-                        }
-                      },
-                      child: AppButton(
-                        label: t.core.actions.delete,
-                        backgroundColor: colors.error,
+                  Container(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 8,
+                      vertical: 2,
+                    ),
+                    decoration: BoxDecoration(
+                      color: (isGain ? colors.secondaryVariant : colors.error)
+                          .withAlpha(38),
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    child: Text(
+                      '${asset.gainLossPercent?.toStringAsFixed(1) ?? "—"}%',
+                      style: Theme.of(context).textTheme.labelMedium?.copyWith(
+                        color: isGain ? colors.secondaryVariant : colors.error,
+                        fontWeight: FontWeight.w600,
                       ),
                     ),
                   ),
                 ],
               ),
             ),
-            const SizedBox(height: AppSpacing.lg),
+          ),
+          const SizedBox(height: AppSpacing.md),
+          AppAnimatedEntry(
+            type: EntryAnimationType.fadeSlideUp,
+            delay: const Duration(milliseconds: 200),
+            child: AssetValueChart(asset: asset),
+          ),
+          const SizedBox(height: AppSpacing.md),
+          AppAnimatedEntry(
+            type: EntryAnimationType.fadeSlideUp,
+            delay: const Duration(milliseconds: 300),
+            child: AssetHistoryTimeline(history: history),
+          ),
+          if (asset.note != null && asset.note!.trim().isNotEmpty) ...[
+            const SizedBox(height: AppSpacing.md),
+            AppAnimatedEntry(
+              type: EntryAnimationType.fadeSlideUp,
+              delay: const Duration(milliseconds: 350),
+              child: Container(
+                padding: const EdgeInsets.all(AppSpacing.md),
+                decoration: BoxDecoration(
+                  color: colors.surfaceAlt,
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      t.assets.detail.note,
+                      style: context.textTheme.labelLarge?.copyWith(
+                        color: colors.textSecondary,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                    const SizedBox(height: AppSpacing.sm),
+                    Text(
+                      asset.note!,
+                      style: context.textTheme.bodyMedium?.copyWith(
+                        color: colors.textPrimary,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
           ],
-        ),
+          const SizedBox(height: AppSpacing.lg),
+          AppAnimatedEntry(
+            type: EntryAnimationType.fadeSlideUp,
+            delay: const Duration(milliseconds: 400),
+            child: Row(
+              children: [
+                Expanded(
+                  child: TapScale(
+                    onTap: () async {
+                      final result = await context.pushNamed<(double, double)>(
+                        RouteNames.editAsset,
+                        pathParameters: {'assetId': asset.id},
+                      );
+                      if (result != null && context.mounted) {
+                        context.read<AssetDetailCubit>().applyUpdate(
+                          result.$1,
+                          result.$2,
+                        );
+                      }
+                    },
+                    child: AppButton(
+                      label: t.assets.detail.edit,
+                      isOutline: true,
+                    ),
+                  ),
+                ),
+                const SizedBox(width: AppSpacing.sm),
+                Expanded(
+                  child: TapScale(
+                    onTap: () async {
+                      final confirmed =
+                          await DeleteAssetConfirmationDialog.show(context);
+                      if (confirmed == true && context.mounted) {
+                        final cubit = context.read<AssetDetailCubit>();
+                        final result = await cubit.softDeleteAsset(asset.id);
+                        result.fold(
+                          onSuccess: (_) => context.pop(),
+                          onFailure: (failure) {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(
+                                content: Text(
+                                  failure.message ?? 'Delete failed',
+                                ),
+                                backgroundColor: colors.error,
+                              ),
+                            );
+                          },
+                        );
+                      }
+                    },
+                    child: AppButton(
+                      label: t.core.actions.delete,
+                      backgroundColor: colors.error,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+          const SizedBox(height: AppSpacing.lg),
+        ],
       ),
     );
   }
+}
 
-  String _typeLabel(AssetType type) {
-    switch (type) {
-      case AssetType.egpCash:
-        return 'EGP Cash';
-      case AssetType.usdCash:
-        return 'USD';
-      case AssetType.gold21:
-        return 'Gold 21K';
-      case AssetType.gold24:
-        return 'Gold 24K';
-    }
+String _typeLabel(AssetType type) {
+  switch (type) {
+    case AssetType.egpCash:
+      return 'EGP Cash';
+    case AssetType.usdCash:
+      return 'USD';
+    case AssetType.gold21:
+      return 'Gold 21K';
+    case AssetType.gold24:
+      return 'Gold 24K';
   }
 }
 

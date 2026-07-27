@@ -1,3 +1,4 @@
+import 'package:decimal/decimal.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:qeema/core/error/failures.dart';
 import 'package:qeema/features/assets/domain/params/update_asset_params.dart';
@@ -38,6 +39,26 @@ class EditAssetCubit extends Cubit<EditAssetState> {
       onFailure: (failure) =>
           emit(EditAssetState(isLoading: false, loadFailure: failure)),
     );
+  }
+
+  void updateAmount(Decimal? value) {
+    emit(state.copyWith(amount: value));
+  }
+
+  void updatePriceAtEntry(Decimal? value) {
+    emit(state.copyWith(priceAtEntry: value));
+  }
+
+  void updateEntryDate(DateTime value) {
+    emit(state.copyWith(entryDate: value));
+  }
+
+  void updateNote(String? value) {
+    emit(state.copyWith(note: value));
+  }
+
+  void updateFormValidity(bool valid) {
+    emit(state.copyWith(isFormValid: valid));
   }
 
   Future<void> submit(UpdateAssetParams params) async {

@@ -160,7 +160,8 @@
     },
     "edit": {
       "title": "Edit {type}",
-      "submit": "Save Changes"
+      "submit": "Save Changes",
+      "assetTypeLabel": "Asset Type"
     },
     "detail": {
       "entryPrice": "Entry: {price} EGP per unit",
@@ -170,7 +171,8 @@
       "cashFlatValue": "Cash assets maintain a constant value",
       "notFoundTitle": "Asset not found",
       "notFoundBody": "This asset is no longer available.",
-      "edit": "Edit"
+      "edit": "Edit",
+      "note": "Note"
     },
     "sort": {
       "title": "Sort by",

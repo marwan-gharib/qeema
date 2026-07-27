@@ -422,6 +422,7 @@ class _Translations$assets$edit$ar extends Translations$assets$edit$en {
 	// Translations
 	@override String get title => 'تعديل {type}';
 	@override String get submit => 'حفظ التغييرات';
+	@override String get assetTypeLabel => 'نوع الأصل';
 }
 
 // Path: assets.detail
@@ -439,6 +440,7 @@ class _Translations$assets$detail$ar extends Translations$assets$detail$en {
 	@override String get notFoundTitle => 'الأصل غير موجود';
 	@override String get notFoundBody => 'هذا الأصل لم يعد متاحاً.';
 	@override String get edit => 'تعديل';
+	@override String get note => 'ملاحظة';
 }
 
 // Path: assets.sort
@@ -680,6 +682,7 @@ extension on TranslationsAr {
 			'assets.add.selectTypeFirst' => 'اختر نوع الأصل أولاً',
 			'assets.edit.title' => 'تعديل {type}',
 			'assets.edit.submit' => 'حفظ التغييرات',
+			'assets.edit.assetTypeLabel' => 'نوع الأصل',
 			'assets.detail.entryPrice' => 'سعر الشراء: {price} جنيه للوحدة',
 			'assets.detail.valueTrend' => 'اتجاه القيمة',
 			'assets.detail.editHistory' => 'سجل التعديلات',
@@ -688,6 +691,7 @@ extension on TranslationsAr {
 			'assets.detail.notFoundTitle' => 'الأصل غير موجود',
 			'assets.detail.notFoundBody' => 'هذا الأصل لم يعد متاحاً.',
 			'assets.detail.edit' => 'تعديل',
+			'assets.detail.note' => 'ملاحظة',
 			'assets.sort.title' => 'ترتيب حسب',
 			'assets.sort.date' => 'التاريخ',
 			'assets.sort.value' => 'القيمة',

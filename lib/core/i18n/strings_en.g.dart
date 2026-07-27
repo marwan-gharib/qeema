@@ -668,6 +668,9 @@ class Translations$assets$edit$en {
 
 	/// en: 'Save Changes'
 	String get submit => 'Save Changes';
+
+	/// en: 'Asset Type'
+	String get assetTypeLabel => 'Asset Type';
 }
 
 // Path: assets.detail
@@ -701,6 +704,9 @@ class Translations$assets$detail$en {
 
 	/// en: 'Edit'
 	String get edit => 'Edit';
+
+	/// en: 'Note'
+	String get note => 'Note';
 }
 
 // Path: assets.sort
@@ -988,6 +994,7 @@ extension on Translations {
 			'assets.add.selectTypeFirst' => 'Select an asset type first',
 			'assets.edit.title' => 'Edit {type}',
 			'assets.edit.submit' => 'Save Changes',
+			'assets.edit.assetTypeLabel' => 'Asset Type',
 			'assets.detail.entryPrice' => 'Entry: {price} EGP per unit',
 			'assets.detail.valueTrend' => 'Value Trend',
 			'assets.detail.editHistory' => 'Edit History',
@@ -996,6 +1003,7 @@ extension on Translations {
 			'assets.detail.notFoundTitle' => 'Asset not found',
 			'assets.detail.notFoundBody' => 'This asset is no longer available.',
 			'assets.detail.edit' => 'Edit',
+			'assets.detail.note' => 'Note',
 			'assets.sort.title' => 'Sort by',
 			'assets.sort.date' => 'Date',
 			'assets.sort.value' => 'Value',

@@ -68,18 +68,18 @@ class _DynamicAssetFieldsState extends State<DynamicAssetFields> {
   void _validate() {
     final amountText = widget.amountController.text;
     final amountValid =
-        _amountTouched &&
+        !_amountTouched ||
         Validators.amount(amountText, requiredMsg: '', invalidMsg: '') == null;
 
     final priceValid =
         !widget.selectedType.isMarketBased ||
-        (_priceTouched &&
-            Validators.amount(
-                  widget.priceController.text,
-                  requiredMsg: '',
-                  invalidMsg: '',
-                ) ==
-                null);
+        !_priceTouched ||
+        Validators.amount(
+              widget.priceController.text,
+              requiredMsg: '',
+              invalidMsg: '',
+            ) ==
+            null;
 
     widget.onFormValidityChanged(amountValid && priceValid);
   }

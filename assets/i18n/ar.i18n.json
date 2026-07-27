@@ -160,7 +160,8 @@
     },
     "edit": {
       "title": "تعديل {type}",
-      "submit": "حفظ التغييرات"
+      "submit": "حفظ التغييرات",
+      "assetTypeLabel": "نوع الأصل"
     },
     "detail": {
       "entryPrice": "سعر الشراء: {price} جنيه للوحدة",
@@ -170,7 +171,8 @@
       "cashFlatValue": "الأصول النقدية تحافظ على قيمة ثابتة",
       "notFoundTitle": "الأصل غير موجود",
       "notFoundBody": "هذا الأصل لم يعد متاحاً.",
-      "edit": "تعديل"
+      "edit": "تعديل",
+      "note": "ملاحظة"
     },
     "sort": {
       "title": "ترتيب حسب",

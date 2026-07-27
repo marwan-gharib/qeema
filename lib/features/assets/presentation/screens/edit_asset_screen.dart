@@ -27,21 +27,55 @@ class _EditAssetScreenState extends State<EditAssetScreen> {
   final _amountController = TextEditingController();
   final _priceController = TextEditingController();
   final _noteController = TextEditingController();
-  var _entryDate = DateTime.now();
-  var _formValid = false;
+  var _ready = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _amountController.addListener(_onAmountChanged);
+    _priceController.addListener(_onPriceChanged);
+    _noteController.addListener(_onNoteChanged);
+  }
 
   @override
   void dispose() {
+    _amountController.removeListener(_onAmountChanged);
+    _priceController.removeListener(_onPriceChanged);
+    _noteController.removeListener(_onNoteChanged);
     _amountController.dispose();
     _priceController.dispose();
     _noteController.dispose();
     super.dispose();
   }
 
+  void _onAmountChanged() {
+    if (!_ready) return;
+    if (!mounted) return;
+    final text = _amountController.text;
+    context.read<EditAssetCubit>().updateAmount(
+      text.trim().isNotEmpty ? Decimal.tryParse(text.trim()) : null,
+    );
+  }
+
+  void _onPriceChanged() {
+    if (!_ready) return;
+    if (!mounted) return;
+    final text = _priceController.text.trim();
+    context.read<EditAssetCubit>().updatePriceAtEntry(
+      text.isNotEmpty ? Decimal.tryParse(text) : null,
+    );
+  }
+
+  void _onNoteChanged() {
+    if (!_ready) return;
+    if (!mounted) return;
+    context.read<EditAssetCubit>().updateNote(_noteController.text);
+  }
+
   void _submit(EditAssetCubit cubit) {
     if (cubit.state.isSubmitting) return;
 
-    final asset = cubit.state.asset;
+    final asset = cubit.state.originalAsset;
     if (asset == null) return;
 
     final amountText = _amountController.text.trim();
@@ -54,7 +88,7 @@ class _EditAssetScreenState extends State<EditAssetScreen> {
         priceAtEntry: _priceController.text.trim().isNotEmpty
             ? Decimal.parse(_priceController.text.trim())
             : null,
-        entryDate: _entryDate,
+        entryDate: cubit.state.entryDate ?? asset.entryDate,
         note: _noteController.text.trim().isEmpty
             ? null
             : _noteController.text.trim(),
@@ -126,15 +160,15 @@ class _EditAssetScreenState extends State<EditAssetScreen> {
           );
         }
 
-        final asset = state.asset!;
+        final asset = state.originalAsset!;
         final typeEntity = _makeTypeEntity(asset);
         final colors = context.colors;
 
-        if (_amountController.text.isEmpty) {
+        if (!_ready) {
           _amountController.text = asset.amount.toString();
           _priceController.text = asset.priceAtEntry.toString();
           if (asset.note != null) _noteController.text = asset.note!;
-          _entryDate = asset.entryDate;
+          _ready = true;
         }
 
         return Scaffold(
@@ -164,7 +198,7 @@ class _EditAssetScreenState extends State<EditAssetScreen> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              t.assets.add.selectType,
+                              t.assets.edit.assetTypeLabel,
                               style: context.textTheme.labelSmall?.copyWith(
                                 color: colors.textSecondary,
                               ),
@@ -187,17 +221,21 @@ class _EditAssetScreenState extends State<EditAssetScreen> {
                     amountController: _amountController,
                     priceController: _priceController,
                     noteController: _noteController,
-                    entryDate: _entryDate,
+                    entryDate: state.entryDate,
                     onEntryDateChanged: (date) =>
-                        setState(() => _entryDate = date),
-                    onFormValidityChanged: (valid) =>
-                        setState(() => _formValid = valid),
+                        context.read<EditAssetCubit>().updateEntryDate(date),
+                    onFormValidityChanged: (valid) => context
+                        .read<EditAssetCubit>()
+                        .updateFormValidity(valid),
                   ),
                   const SizedBox(height: AppSpacing.lg),
                   AppButton(
                     label: t.assets.edit.submit,
                     isLoading: state.isSubmitting,
-                    onPressed: !state.isSubmitting && _formValid
+                    onPressed:
+                        state.isFormValid &&
+                            state.hasChanges &&
+                            !state.isSubmitting
                         ? () => _submit(context.read<EditAssetCubit>())
                         : null,
                   ),
