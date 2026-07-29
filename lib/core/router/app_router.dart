@@ -8,6 +8,14 @@ import 'package:qeema/core/router/route_guards.dart';
 import 'package:qeema/core/router/route_names.dart';
 import 'package:qeema/core/router/route_paths.dart';
 import 'package:qeema/core/router/route_segments.dart';
+import 'package:qeema/features/assets/presentation/cubits/add_asset_cubit/add_asset_cubit.dart';
+import 'package:qeema/features/assets/presentation/cubits/asset_detail_cubit/asset_detail_cubit.dart';
+import 'package:qeema/features/assets/presentation/cubits/assets_list_cubit/assets_list_cubit.dart';
+import 'package:qeema/features/assets/presentation/cubits/edit_asset_cubit/edit_asset_cubit.dart';
+import 'package:qeema/features/assets/presentation/screens/add_asset_screen.dart';
+import 'package:qeema/features/assets/presentation/screens/asset_detail_screen.dart';
+import 'package:qeema/features/assets/presentation/screens/assets_list_screen.dart';
+import 'package:qeema/features/assets/presentation/screens/edit_asset_screen.dart';
 import 'package:qeema/features/auth/presentation/cubits/welcome_cubit/welcome_cubit.dart';
 import 'package:qeema/features/auth/presentation/screens/welcome_screen.dart';
 import 'package:qeema/features/onboarding/presentation/cubits/onboarding_cubit/onboarding_cubit.dart';
@@ -66,49 +74,48 @@ class AppRouter {
       GoRoute(
         path: RoutePaths.assets,
         name: RouteNames.assets,
-        builder: (context, state) =>
-            Scaffold(body: Center(child: Text(context.t.navigation.assets))),
+        builder: (context, state) => BlocProvider(
+          create: (_) => getIt<AssetsListCubit>()..loadAssets(),
+          child: const AssetsListScreen(),
+        ),
         routes: [
           GoRoute(
             path: RouteSegments.add,
             name: RouteNames.addAsset,
-            builder: (context, state) => Scaffold(
-              body: Center(child: Text(context.t.navigation.addAsset)),
+            pageBuilder: (context, state) => slideUpPage(
+              child: BlocProvider(
+                create: (_) => getIt<AddAssetCubit>()..loadAssetTypes(),
+                child: const AddAssetScreen(),
+              ),
+              pageKey: const ValueKey('addAsset'),
             ),
           ),
           GoRoute(
             path: RouteSegments.assetId,
             name: RouteNames.assetDetail,
-            builder: (context, state) {
-              final assetId = state.pathParameters['assetId']!;
-              return Scaffold(
-                body: Center(
-                  child: Text(
-                    context.t.navigation.assetDetail.replaceAll(
-                      '{id}',
-                      assetId,
-                    ),
-                  ),
+            pageBuilder: (context, state) => sharedAxisPage(
+              child: BlocProvider(
+                create: (_) => getIt<AssetDetailCubit>(
+                  param1: state.pathParameters['assetId']!,
                 ),
-              );
-            },
+                child: const AssetDetailScreen(),
+              ),
+              pageKey: const ValueKey('assetDetail'),
+              forward: true,
+            ),
             routes: [
               GoRoute(
                 path: RouteSegments.edit,
                 name: RouteNames.editAsset,
-                builder: (context, state) {
-                  final assetId = state.pathParameters['assetId']!;
-                  return Scaffold(
-                    body: Center(
-                      child: Text(
-                        context.t.navigation.editAsset.replaceAll(
-                          '{id}',
-                          assetId,
-                        ),
-                      ),
+                pageBuilder: (context, state) => slideUpPage(
+                  child: BlocProvider(
+                    create: (_) => getIt<EditAssetCubit>(
+                      param1: state.pathParameters['assetId']!,
                     ),
-                  );
-                },
+                    child: const EditAssetScreen(),
+                  ),
+                  pageKey: const ValueKey('editAsset'),
+                ),
               ),
             ],
           ),

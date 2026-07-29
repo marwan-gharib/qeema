@@ -46,6 +46,7 @@ class Translations with BaseTranslations<AppLocale, Translations> {
 	late final Translations$onboarding$en onboarding = Translations$onboarding$en.internal(_root);
 	late final Translations$navigation$en navigation = Translations$navigation$en.internal(_root);
 	late final Translations$appLock$en appLock = Translations$appLock$en.internal(_root);
+	late final Translations$assets$en assets = Translations$assets$en.internal(_root);
 	late final Translations$settings$en settings = Translations$settings$en.internal(_root);
 	late final Translations$insights$en insights = Translations$insights$en.internal(_root);
 }
@@ -80,6 +81,7 @@ class Translations$core$en {
 	late final Translations$core$validation$en validation = Translations$core$validation$en.internal(_root);
 	late final Translations$core$dates$en dates = Translations$core$dates$en.internal(_root);
 	late final Translations$core$auth$en auth = Translations$core$auth$en.internal(_root);
+	late final Translations$core$actions$en actions = Translations$core$actions$en.internal(_root);
 	late final Translations$core$notification$en notification = Translations$core$notification$en.internal(_root);
 }
 
@@ -214,6 +216,25 @@ class Translations$appLock$en {
 
 	/// en: 'Device authentication is not available on this device.'
 	String get unavailable => 'Device authentication is not available on this device.';
+}
+
+// Path: assets
+class Translations$assets$en {
+	Translations$assets$en.internal(this._root);
+
+	final Translations _root; // ignore: unused_field
+
+	// Translations
+	late final Translations$assets$list$en list = Translations$assets$list$en.internal(_root);
+	late final Translations$assets$add$en add = Translations$assets$add$en.internal(_root);
+	late final Translations$assets$edit$en edit = Translations$assets$edit$en.internal(_root);
+	late final Translations$assets$detail$en detail = Translations$assets$detail$en.internal(_root);
+	late final Translations$assets$sort$en sort = Translations$assets$sort$en.internal(_root);
+	late final Translations$assets$filter$en filter = Translations$assets$filter$en.internal(_root);
+	late final Translations$assets$chart$en chart = Translations$assets$chart$en.internal(_root);
+	late final Translations$assets$history$en history = Translations$assets$history$en.internal(_root);
+	late final Translations$assets$delete$en delete = Translations$assets$delete$en.internal(_root);
+	late final Translations$assets$failure$en failure = Translations$assets$failure$en.internal(_root);
 }
 
 // Path: settings
@@ -424,6 +445,21 @@ class Translations$core$auth$en {
 	String get biometricFailed => 'Biometric authentication failed';
 }
 
+// Path: core.actions
+class Translations$core$actions$en {
+	Translations$core$actions$en.internal(this._root);
+
+	final Translations _root; // ignore: unused_field
+
+	// Translations
+
+	/// en: 'Cancel'
+	String get cancel => 'Cancel';
+
+	/// en: 'Delete'
+	String get delete => 'Delete';
+}
+
 // Path: core.notification
 class Translations$core$notification$en {
 	Translations$core$notification$en.internal(this._root);
@@ -497,6 +533,279 @@ class Translations$onboarding$assetType$en {
 
 	/// en: 'Gold'
 	String get gold => 'Gold';
+}
+
+// Path: assets.list
+class Translations$assets$list$en {
+	Translations$assets$list$en.internal(this._root);
+
+	final Translations _root; // ignore: unused_field
+
+	// Translations
+
+	/// en: 'Assets'
+	String get title => 'Assets';
+
+	/// en: 'EGP Cash'
+	String get tabEgp => 'EGP Cash';
+
+	/// en: 'USD'
+	String get tabUsd => 'USD';
+
+	/// en: 'Gold 21K'
+	String get tabGold21 => 'Gold 21K';
+
+	/// en: 'Gold 24K'
+	String get tabGold24 => 'Gold 24K';
+
+	/// en: 'Sort & Filter'
+	String get sortFilter => 'Sort & Filter';
+
+	/// en: 'Newest first'
+	String get sortDateNewest => 'Newest first';
+
+	/// en: 'Oldest first'
+	String get sortDateOldest => 'Oldest first';
+
+	/// en: 'Highest value'
+	String get sortValueHighest => 'Highest value';
+
+	/// en: 'Lowest value'
+	String get sortValueLowest => 'Lowest value';
+
+	/// en: 'No assets yet'
+	String get emptyNoAssets => 'No assets yet';
+
+	/// en: 'Add your first asset to start tracking'
+	String get emptyNoAssetsSubtitle => 'Add your first asset to start tracking';
+
+	/// en: 'No holdings of this type'
+	String get emptyNoFiltered => 'No holdings of this type';
+
+	/// en: 'Try a different filter'
+	String get emptyNoFilteredSubtitle => 'Try a different filter';
+
+	/// en: 'Add Asset'
+	String get addFirst => 'Add Asset';
+}
+
+// Path: assets.add
+class Translations$assets$add$en {
+	Translations$assets$add$en.internal(this._root);
+
+	final Translations _root; // ignore: unused_field
+
+	// Translations
+
+	/// en: 'Add Asset'
+	String get title => 'Add Asset';
+
+	/// en: 'Select Asset Type'
+	String get selectType => 'Select Asset Type';
+
+	/// en: 'Amount'
+	String get amount => 'Amount';
+
+	/// en: 'Amount (grams)'
+	String get amountGrams => 'Amount (grams)';
+
+	/// en: 'Amount (EGP)'
+	String get amountEgp => 'Amount (EGP)';
+
+	/// en: 'Amount (USD)'
+	String get amountUsd => 'Amount (USD)';
+
+	/// en: 'Price at entry'
+	String get priceAtEntry => 'Price at entry';
+
+	/// en: 'Price per gram at entry'
+	String get pricePerGram => 'Price per gram at entry';
+
+	/// en: 'Price per unit at entry'
+	String get pricePerUnit => 'Price per unit at entry';
+
+	/// en: 'Entry Date'
+	String get entryDate => 'Entry Date';
+
+	/// en: 'Select date'
+	String get selectDate => 'Select date';
+
+	/// en: 'Note (optional)'
+	String get note => 'Note (optional)';
+
+	/// en: 'Add a note...'
+	String get noteHint => 'Add a note...';
+
+	/// en: 'Add Asset'
+	String get submit => 'Add Asset';
+
+	/// en: 'Amount is required'
+	String get amountRequired => 'Amount is required';
+
+	/// en: 'Enter a valid positive amount'
+	String get amountInvalid => 'Enter a valid positive amount';
+
+	/// en: 'Price is required'
+	String get priceRequired => 'Price is required';
+
+	/// en: 'Enter a valid positive price'
+	String get priceInvalid => 'Enter a valid positive price';
+
+	/// en: 'Select an asset type first'
+	String get selectTypeFirst => 'Select an asset type first';
+}
+
+// Path: assets.edit
+class Translations$assets$edit$en {
+	Translations$assets$edit$en.internal(this._root);
+
+	final Translations _root; // ignore: unused_field
+
+	// Translations
+
+	/// en: 'Edit {type}'
+	String get title => 'Edit {type}';
+
+	/// en: 'Save Changes'
+	String get submit => 'Save Changes';
+
+	/// en: 'Asset Type'
+	String get assetTypeLabel => 'Asset Type';
+}
+
+// Path: assets.detail
+class Translations$assets$detail$en {
+	Translations$assets$detail$en.internal(this._root);
+
+	final Translations _root; // ignore: unused_field
+
+	// Translations
+
+	/// en: 'Entry: {price} EGP per unit'
+	String get entryPrice => 'Entry: {price} EGP per unit';
+
+	/// en: 'Value Trend'
+	String get valueTrend => 'Value Trend';
+
+	/// en: 'Edit History'
+	String get editHistory => 'Edit History';
+
+	/// en: 'No edit history yet'
+	String get noHistory => 'No edit history yet';
+
+	/// en: 'Cash assets maintain a constant value'
+	String get cashFlatValue => 'Cash assets maintain a constant value';
+
+	/// en: 'Asset not found'
+	String get notFoundTitle => 'Asset not found';
+
+	/// en: 'This asset is no longer available.'
+	String get notFoundBody => 'This asset is no longer available.';
+
+	/// en: 'Edit'
+	String get edit => 'Edit';
+
+	/// en: 'Note'
+	String get note => 'Note';
+}
+
+// Path: assets.sort
+class Translations$assets$sort$en {
+	Translations$assets$sort$en.internal(this._root);
+
+	final Translations _root; // ignore: unused_field
+
+	// Translations
+
+	/// en: 'Sort by'
+	String get title => 'Sort by';
+
+	/// en: 'Date'
+	String get date => 'Date';
+
+	/// en: 'Value'
+	String get value => 'Value';
+
+	/// en: 'Type'
+	String get type => 'Type';
+}
+
+// Path: assets.filter
+class Translations$assets$filter$en {
+	Translations$assets$filter$en.internal(this._root);
+
+	final Translations _root; // ignore: unused_field
+
+	// Translations
+
+	/// en: 'All'
+	String get all => 'All';
+}
+
+// Path: assets.chart
+class Translations$assets$chart$en {
+	Translations$assets$chart$en.internal(this._root);
+
+	final Translations _root; // ignore: unused_field
+
+	// Translations
+
+	/// en: 'Cash assets maintain a constant value'
+	String get cashPlaceholder => 'Cash assets maintain a constant value';
+
+	/// en: 'Not enough price history yet'
+	String get noDataTitle => 'Not enough price history yet';
+
+	/// en: 'Historical prices will appear here once market data is available.'
+	String get noDataSubtitle => 'Historical prices will appear here once market data is available.';
+}
+
+// Path: assets.history
+class Translations$assets$history$en {
+	Translations$assets$history$en.internal(this._root);
+
+	final Translations _root; // ignore: unused_field
+
+	// Translations
+
+	/// en: 'Created'
+	String get created => 'Created';
+
+	/// en: 'Updated'
+	String get updated => 'Updated';
+
+	/// en: 'Deleted'
+	String get deleted => 'Deleted';
+}
+
+// Path: assets.delete
+class Translations$assets$delete$en {
+	Translations$assets$delete$en.internal(this._root);
+
+	final Translations _root; // ignore: unused_field
+
+	// Translations
+
+	/// en: 'Delete Asset?'
+	String get confirmTitle => 'Delete Asset?';
+
+	/// en: 'This will permanently delete this asset record.'
+	String get confirmBody => 'This will permanently delete this asset record.';
+}
+
+// Path: assets.failure
+class Translations$assets$failure$en {
+	Translations$assets$failure$en.internal(this._root);
+
+	final Translations _root; // ignore: unused_field
+
+	// Translations
+
+	/// en: 'Asset not found.'
+	String get assetNotFound => 'Asset not found.';
+
+	/// en: 'Amount must be greater than zero.'
+	String get invalidAmount => 'Amount must be greater than zero.';
 }
 
 // Path: insights.assetPerformance
@@ -603,6 +912,8 @@ extension on Translations {
 			'core.dates.daysAgo' => '{days}d ago',
 			'core.auth.unlockReason' => 'Unlock Qeema to view your finances',
 			'core.auth.biometricFailed' => 'Biometric authentication failed',
+			'core.actions.cancel' => 'Cancel',
+			'core.actions.delete' => 'Delete',
 			'core.notification.channelName' => 'Price Alerts',
 			'core.notification.channelDescription' => 'Notifications about price changes',
 			'auth.welcome.headline' => 'Know what your money is really worth',
@@ -647,6 +958,67 @@ extension on Translations {
 			'appLock.tooManyAttempts' => 'Too many attempts. Try again later.',
 			'appLock.noCredentials' => 'No device lock set up. Set up a screen lock in your device settings.',
 			'appLock.unavailable' => 'Device authentication is not available on this device.',
+			'assets.list.title' => 'Assets',
+			'assets.list.tabEgp' => 'EGP Cash',
+			'assets.list.tabUsd' => 'USD',
+			'assets.list.tabGold21' => 'Gold 21K',
+			'assets.list.tabGold24' => 'Gold 24K',
+			'assets.list.sortFilter' => 'Sort & Filter',
+			'assets.list.sortDateNewest' => 'Newest first',
+			'assets.list.sortDateOldest' => 'Oldest first',
+			'assets.list.sortValueHighest' => 'Highest value',
+			'assets.list.sortValueLowest' => 'Lowest value',
+			'assets.list.emptyNoAssets' => 'No assets yet',
+			'assets.list.emptyNoAssetsSubtitle' => 'Add your first asset to start tracking',
+			'assets.list.emptyNoFiltered' => 'No holdings of this type',
+			'assets.list.emptyNoFilteredSubtitle' => 'Try a different filter',
+			'assets.list.addFirst' => 'Add Asset',
+			'assets.add.title' => 'Add Asset',
+			'assets.add.selectType' => 'Select Asset Type',
+			'assets.add.amount' => 'Amount',
+			'assets.add.amountGrams' => 'Amount (grams)',
+			'assets.add.amountEgp' => 'Amount (EGP)',
+			'assets.add.amountUsd' => 'Amount (USD)',
+			'assets.add.priceAtEntry' => 'Price at entry',
+			'assets.add.pricePerGram' => 'Price per gram at entry',
+			'assets.add.pricePerUnit' => 'Price per unit at entry',
+			'assets.add.entryDate' => 'Entry Date',
+			'assets.add.selectDate' => 'Select date',
+			'assets.add.note' => 'Note (optional)',
+			'assets.add.noteHint' => 'Add a note...',
+			'assets.add.submit' => 'Add Asset',
+			'assets.add.amountRequired' => 'Amount is required',
+			'assets.add.amountInvalid' => 'Enter a valid positive amount',
+			'assets.add.priceRequired' => 'Price is required',
+			'assets.add.priceInvalid' => 'Enter a valid positive price',
+			'assets.add.selectTypeFirst' => 'Select an asset type first',
+			'assets.edit.title' => 'Edit {type}',
+			'assets.edit.submit' => 'Save Changes',
+			'assets.edit.assetTypeLabel' => 'Asset Type',
+			'assets.detail.entryPrice' => 'Entry: {price} EGP per unit',
+			'assets.detail.valueTrend' => 'Value Trend',
+			'assets.detail.editHistory' => 'Edit History',
+			'assets.detail.noHistory' => 'No edit history yet',
+			'assets.detail.cashFlatValue' => 'Cash assets maintain a constant value',
+			'assets.detail.notFoundTitle' => 'Asset not found',
+			'assets.detail.notFoundBody' => 'This asset is no longer available.',
+			'assets.detail.edit' => 'Edit',
+			'assets.detail.note' => 'Note',
+			'assets.sort.title' => 'Sort by',
+			'assets.sort.date' => 'Date',
+			'assets.sort.value' => 'Value',
+			'assets.sort.type' => 'Type',
+			'assets.filter.all' => 'All',
+			'assets.chart.cashPlaceholder' => 'Cash assets maintain a constant value',
+			'assets.chart.noDataTitle' => 'Not enough price history yet',
+			'assets.chart.noDataSubtitle' => 'Historical prices will appear here once market data is available.',
+			'assets.history.created' => 'Created',
+			'assets.history.updated' => 'Updated',
+			'assets.history.deleted' => 'Deleted',
+			'assets.delete.confirmTitle' => 'Delete Asset?',
+			'assets.delete.confirmBody' => 'This will permanently delete this asset record.',
+			'assets.failure.assetNotFound' => 'Asset not found.',
+			'assets.failure.invalidAmount' => 'Amount must be greater than zero.',
 			'settings.securitySection' => 'Security',
 			'settings.requireUnlock' => 'Require device unlock to open Qeema',
 			'settings.noDeviceLock' => 'Your device doesn\'t have a screen lock set up. Set one up in your device settings to use this feature.',

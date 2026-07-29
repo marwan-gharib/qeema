@@ -45,6 +45,7 @@ class TranslationsAr extends Translations with BaseTranslations<AppLocale, Trans
 	@override late final _Translations$onboarding$ar onboarding = _Translations$onboarding$ar._(_root);
 	@override late final _Translations$navigation$ar navigation = _Translations$navigation$ar._(_root);
 	@override late final _Translations$appLock$ar appLock = _Translations$appLock$ar._(_root);
+	@override late final _Translations$assets$ar assets = _Translations$assets$ar._(_root);
 	@override late final _Translations$settings$ar settings = _Translations$settings$ar._(_root);
 	@override late final _Translations$insights$ar insights = _Translations$insights$ar._(_root);
 }
@@ -75,6 +76,7 @@ class _Translations$core$ar extends Translations$core$en {
 	@override late final _Translations$core$validation$ar validation = _Translations$core$validation$ar._(_root);
 	@override late final _Translations$core$dates$ar dates = _Translations$core$dates$ar._(_root);
 	@override late final _Translations$core$auth$ar auth = _Translations$core$auth$ar._(_root);
+	@override late final _Translations$core$actions$ar actions = _Translations$core$actions$ar._(_root);
 	@override late final _Translations$core$notification$ar notification = _Translations$core$notification$ar._(_root);
 }
 
@@ -146,6 +148,25 @@ class _Translations$appLock$ar extends Translations$appLock$en {
 	@override String get tooManyAttempts => 'محاولات كثيرة جداً. حاول مرة أخرى لاحقاً.';
 	@override String get noCredentials => 'لم يتم إعداد قفل للجهاز. قم بإعداد قفل شاشة في إعدادات جهازك.';
 	@override String get unavailable => 'التحقق من الجهاز غير متاح على هذا الجهاز.';
+}
+
+// Path: assets
+class _Translations$assets$ar extends Translations$assets$en {
+	_Translations$assets$ar._(TranslationsAr root) : this._root = root, super.internal(root);
+
+	final TranslationsAr _root; // ignore: unused_field
+
+	// Translations
+	@override late final _Translations$assets$list$ar list = _Translations$assets$list$ar._(_root);
+	@override late final _Translations$assets$add$ar add = _Translations$assets$add$ar._(_root);
+	@override late final _Translations$assets$edit$ar edit = _Translations$assets$edit$ar._(_root);
+	@override late final _Translations$assets$detail$ar detail = _Translations$assets$detail$ar._(_root);
+	@override late final _Translations$assets$sort$ar sort = _Translations$assets$sort$ar._(_root);
+	@override late final _Translations$assets$filter$ar filter = _Translations$assets$filter$ar._(_root);
+	@override late final _Translations$assets$chart$ar chart = _Translations$assets$chart$ar._(_root);
+	@override late final _Translations$assets$history$ar history = _Translations$assets$history$ar._(_root);
+	@override late final _Translations$assets$delete$ar delete = _Translations$assets$delete$ar._(_root);
+	@override late final _Translations$assets$failure$ar failure = _Translations$assets$failure$ar._(_root);
 }
 
 // Path: settings
@@ -280,6 +301,17 @@ class _Translations$core$auth$ar extends Translations$core$auth$en {
 	@override String get biometricFailed => 'فشل التحقق البيومتري';
 }
 
+// Path: core.actions
+class _Translations$core$actions$ar extends Translations$core$actions$en {
+	_Translations$core$actions$ar._(TranslationsAr root) : this._root = root, super.internal(root);
+
+	final TranslationsAr _root; // ignore: unused_field
+
+	// Translations
+	@override String get cancel => 'إلغاء';
+	@override String get delete => 'حذف';
+}
+
 // Path: core.notification
 class _Translations$core$notification$ar extends Translations$core$notification$en {
 	_Translations$core$notification$ar._(TranslationsAr root) : this._root = root, super.internal(root);
@@ -327,6 +359,157 @@ class _Translations$onboarding$assetType$ar extends Translations$onboarding$asse
 	@override String get egp => 'جنيه';
 	@override String get usd => 'دولار';
 	@override String get gold => 'ذهب';
+}
+
+// Path: assets.list
+class _Translations$assets$list$ar extends Translations$assets$list$en {
+	_Translations$assets$list$ar._(TranslationsAr root) : this._root = root, super.internal(root);
+
+	final TranslationsAr _root; // ignore: unused_field
+
+	// Translations
+	@override String get title => 'الأصول';
+	@override String get tabEgp => 'نقدي جنيه';
+	@override String get tabUsd => 'دولار';
+	@override String get tabGold21 => 'ذهب 21';
+	@override String get tabGold24 => 'ذهب 24';
+	@override String get sortFilter => 'ترتيب وتصفية';
+	@override String get sortDateNewest => 'الأحدث أولاً';
+	@override String get sortDateOldest => 'الأقدم أولاً';
+	@override String get sortValueHighest => 'الأعلى قيمة';
+	@override String get sortValueLowest => 'الأقل قيمة';
+	@override String get emptyNoAssets => 'لا توجد أصول بعد';
+	@override String get emptyNoAssetsSubtitle => 'أضف أصلَك الأول لبدء التتبع';
+	@override String get emptyNoFiltered => 'لا توجد أصول من هذا النوع';
+	@override String get emptyNoFilteredSubtitle => 'جرّب تصفية مختلفة';
+	@override String get addFirst => 'إضافة أصل';
+}
+
+// Path: assets.add
+class _Translations$assets$add$ar extends Translations$assets$add$en {
+	_Translations$assets$add$ar._(TranslationsAr root) : this._root = root, super.internal(root);
+
+	final TranslationsAr _root; // ignore: unused_field
+
+	// Translations
+	@override String get title => 'إضافة أصل';
+	@override String get selectType => 'اختر نوع الأصل';
+	@override String get amount => 'الكمية';
+	@override String get amountGrams => 'الكمية (جرام)';
+	@override String get amountEgp => 'الكمية (جنيه)';
+	@override String get amountUsd => 'الكمية (دولار)';
+	@override String get priceAtEntry => 'سعر الشراء';
+	@override String get pricePerGram => 'سعر الجرام عند الشراء';
+	@override String get pricePerUnit => 'سعر الوحدة عند الشراء';
+	@override String get entryDate => 'تاريخ الشراء';
+	@override String get selectDate => 'اختر التاريخ';
+	@override String get note => 'ملاحظة (اختياري)';
+	@override String get noteHint => 'أضف ملاحظة...';
+	@override String get submit => 'إضافة أصل';
+	@override String get amountRequired => 'الكمية مطلوبة';
+	@override String get amountInvalid => 'أدخل كمية موجبة صالحة';
+	@override String get priceRequired => 'السعر مطلوب';
+	@override String get priceInvalid => 'أدخل سعراً موجباً صالحاً';
+	@override String get selectTypeFirst => 'اختر نوع الأصل أولاً';
+}
+
+// Path: assets.edit
+class _Translations$assets$edit$ar extends Translations$assets$edit$en {
+	_Translations$assets$edit$ar._(TranslationsAr root) : this._root = root, super.internal(root);
+
+	final TranslationsAr _root; // ignore: unused_field
+
+	// Translations
+	@override String get title => 'تعديل {type}';
+	@override String get submit => 'حفظ التغييرات';
+	@override String get assetTypeLabel => 'نوع الأصل';
+}
+
+// Path: assets.detail
+class _Translations$assets$detail$ar extends Translations$assets$detail$en {
+	_Translations$assets$detail$ar._(TranslationsAr root) : this._root = root, super.internal(root);
+
+	final TranslationsAr _root; // ignore: unused_field
+
+	// Translations
+	@override String get entryPrice => 'سعر الشراء: {price} جنيه للوحدة';
+	@override String get valueTrend => 'اتجاه القيمة';
+	@override String get editHistory => 'سجل التعديلات';
+	@override String get noHistory => 'لا يوجد سجل تعديلات بعد';
+	@override String get cashFlatValue => 'الأصول النقدية تحافظ على قيمة ثابتة';
+	@override String get notFoundTitle => 'الأصل غير موجود';
+	@override String get notFoundBody => 'هذا الأصل لم يعد متاحاً.';
+	@override String get edit => 'تعديل';
+	@override String get note => 'ملاحظة';
+}
+
+// Path: assets.sort
+class _Translations$assets$sort$ar extends Translations$assets$sort$en {
+	_Translations$assets$sort$ar._(TranslationsAr root) : this._root = root, super.internal(root);
+
+	final TranslationsAr _root; // ignore: unused_field
+
+	// Translations
+	@override String get title => 'ترتيب حسب';
+	@override String get date => 'التاريخ';
+	@override String get value => 'القيمة';
+	@override String get type => 'النوع';
+}
+
+// Path: assets.filter
+class _Translations$assets$filter$ar extends Translations$assets$filter$en {
+	_Translations$assets$filter$ar._(TranslationsAr root) : this._root = root, super.internal(root);
+
+	final TranslationsAr _root; // ignore: unused_field
+
+	// Translations
+	@override String get all => 'الكل';
+}
+
+// Path: assets.chart
+class _Translations$assets$chart$ar extends Translations$assets$chart$en {
+	_Translations$assets$chart$ar._(TranslationsAr root) : this._root = root, super.internal(root);
+
+	final TranslationsAr _root; // ignore: unused_field
+
+	// Translations
+	@override String get cashPlaceholder => 'الأصول النقدية تحافظ على قيمة ثابتة';
+	@override String get noDataTitle => 'لا يوجد تاريخ أسعار كافٍ بعد';
+	@override String get noDataSubtitle => 'ستظهر الأسعار التاريخية هنا بمجرد توفر بيانات السوق.';
+}
+
+// Path: assets.history
+class _Translations$assets$history$ar extends Translations$assets$history$en {
+	_Translations$assets$history$ar._(TranslationsAr root) : this._root = root, super.internal(root);
+
+	final TranslationsAr _root; // ignore: unused_field
+
+	// Translations
+	@override String get created => 'تم الإنشاء';
+	@override String get updated => 'تم التحديث';
+	@override String get deleted => 'تم الحذف';
+}
+
+// Path: assets.delete
+class _Translations$assets$delete$ar extends Translations$assets$delete$en {
+	_Translations$assets$delete$ar._(TranslationsAr root) : this._root = root, super.internal(root);
+
+	final TranslationsAr _root; // ignore: unused_field
+
+	// Translations
+	@override String get confirmTitle => 'حذف الأصل؟';
+	@override String get confirmBody => 'سيؤدي هذا إلى حذف سجل الأصل بشكل دائم.';
+}
+
+// Path: assets.failure
+class _Translations$assets$failure$ar extends Translations$assets$failure$en {
+	_Translations$assets$failure$ar._(TranslationsAr root) : this._root = root, super.internal(root);
+
+	final TranslationsAr _root; // ignore: unused_field
+
+	// Translations
+	@override String get assetNotFound => 'الأصل غير موجود.';
+	@override String get invalidAmount => 'يجب أن تكون الكمية أكبر من الصفر.';
 }
 
 // Path: insights.assetPerformance
@@ -417,6 +600,8 @@ extension on TranslationsAr {
 			'core.dates.daysAgo' => 'منذ {days} يوم',
 			'core.auth.unlockReason' => 'افتح قيّمة لعرض أموالك',
 			'core.auth.biometricFailed' => 'فشل التحقق البيومتري',
+			'core.actions.cancel' => 'إلغاء',
+			'core.actions.delete' => 'حذف',
 			'core.notification.channelName' => 'تنبيهات الأسعار',
 			'core.notification.channelDescription' => 'إشعارات حول تغيرات الأسعار',
 			'auth.welcome.headline' => 'اعرف القيمة الحقيقية لأموالك',
@@ -461,6 +646,67 @@ extension on TranslationsAr {
 			'appLock.tooManyAttempts' => 'محاولات كثيرة جداً. حاول مرة أخرى لاحقاً.',
 			'appLock.noCredentials' => 'لم يتم إعداد قفل للجهاز. قم بإعداد قفل شاشة في إعدادات جهازك.',
 			'appLock.unavailable' => 'التحقق من الجهاز غير متاح على هذا الجهاز.',
+			'assets.list.title' => 'الأصول',
+			'assets.list.tabEgp' => 'نقدي جنيه',
+			'assets.list.tabUsd' => 'دولار',
+			'assets.list.tabGold21' => 'ذهب 21',
+			'assets.list.tabGold24' => 'ذهب 24',
+			'assets.list.sortFilter' => 'ترتيب وتصفية',
+			'assets.list.sortDateNewest' => 'الأحدث أولاً',
+			'assets.list.sortDateOldest' => 'الأقدم أولاً',
+			'assets.list.sortValueHighest' => 'الأعلى قيمة',
+			'assets.list.sortValueLowest' => 'الأقل قيمة',
+			'assets.list.emptyNoAssets' => 'لا توجد أصول بعد',
+			'assets.list.emptyNoAssetsSubtitle' => 'أضف أصلَك الأول لبدء التتبع',
+			'assets.list.emptyNoFiltered' => 'لا توجد أصول من هذا النوع',
+			'assets.list.emptyNoFilteredSubtitle' => 'جرّب تصفية مختلفة',
+			'assets.list.addFirst' => 'إضافة أصل',
+			'assets.add.title' => 'إضافة أصل',
+			'assets.add.selectType' => 'اختر نوع الأصل',
+			'assets.add.amount' => 'الكمية',
+			'assets.add.amountGrams' => 'الكمية (جرام)',
+			'assets.add.amountEgp' => 'الكمية (جنيه)',
+			'assets.add.amountUsd' => 'الكمية (دولار)',
+			'assets.add.priceAtEntry' => 'سعر الشراء',
+			'assets.add.pricePerGram' => 'سعر الجرام عند الشراء',
+			'assets.add.pricePerUnit' => 'سعر الوحدة عند الشراء',
+			'assets.add.entryDate' => 'تاريخ الشراء',
+			'assets.add.selectDate' => 'اختر التاريخ',
+			'assets.add.note' => 'ملاحظة (اختياري)',
+			'assets.add.noteHint' => 'أضف ملاحظة...',
+			'assets.add.submit' => 'إضافة أصل',
+			'assets.add.amountRequired' => 'الكمية مطلوبة',
+			'assets.add.amountInvalid' => 'أدخل كمية موجبة صالحة',
+			'assets.add.priceRequired' => 'السعر مطلوب',
+			'assets.add.priceInvalid' => 'أدخل سعراً موجباً صالحاً',
+			'assets.add.selectTypeFirst' => 'اختر نوع الأصل أولاً',
+			'assets.edit.title' => 'تعديل {type}',
+			'assets.edit.submit' => 'حفظ التغييرات',
+			'assets.edit.assetTypeLabel' => 'نوع الأصل',
+			'assets.detail.entryPrice' => 'سعر الشراء: {price} جنيه للوحدة',
+			'assets.detail.valueTrend' => 'اتجاه القيمة',
+			'assets.detail.editHistory' => 'سجل التعديلات',
+			'assets.detail.noHistory' => 'لا يوجد سجل تعديلات بعد',
+			'assets.detail.cashFlatValue' => 'الأصول النقدية تحافظ على قيمة ثابتة',
+			'assets.detail.notFoundTitle' => 'الأصل غير موجود',
+			'assets.detail.notFoundBody' => 'هذا الأصل لم يعد متاحاً.',
+			'assets.detail.edit' => 'تعديل',
+			'assets.detail.note' => 'ملاحظة',
+			'assets.sort.title' => 'ترتيب حسب',
+			'assets.sort.date' => 'التاريخ',
+			'assets.sort.value' => 'القيمة',
+			'assets.sort.type' => 'النوع',
+			'assets.filter.all' => 'الكل',
+			'assets.chart.cashPlaceholder' => 'الأصول النقدية تحافظ على قيمة ثابتة',
+			'assets.chart.noDataTitle' => 'لا يوجد تاريخ أسعار كافٍ بعد',
+			'assets.chart.noDataSubtitle' => 'ستظهر الأسعار التاريخية هنا بمجرد توفر بيانات السوق.',
+			'assets.history.created' => 'تم الإنشاء',
+			'assets.history.updated' => 'تم التحديث',
+			'assets.history.deleted' => 'تم الحذف',
+			'assets.delete.confirmTitle' => 'حذف الأصل؟',
+			'assets.delete.confirmBody' => 'سيؤدي هذا إلى حذف سجل الأصل بشكل دائم.',
+			'assets.failure.assetNotFound' => 'الأصل غير موجود.',
+			'assets.failure.invalidAmount' => 'يجب أن تكون الكمية أكبر من الصفر.',
 			'settings.securitySection' => 'الأمان',
 			'settings.requireUnlock' => 'طلب فتح قفل الجهاز لفتح قيّمة',
 			'settings.noDeviceLock' => 'جهازك لا يحتوي على قفل شاشة. قم بإعداد واحد في إعدادات جهازك لاستخدام هذه الميزة.',

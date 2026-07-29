@@ -54,6 +54,10 @@
       "unlockReason": "Unlock Qeema to view your finances",
       "biometricFailed": "Biometric authentication failed"
     },
+    "actions": {
+      "cancel": "Cancel",
+      "delete": "Delete"
+    },
     "notification": {
       "channelName": "Price Alerts",
       "channelDescription": "Notifications about price changes"
@@ -114,6 +118,89 @@
     "tooManyAttempts": "Too many attempts. Try again later.",
     "noCredentials": "No device lock set up. Set up a screen lock in your device settings.",
     "unavailable": "Device authentication is not available on this device."
+  },
+  "assets": {
+    "list": {
+      "title": "Assets",
+      "tabEgp": "EGP Cash",
+      "tabUsd": "USD",
+      "tabGold21": "Gold 21K",
+      "tabGold24": "Gold 24K",
+      "sortFilter": "Sort & Filter",
+      "sortDateNewest": "Newest first",
+      "sortDateOldest": "Oldest first",
+      "sortValueHighest": "Highest value",
+      "sortValueLowest": "Lowest value",
+      "emptyNoAssets": "No assets yet",
+      "emptyNoAssetsSubtitle": "Add your first asset to start tracking",
+      "emptyNoFiltered": "No holdings of this type",
+      "emptyNoFilteredSubtitle": "Try a different filter",
+      "addFirst": "Add Asset"
+    },
+    "add": {
+      "title": "Add Asset",
+      "selectType": "Select Asset Type",
+      "amount": "Amount",
+      "amountGrams": "Amount (grams)",
+      "amountEgp": "Amount (EGP)",
+      "amountUsd": "Amount (USD)",
+      "priceAtEntry": "Price at entry",
+      "pricePerGram": "Price per gram at entry",
+      "pricePerUnit": "Price per unit at entry",
+      "entryDate": "Entry Date",
+      "selectDate": "Select date",
+      "note": "Note (optional)",
+      "noteHint": "Add a note...",
+      "submit": "Add Asset",
+      "amountRequired": "Amount is required",
+      "amountInvalid": "Enter a valid positive amount",
+      "priceRequired": "Price is required",
+      "priceInvalid": "Enter a valid positive price",
+      "selectTypeFirst": "Select an asset type first"
+    },
+    "edit": {
+      "title": "Edit {type}",
+      "submit": "Save Changes",
+      "assetTypeLabel": "Asset Type"
+    },
+    "detail": {
+      "entryPrice": "Entry: {price} EGP per unit",
+      "valueTrend": "Value Trend",
+      "editHistory": "Edit History",
+      "noHistory": "No edit history yet",
+      "cashFlatValue": "Cash assets maintain a constant value",
+      "notFoundTitle": "Asset not found",
+      "notFoundBody": "This asset is no longer available.",
+      "edit": "Edit",
+      "note": "Note"
+    },
+    "sort": {
+      "title": "Sort by",
+      "date": "Date",
+      "value": "Value",
+      "type": "Type"
+    },
+    "filter": {
+      "all": "All"
+    },
+    "chart": {
+      "cashPlaceholder": "Cash assets maintain a constant value",
+      "noDataTitle": "Not enough price history yet",
+      "noDataSubtitle": "Historical prices will appear here once market data is available."
+    },
+    "history": {
+      "created": "Created",
+      "updated": "Updated",
+      "deleted": "Deleted"
+    },
+    "delete": {
+      "confirmTitle": "Delete Asset?",
+      "confirmBody": "This will permanently delete this asset record."
+    },
+    "failure": {
+      "assetNotFound": "Asset not found.",
+      "invalidAmount": "Amount must be greater than zero."
+    }
   },
   "settings": {
     "securitySection": "Security",

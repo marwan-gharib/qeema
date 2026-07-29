@@ -14,6 +14,7 @@ class AppTextField extends StatefulWidget {
     this.prefixIcon,
     this.onChanged,
     this.autovalidateMode,
+    this.enabled = true,
   });
   final TextEditingController? controller;
   final String? label;
@@ -26,6 +27,7 @@ class AppTextField extends StatefulWidget {
   final Widget? prefixIcon;
   final ValueChanged<String>? onChanged;
   final AutovalidateMode? autovalidateMode;
+  final bool enabled;
 
   @override
   State<AppTextField> createState() => _AppTextFieldState();
@@ -59,6 +61,7 @@ class _AppTextFieldState extends State<AppTextField> {
       textInputAction: widget.textInputAction,
       onChanged: widget.onChanged,
       autovalidateMode: widget.autovalidateMode,
+      enabled: widget.enabled,
       decoration: InputDecoration(
         labelText: widget.label,
         hintText: widget.hint,

@@ -68,14 +68,15 @@ class _TapScaleState extends State<TapScale>
   Widget build(BuildContext context) {
     var child = widget.child;
     if (_animation != null) {
-      child = GestureDetector(
-        onTap: widget.onTap,
-        onTapDown: _onTapDown,
-        onTapUp: _onTapUp,
-        onTapCancel: _onTapCancel,
-        child: ScaleTransition(scale: _animation!, child: child),
-      );
+      child = ScaleTransition(scale: _animation!, child: child);
     }
-    return child;
+    return GestureDetector(
+      behavior: HitTestBehavior.deferToChild,
+      onTap: widget.onTap,
+      onTapDown: _onTapDown,
+      onTapUp: _onTapUp,
+      onTapCancel: _onTapCancel,
+      child: child,
+    );
   }
 }

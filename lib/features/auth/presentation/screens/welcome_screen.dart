@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 import 'package:qeema/core/animations/app_animated_entry.dart';
 import 'package:qeema/core/animations/app_motion.dart';
 import 'package:qeema/core/animations/entry_animation_type.dart';
 import 'package:qeema/core/error/failures.dart';
 import 'package:qeema/core/extensions/build_context_extensions.dart';
 import 'package:qeema/core/i18n/strings.g.dart';
+import 'package:qeema/core/router/route_names.dart';
 import 'package:qeema/core/theme/app_spacing.dart';
 import 'package:qeema/core/widgets/app_button.dart';
 import 'package:qeema/core/widgets/app_snackbar.dart';
@@ -91,21 +93,37 @@ class WelcomeScreen extends StatelessWidget {
                       ),
                     ),
                     const Spacer(flex: 1),
-                    AppAnimatedEntry(
-                      type: EntryAnimationType.fadeSlideUp,
-                      delay: AppMotion.slow,
-                      child: Column(
-                        children: [
-                          AppButton(
-                            label: t.auth.welcome.primaryCta,
-                            isLoading: isGuestLoading,
-                            onPressed: isGuestLoading
-                                ? null
-                                : () => context
-                                      .read<WelcomeCubit>()
-                                      .continueAsGuest(),
-                          ),
-                        ],
+                    BlocListener<WelcomeCubit, WelcomeState>(
+                      listener: (context, state) {
+                        if (state is WelcomeGuestFailure) {
+                          final message = switch (state.failure) {
+                            final AnonymousSignInDisabledFailure _ =>
+                              t.auth.error.anonymousSignInDisabled,
+                            final NetworkAuthFailure _ =>
+                              t.auth.error.networkError,
+                            _ => t.auth.error.unknownError,
+                          };
+                          AppSnackBar.showError(context, message);
+                        } else if (state is WelcomeGuestSuccess) {
+                          context.goNamed(RouteNames.assets);
+                        }
+                      },
+                      child: AppAnimatedEntry(
+                        type: EntryAnimationType.fadeSlideUp,
+                        delay: AppMotion.slow,
+                        child: Column(
+                          children: [
+                            AppButton(
+                              label: t.auth.welcome.primaryCta,
+                              isLoading: isGuestLoading,
+                              onPressed: isGuestLoading
+                                  ? null
+                                  : () => context
+                                        .read<WelcomeCubit>()
+                                        .continueAsGuest(),
+                            ),
+                          ],
+                        ),
                       ),
                     ),
                     const Spacer(flex: 1),

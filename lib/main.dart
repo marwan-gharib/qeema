@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:intl/date_symbol_data_local.dart';
 import 'package:qeema/app_root.dart';
 import 'package:qeema/core/constants/env_config.dart';
 import 'package:qeema/core/di/injection_container.dart';
@@ -18,7 +19,7 @@ Future<void> main() async {
   await initDependencies();
 
   await LocaleSettings.useDeviceLocale();
+  await initializeDateFormatting(LocaleSettings.currentLocale.languageCode);
 
   runApp(TranslationProvider(child: const AppRoot()));
 }
-
