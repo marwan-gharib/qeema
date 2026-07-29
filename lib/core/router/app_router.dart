@@ -18,6 +18,8 @@ import 'package:qeema/features/assets/presentation/screens/assets_list_screen.da
 import 'package:qeema/features/assets/presentation/screens/edit_asset_screen.dart';
 import 'package:qeema/features/auth/presentation/cubits/welcome_cubit/welcome_cubit.dart';
 import 'package:qeema/features/auth/presentation/screens/welcome_screen.dart';
+import 'package:qeema/features/home/presentation/cubit/home_cubit.dart';
+import 'package:qeema/features/home/presentation/screens/home_screen.dart';
 import 'package:qeema/features/onboarding/presentation/cubits/onboarding_cubit/onboarding_cubit.dart';
 import 'package:qeema/features/onboarding/presentation/screens/onboarding_screen.dart';
 import 'package:qeema/features/splash/presentation/screens/splash_screen.dart';
@@ -68,8 +70,10 @@ class AppRouter {
       GoRoute(
         path: RoutePaths.home,
         name: RouteNames.home,
-        builder: (context, state) =>
-            Scaffold(body: Center(child: Text(context.t.navigation.home))),
+        builder: (context, state) => BlocProvider(
+          create: (_) => getIt<HomeCubit>()..loadDashboard(),
+          child: const HomeScreen(),
+        ),
       ),
       GoRoute(
         path: RoutePaths.assets,

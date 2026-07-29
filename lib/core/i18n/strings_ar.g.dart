@@ -47,6 +47,7 @@ class TranslationsAr extends Translations with BaseTranslations<AppLocale, Trans
 	@override late final _Translations$appLock$ar appLock = _Translations$appLock$ar._(_root);
 	@override late final _Translations$assets$ar assets = _Translations$assets$ar._(_root);
 	@override late final _Translations$settings$ar settings = _Translations$settings$ar._(_root);
+	@override late final _Translations$home$ar home = _Translations$home$ar._(_root);
 	@override late final _Translations$insights$ar insights = _Translations$insights$ar._(_root);
 }
 
@@ -180,6 +181,24 @@ class _Translations$settings$ar extends Translations$settings$en {
 	@override String get requireUnlock => 'طلب فتح قفل الجهاز لفتح قيّمة';
 	@override String get noDeviceLock => 'جهازك لا يحتوي على قفل شاشة. قم بإعداد واحد في إعدادات جهازك لاستخدام هذه الميزة.';
 	@override String get authCancelled => 'تم إلغاء التحقق.';
+}
+
+// Path: home
+class _Translations$home$ar extends Translations$home$en {
+	_Translations$home$ar._(TranslationsAr root) : this._root = root, super.internal(root);
+
+	final TranslationsAr _root; // ignore: unused_field
+
+	// Translations
+	@override String get title => 'قيّمة';
+	@override String get totalSavingsNominal => 'إجمالي المدخرات';
+	@override String get totalSavingsReal => 'بعد تعديل التضخم';
+	@override String get erosionCaption => 'من قيمة أموالك تآكلت منذ أن بدأت';
+	@override String get trendSectionTitle => 'القيمة الحقيقية — آخر 30 يوماً';
+	@override String get priceMoveBanner => 'تحركت الأسعار بشكل ملحوظ اليوم — تحقق من أصولك.';
+	@override String get errorTitle => 'حدث خطأ ما';
+	@override String get retry => 'حاول مرة أخرى';
+	@override String get notEnoughTrendData => 'لا توجد بيانات كافية بعد';
 }
 
 // Path: insights
@@ -711,6 +730,15 @@ extension on TranslationsAr {
 			'settings.requireUnlock' => 'طلب فتح قفل الجهاز لفتح قيّمة',
 			'settings.noDeviceLock' => 'جهازك لا يحتوي على قفل شاشة. قم بإعداد واحد في إعدادات جهازك لاستخدام هذه الميزة.',
 			'settings.authCancelled' => 'تم إلغاء التحقق.',
+			'home.title' => 'قيّمة',
+			'home.totalSavingsNominal' => 'إجمالي المدخرات',
+			'home.totalSavingsReal' => 'بعد تعديل التضخم',
+			'home.erosionCaption' => 'من قيمة أموالك تآكلت منذ أن بدأت',
+			'home.trendSectionTitle' => 'القيمة الحقيقية — آخر 30 يوماً',
+			'home.priceMoveBanner' => 'تحركت الأسعار بشكل ملحوظ اليوم — تحقق من أصولك.',
+			'home.errorTitle' => 'حدث خطأ ما',
+			'home.retry' => 'حاول مرة أخرى',
+			'home.notEnoughTrendData' => 'لا توجد بيانات كافية بعد',
 			'insights.assetPerformance.title' => 'أفضل أصل أداءً',
 			'insights.assetPerformance.body' => 'الأصل {id} يتصدر محفظتك بقيمة {value} جنيه.',
 			'insights.concentrationRisk.title' => 'مخاطر التركيز العالي',

@@ -105,7 +105,7 @@ class WelcomeScreen extends StatelessWidget {
                           };
                           AppSnackBar.showError(context, message);
                         } else if (state is WelcomeGuestSuccess) {
-                          context.goNamed(RouteNames.assets);
+                          context.goNamed(RouteNames.home);
                         }
                       },
                       child: AppAnimatedEntry(

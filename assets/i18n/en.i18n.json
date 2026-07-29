@@ -208,6 +208,17 @@
     "noDeviceLock": "Your device doesn't have a screen lock set up. Set one up in your device settings to use this feature.",
     "authCancelled": "Authentication was cancelled."
   },
+  "home": {
+    "title": "Qeema",
+    "totalSavingsNominal": "Total Savings",
+    "totalSavingsReal": "Adjusted for Inflation",
+    "erosionCaption": "of your money's value has eroded since you started",
+    "trendSectionTitle": "Real Value \u2014 Last 30 Days",
+    "priceMoveBanner": "Prices moved significantly today \u2014 check your assets.",
+    "errorTitle": "Something went wrong",
+    "retry": "Try Again",
+    "notEnoughTrendData": "Not enough data yet"
+  },
   "insights": {
     "assetPerformance": {
       "title": "Best performing asset",
