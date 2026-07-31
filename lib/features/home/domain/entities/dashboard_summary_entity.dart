@@ -1,3 +1,5 @@
+import 'package:decimal/decimal.dart';
+import 'package:qeema/core/extensions/decimal_extensions.dart';
 import 'package:qeema/features/home/domain/entities/asset_type_summary_entity.dart';
 import 'package:qeema/features/home/domain/entities/portfolio_snapshot_entity.dart';
 
@@ -9,16 +11,23 @@ class DashboardSummaryEntity {
     required this.trend30Days,
   });
 
-  final double nominalTotal;
-  final double realTotal;
+  final Decimal nominalTotal;
+  final Decimal realTotal;
   final List<AssetTypeSummaryEntity> assetTypeSummaries;
   final List<PortfolioSnapshotEntity> trend30Days;
 
-  double get erosionPercent {
-    if (nominalTotal <= 0) return 0;
-    final erosion = ((nominalTotal - realTotal) / nominalTotal) * 100;
-    return erosion.clamp(0, 100);
+  /// Clamped to [0, 100] at this single source of truth — every consumer
+  /// (the erosion ring widget) reads this directly rather than re-deriving
+  /// or re-clamping it themselves.
+  Decimal get erosionPercent {
+    if (nominalTotal <= Decimal.zero) return Decimal.zero;
+    final erosion =
+        (nominalTotal - realTotal).divideBy(nominalTotal) *
+        Decimal.fromInt(100);
+    if (erosion < Decimal.zero) return Decimal.zero;
+    if (erosion > Decimal.fromInt(100)) return Decimal.fromInt(100);
+    return erosion;
   }
 
-  bool get hasAssets => nominalTotal > 0;
+  bool get hasAssets => nominalTotal > Decimal.zero;
 }

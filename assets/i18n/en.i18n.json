@@ -114,6 +114,10 @@
     "goalDetail": "Goal {id}",
     "notificationSettings": "Notification Settings"
   },
+  "nav": {
+    "home": "Home",
+    "assets": "Assets"
+  },
   "appLock": {
     "tooManyAttempts": "Too many attempts. Try again later.",
     "noCredentials": "No device lock set up. Set up a screen lock in your device settings.",

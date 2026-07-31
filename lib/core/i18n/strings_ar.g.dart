@@ -44,6 +44,7 @@ class TranslationsAr extends Translations with BaseTranslations<AppLocale, Trans
 	@override late final _Translations$auth$ar auth = _Translations$auth$ar._(_root);
 	@override late final _Translations$onboarding$ar onboarding = _Translations$onboarding$ar._(_root);
 	@override late final _Translations$navigation$ar navigation = _Translations$navigation$ar._(_root);
+	@override late final _Translations$nav$ar nav = _Translations$nav$ar._(_root);
 	@override late final _Translations$appLock$ar appLock = _Translations$appLock$ar._(_root);
 	@override late final _Translations$assets$ar assets = _Translations$assets$ar._(_root);
 	@override late final _Translations$settings$ar settings = _Translations$settings$ar._(_root);
@@ -137,6 +138,17 @@ class _Translations$navigation$ar extends Translations$navigation$en {
 	@override String get addGoal => 'إضافة هدف';
 	@override String get goalDetail => 'الهدف {id}';
 	@override String get notificationSettings => 'إعدادات الإشعارات';
+}
+
+// Path: nav
+class _Translations$nav$ar extends Translations$nav$en {
+	_Translations$nav$ar._(TranslationsAr root) : this._root = root, super.internal(root);
+
+	final TranslationsAr _root; // ignore: unused_field
+
+	// Translations
+	@override String get home => 'الرئيسية';
+	@override String get assets => 'الأصول';
 }
 
 // Path: appLock
@@ -662,6 +674,8 @@ extension on TranslationsAr {
 			'navigation.addGoal' => 'إضافة هدف',
 			'navigation.goalDetail' => 'الهدف {id}',
 			'navigation.notificationSettings' => 'إعدادات الإشعارات',
+			'nav.home' => 'الرئيسية',
+			'nav.assets' => 'الأصول',
 			'appLock.tooManyAttempts' => 'محاولات كثيرة جداً. حاول مرة أخرى لاحقاً.',
 			'appLock.noCredentials' => 'لم يتم إعداد قفل للجهاز. قم بإعداد قفل شاشة في إعدادات جهازك.',
 			'appLock.unavailable' => 'التحقق من الجهاز غير متاح على هذا الجهاز.',

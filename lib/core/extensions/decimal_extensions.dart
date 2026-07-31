@@ -1,5 +1,10 @@
 import 'package:decimal/decimal.dart';
 
+extension DecimalDivision on Decimal {
+  Decimal divideBy(Decimal other, {int scale = 10}) =>
+      (this / other).toDecimal(scaleOnInfinitePrecision: scale);
+}
+
 extension DecimalFormatting on Decimal {
   String toCurrency({int decimalPlaces = 2}) {
     return toStringAsFixed(decimalPlaces);

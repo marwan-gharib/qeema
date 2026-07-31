@@ -1,26 +1,22 @@
-import 'package:qeema/core/utils/asset_type_parsing.dart';
-import 'package:qeema/features/assets/domain/entities/asset_entity.dart';
+import 'package:decimal/decimal.dart';
 
 class MarketPriceRow {
   const MarketPriceRow({
-    required this.assetType,
+    required this.assetTypeCode,
+    required this.priceDate,
     required this.price,
-    required this.previousPrice,
   });
 
   factory MarketPriceRow.fromJson(Map<String, dynamic> json) {
     final typeData = json['asset_types'] as Map<String, dynamic>?;
-    final code = typeData?['code'] as String? ?? '';
     return MarketPriceRow(
-      assetType: assetTypeFromString(code),
-      price: (json['price'] as num).toDouble(),
-      previousPrice:
-          (json['previous_price'] as num?)?.toDouble() ??
-          (json['price'] as num).toDouble(),
+      assetTypeCode: typeData?['code'] as String? ?? '',
+      priceDate: DateTime.parse(json['price_date'] as String),
+      price: Decimal.parse((json['price'] as num).toString()),
     );
   }
 
-  final AssetType assetType;
-  final double price;
-  final double previousPrice;
+  final String assetTypeCode;
+  final DateTime priceDate;
+  final Decimal price;
 }

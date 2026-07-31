@@ -1,3 +1,4 @@
+import 'package:qeema/core/error/failures.dart';
 import 'package:qeema/features/home/domain/entities/asset_type_summary_entity.dart';
 import 'package:qeema/features/home/domain/entities/dashboard_summary_entity.dart';
 
@@ -5,15 +6,11 @@ sealed class HomeState {
   const HomeState();
 }
 
-class HomeInitial extends HomeState {
-  const HomeInitial();
-}
-
-class HomeLoading extends HomeState {
+final class HomeLoading extends HomeState {
   const HomeLoading();
 }
 
-class HomeLoaded extends HomeState {
+final class HomeLoaded extends HomeState {
   const HomeLoaded({required this.summary, this.bannerDismissed = false});
 
   final DashboardSummaryEntity summary;
@@ -22,23 +19,22 @@ class HomeLoaded extends HomeState {
   bool get shouldShowBanner {
     if (bannerDismissed) return false;
     return summary.assetTypeSummaries.any(
-      (s) => s.dayChangePercent.abs() >= kSignificantMoveThresholdPercent,
+      (s) =>
+          s.hasSufficientPriceHistory &&
+          s.dayChangePercent.abs() >= kSignificantMoveThresholdPercent,
     );
   }
 
-  HomeLoaded copyWith({
-    DashboardSummaryEntity? summary,
-    bool? bannerDismissed,
-  }) {
+  HomeLoaded copyWith({bool? bannerDismissed}) {
     return HomeLoaded(
-      summary: summary ?? this.summary,
+      summary: summary,
       bannerDismissed: bannerDismissed ?? this.bannerDismissed,
     );
   }
 }
 
-class HomeError extends HomeState {
-  const HomeError(this.message);
+final class HomeError extends HomeState {
+  const HomeError(this.failure);
 
-  final String message;
+  final Failure failure;
 }

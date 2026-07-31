@@ -1,7 +1,8 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
+import 'package:qeema/core/extensions/build_context_extensions.dart';
 import 'package:qeema/core/i18n/strings.g.dart';
-import 'package:qeema/core/theme/app_colors_extension.dart';
+import 'package:qeema/core/theme/app_spacing.dart';
 import 'package:qeema/features/home/domain/entities/portfolio_snapshot_entity.dart';
 
 class RealValueTrendChart extends StatelessWidget {
@@ -11,29 +12,23 @@ class RealValueTrendChart extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final colors = Theme.of(context).extension<AppColorsExtension>()!;
-    final t = context.t;
+    final colors = context.colors;
 
     if (trendData.length < 2) {
-      return SizedBox(
-        height: 140,
-        child: Center(
-          child: Text(
-            t.home.notEnoughTrendData,
-            style: Theme.of(
-              context,
-            ).textTheme.bodySmall?.copyWith(color: colors.textSecondary),
-          ),
-        ),
-      );
+      return const _NotEnoughData();
     }
 
-    final spots = trendData.asMap().entries.map((e) {
-      return FlSpot(e.key.toDouble(), e.value.realTotal);
-    }).toList();
+    final spots = <FlSpot>[
+      for (var i = 0; i < trendData.length; i++)
+        FlSpot(i.toDouble(), trendData[i].realTotal.toDouble()),
+    ];
 
-    final minY = spots.map((s) => s.y).reduce((a, b) => a < b ? a : b);
-    final maxY = spots.map((s) => s.y).reduce((a, b) => a > b ? a : b);
+    var minY = spots.map((s) => s.y).reduce((a, b) => a < b ? a : b);
+    var maxY = spots.map((s) => s.y).reduce((a, b) => a > b ? a : b);
+    if (maxY == minY) {
+      minY -= 1;
+      maxY += 1;
+    }
     final yPadding = (maxY - minY) * 0.1;
 
     return RepaintBoundary(
@@ -43,7 +38,7 @@ class RealValueTrendChart extends StatelessWidget {
           LineChartData(
             gridData: FlGridData(
               show: true,
-              horizontalInterval: (maxY - minY) / 4,
+              horizontalInterval: (maxY - minY) / 6,
               getDrawingHorizontalLine: (value) =>
                   FlLine(color: colors.divider.withAlpha(30), strokeWidth: 1),
               drawVerticalLine: false,
@@ -82,8 +77,55 @@ class RealValueTrendChart extends StatelessWidget {
                 ),
               ),
             ],
-            lineTouchData: const LineTouchData(enabled: false),
           ),
+        ),
+      ),
+    );
+  }
+}
+
+class _NotEnoughData extends StatelessWidget {
+  const _NotEnoughData();
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.colors;
+    final t = context.t;
+
+    return Container(
+      height: 140,
+      padding: const EdgeInsets.all(AppSpacing.md),
+      decoration: BoxDecoration(
+        color: colors.surfaceAlt,
+        borderRadius: BorderRadius.circular(12),
+      ),
+      child: FittedBox(
+        fit: BoxFit.scaleDown,
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Icon(
+              Icons.show_chart,
+              size: 48,
+              color: colors.textSecondary.withAlpha(100),
+            ),
+            const SizedBox(height: AppSpacing.sm),
+            Text(
+              t.assets.chart.noDataTitle,
+              style: context.textTheme.titleSmall?.copyWith(
+                color: colors.textPrimary,
+              ),
+              textAlign: TextAlign.center,
+            ),
+            const SizedBox(height: AppSpacing.xs),
+            Text(
+              t.assets.chart.noDataSubtitle,
+              style: context.textTheme.bodySmall?.copyWith(
+                color: colors.textSecondary,
+              ),
+              textAlign: TextAlign.center,
+            ),
+          ],
         ),
       ),
     );

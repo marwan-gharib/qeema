@@ -1,22 +1,17 @@
+import 'package:decimal/decimal.dart';
+
 class InflationRateRow {
-  const InflationRateRow({
-    required this.year,
-    required this.month,
-    required this.monthlyRatePercent,
-  });
+  const InflationRateRow({required this.month, required this.rate});
 
   factory InflationRateRow.fromJson(Map<String, dynamic> json) {
-    final monthStr = json['month'] as String;
-    final dt = DateTime.parse(monthStr);
-    final rate = (json['rate'] as num).toDouble();
     return InflationRateRow(
-      year: dt.year,
-      month: dt.month,
-      monthlyRatePercent: rate * 100,
+      month: DateTime.parse(json['month'] as String),
+      rate: Decimal.parse((json['rate'] as num).toString()),
     );
   }
 
-  final int year;
-  final int month;
-  final double monthlyRatePercent;
+  final DateTime month;
+
+  /// Monthly rate as a decimal fraction — 0.018 means 1.8%.
+  final Decimal rate;
 }

@@ -4,79 +4,51 @@ import 'package:qeema/core/services/app_lock_service.dart';
 import '../../helpers/mocks.dart';
 
 void main() {
-  late MockLocalAuthentication mockLocalAuth;
   late MockSecureStorageService mockStorage;
-  // late BiometricAuthService biometricAuthService;
   late AppLockService service;
 
   setUp(() {
-    mockLocalAuth = MockLocalAuthentication();
     mockStorage = MockSecureStorageService();
-    // biometricAuthService = BiometricAuthService(mockLocalAuth);
-    service = AppLockService(
-      mockStorage,
-      //  biometricAuthService
-    );
+    service = AppLockService(mockStorage);
   });
 
-  group('AppLockService default logic', () {
-    test(
-      'first read with device supported persists and returns true',
-      () async {
-        mockLocalAuth.isDeviceSupportedResult = true;
-
-        final result = await service.isEnabled();
-
-        expect(result, true);
-        final stored = await mockStorage.read(key: 'is_local_auth_enabled');
-        expect(stored, 'true');
-      },
-    );
-
-    test(
-      'first read with device unsupported persists and returns false',
-      () async {
-        mockLocalAuth.isDeviceSupportedResult = false;
-
-        final result = await service.isEnabled();
-
-        expect(result, false);
-        final stored = await mockStorage.read(key: 'is_local_auth_enabled');
-        expect(stored, 'false');
-      },
-    );
-
-    test(
-      'subsequent read returns stored value without re-triggering default',
-      () async {
-        mockLocalAuth.isDeviceSupportedResult = true;
-        await service.isEnabled();
-
-        mockLocalAuth.isDeviceSupportedResult = false;
-        final result = await service.isEnabled();
-
-        expect(result, true);
-      },
-    );
-
-    test('subsequent read after explicit setDisabled returns false', () async {
-      mockLocalAuth.isDeviceSupportedResult = true;
-      await service.isEnabled();
-
-      await service.setDisabled();
+  group('AppLockService', () {
+    test('isEnabled returns false when nothing is stored', () async {
       final result = await service.isEnabled();
 
       expect(result, false);
     });
 
-    test('subsequent read after explicit setEnabled returns true', () async {
-      mockLocalAuth.isDeviceSupportedResult = false;
-      await service.isEnabled();
+    test('isEnabled returns true when the stored value is true', () async {
+      await mockStorage.write(key: 'is_local_auth_enabled', value: 'true');
 
-      await service.setEnabled();
       final result = await service.isEnabled();
 
       expect(result, true);
+    });
+
+    test('isEnabled returns false when the stored value is false', () async {
+      await mockStorage.write(key: 'is_local_auth_enabled', value: 'false');
+
+      final result = await service.isEnabled();
+
+      expect(result, false);
+    });
+
+    test('setEnabled persists true and isEnabled reflects it', () async {
+      await service.setEnabled();
+
+      expect(await service.isEnabled(), true);
+      final stored = await mockStorage.read(key: 'is_local_auth_enabled');
+      expect(stored, 'true');
+    });
+
+    test('setDisabled persists false and isEnabled reflects it', () async {
+      await service.setDisabled();
+
+      expect(await service.isEnabled(), false);
+      final stored = await mockStorage.read(key: 'is_local_auth_enabled');
+      expect(stored, 'false');
     });
   });
 }

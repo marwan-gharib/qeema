@@ -45,6 +45,7 @@ class Translations with BaseTranslations<AppLocale, Translations> {
 	late final Translations$auth$en auth = Translations$auth$en.internal(_root);
 	late final Translations$onboarding$en onboarding = Translations$onboarding$en.internal(_root);
 	late final Translations$navigation$en navigation = Translations$navigation$en.internal(_root);
+	late final Translations$nav$en nav = Translations$nav$en.internal(_root);
 	late final Translations$appLock$en appLock = Translations$appLock$en.internal(_root);
 	late final Translations$assets$en assets = Translations$assets$en.internal(_root);
 	late final Translations$settings$en settings = Translations$settings$en.internal(_root);
@@ -199,6 +200,21 @@ class Translations$navigation$en {
 
 	/// en: 'Notification Settings'
 	String get notificationSettings => 'Notification Settings';
+}
+
+// Path: nav
+class Translations$nav$en {
+	Translations$nav$en.internal(this._root);
+
+	final Translations _root; // ignore: unused_field
+
+	// Translations
+
+	/// en: 'Home'
+	String get home => 'Home';
+
+	/// en: 'Assets'
+	String get assets => 'Assets';
 }
 
 // Path: appLock
@@ -992,6 +1008,8 @@ extension on Translations {
 			'navigation.addGoal' => 'Add Goal',
 			'navigation.goalDetail' => 'Goal {id}',
 			'navigation.notificationSettings' => 'Notification Settings',
+			'nav.home' => 'Home',
+			'nav.assets' => 'Assets',
 			'appLock.tooManyAttempts' => 'Too many attempts. Try again later.',
 			'appLock.noCredentials' => 'No device lock set up. Set up a screen lock in your device settings.',
 			'appLock.unavailable' => 'Device authentication is not available on this device.',

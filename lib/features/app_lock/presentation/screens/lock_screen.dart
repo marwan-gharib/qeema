@@ -52,10 +52,13 @@ class _LockScreenState extends State<LockScreen> {
       child: BlocListener<LockCubit, AppLockState>(
         listenWhen: (previous, current) => current is AppLockUnlocked,
         listener: (context, state) => widget.onUnlocked(),
-        child: Scaffold(
-          body: LockScreenBody(
-            onRetry: _triggerAuth,
-            hasBiometrics: _hasBiometrics,
+        child: PopScope(
+          canPop: false,
+          child: Scaffold(
+            body: LockScreenBody(
+              onRetry: _triggerAuth,
+              hasBiometrics: _hasBiometrics,
+            ),
           ),
         ),
       ),

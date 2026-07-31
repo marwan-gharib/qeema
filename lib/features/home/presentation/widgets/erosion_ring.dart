@@ -1,16 +1,20 @@
 import 'dart:math' as math;
+
+import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
+import 'package:qeema/core/extensions/build_context_extensions.dart';
+import 'package:qeema/core/extensions/decimal_extensions.dart';
 import 'package:qeema/core/i18n/strings.g.dart';
-import 'package:qeema/core/theme/app_colors_extension.dart';
+import 'package:qeema/core/theme/app_spacing.dart';
 
 class ErosionRing extends StatelessWidget {
   const ErosionRing({super.key, required this.erosionPercent});
 
-  final double erosionPercent;
+  final Decimal erosionPercent;
 
   @override
   Widget build(BuildContext context) {
-    final colors = Theme.of(context).extension<AppColorsExtension>()!;
+    final colors = context.colors;
 
     return RepaintBoundary(
       child: Column(
@@ -20,33 +24,29 @@ class ErosionRing extends StatelessWidget {
             height: 120,
             child: CustomPaint(
               painter: _ErosionRingPainter(
-                erosionPercent: erosionPercent,
+                erosionFraction: erosionPercent
+                    .divideBy(Decimal.fromInt(100))
+                    .toDouble(),
                 trackColor: colors.divider,
                 arcColor: colors.error,
               ),
               child: Center(
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Text(
-                      '${erosionPercent.toStringAsFixed(1)}%',
-                      style: Theme.of(context).textTheme.headlineSmall
-                          ?.copyWith(
-                            color: colors.textPrimary,
-                            fontWeight: FontWeight.bold,
-                          ),
-                    ),
-                  ],
+                child: Text(
+                  '${erosionPercent.toStringAsFixed(1)}%',
+                  style: context.textTheme.headlineSmall?.copyWith(
+                    color: colors.textPrimary,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
               ),
             ),
           ),
-          const SizedBox(height: 8),
+          const SizedBox(height: AppSpacing.xs),
           Text(
             context.t.home.erosionCaption,
-            style: Theme.of(
-              context,
-            ).textTheme.bodySmall?.copyWith(color: colors.textSecondary),
+            style: context.textTheme.bodySmall?.copyWith(
+              color: colors.textSecondary,
+            ),
             textAlign: TextAlign.center,
           ),
         ],
@@ -57,12 +57,12 @@ class ErosionRing extends StatelessWidget {
 
 class _ErosionRingPainter extends CustomPainter {
   _ErosionRingPainter({
-    required this.erosionPercent,
+    required this.erosionFraction,
     required this.trackColor,
     required this.arcColor,
   });
 
-  final double erosionPercent;
+  final double erosionFraction;
   final Color trackColor;
   final Color arcColor;
 
@@ -80,7 +80,7 @@ class _ErosionRingPainter extends CustomPainter {
 
     canvas.drawCircle(center, radius, trackPaint);
 
-    final sweepAngle = (erosionPercent / 100) * 2 * math.pi;
+    final sweepAngle = erosionFraction * 2 * math.pi;
 
     final arcPaint = Paint()
       ..color = arcColor
@@ -101,5 +101,5 @@ class _ErosionRingPainter extends CustomPainter {
 
   @override
   bool shouldRepaint(_ErosionRingPainter oldDelegate) =>
-      oldDelegate.erosionPercent != erosionPercent;
+      oldDelegate.erosionFraction != erosionFraction;
 }
