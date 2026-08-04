@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:qeema/core/animations/micro_interactions/success_pulse.dart';
-import 'package:qeema/core/extensions/build_context_extensions.dart';
 import 'package:qeema/core/i18n/strings.g.dart';
 import 'package:qeema/core/theme/app_spacing.dart';
 import 'package:qeema/core/widgets/app_button.dart';
@@ -15,6 +14,7 @@ import 'package:qeema/features/assets/domain/params/update_asset_params.dart';
 import 'package:qeema/features/assets/presentation/cubits/edit_asset_cubit/edit_asset_cubit.dart';
 import 'package:qeema/features/assets/presentation/cubits/edit_asset_cubit/edit_asset_state.dart';
 import 'package:qeema/features/assets/presentation/widgets/dynamic_asset_fields.dart';
+import 'package:qeema/features/assets/presentation/widgets/edit_asset_header.dart';
 
 class EditAssetScreen extends StatefulWidget {
   const EditAssetScreen({super.key});
@@ -162,7 +162,6 @@ class _EditAssetScreenState extends State<EditAssetScreen> {
 
         final asset = state.originalAsset!;
         final typeEntity = _makeTypeEntity(asset);
-        final colors = context.colors;
 
         if (!_ready) {
           _amountController.text = asset.amount.toString();
@@ -180,41 +179,7 @@ class _EditAssetScreenState extends State<EditAssetScreen> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
-                  Container(
-                    padding: const EdgeInsets.all(AppSpacing.md),
-                    decoration: BoxDecoration(
-                      color: colors.surfaceAlt,
-                      borderRadius: BorderRadius.circular(12),
-                    ),
-                    child: Row(
-                      children: [
-                        Icon(
-                          _iconForType(asset.assetType),
-                          size: 24,
-                          color: colors.primary,
-                        ),
-                        const SizedBox(width: AppSpacing.sm),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              t.assets.edit.assetTypeLabel,
-                              style: context.textTheme.labelSmall?.copyWith(
-                                color: colors.textSecondary,
-                              ),
-                            ),
-                            Text(
-                              typeEntity.name,
-                              style: context.textTheme.bodyLarge?.copyWith(
-                                color: colors.textPrimary,
-                                fontWeight: FontWeight.w600,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
-                  ),
+                  EditAssetHeader(asset: asset, typeEntity: typeEntity),
                   DynamicAssetFields(
                     key: ValueKey('edit_fields_${asset.id}'),
                     selectedType: typeEntity,
@@ -247,17 +212,5 @@ class _EditAssetScreenState extends State<EditAssetScreen> {
         );
       },
     );
-  }
-
-  IconData _iconForType(AssetType type) {
-    switch (type) {
-      case AssetType.egpCash:
-        return Icons.payments_outlined;
-      case AssetType.usdCash:
-        return Icons.attach_money;
-      case AssetType.gold21:
-      case AssetType.gold24:
-        return Icons.monetization_on_outlined;
-    }
   }
 }
