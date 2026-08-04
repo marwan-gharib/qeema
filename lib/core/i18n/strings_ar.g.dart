@@ -44,9 +44,11 @@ class TranslationsAr extends Translations with BaseTranslations<AppLocale, Trans
 	@override late final _Translations$auth$ar auth = _Translations$auth$ar._(_root);
 	@override late final _Translations$onboarding$ar onboarding = _Translations$onboarding$ar._(_root);
 	@override late final _Translations$navigation$ar navigation = _Translations$navigation$ar._(_root);
+	@override late final _Translations$nav$ar nav = _Translations$nav$ar._(_root);
 	@override late final _Translations$appLock$ar appLock = _Translations$appLock$ar._(_root);
 	@override late final _Translations$assets$ar assets = _Translations$assets$ar._(_root);
 	@override late final _Translations$settings$ar settings = _Translations$settings$ar._(_root);
+	@override late final _Translations$home$ar home = _Translations$home$ar._(_root);
 	@override late final _Translations$insights$ar insights = _Translations$insights$ar._(_root);
 }
 
@@ -138,6 +140,17 @@ class _Translations$navigation$ar extends Translations$navigation$en {
 	@override String get notificationSettings => 'إعدادات الإشعارات';
 }
 
+// Path: nav
+class _Translations$nav$ar extends Translations$nav$en {
+	_Translations$nav$ar._(TranslationsAr root) : this._root = root, super.internal(root);
+
+	final TranslationsAr _root; // ignore: unused_field
+
+	// Translations
+	@override String get home => 'الرئيسية';
+	@override String get assets => 'الأصول';
+}
+
 // Path: appLock
 class _Translations$appLock$ar extends Translations$appLock$en {
 	_Translations$appLock$ar._(TranslationsAr root) : this._root = root, super.internal(root);
@@ -180,6 +193,24 @@ class _Translations$settings$ar extends Translations$settings$en {
 	@override String get requireUnlock => 'طلب فتح قفل الجهاز لفتح قيّمة';
 	@override String get noDeviceLock => 'جهازك لا يحتوي على قفل شاشة. قم بإعداد واحد في إعدادات جهازك لاستخدام هذه الميزة.';
 	@override String get authCancelled => 'تم إلغاء التحقق.';
+}
+
+// Path: home
+class _Translations$home$ar extends Translations$home$en {
+	_Translations$home$ar._(TranslationsAr root) : this._root = root, super.internal(root);
+
+	final TranslationsAr _root; // ignore: unused_field
+
+	// Translations
+	@override String get title => 'قيّمة';
+	@override String get totalSavingsNominal => 'إجمالي المدخرات';
+	@override String get totalSavingsReal => 'بعد تعديل التضخم';
+	@override String get erosionCaption => 'من قيمة أموالك تآكلت منذ أن بدأت';
+	@override String get trendSectionTitle => 'القيمة الحقيقية — آخر 30 يوماً';
+	@override String get priceMoveBanner => 'تحركت الأسعار بشكل ملحوظ اليوم — تحقق من أصولك.';
+	@override String get errorTitle => 'حدث خطأ ما';
+	@override String get retry => 'حاول مرة أخرى';
+	@override String get notEnoughTrendData => 'لا توجد بيانات كافية بعد';
 }
 
 // Path: insights
@@ -643,6 +674,8 @@ extension on TranslationsAr {
 			'navigation.addGoal' => 'إضافة هدف',
 			'navigation.goalDetail' => 'الهدف {id}',
 			'navigation.notificationSettings' => 'إعدادات الإشعارات',
+			'nav.home' => 'الرئيسية',
+			'nav.assets' => 'الأصول',
 			'appLock.tooManyAttempts' => 'محاولات كثيرة جداً. حاول مرة أخرى لاحقاً.',
 			'appLock.noCredentials' => 'لم يتم إعداد قفل للجهاز. قم بإعداد قفل شاشة في إعدادات جهازك.',
 			'appLock.unavailable' => 'التحقق من الجهاز غير متاح على هذا الجهاز.',
@@ -711,6 +744,15 @@ extension on TranslationsAr {
 			'settings.requireUnlock' => 'طلب فتح قفل الجهاز لفتح قيّمة',
 			'settings.noDeviceLock' => 'جهازك لا يحتوي على قفل شاشة. قم بإعداد واحد في إعدادات جهازك لاستخدام هذه الميزة.',
 			'settings.authCancelled' => 'تم إلغاء التحقق.',
+			'home.title' => 'قيّمة',
+			'home.totalSavingsNominal' => 'إجمالي المدخرات',
+			'home.totalSavingsReal' => 'بعد تعديل التضخم',
+			'home.erosionCaption' => 'من قيمة أموالك تآكلت منذ أن بدأت',
+			'home.trendSectionTitle' => 'القيمة الحقيقية — آخر 30 يوماً',
+			'home.priceMoveBanner' => 'تحركت الأسعار بشكل ملحوظ اليوم — تحقق من أصولك.',
+			'home.errorTitle' => 'حدث خطأ ما',
+			'home.retry' => 'حاول مرة أخرى',
+			'home.notEnoughTrendData' => 'لا توجد بيانات كافية بعد',
 			'insights.assetPerformance.title' => 'أفضل أصل أداءً',
 			'insights.assetPerformance.body' => 'الأصل {id} يتصدر محفظتك بقيمة {value} جنيه.',
 			'insights.concentrationRisk.title' => 'مخاطر التركيز العالي',

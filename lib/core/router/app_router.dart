@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:qeema/core/animations/app_page_transitions.dart';
 import 'package:qeema/core/di/injection_container.dart';
 import 'package:qeema/core/i18n/strings.g.dart';
+import 'package:qeema/core/navigation/app_shell.dart';
 import 'package:qeema/core/router/route_guards.dart';
 import 'package:qeema/core/router/route_names.dart';
 import 'package:qeema/core/router/route_paths.dart';
@@ -18,6 +19,8 @@ import 'package:qeema/features/assets/presentation/screens/assets_list_screen.da
 import 'package:qeema/features/assets/presentation/screens/edit_asset_screen.dart';
 import 'package:qeema/features/auth/presentation/cubits/welcome_cubit/welcome_cubit.dart';
 import 'package:qeema/features/auth/presentation/screens/welcome_screen.dart';
+import 'package:qeema/features/home/presentation/cubits/home_cubit/home_cubit.dart';
+import 'package:qeema/features/home/presentation/screens/home_screen.dart';
 import 'package:qeema/features/onboarding/presentation/cubits/onboarding_cubit/onboarding_cubit.dart';
 import 'package:qeema/features/onboarding/presentation/screens/onboarding_screen.dart';
 import 'package:qeema/features/splash/presentation/screens/splash_screen.dart';
@@ -25,6 +28,83 @@ import 'package:qeema/features/splash/presentation/screens/splash_screen.dart';
 class AppRouter {
   AppRouter._();
   static final RouteGuards _routeGuards = getIt<RouteGuards>();
+
+  static StatefulShellRoute? _shellRoute;
+
+  /// Tab branches must stay in sync with `BottomNavItemConfig.items`.
+  static StatefulShellRoute get shellRoute =>
+      _shellRoute ??= StatefulShellRoute.indexedStack(
+        builder: (context, state, navigationShell) =>
+            AppShell(navigationShell: navigationShell),
+        branches: [
+          StatefulShellBranch(
+            routes: [
+              GoRoute(
+                path: RoutePaths.home,
+                name: RouteNames.home,
+                builder: (context, state) => BlocProvider(
+                  create: (_) => getIt<HomeCubit>()..loadDashboard(),
+                  child: const HomeScreen(),
+                ),
+              ),
+            ],
+          ),
+          StatefulShellBranch(
+            routes: [
+              GoRoute(
+                path: RoutePaths.assets,
+                name: RouteNames.assets,
+                builder: (context, state) => BlocProvider(
+                  create: (_) => getIt<AssetsListCubit>()..loadAssets(),
+                  child: const AssetsListScreen(),
+                ),
+                routes: [
+                  GoRoute(
+                    path: RouteSegments.add,
+                    name: RouteNames.addAsset,
+                    pageBuilder: (context, state) => slideUpPage(
+                      child: BlocProvider(
+                        create: (_) => getIt<AddAssetCubit>()..loadAssetTypes(),
+                        child: const AddAssetScreen(),
+                      ),
+                      pageKey: const ValueKey('addAsset'),
+                    ),
+                  ),
+                  GoRoute(
+                    path: RouteSegments.assetId,
+                    name: RouteNames.assetDetail,
+                    pageBuilder: (context, state) => sharedAxisPage(
+                      child: BlocProvider(
+                        create: (_) => getIt<AssetDetailCubit>(
+                          param1: state.pathParameters['assetId']!,
+                        ),
+                        child: const AssetDetailScreen(),
+                      ),
+                      pageKey: const ValueKey('assetDetail'),
+                      forward: true,
+                    ),
+                    routes: [
+                      GoRoute(
+                        path: RouteSegments.edit,
+                        name: RouteNames.editAsset,
+                        pageBuilder: (context, state) => slideUpPage(
+                          child: BlocProvider(
+                            create: (_) => getIt<EditAssetCubit>(
+                              param1: state.pathParameters['assetId']!,
+                            ),
+                            child: const EditAssetScreen(),
+                          ),
+                          pageKey: const ValueKey('editAsset'),
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ],
+          ),
+        ],
+      );
 
   static GoRouter router = GoRouter(
     initialLocation: RoutePaths.splash,
@@ -65,62 +145,7 @@ class AppRouter {
           body: Center(child: Text(context.t.navigation.biometricSetup)),
         ),
       ),
-      GoRoute(
-        path: RoutePaths.home,
-        name: RouteNames.home,
-        builder: (context, state) =>
-            Scaffold(body: Center(child: Text(context.t.navigation.home))),
-      ),
-      GoRoute(
-        path: RoutePaths.assets,
-        name: RouteNames.assets,
-        builder: (context, state) => BlocProvider(
-          create: (_) => getIt<AssetsListCubit>()..loadAssets(),
-          child: const AssetsListScreen(),
-        ),
-        routes: [
-          GoRoute(
-            path: RouteSegments.add,
-            name: RouteNames.addAsset,
-            pageBuilder: (context, state) => slideUpPage(
-              child: BlocProvider(
-                create: (_) => getIt<AddAssetCubit>()..loadAssetTypes(),
-                child: const AddAssetScreen(),
-              ),
-              pageKey: const ValueKey('addAsset'),
-            ),
-          ),
-          GoRoute(
-            path: RouteSegments.assetId,
-            name: RouteNames.assetDetail,
-            pageBuilder: (context, state) => sharedAxisPage(
-              child: BlocProvider(
-                create: (_) => getIt<AssetDetailCubit>(
-                  param1: state.pathParameters['assetId']!,
-                ),
-                child: const AssetDetailScreen(),
-              ),
-              pageKey: const ValueKey('assetDetail'),
-              forward: true,
-            ),
-            routes: [
-              GoRoute(
-                path: RouteSegments.edit,
-                name: RouteNames.editAsset,
-                pageBuilder: (context, state) => slideUpPage(
-                  child: BlocProvider(
-                    create: (_) => getIt<EditAssetCubit>(
-                      param1: state.pathParameters['assetId']!,
-                    ),
-                    child: const EditAssetScreen(),
-                  ),
-                  pageKey: const ValueKey('editAsset'),
-                ),
-              ),
-            ],
-          ),
-        ],
-      ),
+      shellRoute,
       GoRoute(
         path: RoutePaths.insights,
         name: RouteNames.insights,

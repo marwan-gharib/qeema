@@ -3,6 +3,7 @@ import 'package:qeema/core/di/app_lock_module.dart';
 import 'package:qeema/core/di/assets_module.dart';
 import 'package:qeema/core/di/auth_module.dart';
 import 'package:qeema/core/di/core_module.dart';
+import 'package:qeema/core/di/home_module.dart';
 import 'package:qeema/core/di/onboarding_module.dart';
 import 'package:qeema/core/network/supabase_client_provider.dart';
 import 'package:qeema/core/router/route_guards.dart';
@@ -16,6 +17,7 @@ Future<void> initDependencies() async {
   await initAuthModule(getIt);
   initAppLockModule(getIt);
   initAssetsModule(getIt);
+  initHomeModule(getIt);
 
   /*
   this is a temporary solution to avoid circular dependency between core_module and onboarding_module

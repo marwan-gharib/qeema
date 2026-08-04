@@ -45,9 +45,11 @@ class Translations with BaseTranslations<AppLocale, Translations> {
 	late final Translations$auth$en auth = Translations$auth$en.internal(_root);
 	late final Translations$onboarding$en onboarding = Translations$onboarding$en.internal(_root);
 	late final Translations$navigation$en navigation = Translations$navigation$en.internal(_root);
+	late final Translations$nav$en nav = Translations$nav$en.internal(_root);
 	late final Translations$appLock$en appLock = Translations$appLock$en.internal(_root);
 	late final Translations$assets$en assets = Translations$assets$en.internal(_root);
 	late final Translations$settings$en settings = Translations$settings$en.internal(_root);
+	late final Translations$home$en home = Translations$home$en.internal(_root);
 	late final Translations$insights$en insights = Translations$insights$en.internal(_root);
 }
 
@@ -200,6 +202,21 @@ class Translations$navigation$en {
 	String get notificationSettings => 'Notification Settings';
 }
 
+// Path: nav
+class Translations$nav$en {
+	Translations$nav$en.internal(this._root);
+
+	final Translations _root; // ignore: unused_field
+
+	// Translations
+
+	/// en: 'Home'
+	String get home => 'Home';
+
+	/// en: 'Assets'
+	String get assets => 'Assets';
+}
+
 // Path: appLock
 class Translations$appLock$en {
 	Translations$appLock$en.internal(this._root);
@@ -256,6 +273,42 @@ class Translations$settings$en {
 
 	/// en: 'Authentication was cancelled.'
 	String get authCancelled => 'Authentication was cancelled.';
+}
+
+// Path: home
+class Translations$home$en {
+	Translations$home$en.internal(this._root);
+
+	final Translations _root; // ignore: unused_field
+
+	// Translations
+
+	/// en: 'Qeema'
+	String get title => 'Qeema';
+
+	/// en: 'Total Savings'
+	String get totalSavingsNominal => 'Total Savings';
+
+	/// en: 'Adjusted for Inflation'
+	String get totalSavingsReal => 'Adjusted for Inflation';
+
+	/// en: 'of your money's value has eroded since you started'
+	String get erosionCaption => 'of your money\'s value has eroded since you started';
+
+	/// en: 'Real Value — Last 30 Days'
+	String get trendSectionTitle => 'Real Value — Last 30 Days';
+
+	/// en: 'Prices moved significantly today — check your assets.'
+	String get priceMoveBanner => 'Prices moved significantly today — check your assets.';
+
+	/// en: 'Something went wrong'
+	String get errorTitle => 'Something went wrong';
+
+	/// en: 'Try Again'
+	String get retry => 'Try Again';
+
+	/// en: 'Not enough data yet'
+	String get notEnoughTrendData => 'Not enough data yet';
 }
 
 // Path: insights
@@ -955,6 +1008,8 @@ extension on Translations {
 			'navigation.addGoal' => 'Add Goal',
 			'navigation.goalDetail' => 'Goal {id}',
 			'navigation.notificationSettings' => 'Notification Settings',
+			'nav.home' => 'Home',
+			'nav.assets' => 'Assets',
 			'appLock.tooManyAttempts' => 'Too many attempts. Try again later.',
 			'appLock.noCredentials' => 'No device lock set up. Set up a screen lock in your device settings.',
 			'appLock.unavailable' => 'Device authentication is not available on this device.',
@@ -1023,6 +1078,15 @@ extension on Translations {
 			'settings.requireUnlock' => 'Require device unlock to open Qeema',
 			'settings.noDeviceLock' => 'Your device doesn\'t have a screen lock set up. Set one up in your device settings to use this feature.',
 			'settings.authCancelled' => 'Authentication was cancelled.',
+			'home.title' => 'Qeema',
+			'home.totalSavingsNominal' => 'Total Savings',
+			'home.totalSavingsReal' => 'Adjusted for Inflation',
+			'home.erosionCaption' => 'of your money\'s value has eroded since you started',
+			'home.trendSectionTitle' => 'Real Value — Last 30 Days',
+			'home.priceMoveBanner' => 'Prices moved significantly today — check your assets.',
+			'home.errorTitle' => 'Something went wrong',
+			'home.retry' => 'Try Again',
+			'home.notEnoughTrendData' => 'Not enough data yet',
 			'insights.assetPerformance.title' => 'Best performing asset',
 			'insights.assetPerformance.body' => 'Asset {id} leads your portfolio with a value of {value} EGP.',
 			'insights.concentrationRisk.title' => 'High concentration risk',

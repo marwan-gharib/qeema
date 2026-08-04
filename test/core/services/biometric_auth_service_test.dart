@@ -16,23 +16,30 @@ void main() {
   });
 
   group('authenticate', () {
-    test('returns Success(true) on successful authentication', () async {
+    test('returns Success on successful authentication', () async {
       mockLocalAuth.authenticateResult = true;
 
       final result = await service.authenticate(localizedReason: 'Test reason');
 
-      expect(result, isA<Success<bool>>());
-      expect((result as Success<bool>).data, true);
+      expect(result, isA<Success<void>>());
     });
 
-    test('returns Success(false) on failed authentication', () async {
-      mockLocalAuth.authenticateResult = false;
+    test(
+      'returns LocalAuthUnknownFailure when authentication is rejected',
+      () async {
+        mockLocalAuth.authenticateResult = false;
 
-      final result = await service.authenticate(localizedReason: 'Test reason');
+        final result = await service.authenticate(
+          localizedReason: 'Test reason',
+        );
 
-      expect(result, isA<Success<bool>>());
-      expect((result as Success<bool>).data, false);
-    });
+        expect(result, isA<ResultFailure<void>>());
+        expect(
+          (result as ResultFailure<void>).failure,
+          isA<LocalAuthUnknownFailure>(),
+        );
+      },
+    );
 
     test('returns LocalAuthCancelledFailure on user cancel', () async {
       mockLocalAuth.throwException = true;
@@ -42,9 +49,9 @@ void main() {
 
       final result = await service.authenticate(localizedReason: 'Test reason');
 
-      expect(result, isA<ResultFailure<bool>>());
+      expect(result, isA<ResultFailure<void>>());
       expect(
-        (result as ResultFailure<bool>).failure,
+        (result as ResultFailure<void>).failure,
         isA<LocalAuthCancelledFailure>(),
       );
     });
@@ -57,9 +64,9 @@ void main() {
 
       final result = await service.authenticate(localizedReason: 'Test reason');
 
-      expect(result, isA<ResultFailure<bool>>());
+      expect(result, isA<ResultFailure<void>>());
       expect(
-        (result as ResultFailure<bool>).failure,
+        (result as ResultFailure<void>).failure,
         isA<LocalAuthCancelledFailure>(),
       );
     });
@@ -72,9 +79,9 @@ void main() {
 
       final result = await service.authenticate(localizedReason: 'Test reason');
 
-      expect(result, isA<ResultFailure<bool>>());
+      expect(result, isA<ResultFailure<void>>());
       expect(
-        (result as ResultFailure<bool>).failure,
+        (result as ResultFailure<void>).failure,
         isA<LocalAuthLockoutFailure>(),
       );
     });
@@ -87,9 +94,9 @@ void main() {
 
       final result = await service.authenticate(localizedReason: 'Test reason');
 
-      expect(result, isA<ResultFailure<bool>>());
+      expect(result, isA<ResultFailure<void>>());
       expect(
-        (result as ResultFailure<bool>).failure,
+        (result as ResultFailure<void>).failure,
         isA<LocalAuthLockoutFailure>(),
       );
     });
@@ -102,9 +109,9 @@ void main() {
 
       final result = await service.authenticate(localizedReason: 'Test reason');
 
-      expect(result, isA<ResultFailure<bool>>());
+      expect(result, isA<ResultFailure<void>>());
       expect(
-        (result as ResultFailure<bool>).failure,
+        (result as ResultFailure<void>).failure,
         isA<LocalAuthNoCredentialsFailure>(),
       );
     });
@@ -121,9 +128,9 @@ void main() {
           localizedReason: 'Test reason',
         );
 
-        expect(result, isA<ResultFailure<bool>>());
+        expect(result, isA<ResultFailure<void>>());
         expect(
-          (result as ResultFailure<bool>).failure,
+          (result as ResultFailure<void>).failure,
           isA<LocalAuthUnavailableFailure>(),
         );
       },
@@ -137,9 +144,9 @@ void main() {
 
       final result = await service.authenticate(localizedReason: 'Test reason');
 
-      expect(result, isA<ResultFailure<bool>>());
+      expect(result, isA<ResultFailure<void>>());
       expect(
-        (result as ResultFailure<bool>).failure,
+        (result as ResultFailure<void>).failure,
         isA<LocalAuthUnknownFailure>(),
       );
     });

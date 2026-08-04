@@ -5,6 +5,7 @@ import 'package:qeema/core/error/failures.dart';
 import 'package:qeema/core/local/cache/app_database.dart';
 import 'package:qeema/core/local/cache/daos/assets_dao.dart';
 import 'package:qeema/core/utils/api_result.dart';
+import 'package:qeema/core/utils/asset_type_parsing.dart';
 import 'package:qeema/features/assets/data/datasources/assets_remote_datasource.dart';
 import 'package:qeema/features/assets/data/mappers/asset_history_mapper.dart';
 import 'package:qeema/features/assets/domain/entities/asset_entity.dart';
@@ -139,7 +140,7 @@ class AssetsRepositoryImpl implements AssetsRepository {
       return Success(
         AssetEntity(
           id: serverId,
-          assetType: _codeToEnum(typeCode),
+          assetType: assetTypeFromString(typeCode),
           amount: serverAmount,
           priceAtEntry: serverPrice,
           entryDate: serverEntryDate,
@@ -212,7 +213,7 @@ class AssetsRepositoryImpl implements AssetsRepository {
       return Success(
         AssetEntity(
           id: params.assetId,
-          assetType: _codeToEnum(
+          assetType: assetTypeFromString(
             result['asset_types'] is Map
                 ? ((result['asset_types'] as Map)['code'] as String? ?? '')
                 : '',
@@ -261,26 +262,11 @@ class AssetsRepositoryImpl implements AssetsRepository {
     }
   }
 
-  AssetType _codeToEnum(String code) {
-    switch (code) {
-      case 'cash_egp':
-        return AssetType.egpCash;
-      case 'usd':
-        return AssetType.usdCash;
-      case 'gold_21':
-        return AssetType.gold21;
-      case 'gold_24':
-        return AssetType.gold24;
-      default:
-        return AssetType.egpCash;
-    }
-  }
-
   List<AssetEntity> _toEntities(List<AssetModelFromServer> models) {
     return models.map((m) {
       return AssetEntity(
         id: m.id,
-        assetType: _codeToEnum(m.assetTypeCode),
+        assetType: assetTypeFromString(m.assetTypeCode),
         amount: m.amount,
         priceAtEntry: m.priceAtEntry,
         entryDate: m.entryDate,

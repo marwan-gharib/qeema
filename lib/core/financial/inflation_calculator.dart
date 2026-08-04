@@ -1,11 +1,10 @@
 import 'package:decimal/decimal.dart';
 import 'package:qeema/core/error/failures.dart';
+import 'package:qeema/core/extensions/decimal_extensions.dart';
 import 'package:qeema/core/financial/models/monthly_inflation_rate.dart';
 import 'package:qeema/core/utils/api_result.dart';
 
 class InflationCalculator {
-  Decimal _d(dynamic v) => Decimal.parse(v.toString());
-
   ApiResult<Decimal> calculateRealValue({
     required Decimal nominalValue,
     required List<MonthlyInflationRate> ratesInRange,
@@ -30,7 +29,7 @@ class InflationCalculator {
     if (compoundFactor == Decimal.zero) {
       return const ResultFailure(CalculationFailure('compoundFactorZero'));
     }
-    return Success(_d(nominalValue / compoundFactor));
+    return Success(nominalValue.divideBy(compoundFactor));
   }
 
   List<DateTime> _findMissingMonths(

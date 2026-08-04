@@ -114,6 +114,10 @@
     "goalDetail": "الهدف {id}",
     "notificationSettings": "إعدادات الإشعارات"
   },
+  "nav": {
+    "home": "الرئيسية",
+    "assets": "الأصول"
+  },
   "appLock": {
     "tooManyAttempts": "محاولات كثيرة جداً. حاول مرة أخرى لاحقاً.",
     "noCredentials": "لم يتم إعداد قفل للجهاز. قم بإعداد قفل شاشة في إعدادات جهازك.",
@@ -207,6 +211,17 @@
     "requireUnlock": "طلب فتح قفل الجهاز لفتح قيّمة",
     "noDeviceLock": "جهازك لا يحتوي على قفل شاشة. قم بإعداد واحد في إعدادات جهازك لاستخدام هذه الميزة.",
     "authCancelled": "تم إلغاء التحقق."
+  },
+  "home": {
+    "title": "قيّمة",
+    "totalSavingsNominal": "إجمالي المدخرات",
+    "totalSavingsReal": "بعد تعديل التضخم",
+    "erosionCaption": "من قيمة أموالك تآكلت منذ أن بدأت",
+    "trendSectionTitle": "القيمة الحقيقية \u2014 آخر 30 يوماً",
+    "priceMoveBanner": "تحركت الأسعار بشكل ملحوظ اليوم \u2014 تحقق من أصولك.",
+    "errorTitle": "حدث خطأ ما",
+    "retry": "حاول مرة أخرى",
+    "notEnoughTrendData": "لا توجد بيانات كافية بعد"
   },
   "insights": {
     "assetPerformance": {

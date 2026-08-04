@@ -3,8 +3,6 @@ import 'package:decimal/decimal.dart';
 class CurrencyFormatter {
   const CurrencyFormatter._();
 
-  static Decimal _d(dynamic v) => Decimal.parse(v.toString());
-
   static String format(
     Decimal amount, {
     String symbol = 'EGP',
@@ -16,11 +14,24 @@ class CurrencyFormatter {
 
   static String formatCompact(Decimal amount) {
     final abs = amount.abs();
+    String formatted;
+    String suffix;
     if (abs >= Decimal.fromInt(1000000)) {
-      return '${_d(amount / Decimal.fromInt(1000000)).toStringAsFixed(1)}M';
+      formatted = _unitValue(amount, Decimal.fromInt(1000000));
+      suffix = 'M';
     } else if (abs >= Decimal.fromInt(1000)) {
-      return '${_d(amount / Decimal.fromInt(1000)).toStringAsFixed(1)}K';
+      formatted = _unitValue(amount, Decimal.fromInt(1000));
+      suffix = 'K';
+    } else {
+      return amount.toStringAsFixed(2);
     }
-    return amount.toStringAsFixed(2);
+    if (formatted.endsWith('.0')) {
+      formatted = formatted.substring(0, formatted.length - 2);
+    }
+    return '$formatted$suffix';
+  }
+
+  static String _unitValue(Decimal amount, Decimal unit) {
+    return (amount / unit).toDouble().toStringAsFixed(1);
   }
 }

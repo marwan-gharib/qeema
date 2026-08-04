@@ -26,6 +26,11 @@ Widget _buildTestApp(WelcomeCubit cubit) {
         builder: (_, _) =>
             BlocProvider.value(value: cubit, child: const WelcomeScreen()),
       ),
+      GoRoute(
+        path: RoutePaths.home,
+        name: RouteNames.home,
+        builder: (_, _) => const Scaffold(),
+      ),
     ],
   );
   return TranslationProvider(
@@ -62,7 +67,10 @@ void main() {
 
       expect(find.text('Start Tracking Your Savings'), findsOneWidget);
       expect(
-        find.text('No account needed. You can create one later.'),
+        find.text(
+          'Track your savings against inflation and see your real '
+          'purchasing power over time.',
+        ),
         findsOneWidget,
       );
     });
@@ -137,6 +145,11 @@ void main() {
             name: RouteNames.welcome,
             builder: (_, _) =>
                 BlocProvider.value(value: cubit, child: const WelcomeScreen()),
+          ),
+          GoRoute(
+            path: RoutePaths.home,
+            name: RouteNames.home,
+            builder: (_, _) => const Scaffold(),
           ),
         ],
       );

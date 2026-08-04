@@ -57,7 +57,10 @@ class AssetsListScreen extends StatelessWidget {
                         : RefreshIndicator(
                             onRefresh: context.read<AssetsListCubit>().refresh,
                             child: ListView.separated(
-                              padding: const EdgeInsets.only(bottom: 80),
+                              padding: EdgeInsets.only(
+                                bottom:
+                                    80 + MediaQuery.paddingOf(context).bottom,
+                              ),
                               itemCount: visibleAssets.length,
                               separatorBuilder: (_, _) =>
                                   Divider(height: 1, color: colors.divider),
@@ -77,6 +80,7 @@ class AssetsListScreen extends StatelessWidget {
         onPressed: () => context.pushNamed(RouteNames.addAsset),
         child: const Icon(Icons.add),
       ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
     );
   }
 }
