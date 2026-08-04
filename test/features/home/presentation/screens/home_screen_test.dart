@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:go_router/go_router.dart';
+import 'package:intl/date_symbol_data_local.dart';
 import 'package:qeema/core/animations/loading/shimmer_box.dart';
 import 'package:qeema/core/error/failures.dart';
 import 'package:qeema/core/i18n/strings.g.dart';
@@ -109,8 +110,7 @@ Widget _buildTestApp(HomeCubit cubit) {
           GoRoute(
             path: RouteSegments.add,
             name: RouteNames.addAsset,
-            builder: (_, _) =>
-                const Scaffold(body: Text('Add Asset Screen')),
+            builder: (_, _) => const Scaffold(body: Text('Add Asset Screen')),
           ),
         ],
       ),
@@ -130,6 +130,10 @@ Future<void> pumpWithAnimation(WidgetTester tester) async {
 void main() {
   late MockGetDashboardSummaryUseCase useCase;
   late HomeCubit cubit;
+
+  setUpAll(() async {
+    await initializeDateFormatting('en');
+  });
 
   setUp(() {
     LocaleSettings.setLocaleSync(AppLocale.en);

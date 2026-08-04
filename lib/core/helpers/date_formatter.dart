@@ -1,3 +1,6 @@
+import 'package:intl/intl.dart';
+import 'package:qeema/core/i18n/strings.g.dart';
+
 class DateFormatter {
   const DateFormatter._();
 
@@ -7,5 +10,12 @@ class DateFormatter {
 
   static String monthYear(DateTime date) {
     return '${date.year}';
+  }
+
+  static String formatShort(DateTime date) {
+    return DateFormat(
+      'MMM d',
+      LocaleSettings.currentLocale.languageCode,
+    ).format(date);
   }
 }
