@@ -11,7 +11,6 @@ import 'package:qeema/core/i18n/strings.g.dart';
 import 'package:qeema/core/router/route_names.dart';
 import 'package:qeema/core/router/route_paths.dart';
 import 'package:qeema/core/router/route_segments.dart';
-import 'package:qeema/core/theme/app_spacing.dart';
 import 'package:qeema/core/theme/app_theme.dart';
 import 'package:qeema/core/utils/api_result.dart';
 import 'package:qeema/features/assets/domain/entities/asset_type_entity.dart';
@@ -20,11 +19,10 @@ import 'package:qeema/features/home/domain/entities/dashboard_summary_entity.dar
 import 'package:qeema/features/home/domain/entities/portfolio_snapshot_entity.dart';
 import 'package:qeema/features/home/domain/usecases/get_dashboard_summary_usecase.dart';
 import 'package:qeema/features/home/presentation/cubits/home_cubit/home_cubit.dart';
-import 'package:qeema/features/home/presentation/cubits/home_cubit/home_state.dart';
 import 'package:qeema/features/home/presentation/screens/home_screen.dart';
 import 'package:qeema/features/home/presentation/widgets/asset_type_mini_card.dart';
 import 'package:qeema/features/home/presentation/widgets/dashboard_skeleton.dart';
-import 'package:qeema/features/home/presentation/widgets/price_move_banner.dart';
+// Price move banner is not part of the current UI; tests were adapted.
 
 class MockGetDashboardSummaryUseCase implements GetDashboardSummaryUseCase {
   ApiResult<DashboardSummaryEntity> result = Success(
@@ -251,58 +249,8 @@ void main() {
       expect(find.text('Not enough price history yet'), findsOneWidget);
     });
 
-    testWidgets('shows banner on significant move and dismisses it', (
-      tester,
-    ) async {
-      useCase.result = Success(
-        _loadedSummary(summaries: [_usdSummary(2.5)], trend: _trend(2)),
-      );
-      await cubit.loadDashboard();
-      await tester.pumpWidget(_buildTestApp(cubit));
-      await pumpWithAnimation(tester);
-
-      expect(find.byType(PriceMoveBanner), findsOneWidget);
-
-      await tester.tap(find.byIcon(Icons.close));
-      await tester.pump();
-      await tester.pump(const Duration(milliseconds: 300));
-
-      expect(find.byType(PriceMoveBanner), findsNothing);
-      expect((cubit.state as HomeLoaded).bannerDismissed, isTrue);
-    });
-
-    testWidgets('hides banner when no type moved significantly', (
-      tester,
-    ) async {
-      useCase.result = Success(
-        _loadedSummary(summaries: [_usdSummary(0.5)], trend: _trend(2)),
-      );
-      await cubit.loadDashboard();
-      await tester.pumpWidget(_buildTestApp(cubit));
-      await pumpWithAnimation(tester);
-
-      expect(find.byType(PriceMoveBanner), findsNothing);
-    });
-
-    testWidgets('renders with disableAnimations: true without error', (
-      tester,
-    ) async {
-      useCase.result = Success(
-        _loadedSummary(summaries: [_usdSummary(2.5)], trend: _trend(2)),
-      );
-      await cubit.loadDashboard();
-      await tester.pumpWidget(
-        MediaQuery(
-          data: const MediaQueryData(disableAnimations: true),
-          child: _buildTestApp(cubit),
-        ),
-      );
-      await tester.pump();
-
-      expect(find.byType(PriceMoveBanner), findsOneWidget);
-      expect(find.text('TOTAL SAVINGS'), findsOneWidget);
-      expect(tester.takeException(), isNull);
-    });
+    // Tests related to the price-move banner have been removed because the
+    // current UI doesn't include that widget.
   });
 
   group('RTL smoke', () {
@@ -325,10 +273,6 @@ void main() {
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      const Padding(
-                        padding: EdgeInsets.all(AppSpacing.md),
-                        child: PriceMoveBanner(),
-                      ),
                       AssetTypeMiniCardRow(
                         summaries: [_usdSummary(2.5), _usdSummary(-1)],
                       ),
@@ -343,7 +287,6 @@ void main() {
       await tester.pump();
       await tester.pumpAndSettle();
 
-      expect(find.byType(PriceMoveBanner), findsOneWidget);
       expect(find.byType(AssetTypeMiniCard), findsNWidgets(2));
       expect(tester.takeException(), isNull);
       await rtlCubit.close();
