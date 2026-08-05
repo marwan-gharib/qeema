@@ -14,7 +14,7 @@ import 'package:qeema/features/assets/domain/entities/asset_entity.dart';
 import 'package:qeema/features/assets/domain/entities/asset_history_entry_entity.dart';
 import 'package:qeema/features/assets/presentation/cubits/asset_detail_cubit/asset_detail_cubit.dart';
 import 'package:qeema/features/assets/presentation/widgets/asset_history_timeline.dart';
-import 'package:qeema/features/assets/presentation/widgets/asset_value_chart.dart';
+import 'package:qeema/features/assets/presentation/widgets/asset_value_chart_content.dart';
 import 'package:qeema/features/assets/presentation/widgets/delete_asset_confirmation_dialog.dart';
 
 class AssetDetailContent extends StatelessWidget {
@@ -104,7 +104,7 @@ class AssetDetailContent extends StatelessWidget {
           AppAnimatedEntry(
             type: EntryAnimationType.fadeSlideUp,
             delay: const Duration(milliseconds: 200),
-            child: AssetValueChart(asset: asset),
+            child: AssetValueChartBody(asset: asset, priceHistory: const []),
           ),
           const SizedBox(height: AppSpacing.md),
           AppAnimatedEntry(

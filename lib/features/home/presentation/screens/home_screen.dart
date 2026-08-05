@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:qeema/core/animations/app_animated_entry.dart';
-import 'package:qeema/core/animations/app_motion.dart';
 import 'package:qeema/core/animations/entry_animation_type.dart';
 import 'package:qeema/core/extensions/build_context_extensions.dart';
 import 'package:qeema/core/i18n/strings.g.dart';
@@ -17,7 +16,6 @@ import 'package:qeema/features/home/presentation/widgets/asset_type_mini_card.da
 import 'package:qeema/features/home/presentation/widgets/dashboard_skeleton.dart';
 import 'package:qeema/features/home/presentation/widgets/dashboard_summary_card.dart';
 import 'package:qeema/features/home/presentation/widgets/erosion_ring.dart';
-import 'package:qeema/features/home/presentation/widgets/price_move_banner.dart';
 import 'package:qeema/features/home/presentation/widgets/real_value_trend_chart.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -45,10 +43,9 @@ class HomeScreen extends StatelessWidget {
               actionLabel: t.assets.list.addFirst,
               onAction: () => context.pushNamed(RouteNames.addAsset),
             ),
-            HomeLoaded(:final summary, :final shouldShowBanner) =>
+            HomeLoaded(:final summary) =>
               _DashboardContent(
                 summary: summary,
-                shouldShowBanner: shouldShowBanner,
               ),
           };
         },
@@ -60,19 +57,14 @@ class HomeScreen extends StatelessWidget {
 class _DashboardContent extends StatelessWidget {
   const _DashboardContent({
     required this.summary,
-    required this.shouldShowBanner,
   });
 
   final DashboardSummaryEntity summary;
-  final bool shouldShowBanner;
 
   @override
   Widget build(BuildContext context) {
     final colors = context.colors;
     final t = context.t;
-    final disableAnimations =
-        MediaQuery.maybeOf(context)?.disableAnimations ?? false;
-    final switchDuration = disableAnimations ? Duration.zero : AppMotion.normal;
 
     return RefreshIndicator(
       onRefresh: context.read<HomeCubit>().refresh,
@@ -84,12 +76,6 @@ class _DashboardContent extends StatelessWidget {
           80 + MediaQuery.paddingOf(context).bottom,
         ),
         children: [
-          AnimatedSwitcher(
-            duration: switchDuration,
-            child: shouldShowBanner
-                ? const PriceMoveBanner()
-                : const SizedBox.shrink(),
-          ),
           AppAnimatedEntry(
             type: EntryAnimationType.fadeSlideUp,
             child: DashboardSummaryCard(summary: summary),

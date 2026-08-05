@@ -18,11 +18,5 @@ class HomeCubit extends Cubit<HomeState> {
     );
   }
 
-  Future<void> refresh() => loadDashboard();
-
-  void dismissBanner() {
-    final current = state;
-    if (current is! HomeLoaded) return;
-    emit(current.copyWith(bannerDismissed: true));
-  }
+  Future<void> refresh() async => await loadDashboard();
 }
