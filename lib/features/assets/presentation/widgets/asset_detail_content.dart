@@ -12,6 +12,7 @@ import 'package:qeema/core/theme/app_spacing.dart';
 import 'package:qeema/core/widgets/app_button.dart';
 import 'package:qeema/features/assets/domain/entities/asset_entity.dart';
 import 'package:qeema/features/assets/domain/entities/asset_history_entry_entity.dart';
+import 'package:qeema/features/assets/domain/entities/market_price_entity.dart';
 import 'package:qeema/features/assets/presentation/cubits/asset_detail_cubit/asset_detail_cubit.dart';
 import 'package:qeema/features/assets/presentation/widgets/asset_history_timeline.dart';
 import 'package:qeema/features/assets/presentation/widgets/asset_value_chart_content.dart';
@@ -22,10 +23,12 @@ class AssetDetailContent extends StatelessWidget {
     super.key,
     required this.asset,
     required this.history,
+    required this.priceHistory,
   });
 
   final AssetEntity asset;
   final List<AssetHistoryEntryEntity> history;
+  final List<MarketPriceEntity> priceHistory;
 
   @override
   Widget build(BuildContext context) {
@@ -104,7 +107,10 @@ class AssetDetailContent extends StatelessWidget {
           AppAnimatedEntry(
             type: EntryAnimationType.fadeSlideUp,
             delay: const Duration(milliseconds: 200),
-            child: AssetValueChartBody(asset: asset, priceHistory: const []),
+            child: AssetValueChartBody(
+              asset: asset,
+              priceHistory: priceHistory,
+            ),
           ),
           const SizedBox(height: AppSpacing.md),
           AppAnimatedEntry(

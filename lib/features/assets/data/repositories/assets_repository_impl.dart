@@ -2,10 +2,12 @@ import 'package:qeema/core/error/failures.dart';
 import 'package:qeema/core/local/cache/daos/assets_dao.dart';
 import 'package:qeema/core/utils/api_result.dart';
 import 'package:qeema/features/assets/data/datasources/assets_remote_datasource.dart';
+import 'package:qeema/features/assets/data/mappers/market_price_mapper.dart';
 import 'package:qeema/features/assets/data/repositories/assets_repository_impl_support.dart';
 import 'package:qeema/features/assets/domain/entities/asset_entity.dart';
 import 'package:qeema/features/assets/domain/entities/asset_history_entry_entity.dart';
 import 'package:qeema/features/assets/domain/entities/asset_type_entity.dart';
+import 'package:qeema/features/assets/domain/entities/market_price_entity.dart';
 import 'package:qeema/features/assets/domain/params/add_asset_params.dart';
 import 'package:qeema/features/assets/domain/params/update_asset_params.dart';
 import 'package:qeema/features/assets/domain/repositories/assets_repository.dart';
@@ -78,5 +80,19 @@ class AssetsRepositoryImpl
     String assetId,
   ) {
     return getAssetHistoryWithSupport(assetId);
+  }
+
+  @override
+  Future<ApiResult<List<MarketPriceEntity>>> getPriceHistory(
+    String assetTypeCode,
+  ) async {
+    try {
+      final rows = await _remoteDataSource.getPriceHistory(assetTypeCode);
+      return Success(rows.map(MarketPriceMapper.fromRow).toList());
+    } on PostgrestException catch (e) {
+      return ResultFailure(mapSupabaseError(e));
+    } catch (e) {
+      return const ResultFailure(UnknownFailure());
+    }
   }
 }

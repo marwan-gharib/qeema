@@ -1,6 +1,7 @@
 import 'package:qeema/core/error/failures.dart';
 import 'package:qeema/features/assets/domain/entities/asset_entity.dart';
 import 'package:qeema/features/assets/domain/entities/asset_history_entry_entity.dart';
+import 'package:qeema/features/assets/domain/entities/market_price_entity.dart';
 
 sealed class AssetDetailState {
   const AssetDetailState();
@@ -15,10 +16,15 @@ class AssetDetailLoading extends AssetDetailState {
 }
 
 class AssetDetailLoaded extends AssetDetailState {
-  const AssetDetailLoaded({required this.asset, required this.history});
+  const AssetDetailLoaded({
+    required this.asset,
+    required this.history,
+    this.priceHistory = const [],
+  });
 
   final AssetEntity asset;
   final List<AssetHistoryEntryEntity> history;
+  final List<MarketPriceEntity> priceHistory;
 }
 
 class AssetDetailNotFound extends AssetDetailState {

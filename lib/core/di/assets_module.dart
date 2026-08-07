@@ -8,6 +8,7 @@ import 'package:qeema/features/assets/domain/usecases/add_asset_usecase.dart';
 import 'package:qeema/features/assets/domain/usecases/get_asset_history_usecase.dart';
 import 'package:qeema/features/assets/domain/usecases/get_asset_types_usecase.dart';
 import 'package:qeema/features/assets/domain/usecases/get_assets_usecase.dart';
+import 'package:qeema/features/assets/domain/usecases/get_market_price_history_usecase.dart';
 import 'package:qeema/features/assets/domain/usecases/soft_delete_asset_usecase.dart';
 import 'package:qeema/features/assets/domain/usecases/update_asset_usecase.dart';
 import 'package:qeema/features/assets/presentation/cubits/add_asset_cubit/add_asset_cubit.dart';
@@ -41,6 +42,9 @@ void initAssetsModule(GetIt getIt) {
   getIt.registerLazySingleton(
     () => GetAssetHistoryUseCase(getIt<AssetsRepository>()),
   );
+  getIt.registerLazySingleton(
+    () => GetMarketPriceHistoryUseCase(getIt<AssetsRepository>()),
+  );
   getIt.registerFactory(() => AssetsListCubit(getIt<GetAssetsUseCase>()));
   getIt.registerFactory(
     () =>
@@ -51,6 +55,7 @@ void initAssetsModule(GetIt getIt) {
       assetId: assetId,
       getAssets: getIt<GetAssetsUseCase>(),
       getHistory: getIt<GetAssetHistoryUseCase>(),
+      getPriceHistory: getIt<GetMarketPriceHistoryUseCase>(),
       softDelete: getIt<SoftDeleteAssetUseCase>(),
     ),
   );

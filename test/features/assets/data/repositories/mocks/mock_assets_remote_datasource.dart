@@ -8,6 +8,7 @@ class MockAssetsRemoteDataSource implements AssetsRemoteDataSource {
   Map<String, dynamic> addAssetResult = {};
   Map<String, dynamic> updateAssetResult = {};
   List<Map<String, dynamic>> assetHistoryResult = [];
+  List<Map<String, dynamic>> priceHistoryResult = [];
   bool shouldThrow = false;
 
   @override
@@ -46,5 +47,13 @@ class MockAssetsRemoteDataSource implements AssetsRemoteDataSource {
   Future<List<Map<String, dynamic>>> getAssetHistory(String assetId) async {
     if (shouldThrow) throw Exception('mock error');
     return assetHistoryResult;
+  }
+
+  @override
+  Future<List<Map<String, dynamic>>> getPriceHistory(
+    String assetTypeCode,
+  ) async {
+    if (shouldThrow) throw Exception('mock error');
+    return priceHistoryResult;
   }
 }

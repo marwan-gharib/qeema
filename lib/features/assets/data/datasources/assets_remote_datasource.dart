@@ -115,6 +115,18 @@ class AssetsRemoteDataSource {
 
     return (response as List).cast<Map<String, dynamic>>();
   }
+
+  Future<List<Map<String, dynamic>>> getPriceHistory(
+    String assetTypeCode,
+  ) async {
+    final response = await _client
+        .from('market_prices')
+        .select('*, asset_types!inner(code)')
+        .eq('asset_types.code', assetTypeCode)
+        .order('price_date', ascending: true);
+
+    return (response as List).cast<Map<String, dynamic>>();
+  }
 }
 
 class AssetModelFromServer {

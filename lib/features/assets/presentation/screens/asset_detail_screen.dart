@@ -51,8 +51,16 @@ class AssetDetailScreen extends StatelessWidget {
                 actionLabel: t.assets.list.title,
                 onAction: () => context.pop(),
               ),
-              AssetDetailLoaded(:final asset, :final history) =>
-                AssetDetailContent(asset: asset, history: history),
+              AssetDetailLoaded(
+                :final asset,
+                :final history,
+                :final priceHistory,
+              ) =>
+                AssetDetailContent(
+                  asset: asset,
+                  history: history,
+                  priceHistory: priceHistory,
+                ),
             },
           ),
         );

@@ -4,6 +4,7 @@ import 'package:qeema/core/error/failures.dart';
 import 'package:qeema/core/utils/api_result.dart';
 import 'package:qeema/features/assets/data/repositories/assets_repository_impl.dart';
 import 'package:qeema/features/assets/domain/entities/asset_entity.dart';
+import 'package:qeema/features/assets/domain/entities/market_price_entity.dart';
 import 'package:qeema/features/assets/domain/params/add_asset_params.dart';
 import 'mocks/mock_assets_dao.dart';
 import 'mocks/mock_assets_remote_datasource.dart';
@@ -123,6 +124,62 @@ void main() {
       expect(entity.assetType, AssetType.usdCash);
       expect(entity.amount, 200);
       expect(entity.priceAtEntry, 48.5);
+    });
+  });
+
+  group('AssetsRepositoryImpl.getPriceHistory', () {
+    test('maps rows to entities in date order with Decimal prices', () async {
+      mockRemote.priceHistoryResult = [
+        {
+          'price_date': '2026-07-20',
+          'price': 47.0,
+          'asset_types': {'code': 'usd'},
+        },
+        {
+          'price_date': '2026-07-21',
+          'price': 47.5,
+          'asset_types': {'code': 'usd'},
+        },
+      ];
+
+      final result = await repository.getPriceHistory('usd');
+
+      expect(result, isA<Success<List<MarketPriceEntity>>>());
+      final entities = (result as Success).data;
+      expect(entities.length, 2);
+      expect(entities[0].priceDate, DateTime(2026, 7, 20));
+      expect(entities[0].price, Decimal.parse('47.0'));
+      expect(entities[1].priceDate, DateTime(2026, 7, 21));
+      expect(entities[1].price, Decimal.parse('47.5'));
+    });
+
+    test('single row is returned unchanged', () async {
+      mockRemote.priceHistoryResult = [
+        {
+          'price_date': '2026-07-24',
+          'price': 48.0,
+          'asset_types': {'code': 'usd'},
+        },
+      ];
+
+      final result = await repository.getPriceHistory('usd');
+
+      expect(result, isA<Success<List<MarketPriceEntity>>>());
+      expect(((result as Success).data).length, 1);
+    });
+
+    test('maps datasource failure to ApiResult failure', () async {
+      mockRemote.shouldThrow = true;
+
+      final result = await repository.getPriceHistory('usd');
+
+      expect(result, isA<ResultFailure<List<MarketPriceEntity>>>());
+      (result as ResultFailure).fold(
+        onSuccess: (_) => fail('Expected failure'),
+        onFailure: (failure) {
+          expect(failure, isA<Failure>());
+        },
+      );
     });
   });
 }

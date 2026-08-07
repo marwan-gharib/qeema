@@ -5,6 +5,7 @@ import 'package:qeema/core/utils/api_result.dart';
 import 'package:qeema/features/assets/domain/entities/asset_entity.dart';
 import 'package:qeema/features/assets/domain/entities/asset_history_entry_entity.dart';
 import 'package:qeema/features/assets/domain/entities/asset_type_entity.dart';
+import 'package:qeema/features/assets/domain/entities/market_price_entity.dart';
 import 'package:qeema/features/assets/domain/params/add_asset_params.dart';
 import 'package:qeema/features/assets/domain/params/update_asset_params.dart';
 import 'package:qeema/features/assets/domain/repositories/assets_repository.dart';
@@ -34,6 +35,7 @@ class MockAssetsRepository implements AssetsRepository {
   ApiResult<void> softDeleteAssetResult = const Success(null);
   ApiResult<List<AssetHistoryEntryEntity>> getAssetHistoryResult =
       const Success([]);
+  ApiResult<List<MarketPriceEntity>> getPriceHistoryResult = const Success([]);
 
   @override
   Future<ApiResult<List<AssetEntity>>> getAssets() async => getAssetsResult;
@@ -58,6 +60,11 @@ class MockAssetsRepository implements AssetsRepository {
   Future<ApiResult<List<AssetHistoryEntryEntity>>> getAssetHistory(
     String assetId,
   ) async => getAssetHistoryResult;
+
+  @override
+  Future<ApiResult<List<MarketPriceEntity>>> getPriceHistory(
+    String assetTypeCode,
+  ) async => getPriceHistoryResult;
 }
 
 void main() {

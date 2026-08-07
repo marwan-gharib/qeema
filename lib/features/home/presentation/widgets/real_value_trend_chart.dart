@@ -65,6 +65,7 @@ class RealValueTrendChart extends StatelessWidget {
                     );
                     final value = CurrencyFormatter.formatCompact(
                       Decimal.parse(spot.y.toStringAsFixed(0)),
+                      decimalPlaces: 4,
                     );
 
                     return LineTooltipItem(
@@ -96,6 +97,7 @@ class RealValueTrendChart extends StatelessWidget {
                   getTitlesWidget: (value, _) => Text(
                     CurrencyFormatter.formatCompact(
                       Decimal.parse(value.toStringAsFixed(0)),
+                      decimalPlaces: 2,
                     ),
                     style: context.textTheme.bodySmall?.copyWith(
                       color: colors.textSecondary,
