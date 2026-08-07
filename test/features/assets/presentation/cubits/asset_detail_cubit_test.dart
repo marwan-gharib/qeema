@@ -126,6 +126,32 @@ void main() {
       await cubit.close();
     });
 
+    test('excludes price history before the asset entry date', () async {
+      mockGetPriceHistory.result = Success([
+        MarketPriceEntity(
+          priceDate: DateTime(2026, 7, 10),
+          price: Decimal.parse('45.0'),
+        ),
+        MarketPriceEntity(
+          priceDate: DateTime(2026, 7, 20),
+          price: Decimal.parse('47.0'),
+        ),
+        MarketPriceEntity(
+          priceDate: DateTime(2026, 7, 21),
+          price: Decimal.parse('47.5'),
+        ),
+      ]);
+
+      final cubit = buildCubit();
+      final loaded = await loadUntilLoaded(cubit);
+
+      expect(loaded.priceHistory.map((p) => p.priceDate), [
+        DateTime(2026, 7, 20),
+        DateTime(2026, 7, 21),
+      ]);
+      await cubit.close();
+    });
+
     test('keeps price history across applyUpdate', () async {
       final cubit = buildCubit();
       await loadUntilLoaded(cubit);

@@ -59,10 +59,13 @@ class AssetDetailCubit extends Cubit<AssetDetailState> {
       onSuccess: (entries) => entries,
       onFailure: (_) => const [],
     );
-    final priceHistory = priceResult.fold<List<MarketPriceEntity>>(
-      onSuccess: (prices) => prices,
-      onFailure: (_) => const [],
-    );
+    final priceHistory = priceResult
+        .fold<List<MarketPriceEntity>>(
+          onSuccess: (prices) => prices,
+          onFailure: (_) => const [],
+        )
+        .where((price) => !price.priceDate.isBefore(asset.entryDate))
+        .toList();
     emit(
       AssetDetailLoaded(
         asset: asset,
