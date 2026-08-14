@@ -15,6 +15,7 @@ final class RouteNames {
   static const String addGoal = 'addGoal';
   static const String goalDetail = 'goalDetail';
   static const String marketPrices = 'marketPrices';
+  static const String marketPriceDetail = 'marketPriceDetail';
   static const String notifications = 'notifications';
   static const String notificationSettings = 'notificationSettings';
   static const String profile = 'profile';

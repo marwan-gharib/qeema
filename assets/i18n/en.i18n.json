@@ -116,7 +116,8 @@
   },
   "nav": {
     "home": "Home",
-    "assets": "Assets"
+    "assets": "Assets",
+    "marketPrices": "Market Prices"
   },
   "appLock": {
     "tooManyAttempts": "Too many attempts. Try again later.",
@@ -239,6 +240,20 @@
     "goalFeasibility": {
       "title": "Savings goal check",
       "body": "At the current pace of inflation, your savings goals may need to be revised upward to maintain their real value."
+    }
+  },
+  "marketPrices": {
+    "title": "Market Prices",
+    "dataSourceDisclosure": "Prices are based on international spot rates and official exchange rates — local market or goldsmith prices may differ.",
+    "lastUpdated": "Updated {when}",
+    "notEnoughHistory": "Not enough history yet",
+    "showingAvailableData": "Showing available data ({days} days)",
+    "emptyTitle": "No market prices yet",
+    "emptyBody": "Market price data will appear here once it becomes available.",
+    "range": {
+      "oneWeek": "1W",
+      "oneMonth": "1M",
+      "threeMonths": "3M"
     }
   }
 }

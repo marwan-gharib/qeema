@@ -21,6 +21,10 @@ import 'package:qeema/features/auth/presentation/cubits/welcome_cubit/welcome_cu
 import 'package:qeema/features/auth/presentation/screens/welcome_screen.dart';
 import 'package:qeema/features/home/presentation/cubits/home_cubit/home_cubit.dart';
 import 'package:qeema/features/home/presentation/screens/home_screen.dart';
+import 'package:qeema/features/market_prices/presentation/cubits/market_price_detail_cubit/market_price_detail_cubit.dart';
+import 'package:qeema/features/market_prices/presentation/cubits/market_prices_list_cubit/market_prices_list_cubit.dart';
+import 'package:qeema/features/market_prices/presentation/screens/market_price_detail_screen.dart';
+import 'package:qeema/features/market_prices/presentation/screens/market_prices_list_screen.dart';
 import 'package:qeema/features/onboarding/presentation/cubits/onboarding_cubit/onboarding_cubit.dart';
 import 'package:qeema/features/onboarding/presentation/screens/onboarding_screen.dart';
 import 'package:qeema/features/splash/presentation/screens/splash_screen.dart';
@@ -94,6 +98,34 @@ class AppRouterRoutes {
                       ),
                     ),
                   ],
+                ),
+              ],
+            ),
+          ],
+        ),
+        StatefulShellBranch(
+          routes: [
+            GoRoute(
+              path: RoutePaths.marketPrices,
+              name: RouteNames.marketPrices,
+              builder: (context, state) => BlocProvider(
+                create: (_) => getIt<MarketPricesListCubit>()..load(),
+                child: const MarketPricesListScreen(),
+              ),
+              routes: [
+                GoRoute(
+                  path: RouteSegments.typeId,
+                  name: RouteNames.marketPriceDetail,
+                  pageBuilder: (context, state) => sharedAxisPage(
+                    child: BlocProvider(
+                      create: (_) => getIt<MarketPriceDetailCubit>(
+                        param1: state.pathParameters['typeId']!,
+                      ),
+                      child: const MarketPriceDetailScreen(),
+                    ),
+                    pageKey: const ValueKey('marketPriceDetail'),
+                    forward: true,
+                  ),
                 ),
               ],
             ),
@@ -175,13 +207,6 @@ class AppRouterRoutes {
             },
           ),
         ],
-      ),
-      GoRoute(
-        path: RoutePaths.marketPrices,
-        name: RouteNames.marketPrices,
-        builder: (context, state) => Scaffold(
-          body: Center(child: Text(context.t.navigation.marketPrices)),
-        ),
       ),
       GoRoute(
         path: RoutePaths.notifications,

@@ -50,6 +50,7 @@ class TranslationsAr extends Translations with BaseTranslations<AppLocale, Trans
 	@override late final _Translations$settings$ar settings = _Translations$settings$ar._(_root);
 	@override late final _Translations$home$ar home = _Translations$home$ar._(_root);
 	@override late final _Translations$insights$ar insights = _Translations$insights$ar._(_root);
+	@override late final _Translations$marketPrices$ar marketPrices = _Translations$marketPrices$ar._(_root);
 }
 
 // Path: app
@@ -149,6 +150,7 @@ class _Translations$nav$ar extends Translations$nav$en {
 	// Translations
 	@override String get home => 'الرئيسية';
 	@override String get assets => 'الأصول';
+	@override String get marketPrices => 'أسعار السوق';
 }
 
 // Path: appLock
@@ -224,6 +226,23 @@ class _Translations$insights$ar extends Translations$insights$en {
 	@override late final _Translations$insights$concentrationRisk$ar concentrationRisk = _Translations$insights$concentrationRisk$ar._(_root);
 	@override late final _Translations$insights$inflationLoss$ar inflationLoss = _Translations$insights$inflationLoss$ar._(_root);
 	@override late final _Translations$insights$goalFeasibility$ar goalFeasibility = _Translations$insights$goalFeasibility$ar._(_root);
+}
+
+// Path: marketPrices
+class _Translations$marketPrices$ar extends Translations$marketPrices$en {
+	_Translations$marketPrices$ar._(TranslationsAr root) : this._root = root, super.internal(root);
+
+	final TranslationsAr _root; // ignore: unused_field
+
+	// Translations
+	@override String get title => 'أسعار السوق';
+	@override String get dataSourceDisclosure => 'الأسعار مبنية على أسعار الصرف الرسمية والأسعار العالمية الفورية — وقد تختلف عن أسعار السوق المحلي أو تجار الذهب.';
+	@override String get lastUpdated => 'آخر تحديث {when}';
+	@override String get notEnoughHistory => 'لا يوجد تاريخ كافٍ بعد';
+	@override String get showingAvailableData => 'عرض البيانات المتاحة ({days} يوم)';
+	@override String get emptyTitle => 'لا توجد أسعار سوق بعد';
+	@override String get emptyBody => 'ستظهر بيانات أسعار السوق هنا بمجرد توفرها.';
+	@override late final _Translations$marketPrices$range$ar range = _Translations$marketPrices$range$ar._(_root);
 }
 
 // Path: core.error
@@ -587,6 +606,18 @@ class _Translations$insights$goalFeasibility$ar extends Translations$insights$go
 	@override String get body => 'بالمعدل الحالي للتضخم، قد تحتاج أهداف الادخار الخاصة بك إلى المراجعة upward للحفاظ على قيمتها الحقيقية.';
 }
 
+// Path: marketPrices.range
+class _Translations$marketPrices$range$ar extends Translations$marketPrices$range$en {
+	_Translations$marketPrices$range$ar._(TranslationsAr root) : this._root = root, super.internal(root);
+
+	final TranslationsAr _root; // ignore: unused_field
+
+	// Translations
+	@override String get oneWeek => '1W';
+	@override String get oneMonth => '1M';
+	@override String get threeMonths => '3M';
+}
+
 /// The flat map containing all translations for locale <ar>.
 /// Only for edge cases! For simple maps, use the map function of this library.
 ///
@@ -676,6 +707,7 @@ extension on TranslationsAr {
 			'navigation.notificationSettings' => 'إعدادات الإشعارات',
 			'nav.home' => 'الرئيسية',
 			'nav.assets' => 'الأصول',
+			'nav.marketPrices' => 'أسعار السوق',
 			'appLock.tooManyAttempts' => 'محاولات كثيرة جداً. حاول مرة أخرى لاحقاً.',
 			'appLock.noCredentials' => 'لم يتم إعداد قفل للجهاز. قم بإعداد قفل شاشة في إعدادات جهازك.',
 			'appLock.unavailable' => 'التحقق من الجهاز غير متاح على هذا الجهاز.',
@@ -761,6 +793,16 @@ extension on TranslationsAr {
 			'insights.inflationLoss.body' => 'فقدت أموالك {erosion}% من قوتها الشرائية منذ أن بدأت التتبع.',
 			'insights.goalFeasibility.title' => 'فحص هدف الادخار',
 			'insights.goalFeasibility.body' => 'بالمعدل الحالي للتضخم، قد تحتاج أهداف الادخار الخاصة بك إلى المراجعة upward للحفاظ على قيمتها الحقيقية.',
+			'marketPrices.title' => 'أسعار السوق',
+			'marketPrices.dataSourceDisclosure' => 'الأسعار مبنية على أسعار الصرف الرسمية والأسعار العالمية الفورية — وقد تختلف عن أسعار السوق المحلي أو تجار الذهب.',
+			'marketPrices.lastUpdated' => 'آخر تحديث {when}',
+			'marketPrices.notEnoughHistory' => 'لا يوجد تاريخ كافٍ بعد',
+			'marketPrices.showingAvailableData' => 'عرض البيانات المتاحة ({days} يوم)',
+			'marketPrices.emptyTitle' => 'لا توجد أسعار سوق بعد',
+			'marketPrices.emptyBody' => 'ستظهر بيانات أسعار السوق هنا بمجرد توفرها.',
+			'marketPrices.range.oneWeek' => '1W',
+			'marketPrices.range.oneMonth' => '1M',
+			'marketPrices.range.threeMonths' => '3M',
 			_ => null,
 		};
 	}
