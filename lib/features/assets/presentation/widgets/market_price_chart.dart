@@ -1,6 +1,6 @@
 import 'package:decimal/decimal.dart';
 import 'package:fl_chart/fl_chart.dart';
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:qeema/core/extensions/build_context_extensions.dart';
 import 'package:qeema/core/helpers/chart_axis_helpers.dart';
 import 'package:qeema/core/helpers/currency_formatter.dart';

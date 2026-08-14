@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:qeema/features/onboarding/presentation/widgets/diverging_lines_painter.dart';
 
 class InflationChartIllustration extends StatelessWidget {

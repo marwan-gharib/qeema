@@ -1,6 +1,6 @@
-import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:qeema/core/animations/app_animated_entry.dart';
 import 'package:qeema/core/animations/entry_animation_type.dart';
 import 'package:qeema/core/extensions/build_context_extensions.dart';
@@ -43,10 +43,7 @@ class HomeScreen extends StatelessWidget {
               actionLabel: t.assets.list.addFirst,
               onAction: () => context.pushNamed(RouteNames.addAsset),
             ),
-            HomeLoaded(:final summary) =>
-              _DashboardContent(
-                summary: summary,
-              ),
+            HomeLoaded(:final summary) => _DashboardContent(summary: summary),
           };
         },
       ),
@@ -55,9 +52,7 @@ class HomeScreen extends StatelessWidget {
 }
 
 class _DashboardContent extends StatelessWidget {
-  const _DashboardContent({
-    required this.summary,
-  });
+  const _DashboardContent({required this.summary});
 
   final DashboardSummaryEntity summary;
 

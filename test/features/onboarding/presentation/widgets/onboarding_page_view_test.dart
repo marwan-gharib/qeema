@@ -1,12 +1,13 @@
-import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:qeema/core/i18n/strings.g.dart';
 import 'package:qeema/core/theme/app_theme.dart';
 import 'package:qeema/core/utils/api_result.dart';
 import 'package:qeema/features/onboarding/presentation/cubits/onboarding_cubit/onboarding_cubit.dart';
 import 'package:qeema/features/onboarding/presentation/cubits/onboarding_cubit/onboarding_state.dart';
 import 'package:qeema/features/onboarding/presentation/widgets/onboarding_page_view.dart';
+
 import '../../../../helpers/mocks.dart';
 
 Widget _buildPageView({required OnboardingCubit cubit}) {

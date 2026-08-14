@@ -1,5 +1,5 @@
 import 'package:decimal/decimal.dart';
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:qeema/core/animations/app_motion.dart';
 
 /// Animates counting from the previous [value] to the new one whenever

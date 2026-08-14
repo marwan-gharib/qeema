@@ -1,10 +1,10 @@
 import 'package:decimal/decimal.dart';
 import 'package:fl_chart/fl_chart.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/date_symbol_data_local.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:qeema/core/animations/loading/shimmer_box.dart';
 import 'package:qeema/core/error/failures.dart';
 import 'package:qeema/core/i18n/strings.g.dart';
@@ -22,6 +22,7 @@ import 'package:qeema/features/home/presentation/cubits/home_cubit/home_cubit.da
 import 'package:qeema/features/home/presentation/screens/home_screen.dart';
 import 'package:qeema/features/home/presentation/widgets/asset_type_mini_card.dart';
 import 'package:qeema/features/home/presentation/widgets/dashboard_skeleton.dart';
+
 // Price move banner is not part of the current UI; tests were adapted.
 
 class MockGetDashboardSummaryUseCase implements GetDashboardSummaryUseCase {

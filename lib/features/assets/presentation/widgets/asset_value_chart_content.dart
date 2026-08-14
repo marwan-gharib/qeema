@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:qeema/features/assets/domain/entities/asset_entity.dart';
 import 'package:qeema/features/assets/domain/entities/market_price_entity.dart';
 import 'package:qeema/features/assets/presentation/widgets/cash_flat_chart.dart';

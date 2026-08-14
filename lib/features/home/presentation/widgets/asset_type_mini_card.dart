@@ -1,5 +1,5 @@
 import 'package:decimal/decimal.dart';
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:qeema/core/animations/app_animated_entry.dart';
 import 'package:qeema/core/animations/app_motion.dart';
 import 'package:qeema/core/animations/entry_animation_type.dart';

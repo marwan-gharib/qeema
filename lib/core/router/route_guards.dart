@@ -1,5 +1,5 @@
-import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:qeema/core/network/supabase_client_provider.dart';
 import 'package:qeema/core/router/route_paths.dart';
 import 'package:qeema/features/onboarding/domain/usecases/get_onboarding_seen_usecase.dart';

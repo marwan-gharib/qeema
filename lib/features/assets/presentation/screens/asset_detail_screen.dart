@@ -1,6 +1,6 @@
-import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:qeema/core/animations/app_motion.dart';
 import 'package:qeema/core/i18n/strings.g.dart';
 import 'package:qeema/core/widgets/app_empty_state.dart';

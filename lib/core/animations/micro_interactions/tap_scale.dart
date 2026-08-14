@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:qeema/core/animations/app_motion.dart';
 
 /// Scales [child] down slightly on press-down and back on release/cancel.

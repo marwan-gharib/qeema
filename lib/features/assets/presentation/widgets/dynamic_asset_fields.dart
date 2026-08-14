@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:qeema/core/animations/app_animated_entry.dart';
 import 'package:qeema/core/animations/entry_animation_type.dart';
 import 'package:qeema/core/helpers/date_formatter.dart';

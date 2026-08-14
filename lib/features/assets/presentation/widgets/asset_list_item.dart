@@ -1,6 +1,6 @@
-import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:qeema/core/router/route_paths.dart';
 import 'package:qeema/core/theme/app_colors_extension.dart';
 import 'package:qeema/features/assets/domain/entities/asset_entity.dart';

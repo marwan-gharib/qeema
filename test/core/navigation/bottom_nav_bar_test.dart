@@ -1,5 +1,5 @@
-import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:qeema/core/i18n/strings.g.dart';
 import 'package:qeema/core/navigation/bottom_nav_bar.dart';
 import 'package:qeema/core/navigation/bottom_nav_item_config.dart';
