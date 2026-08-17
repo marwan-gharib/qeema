@@ -10,6 +10,7 @@ import 'package:qeema/core/i18n/strings.g.dart';
 import 'package:qeema/core/router/route_names.dart';
 import 'package:qeema/core/theme/app_spacing.dart';
 import 'package:qeema/core/widgets/app_button.dart';
+import 'package:qeema/core/widgets/app_surface_card.dart';
 import 'package:qeema/features/assets/domain/entities/asset_entity.dart';
 import 'package:qeema/features/assets/domain/entities/asset_history_entry_entity.dart';
 import 'package:qeema/features/assets/domain/entities/market_price_entity.dart';
@@ -123,12 +124,8 @@ class AssetDetailContent extends StatelessWidget {
             AppAnimatedEntry(
               type: EntryAnimationType.fadeSlideUp,
               delay: const Duration(milliseconds: 350),
-              child: Container(
+              child: AppSurfaceCard(
                 padding: const EdgeInsets.all(AppSpacing.md),
-                decoration: BoxDecoration(
-                  color: colors.surfaceAlt,
-                  borderRadius: BorderRadius.circular(12),
-                ),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -232,12 +229,9 @@ class _AssetDetailHeader extends StatelessWidget {
       decimalDigits: 2,
     );
 
-    return Container(
+    return AppSurfaceCard(
       padding: const EdgeInsets.all(AppSpacing.lg),
-      decoration: BoxDecoration(
-        color: colors.surfaceAlt,
-        borderRadius: BorderRadius.circular(16),
-      ),
+      borderRadius: 16,
       child: Column(
         children: [
           Icon(_iconForType(asset.assetType), size: 48, color: colors.primary),

@@ -1,5 +1,6 @@
 import 'package:material_ui/material_ui.dart';
-import 'package:qeema/core/animations/loading/shimmer_box.dart';
+import 'package:qeema/core/animations/loading/shimmer_card.dart';
+import 'package:qeema/core/animations/loading/shimmer_line.dart';
 import 'package:qeema/core/theme/app_spacing.dart';
 
 class AddAssetSkeleton extends StatelessWidget {
@@ -12,19 +13,19 @@ class AddAssetSkeleton extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          ShimmerBox(height: 14, width: 120, borderRadius: 4),
+          ShimmerLine(width: 120),
           SizedBox(height: AppSpacing.md),
-          ShimmerBox(height: 56, borderRadius: 12),
+          ShimmerCard(height: 56),
           SizedBox(height: AppSpacing.lg),
-          ShimmerBox(height: 56, borderRadius: 12),
+          ShimmerCard(height: 56),
           SizedBox(height: AppSpacing.md),
-          ShimmerBox(height: 56, borderRadius: 12),
+          ShimmerCard(height: 56),
           SizedBox(height: AppSpacing.md),
-          ShimmerBox(height: 56, borderRadius: 12),
+          ShimmerCard(height: 56),
           SizedBox(height: AppSpacing.md),
-          ShimmerBox(height: 56, borderRadius: 12),
+          ShimmerCard(height: 56),
           SizedBox(height: AppSpacing.lg),
-          ShimmerBox(height: 48, borderRadius: 12),
+          ShimmerCard(height: 48),
           SizedBox(height: AppSpacing.lg),
         ],
       ),

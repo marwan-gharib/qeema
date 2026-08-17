@@ -1,14 +1,14 @@
 import 'package:go_router/go_router.dart';
 import 'package:material_ui/material_ui.dart';
-import 'package:qeema/core/animations/micro_interactions/tap_scale.dart';
 import 'package:qeema/core/extensions/build_context_extensions.dart';
 import 'package:qeema/core/helpers/currency_formatter.dart';
 import 'package:qeema/core/i18n/strings.g.dart';
 import 'package:qeema/core/router/route_names.dart';
 import 'package:qeema/core/theme/app_spacing.dart';
+import 'package:qeema/core/widgets/app_surface_card.dart';
+import 'package:qeema/core/widgets/percent_change_badge.dart';
 import 'package:qeema/features/assets/presentation/widgets/asset_type_tile.dart';
 import 'package:qeema/features/market_prices/domain/entities/market_price_summary_entity.dart';
-import 'package:qeema/features/market_prices/presentation/widgets/price_change_badge.dart';
 import 'package:qeema/features/market_prices/presentation/widgets/price_sparkline.dart';
 import 'package:qeema/features/market_prices/presentation/widgets/stale_data_indicator.dart';
 
@@ -23,79 +23,73 @@ class MarketPriceCard extends StatelessWidget {
     final t = context.t.marketPrices;
     final type = summary.assetType;
 
-    return TapScale(
+    return AppSurfaceCard(
+      padding: const EdgeInsets.all(AppSpacing.md),
+      borderRadius: 16,
       onTap: () => context.pushNamed(
         RouteNames.marketPriceDetail,
         pathParameters: {'typeId': type.id},
       ),
-      child: Container(
-        padding: const EdgeInsets.all(AppSpacing.md),
-        decoration: BoxDecoration(
-          color: colors.surfaceAlt,
-          borderRadius: BorderRadius.circular(16),
-        ),
-        child: Row(
-          children: [
-            _TypeIcon(code: type.code),
-            const SizedBox(width: AppSpacing.sm),
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    type.name,
-                    style: context.textTheme.labelLarge?.copyWith(
-                      color: colors.textPrimary,
-                      fontWeight: FontWeight.w600,
-                    ),
-                  ),
-                  const SizedBox(height: 2),
-                  Text(
-                    summary.todayPrice == null
-                        ? '—'
-                        : CurrencyFormatter.format(
-                            summary.todayPrice!,
-                            decimalPlaces: 2,
-                          ),
-                    style: context.textTheme.titleMedium?.copyWith(
-                      color: colors.textPrimary,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  const SizedBox(height: 2),
-                  summary.hasHistory
-                      ? StaleDataIndicator(
-                          fetchedAt: summary.fetchedAt!,
-                          isStale: summary.isStale,
-                        )
-                      : Text(
-                          t.notEnoughHistory,
-                          style: context.textTheme.bodySmall?.copyWith(
-                            color: colors.textSecondary,
-                            fontSize: 11,
-                          ),
-                        ),
-                ],
-              ),
-            ),
-            const SizedBox(width: AppSpacing.sm),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.end,
+      child: Row(
+        children: [
+          _TypeIcon(code: type.code),
+          const SizedBox(width: AppSpacing.sm),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                if (summary.hasHistory)
-                  PriceSparkline(
-                    points: [
-                      for (final p in summary.sparklinePoints)
-                        (p.date, p.price),
-                    ],
-                    isGain: summary.isGain,
+                Text(
+                  type.name,
+                  style: context.textTheme.labelLarge?.copyWith(
+                    color: colors.textPrimary,
+                    fontWeight: FontWeight.w600,
                   ),
-                const SizedBox(height: 6),
-                PriceChangeBadge(percent: summary.weeklyChangePercent),
+                ),
+                const SizedBox(height: 2),
+                Text(
+                  summary.todayPrice == null
+                      ? '—'
+                      : CurrencyFormatter.format(
+                          summary.todayPrice!,
+                          decimalPlaces: 2,
+                        ),
+                  style: context.textTheme.titleMedium?.copyWith(
+                    color: colors.textPrimary,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                const SizedBox(height: 2),
+                summary.hasHistory
+                    ? StaleDataIndicator(
+                        fetchedAt: summary.fetchedAt!,
+                        isStale: summary.isStale,
+                      )
+                    : Text(
+                        t.notEnoughHistory,
+                        style: context.textTheme.bodySmall?.copyWith(
+                          color: colors.textSecondary,
+                          fontSize: 11,
+                        ),
+                      ),
               ],
             ),
-          ],
-        ),
+          ),
+          const SizedBox(width: AppSpacing.sm),
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.end,
+            children: [
+              if (summary.hasHistory)
+                PriceSparkline(
+                  points: [
+                    for (final p in summary.sparklinePoints) (p.date, p.price),
+                  ],
+                  isGain: summary.isGain,
+                ),
+              const SizedBox(height: 6),
+              PercentChangeBadge(percent: summary.weeklyChangePercent),
+            ],
+          ),
+        ],
       ),
     );
   }

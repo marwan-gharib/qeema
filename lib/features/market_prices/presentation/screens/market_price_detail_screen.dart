@@ -4,9 +4,9 @@ import 'package:qeema/core/animations/app_motion.dart';
 import 'package:qeema/core/extensions/build_context_extensions.dart';
 import 'package:qeema/core/i18n/strings.g.dart';
 import 'package:qeema/core/theme/app_spacing.dart';
+import 'package:qeema/core/widgets/app_empty_state.dart';
 import 'package:qeema/core/widgets/app_error_state.dart';
 import 'package:qeema/features/assets/presentation/widgets/asset_type_tile.dart';
-import 'package:qeema/features/assets/presentation/widgets/chart_not_enough_data.dart';
 import 'package:qeema/features/assets/presentation/widgets/market_price_chart.dart';
 import 'package:qeema/features/market_prices/data/mappers/market_price_point_mapper.dart';
 import 'package:qeema/features/market_prices/domain/entities/market_price_point_entity.dart';
@@ -86,7 +86,15 @@ class _DetailContent extends StatelessWidget {
                 context.read<MarketPriceDetailCubit>().loadRange(range),
           ),
           if (points.length < 2)
-            const ChartNotEnoughData()
+            AppEmptyState(
+              icon: Icons.show_chart,
+              title: context.t.assets.chart.noDataTitle,
+              subtitle: context.t.assets.chart.noDataSubtitle,
+              container: true,
+              height: 250,
+              margin: const EdgeInsets.symmetric(vertical: AppSpacing.md),
+              padding: const EdgeInsets.all(AppSpacing.lg),
+            )
           else ...[
             MarketPriceChart(priceHistory: chartHistory),
             if (daysCovered != null &&

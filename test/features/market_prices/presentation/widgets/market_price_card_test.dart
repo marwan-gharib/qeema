@@ -3,11 +3,11 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:material_ui/material_ui.dart';
 import 'package:qeema/core/i18n/strings.g.dart';
 import 'package:qeema/core/theme/app_theme.dart';
+import 'package:qeema/core/widgets/percent_change_badge.dart';
 import 'package:qeema/features/assets/domain/entities/asset_type_entity.dart';
 import 'package:qeema/features/market_prices/domain/entities/market_price_point_entity.dart';
 import 'package:qeema/features/market_prices/domain/entities/market_price_summary_entity.dart';
 import 'package:qeema/features/market_prices/presentation/widgets/market_price_card.dart';
-import 'package:qeema/features/market_prices/presentation/widgets/price_change_badge.dart';
 import 'package:qeema/features/market_prices/presentation/widgets/price_sparkline.dart';
 import 'package:qeema/features/market_prices/presentation/widgets/stale_data_indicator.dart';
 
@@ -61,7 +61,7 @@ void main() {
 
       expect(find.text('US Dollar'), findsOneWidget);
       expect(find.text('EGP 6178.89'), findsOneWidget);
-      expect(find.byType(PriceChangeBadge), findsOneWidget);
+      expect(find.byType(PercentChangeBadge), findsOneWidget);
       expect(find.byType(PriceSparkline), findsOneWidget);
       expect(find.byType(StaleDataIndicator), findsOneWidget);
       expect(find.byIcon(Icons.warning_amber_rounded), findsNothing);

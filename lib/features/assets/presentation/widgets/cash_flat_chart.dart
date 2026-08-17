@@ -5,6 +5,7 @@ import 'package:qeema/core/helpers/currency_formatter.dart';
 import 'package:qeema/core/helpers/date_formatter.dart';
 import 'package:qeema/core/i18n/strings.g.dart';
 import 'package:qeema/core/theme/app_spacing.dart';
+import 'package:qeema/core/widgets/app_surface_card.dart';
 import 'package:qeema/features/assets/domain/entities/asset_entity.dart';
 
 class CashFlatChart extends StatelessWidget {
@@ -20,72 +21,70 @@ class CashFlatChart extends StatelessWidget {
     final today = DateTime.now();
     final startDate = asset.entryDate.isAfter(today) ? today : asset.entryDate;
 
-    return Container(
-      margin: const EdgeInsets.symmetric(vertical: AppSpacing.md),
-      padding: const EdgeInsets.all(AppSpacing.md),
-      decoration: BoxDecoration(
-        color: colors.surfaceAlt,
-        borderRadius: BorderRadius.circular(12),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            t.detail.valueTrend,
-            style: context.textTheme.labelLarge?.copyWith(
-              color: colors.textSecondary,
-            ),
-          ),
-          const SizedBox(height: AppSpacing.md),
-          Text(
-            CurrencyFormatter.format(
-              Decimal.parse(asset.entryValue.toStringAsFixed(0)),
-            ),
-            style: context.textTheme.headlineSmall?.copyWith(
-              color: colors.textPrimary,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-          const SizedBox(height: AppSpacing.lg),
-          SizedBox(
-            height: 48,
-            child: CustomPaint(
-              size: const Size(double.infinity, 48),
-              painter: _FlatLinePainter(
-                lineColor: colors.primary,
-                dotColor: colors.primary,
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: AppSpacing.md),
+      child: AppSurfaceCard(
+        padding: const EdgeInsets.all(AppSpacing.md),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              t.detail.valueTrend,
+              style: context.textTheme.labelLarge?.copyWith(
+                color: colors.textSecondary,
               ),
             ),
-          ),
-          const SizedBox(height: AppSpacing.xs),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(
-                DateFormatter.formatShort(startDate),
-                style: context.textTheme.bodySmall?.copyWith(
-                  color: colors.textSecondary,
-                  fontSize: 10,
+            const SizedBox(height: AppSpacing.md),
+            Text(
+              CurrencyFormatter.format(
+                Decimal.parse(asset.entryValue.toStringAsFixed(0)),
+              ),
+              style: context.textTheme.headlineSmall?.copyWith(
+                color: colors.textPrimary,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            const SizedBox(height: AppSpacing.lg),
+            SizedBox(
+              height: 48,
+              child: CustomPaint(
+                size: const Size(double.infinity, 48),
+                painter: _FlatLinePainter(
+                  lineColor: colors.primary,
+                  dotColor: colors.primary,
                 ),
               ),
-              Text(
-                'today',
-                style: context.textTheme.bodySmall?.copyWith(
-                  color: colors.textSecondary,
-                  fontSize: 10,
-                ),
-              ),
-            ],
-          ),
-          const SizedBox(height: AppSpacing.sm),
-          Text(
-            t.chart.cashPlaceholder,
-            style: context.textTheme.bodySmall?.copyWith(
-              color: colors.textSecondary,
-              fontStyle: FontStyle.italic,
             ),
-          ),
-        ],
+            const SizedBox(height: AppSpacing.xs),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  DateFormatter.formatShort(startDate),
+                  style: context.textTheme.bodySmall?.copyWith(
+                    color: colors.textSecondary,
+                    fontSize: 10,
+                  ),
+                ),
+                Text(
+                  'today',
+                  style: context.textTheme.bodySmall?.copyWith(
+                    color: colors.textSecondary,
+                    fontSize: 10,
+                  ),
+                ),
+              ],
+            ),
+            const SizedBox(height: AppSpacing.sm),
+            Text(
+              t.chart.cashPlaceholder,
+              style: context.textTheme.bodySmall?.copyWith(
+                color: colors.textSecondary,
+                fontStyle: FontStyle.italic,
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

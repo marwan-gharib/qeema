@@ -1,10 +1,12 @@
 import 'package:material_ui/material_ui.dart';
 import 'package:qeema/core/animations/loading/shimmer_box.dart';
+import 'package:qeema/core/animations/loading/shimmer_card.dart';
+import 'package:qeema/core/animations/loading/shimmer_line.dart';
 import 'package:qeema/core/extensions/build_context_extensions.dart';
 import 'package:qeema/core/i18n/strings.g.dart';
-import 'package:qeema/core/theme/app_colors.dart';
 import 'package:qeema/core/theme/app_spacing.dart';
 import 'package:qeema/core/widgets/app_button.dart';
+import 'package:qeema/core/widgets/app_surface_card.dart';
 
 class AssetDetailSkeleton extends StatelessWidget {
   const AssetDetailSkeleton({super.key});
@@ -19,13 +21,13 @@ class AssetDetailSkeleton extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          _HeaderBlock(colors),
+          const _HeaderBlock(),
           const SizedBox(height: AppSpacing.sm),
-          _GainLossPill(colors),
+          const _GainLossPill(),
           const SizedBox(height: AppSpacing.md),
-          _ChartArea(colors),
+          const _ChartArea(),
           const SizedBox(height: AppSpacing.md),
-          _TimelineArea(colors),
+          const _TimelineArea(),
           const SizedBox(height: AppSpacing.lg),
           Row(
             children: [
@@ -54,26 +56,22 @@ class AssetDetailSkeleton extends StatelessWidget {
 }
 
 class _HeaderBlock extends StatelessWidget {
-  const _HeaderBlock(this.colors);
-  final AppColors colors;
+  const _HeaderBlock();
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.all(AppSpacing.lg),
-      decoration: BoxDecoration(
-        color: colors.surfaceAlt,
-        borderRadius: BorderRadius.circular(16),
-      ),
-      child: const Column(
+    return const AppSurfaceCard(
+      padding: EdgeInsets.all(AppSpacing.lg),
+      borderRadius: 16,
+      child: Column(
         children: [
           ShimmerBox(width: 48, height: 48, borderRadius: 24),
           SizedBox(height: AppSpacing.sm),
-          ShimmerBox(width: 120, height: 32, borderRadius: 6),
+          ShimmerLine(width: 120, height: 32, borderRadius: 6),
           SizedBox(height: AppSpacing.xxs),
-          ShimmerBox(width: 60, height: 14, borderRadius: 4),
+          ShimmerLine(width: 60),
           SizedBox(height: AppSpacing.md),
-          ShimmerBox(width: 160, height: 28, borderRadius: 6),
+          ShimmerLine(width: 160, height: 28, borderRadius: 6),
         ],
       ),
     );
@@ -81,27 +79,22 @@ class _HeaderBlock extends StatelessWidget {
 }
 
 class _GainLossPill extends StatelessWidget {
-  const _GainLossPill(this.colors);
-  final AppColors colors;
+  const _GainLossPill();
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.symmetric(
+    return const AppSurfaceCard(
+      padding: EdgeInsets.symmetric(
         horizontal: AppSpacing.md,
         vertical: AppSpacing.sm,
       ),
-      decoration: BoxDecoration(
-        color: colors.surfaceAlt,
-        borderRadius: BorderRadius.circular(12),
-      ),
-      child: const Row(
+      child: Row(
         children: [
           ShimmerBox(width: 20, height: 20, borderRadius: 10),
           SizedBox(width: AppSpacing.sm),
-          ShimmerBox(width: 100, height: 20, borderRadius: 4),
+          ShimmerLine(width: 100, height: 20),
           SizedBox(width: AppSpacing.sm),
-          ShimmerBox(width: 60, height: 20, borderRadius: 10),
+          ShimmerCard(width: 60, height: 20, borderRadius: 10),
         ],
       ),
     );
@@ -109,52 +102,46 @@ class _GainLossPill extends StatelessWidget {
 }
 
 class _ChartArea extends StatelessWidget {
-  const _ChartArea(this.colors);
-  final AppColors colors;
+  const _ChartArea();
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      margin: const EdgeInsets.symmetric(vertical: AppSpacing.md),
-      padding: const EdgeInsets.all(AppSpacing.md),
-      decoration: BoxDecoration(
-        color: colors.surfaceAlt,
-        borderRadius: BorderRadius.circular(12),
-      ),
-      child: const Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          ShimmerBox(width: 100, height: 14, borderRadius: 4),
-          SizedBox(height: AppSpacing.sm),
-          ShimmerBox(height: 120, borderRadius: 8),
-        ],
+    return const Padding(
+      padding: EdgeInsets.symmetric(vertical: AppSpacing.md),
+      child: AppSurfaceCard(
+        padding: EdgeInsets.all(AppSpacing.md),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            ShimmerLine(width: 100),
+            SizedBox(height: AppSpacing.sm),
+            ShimmerCard(height: 120, borderRadius: 8),
+          ],
+        ),
       ),
     );
   }
 }
 
 class _TimelineArea extends StatelessWidget {
-  const _TimelineArea(this.colors);
-  final AppColors colors;
+  const _TimelineArea();
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      margin: const EdgeInsets.symmetric(vertical: AppSpacing.sm),
-      padding: const EdgeInsets.all(AppSpacing.md),
-      decoration: BoxDecoration(
-        color: colors.surfaceAlt,
-        borderRadius: BorderRadius.circular(12),
-      ),
-      child: const Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          ShimmerBox(width: 100, height: 14, borderRadius: 4),
-          SizedBox(height: AppSpacing.sm),
-          _TimelineRow(),
-          _TimelineRow(),
-          _TimelineRow(),
-        ],
+    return const Padding(
+      padding: EdgeInsets.symmetric(vertical: AppSpacing.sm),
+      child: AppSurfaceCard(
+        padding: EdgeInsets.all(AppSpacing.md),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            ShimmerLine(width: 100),
+            SizedBox(height: AppSpacing.sm),
+            _TimelineRow(),
+            _TimelineRow(),
+            _TimelineRow(),
+          ],
+        ),
       ),
     );
   }
@@ -179,9 +166,9 @@ class _TimelineRow extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                ShimmerBox(height: 16, borderRadius: 4),
+                ShimmerLine(height: 16),
                 SizedBox(height: 2),
-                ShimmerBox(width: 80, height: 12, borderRadius: 4),
+                ShimmerLine(width: 80, height: 12),
               ],
             ),
           ),

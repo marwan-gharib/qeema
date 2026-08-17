@@ -2,11 +2,11 @@ import 'package:decimal/decimal.dart';
 import 'package:material_ui/material_ui.dart';
 import 'package:qeema/core/extensions/build_context_extensions.dart';
 
-/// Sibling to the assets feature's `GainLossBadge`, sharing its visual
-/// language (arrow + tinted pill) but accepting a `Decimal?` percent so an
-/// insufficient-history state can render a muted dash instead.
-class PriceChangeBadge extends StatelessWidget {
-  const PriceChangeBadge({super.key, this.percent});
+/// A small signed-percentage pill (arrow + tinted background), green for a
+/// gain and terracotta for a loss. A `null` percent renders a muted dash for
+/// insufficient-history states.
+class PercentChangeBadge extends StatelessWidget {
+  const PercentChangeBadge({super.key, this.percent});
 
   final Decimal? percent;
 

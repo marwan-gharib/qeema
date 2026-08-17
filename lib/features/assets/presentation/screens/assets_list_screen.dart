@@ -4,11 +4,11 @@ import 'package:material_ui/material_ui.dart';
 import 'package:qeema/core/i18n/strings.g.dart';
 import 'package:qeema/core/router/route_names.dart';
 import 'package:qeema/core/theme/app_colors_extension.dart';
+import 'package:qeema/core/widgets/app_empty_state.dart';
 import 'package:qeema/features/assets/presentation/cubits/assets_list_cubit/assets_list_cubit.dart';
 import 'package:qeema/features/assets/presentation/cubits/assets_list_cubit/assets_list_state.dart';
 import 'package:qeema/features/assets/presentation/widgets/asset_list_item.dart';
 import 'package:qeema/features/assets/presentation/widgets/asset_type_tab_bar.dart';
-import 'package:qeema/features/assets/presentation/widgets/assets_empty_state.dart';
 import 'package:qeema/features/assets/presentation/widgets/assets_error_state.dart';
 import 'package:qeema/features/assets/presentation/widgets/assets_loading_skeleton.dart';
 import 'package:qeema/features/assets/presentation/widgets/sort_filter_bottom_sheet.dart';
@@ -53,7 +53,30 @@ class AssetsListScreen extends StatelessWidget {
                   ),
                   AssetsListLoaded(:final visibleAssets, :final activeFilter) =>
                     visibleAssets.isEmpty
-                        ? AssetsEmptyState(isFiltered: activeFilter != null)
+                        ? AppEmptyState(
+                            icon: Icons.savings_outlined,
+                            title: activeFilter != null
+                                ? t.emptyNoFiltered
+                                : t.emptyNoAssets,
+                            subtitle: activeFilter != null
+                                ? t.emptyNoFilteredSubtitle
+                                : t.emptyNoAssetsSubtitle,
+                            iconColor: colors.divider,
+                            titleStyle: Theme.of(context).textTheme.titleMedium
+                                ?.copyWith(color: colors.textPrimary),
+                            subtitleStyle: Theme.of(context)
+                                .textTheme
+                                .bodyMedium
+                                ?.copyWith(color: colors.textSecondary),
+                            action: activeFilter == null
+                                ? FilledButton.icon(
+                                    onPressed: () =>
+                                        context.pushNamed(RouteNames.addAsset),
+                                    icon: const Icon(Icons.add),
+                                    label: Text(t.addFirst),
+                                  )
+                                : null,
+                          )
                         : RefreshIndicator(
                             onRefresh: context.read<AssetsListCubit>().refresh,
                             child: ListView.separated(

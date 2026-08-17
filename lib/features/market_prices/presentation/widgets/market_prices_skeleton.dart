@@ -1,7 +1,9 @@
 import 'package:material_ui/material_ui.dart';
 import 'package:qeema/core/animations/loading/shimmer_box.dart';
-import 'package:qeema/core/extensions/build_context_extensions.dart';
+import 'package:qeema/core/animations/loading/shimmer_card.dart';
+import 'package:qeema/core/animations/loading/shimmer_line.dart';
 import 'package:qeema/core/theme/app_spacing.dart';
+import 'package:qeema/core/widgets/app_surface_card.dart';
 
 /// Mirrors the real `MarketPriceCard` geometry exactly: same outer padding,
 /// same internal row layout (icon / text column / sparkline + badge column),
@@ -18,13 +20,10 @@ class MarketPricesSkeleton extends StatelessWidget {
       physics: const NeverScrollableScrollPhysics(),
       itemCount: itemCount,
       separatorBuilder: (_, _) => const SizedBox(height: AppSpacing.sm),
-      itemBuilder: (_, _) => Container(
-        padding: const EdgeInsets.all(AppSpacing.md),
-        decoration: BoxDecoration(
-          color: context.colors.surfaceAlt,
-          borderRadius: BorderRadius.circular(16),
-        ),
-        child: const Row(
+      itemBuilder: (_, _) => const AppSurfaceCard(
+        padding: EdgeInsets.all(AppSpacing.md),
+        borderRadius: 16,
+        child: Row(
           children: [
             ShimmerBox(width: 32, height: 32, borderRadius: 16),
             SizedBox(width: AppSpacing.sm),
@@ -32,11 +31,11 @@ class MarketPricesSkeleton extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  ShimmerBox(width: 110, height: 16),
+                  ShimmerLine(width: 110, height: 16, borderRadius: 8),
                   SizedBox(height: 2),
-                  ShimmerBox(width: 90, height: 20),
+                  ShimmerLine(width: 90, height: 20, borderRadius: 8),
                   SizedBox(height: 2),
-                  ShimmerBox(width: 130, height: 12),
+                  ShimmerLine(width: 130, height: 12, borderRadius: 8),
                 ],
               ),
             ),
@@ -44,9 +43,9 @@ class MarketPricesSkeleton extends StatelessWidget {
             Column(
               crossAxisAlignment: CrossAxisAlignment.end,
               children: [
-                ShimmerBox(width: 40, height: 44, borderRadius: 6),
+                ShimmerCard(width: 40, height: 44, borderRadius: 6),
                 SizedBox(height: 6),
-                ShimmerBox(width: 64, height: 20, borderRadius: 10),
+                ShimmerCard(width: 64, height: 20, borderRadius: 10),
               ],
             ),
           ],

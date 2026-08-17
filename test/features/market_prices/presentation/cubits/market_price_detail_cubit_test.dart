@@ -78,7 +78,8 @@ void main() {
     expect(loaded.points, hasLength(7));
     expect(loaded.daysCovered, 7);
     final to = rangeUseCase.lastParams!.to;
-    expect(to, DateTime(2026, 8, 14));
+    final now = DateTime.now();
+    expect(to, DateTime(now.year, now.month, now.day));
     expect(rangeUseCase.lastParams!.from, to.subtract(const Duration(days: 7)));
     expect(rangeUseCase.lastParams!.assetTypeCode, 'usd');
 
@@ -106,7 +107,8 @@ void main() {
       expect(loaded.selectedRange, MarketPriceRangeOption.oneMonth);
       expect(loaded.daysCovered, 7);
       final to = rangeUseCase.lastParams!.to;
-      expect(to, DateTime(2026, 8, 14));
+      final now = DateTime.now();
+      expect(to, DateTime(now.year, now.month, now.day));
       expect(
         rangeUseCase.lastParams!.from,
         to.subtract(const Duration(days: 30)),
