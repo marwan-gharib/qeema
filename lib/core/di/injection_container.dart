@@ -6,6 +6,7 @@ import 'package:qeema/core/di/core_module.dart';
 import 'package:qeema/core/di/home_module.dart';
 import 'package:qeema/core/di/market_prices_module.dart';
 import 'package:qeema/core/di/onboarding_module.dart';
+import 'package:qeema/core/di/settings_module.dart';
 import 'package:qeema/core/network/supabase_client_provider.dart';
 import 'package:qeema/core/router/route_guards.dart';
 import 'package:qeema/features/onboarding/domain/usecases/get_onboarding_seen_usecase.dart';
@@ -20,6 +21,7 @@ Future<void> initDependencies() async {
   initAssetsModule(getIt);
   initHomeModule(getIt);
   initMarketPricesModule(getIt);
+  initSettingsModule(getIt);
 
   /*
   this is a temporary solution to avoid circular dependency between core_module and onboarding_module

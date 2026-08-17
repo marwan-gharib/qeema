@@ -117,7 +117,8 @@
   "nav": {
     "home": "Home",
     "assets": "Assets",
-    "marketPrices": "Market Prices"
+    "marketPrices": "Market Prices",
+    "settings": "Settings"
   },
   "appLock": {
     "tooManyAttempts": "Too many attempts. Try again later.",
@@ -208,10 +209,33 @@
     }
   },
   "settings": {
+    "title": "Settings",
     "securitySection": "Security",
+    "preferencesSection": "Preferences",
+    "aboutSection": "About",
+    "dangerZoneSection": "Danger Zone",
     "requireUnlock": "Require device unlock to open Qeema",
     "noDeviceLock": "Your device doesn't have a screen lock set up. Set one up in your device settings to use this feature.",
-    "authCancelled": "Authentication was cancelled."
+    "authCancelled": "Authentication was cancelled.",
+    "language": "Language",
+    "languageSheetTitle": "Choose Language",
+    "languageEnglish": "English",
+    "languageArabic": "العربية",
+    "theme": "Theme",
+    "themeSheetTitle": "Choose Theme",
+    "themeLight": "Light",
+    "themeDark": "Dark",
+    "themeSystem": "System",
+    "appVersion": "App Version",
+    "dataMethodology": "Data & Methodology",
+    "dataMethodologyNote": "Prices are based on international spot rates and official exchange rates — local market or goldsmith prices may differ. Inflation figures are manually curated from CAPMAS and CBE data. Qeema is a portfolio and demo project: the figures are for tracking and awareness, not financial advice.",
+    "deleteAccount": "Delete Account",
+    "deleteDialogTitle": "Delete Account?",
+    "deleteDialogBody": "This permanently erases all of your assets, history, and this account. There is no recovery — and since Qeema uses anonymous sign-in, there is no email or password to log back in with if you change your mind. Type DELETE to confirm.",
+    "deleteConfirmHint": "Type DELETE to confirm",
+    "deleteForever": "Delete Forever",
+    "deleteFailed": "Could not delete your account. Please try again.",
+    "deletePartialFailure": "Your data was deleted but your account could not be fully removed. Please try again or contact support."
   },
   "home": {
     "title": "Qeema",

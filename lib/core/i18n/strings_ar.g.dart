@@ -151,6 +151,7 @@ class _Translations$nav$ar extends Translations$nav$en {
 	@override String get home => 'الرئيسية';
 	@override String get assets => 'الأصول';
 	@override String get marketPrices => 'أسعار السوق';
+	@override String get settings => 'الإعدادات';
 }
 
 // Path: appLock
@@ -191,10 +192,33 @@ class _Translations$settings$ar extends Translations$settings$en {
 	final TranslationsAr _root; // ignore: unused_field
 
 	// Translations
+	@override String get title => 'الإعدادات';
 	@override String get securitySection => 'الأمان';
+	@override String get preferencesSection => 'التفضيلات';
+	@override String get aboutSection => 'حول';
+	@override String get dangerZoneSection => 'منطقة الخطر';
 	@override String get requireUnlock => 'طلب فتح قفل الجهاز لفتح قيّمة';
 	@override String get noDeviceLock => 'جهازك لا يحتوي على قفل شاشة. قم بإعداد واحد في إعدادات جهازك لاستخدام هذه الميزة.';
 	@override String get authCancelled => 'تم إلغاء التحقق.';
+	@override String get language => 'اللغة';
+	@override String get languageSheetTitle => 'اختر اللغة';
+	@override String get languageEnglish => 'English';
+	@override String get languageArabic => 'العربية';
+	@override String get theme => 'المظهر';
+	@override String get themeSheetTitle => 'اختر المظهر';
+	@override String get themeLight => 'فاتح';
+	@override String get themeDark => 'داكن';
+	@override String get themeSystem => 'النظام';
+	@override String get appVersion => 'إصدار التطبيق';
+	@override String get dataMethodology => 'البيانات والمنهجية';
+	@override String get dataMethodologyNote => 'الأسعار مبنية على أسعار الصرف الرسمية والأسعار العالمية الفورية — وقد تختلف عن أسعار السوق المحلي أو تجار الذهب. أرقام التضخم مُجمَّعة يدوياً من بيانات الجهاز المركزي للتعبئة العامة والإحصاء والبنك المركزي المصري. قيّمة مشروع تجريبي للتعريف بالمنتج: الأرقام للتوضيح والتوعية وليست نصيحة مالية.';
+	@override String get deleteAccount => 'حذف الحساب';
+	@override String get deleteDialogTitle => 'حذف الحساب؟';
+	@override String get deleteDialogBody => 'سيؤدي هذا إلى محو جميع أصولك وسجلّك وحسابك نهائياً. لا يوجد أي استرداد — وبما أن قيّمة تستخدم الدخول المجهول، لا يوجد بريد إلكتروني أو كلمة مرور للعودة إذا غيّرت رأيك. اكتب DELETE للتأكيد.';
+	@override String get deleteConfirmHint => 'اكتب DELETE للتأكيد';
+	@override String get deleteForever => 'حذف نهائياً';
+	@override String get deleteFailed => 'تعذر حذف حسابك. يرجى المحاولة مرة أخرى.';
+	@override String get deletePartialFailure => 'تم حذف بياناتك لكن تعذر إزالة الحساب بالكامل. يرجى المحاولة مرة أخرى أو التواصل مع الدعم.';
 }
 
 // Path: home
@@ -708,6 +732,7 @@ extension on TranslationsAr {
 			'nav.home' => 'الرئيسية',
 			'nav.assets' => 'الأصول',
 			'nav.marketPrices' => 'أسعار السوق',
+			'nav.settings' => 'الإعدادات',
 			'appLock.tooManyAttempts' => 'محاولات كثيرة جداً. حاول مرة أخرى لاحقاً.',
 			'appLock.noCredentials' => 'لم يتم إعداد قفل للجهاز. قم بإعداد قفل شاشة في إعدادات جهازك.',
 			'appLock.unavailable' => 'التحقق من الجهاز غير متاح على هذا الجهاز.',
@@ -772,10 +797,33 @@ extension on TranslationsAr {
 			'assets.delete.confirmBody' => 'سيؤدي هذا إلى حذف سجل الأصل بشكل دائم.',
 			'assets.failure.assetNotFound' => 'الأصل غير موجود.',
 			'assets.failure.invalidAmount' => 'يجب أن تكون الكمية أكبر من الصفر.',
+			'settings.title' => 'الإعدادات',
 			'settings.securitySection' => 'الأمان',
+			'settings.preferencesSection' => 'التفضيلات',
+			'settings.aboutSection' => 'حول',
+			'settings.dangerZoneSection' => 'منطقة الخطر',
 			'settings.requireUnlock' => 'طلب فتح قفل الجهاز لفتح قيّمة',
 			'settings.noDeviceLock' => 'جهازك لا يحتوي على قفل شاشة. قم بإعداد واحد في إعدادات جهازك لاستخدام هذه الميزة.',
 			'settings.authCancelled' => 'تم إلغاء التحقق.',
+			'settings.language' => 'اللغة',
+			'settings.languageSheetTitle' => 'اختر اللغة',
+			'settings.languageEnglish' => 'English',
+			'settings.languageArabic' => 'العربية',
+			'settings.theme' => 'المظهر',
+			'settings.themeSheetTitle' => 'اختر المظهر',
+			'settings.themeLight' => 'فاتح',
+			'settings.themeDark' => 'داكن',
+			'settings.themeSystem' => 'النظام',
+			'settings.appVersion' => 'إصدار التطبيق',
+			'settings.dataMethodology' => 'البيانات والمنهجية',
+			'settings.dataMethodologyNote' => 'الأسعار مبنية على أسعار الصرف الرسمية والأسعار العالمية الفورية — وقد تختلف عن أسعار السوق المحلي أو تجار الذهب. أرقام التضخم مُجمَّعة يدوياً من بيانات الجهاز المركزي للتعبئة العامة والإحصاء والبنك المركزي المصري. قيّمة مشروع تجريبي للتعريف بالمنتج: الأرقام للتوضيح والتوعية وليست نصيحة مالية.',
+			'settings.deleteAccount' => 'حذف الحساب',
+			'settings.deleteDialogTitle' => 'حذف الحساب؟',
+			'settings.deleteDialogBody' => 'سيؤدي هذا إلى محو جميع أصولك وسجلّك وحسابك نهائياً. لا يوجد أي استرداد — وبما أن قيّمة تستخدم الدخول المجهول، لا يوجد بريد إلكتروني أو كلمة مرور للعودة إذا غيّرت رأيك. اكتب DELETE للتأكيد.',
+			'settings.deleteConfirmHint' => 'اكتب DELETE للتأكيد',
+			'settings.deleteForever' => 'حذف نهائياً',
+			'settings.deleteFailed' => 'تعذر حذف حسابك. يرجى المحاولة مرة أخرى.',
+			'settings.deletePartialFailure' => 'تم حذف بياناتك لكن تعذر إزالة الحساب بالكامل. يرجى المحاولة مرة أخرى أو التواصل مع الدعم.',
 			'home.title' => 'قيّمة',
 			'home.totalSavingsNominal' => 'إجمالي المدخرات',
 			'home.totalSavingsReal' => 'بعد تعديل التضخم',

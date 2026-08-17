@@ -37,5 +37,11 @@ class BottomNavItemConfig {
       labelBuilder: (context) => context.t.nav.marketPrices,
       routePath: RoutePaths.marketPrices,
     ),
+    BottomNavItemConfig(
+      icon: Icons.settings_outlined,
+      selectedIcon: Icons.settings,
+      labelBuilder: (context) => context.t.nav.settings,
+      routePath: RoutePaths.settings,
+    ),
   ];
 }

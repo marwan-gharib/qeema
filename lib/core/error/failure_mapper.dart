@@ -9,9 +9,21 @@ Failure mapExceptionToFailure(Object error) {
     final app.ServerException e => ServerFailure(e.message),
     final app.CacheException e => ServerFailure(e.message),
     final app.AuthException e => AuthFailure(e.message),
+    final app.AccountDeletionPartialException e =>
+      AccountDeletionPartialFailure(e.message),
+    final app.AccountDeletionException e => AccountDeletionFailure(e.message),
     final PostgrestException e => ServerFailure(e.message),
     final AuthApiException e => _mapAuthApiException(e),
     final AuthException e => AuthFailure(e.message),
+    final FunctionsHttpException e => AccountDeletionFailure(
+      e.details?.toString(),
+    ),
+    final FunctionsRelayException e => AccountDeletionFailure(
+      e.details?.toString(),
+    ),
+    final FunctionsFetchException e => AccountDeletionFailure(
+      e.details?.toString(),
+    ),
     final SocketException _ => const NetworkAuthFailure(),
     final HttpException _ => const NetworkAuthFailure(),
     _ => const UnknownFailure(),
