@@ -3,6 +3,7 @@ import 'package:qeema/core/extensions/build_context_extensions.dart';
 import 'package:qeema/core/helpers/currency_formatter.dart';
 import 'package:qeema/core/i18n/strings.g.dart';
 import 'package:qeema/core/theme/app_spacing.dart';
+import 'package:qeema/core/widgets/app_surface_card.dart';
 import 'package:qeema/features/home/domain/entities/dashboard_summary_entity.dart';
 
 class DashboardSummaryCard extends StatelessWidget {
@@ -15,13 +16,9 @@ class DashboardSummaryCard extends StatelessWidget {
     final colors = context.colors;
     final t = context.t;
 
-    return Container(
-      width: double.infinity,
+    return AppSurfaceCard(
       padding: const EdgeInsets.all(AppSpacing.lg),
-      decoration: BoxDecoration(
-        color: colors.surfaceAlt,
-        borderRadius: BorderRadius.circular(16),
-      ),
+      borderRadius: 16,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [

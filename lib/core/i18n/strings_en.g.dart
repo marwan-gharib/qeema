@@ -51,6 +51,7 @@ class Translations with BaseTranslations<AppLocale, Translations> {
 	late final Translations$settings$en settings = Translations$settings$en.internal(_root);
 	late final Translations$home$en home = Translations$home$en.internal(_root);
 	late final Translations$insights$en insights = Translations$insights$en.internal(_root);
+	late final Translations$marketPrices$en marketPrices = Translations$marketPrices$en.internal(_root);
 }
 
 // Path: app
@@ -215,6 +216,9 @@ class Translations$nav$en {
 
 	/// en: 'Assets'
 	String get assets => 'Assets';
+
+	/// en: 'Market Prices'
+	String get marketPrices => 'Market Prices';
 }
 
 // Path: appLock
@@ -322,6 +326,38 @@ class Translations$insights$en {
 	late final Translations$insights$concentrationRisk$en concentrationRisk = Translations$insights$concentrationRisk$en.internal(_root);
 	late final Translations$insights$inflationLoss$en inflationLoss = Translations$insights$inflationLoss$en.internal(_root);
 	late final Translations$insights$goalFeasibility$en goalFeasibility = Translations$insights$goalFeasibility$en.internal(_root);
+}
+
+// Path: marketPrices
+class Translations$marketPrices$en {
+	Translations$marketPrices$en.internal(this._root);
+
+	final Translations _root; // ignore: unused_field
+
+	// Translations
+
+	/// en: 'Market Prices'
+	String get title => 'Market Prices';
+
+	/// en: 'Prices are based on international spot rates and official exchange rates — local market or goldsmith prices may differ.'
+	String get dataSourceDisclosure => 'Prices are based on international spot rates and official exchange rates — local market or goldsmith prices may differ.';
+
+	/// en: 'Updated {when}'
+	String get lastUpdated => 'Updated {when}';
+
+	/// en: 'Not enough history yet'
+	String get notEnoughHistory => 'Not enough history yet';
+
+	/// en: 'Showing available data ({days} days)'
+	String get showingAvailableData => 'Showing available data ({days} days)';
+
+	/// en: 'No market prices yet'
+	String get emptyTitle => 'No market prices yet';
+
+	/// en: 'Market price data will appear here once it becomes available.'
+	String get emptyBody => 'Market price data will appear here once it becomes available.';
+
+	late final Translations$marketPrices$range$en range = Translations$marketPrices$range$en.internal(_root);
 }
 
 // Path: core.error
@@ -921,6 +957,24 @@ class Translations$insights$goalFeasibility$en {
 	String get body => 'At the current pace of inflation, your savings goals may need to be revised upward to maintain their real value.';
 }
 
+// Path: marketPrices.range
+class Translations$marketPrices$range$en {
+	Translations$marketPrices$range$en.internal(this._root);
+
+	final Translations _root; // ignore: unused_field
+
+	// Translations
+
+	/// en: '1W'
+	String get oneWeek => '1W';
+
+	/// en: '1M'
+	String get oneMonth => '1M';
+
+	/// en: '3M'
+	String get threeMonths => '3M';
+}
+
 /// The flat map containing all translations for locale <en>.
 /// Only for edge cases! For simple maps, use the map function of this library.
 ///
@@ -1010,6 +1064,7 @@ extension on Translations {
 			'navigation.notificationSettings' => 'Notification Settings',
 			'nav.home' => 'Home',
 			'nav.assets' => 'Assets',
+			'nav.marketPrices' => 'Market Prices',
 			'appLock.tooManyAttempts' => 'Too many attempts. Try again later.',
 			'appLock.noCredentials' => 'No device lock set up. Set up a screen lock in your device settings.',
 			'appLock.unavailable' => 'Device authentication is not available on this device.',
@@ -1095,6 +1150,16 @@ extension on Translations {
 			'insights.inflationLoss.body' => 'Your money has lost {erosion}% of its purchasing power since you started tracking.',
 			'insights.goalFeasibility.title' => 'Savings goal check',
 			'insights.goalFeasibility.body' => 'At the current pace of inflation, your savings goals may need to be revised upward to maintain their real value.',
+			'marketPrices.title' => 'Market Prices',
+			'marketPrices.dataSourceDisclosure' => 'Prices are based on international spot rates and official exchange rates — local market or goldsmith prices may differ.',
+			'marketPrices.lastUpdated' => 'Updated {when}',
+			'marketPrices.notEnoughHistory' => 'Not enough history yet',
+			'marketPrices.showingAvailableData' => 'Showing available data ({days} days)',
+			'marketPrices.emptyTitle' => 'No market prices yet',
+			'marketPrices.emptyBody' => 'Market price data will appear here once it becomes available.',
+			'marketPrices.range.oneWeek' => '1W',
+			'marketPrices.range.oneMonth' => '1M',
+			'marketPrices.range.threeMonths' => '3M',
 			_ => null,
 		};
 	}

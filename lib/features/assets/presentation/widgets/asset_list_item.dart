@@ -1,10 +1,11 @@
+import 'package:decimal/decimal.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 import 'package:material_ui/material_ui.dart';
 import 'package:qeema/core/router/route_paths.dart';
 import 'package:qeema/core/theme/app_colors_extension.dart';
+import 'package:qeema/core/widgets/percent_change_badge.dart';
 import 'package:qeema/features/assets/domain/entities/asset_entity.dart';
-import 'package:qeema/features/assets/presentation/widgets/gain_loss_badge.dart';
 
 class AssetListItem extends StatelessWidget {
   const AssetListItem({super.key, required this.asset});
@@ -67,9 +68,10 @@ class AssetListItem extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(height: 4),
-                GainLossBadge(
-                  gainLossPercent: asset.gainLossPercent,
-                  gainLossAmount: asset.gainLossAmount,
+                PercentChangeBadge(
+                  percent: asset.gainLossPercent == null
+                      ? null
+                      : Decimal.parse(asset.gainLossPercent.toString()),
                 ),
               ],
             ),

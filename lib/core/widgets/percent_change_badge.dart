@@ -1,17 +1,20 @@
+import 'package:decimal/decimal.dart';
 import 'package:material_ui/material_ui.dart';
-import 'package:qeema/core/theme/app_colors_extension.dart';
+import 'package:qeema/core/extensions/build_context_extensions.dart';
 
-class GainLossBadge extends StatelessWidget {
-  const GainLossBadge({super.key, this.gainLossPercent, this.gainLossAmount});
+/// A small signed-percentage pill (arrow + tinted background), green for a
+/// gain and terracotta for a loss. A `null` percent renders a muted dash for
+/// insufficient-history states.
+class PercentChangeBadge extends StatelessWidget {
+  const PercentChangeBadge({super.key, this.percent});
 
-  final double? gainLossPercent;
-  final double? gainLossAmount;
+  final Decimal? percent;
 
   @override
   Widget build(BuildContext context) {
-    final colors = Theme.of(context).extension<AppColorsExtension>()!;
-
-    if (gainLossPercent == null || gainLossAmount == null) {
+    final colors = context.colors;
+    final percent = this.percent;
+    if (percent == null) {
       return Container(
         padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
         decoration: BoxDecoration(
@@ -20,20 +23,20 @@ class GainLossBadge extends StatelessWidget {
         ),
         child: Text(
           '—',
-          style: Theme.of(
-            context,
-          ).textTheme.labelSmall?.copyWith(color: colors.textSecondary),
+          style: context.textTheme.labelSmall?.copyWith(
+            color: colors.textSecondary,
+          ),
         ),
       );
     }
 
-    final isGain = gainLossAmount! >= 0;
-    final bgColor = isGain ? colors.secondaryVariant : colors.error;
+    final isGain = percent >= Decimal.zero;
+    final color = isGain ? colors.secondaryVariant : colors.error;
 
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
       decoration: BoxDecoration(
-        color: bgColor.withAlpha(38),
+        color: color.withAlpha(38),
         borderRadius: BorderRadius.circular(12),
       ),
       child: Row(
@@ -42,13 +45,13 @@ class GainLossBadge extends StatelessWidget {
           Icon(
             isGain ? Icons.arrow_upward : Icons.arrow_downward,
             size: 12,
-            color: bgColor,
+            color: color,
           ),
           const SizedBox(width: 2),
           Text(
-            '${gainLossPercent!.toStringAsFixed(1)}%',
-            style: Theme.of(context).textTheme.labelSmall?.copyWith(
-              color: bgColor,
+            '${percent.toStringAsFixed(1)}%',
+            style: context.textTheme.labelSmall?.copyWith(
+              color: color,
               fontWeight: FontWeight.w600,
             ),
           ),

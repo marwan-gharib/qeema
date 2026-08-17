@@ -17,10 +17,18 @@ class CurrencyFormatter {
     String formatted;
     String suffix;
     if (abs >= Decimal.fromInt(1000000)) {
-      formatted = _unitValue(amount, Decimal.fromInt(1000000), decimalPlaces: decimalPlaces);
+      formatted = _unitValue(
+        amount,
+        Decimal.fromInt(1000000),
+        decimalPlaces: decimalPlaces,
+      );
       suffix = 'M';
     } else if (abs >= Decimal.fromInt(1000)) {
-      formatted = _unitValue(amount, Decimal.fromInt(1000), decimalPlaces: decimalPlaces);
+      formatted = _unitValue(
+        amount,
+        Decimal.fromInt(1000),
+        decimalPlaces: decimalPlaces,
+      );
       suffix = 'K';
     } else {
       return amount.toStringAsFixed(2);
@@ -31,7 +39,11 @@ class CurrencyFormatter {
     return '$formatted$suffix';
   }
 
-  static String _unitValue(Decimal amount, Decimal unit, {int decimalPlaces = 1}) {
+  static String _unitValue(
+    Decimal amount,
+    Decimal unit, {
+    int decimalPlaces = 1,
+  }) {
     return (amount / unit).toDouble().toStringAsFixed(decimalPlaces);
   }
 }

@@ -16,7 +16,8 @@ const _badgeHalfLift = 12.0;
 /// rect so the expectation holds for any test surface size.
 double _expectedBadgeDx(WidgetTester tester, int index) {
   final bar = tester.getRect(find.byType(BottomNavBar));
-  final itemWidth = (bar.width - _barLeft * 2) / 2;
+  final itemCount = BottomNavItemConfig.items.length;
+  final itemWidth = (bar.width - _barLeft * 2) / itemCount;
   return bar.left + _barLeft + itemWidth * (index + 0.5);
 }
 

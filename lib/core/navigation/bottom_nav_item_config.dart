@@ -31,5 +31,11 @@ class BottomNavItemConfig {
       labelBuilder: (context) => context.t.nav.assets,
       routePath: RoutePaths.assets,
     ),
+    BottomNavItemConfig(
+      icon: Icons.trending_up_outlined,
+      selectedIcon: Icons.trending_up,
+      labelBuilder: (context) => context.t.nav.marketPrices,
+      routePath: RoutePaths.marketPrices,
+    ),
   ];
 }
