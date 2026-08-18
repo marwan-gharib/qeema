@@ -90,3 +90,11 @@ final class InvalidAssetAmountFailure extends Failure {
   const InvalidAssetAmountFailure()
     : super('Amount must be greater than zero.');
 }
+
+final class AccountDeletionFailure extends Failure {
+  const AccountDeletionFailure([super.message]);
+}
+
+final class AccountDeletionPartialFailure extends AccountDeletionFailure {
+  const AccountDeletionPartialFailure([super.message]);
+}

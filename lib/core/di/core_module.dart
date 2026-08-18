@@ -3,6 +3,8 @@ import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:get_it/get_it.dart';
 import 'package:local_auth/local_auth.dart';
+import 'package:qeema/core/cubits/locale_cubit/locale_cubit.dart';
+import 'package:qeema/core/cubits/theme_cubit/theme_cubit.dart';
 import 'package:qeema/core/financial/asset_valuator.dart';
 import 'package:qeema/core/financial/currency_converter.dart';
 import 'package:qeema/core/financial/financial_insight_engine.dart';
@@ -119,5 +121,14 @@ Future<void> initCoreModule(GetIt getIt) async {
 
   getIt.registerLazySingleton<FinancialInsightEngine>(
     () => FinancialInsightEngine(getIt<List<InsightRule>>()),
+  );
+
+  // App-wide, single-instance state consumed by the app root — not
+  // per-screen Cubits, so singletons rather than factories.
+  getIt.registerLazySingleton<LocaleCubit>(
+    () => LocaleCubit(getIt<CacheService>()),
+  );
+  getIt.registerLazySingleton<ThemeCubit>(
+    () => ThemeCubit(getIt<CacheService>()),
   );
 }

@@ -219,6 +219,9 @@ class Translations$nav$en {
 
 	/// en: 'Market Prices'
 	String get marketPrices => 'Market Prices';
+
+	/// en: 'Settings'
+	String get settings => 'Settings';
 }
 
 // Path: appLock
@@ -266,8 +269,20 @@ class Translations$settings$en {
 
 	// Translations
 
+	/// en: 'Settings'
+	String get title => 'Settings';
+
 	/// en: 'Security'
 	String get securitySection => 'Security';
+
+	/// en: 'Preferences'
+	String get preferencesSection => 'Preferences';
+
+	/// en: 'About'
+	String get aboutSection => 'About';
+
+	/// en: 'Danger Zone'
+	String get dangerZoneSection => 'Danger Zone';
 
 	/// en: 'Require device unlock to open Qeema'
 	String get requireUnlock => 'Require device unlock to open Qeema';
@@ -277,6 +292,63 @@ class Translations$settings$en {
 
 	/// en: 'Authentication was cancelled.'
 	String get authCancelled => 'Authentication was cancelled.';
+
+	/// en: 'Language'
+	String get language => 'Language';
+
+	/// en: 'Choose Language'
+	String get languageSheetTitle => 'Choose Language';
+
+	/// en: 'English'
+	String get languageEnglish => 'English';
+
+	/// en: 'العربية'
+	String get languageArabic => 'العربية';
+
+	/// en: 'Theme'
+	String get theme => 'Theme';
+
+	/// en: 'Choose Theme'
+	String get themeSheetTitle => 'Choose Theme';
+
+	/// en: 'Light'
+	String get themeLight => 'Light';
+
+	/// en: 'Dark'
+	String get themeDark => 'Dark';
+
+	/// en: 'System'
+	String get themeSystem => 'System';
+
+	/// en: 'App Version'
+	String get appVersion => 'App Version';
+
+	/// en: 'Data & Methodology'
+	String get dataMethodology => 'Data & Methodology';
+
+	/// en: 'Prices are based on international spot rates and official exchange rates — local market or goldsmith prices may differ. Inflation figures are manually curated from CAPMAS and CBE data. Qeema is a portfolio and demo project: the figures are for tracking and awareness, not financial advice.'
+	String get dataMethodologyNote => 'Prices are based on international spot rates and official exchange rates — local market or goldsmith prices may differ. Inflation figures are manually curated from CAPMAS and CBE data. Qeema is a portfolio and demo project: the figures are for tracking and awareness, not financial advice.';
+
+	/// en: 'Delete Account'
+	String get deleteAccount => 'Delete Account';
+
+	/// en: 'Delete Account?'
+	String get deleteDialogTitle => 'Delete Account?';
+
+	/// en: 'This permanently erases all of your assets, history, and this account. There is no recovery — and since Qeema uses anonymous sign-in, there is no email or password to log back in with if you change your mind. Type DELETE to confirm.'
+	String get deleteDialogBody => 'This permanently erases all of your assets, history, and this account. There is no recovery — and since Qeema uses anonymous sign-in, there is no email or password to log back in with if you change your mind. Type DELETE to confirm.';
+
+	/// en: 'Type DELETE to confirm'
+	String get deleteConfirmHint => 'Type DELETE to confirm';
+
+	/// en: 'Delete Forever'
+	String get deleteForever => 'Delete Forever';
+
+	/// en: 'Could not delete your account. Please try again.'
+	String get deleteFailed => 'Could not delete your account. Please try again.';
+
+	/// en: 'Your data was deleted but your account could not be fully removed. Please try again or contact support.'
+	String get deletePartialFailure => 'Your data was deleted but your account could not be fully removed. Please try again or contact support.';
 }
 
 // Path: home
@@ -1065,6 +1137,7 @@ extension on Translations {
 			'nav.home' => 'Home',
 			'nav.assets' => 'Assets',
 			'nav.marketPrices' => 'Market Prices',
+			'nav.settings' => 'Settings',
 			'appLock.tooManyAttempts' => 'Too many attempts. Try again later.',
 			'appLock.noCredentials' => 'No device lock set up. Set up a screen lock in your device settings.',
 			'appLock.unavailable' => 'Device authentication is not available on this device.',
@@ -1129,10 +1202,33 @@ extension on Translations {
 			'assets.delete.confirmBody' => 'This will permanently delete this asset record.',
 			'assets.failure.assetNotFound' => 'Asset not found.',
 			'assets.failure.invalidAmount' => 'Amount must be greater than zero.',
+			'settings.title' => 'Settings',
 			'settings.securitySection' => 'Security',
+			'settings.preferencesSection' => 'Preferences',
+			'settings.aboutSection' => 'About',
+			'settings.dangerZoneSection' => 'Danger Zone',
 			'settings.requireUnlock' => 'Require device unlock to open Qeema',
 			'settings.noDeviceLock' => 'Your device doesn\'t have a screen lock set up. Set one up in your device settings to use this feature.',
 			'settings.authCancelled' => 'Authentication was cancelled.',
+			'settings.language' => 'Language',
+			'settings.languageSheetTitle' => 'Choose Language',
+			'settings.languageEnglish' => 'English',
+			'settings.languageArabic' => 'العربية',
+			'settings.theme' => 'Theme',
+			'settings.themeSheetTitle' => 'Choose Theme',
+			'settings.themeLight' => 'Light',
+			'settings.themeDark' => 'Dark',
+			'settings.themeSystem' => 'System',
+			'settings.appVersion' => 'App Version',
+			'settings.dataMethodology' => 'Data & Methodology',
+			'settings.dataMethodologyNote' => 'Prices are based on international spot rates and official exchange rates — local market or goldsmith prices may differ. Inflation figures are manually curated from CAPMAS and CBE data. Qeema is a portfolio and demo project: the figures are for tracking and awareness, not financial advice.',
+			'settings.deleteAccount' => 'Delete Account',
+			'settings.deleteDialogTitle' => 'Delete Account?',
+			'settings.deleteDialogBody' => 'This permanently erases all of your assets, history, and this account. There is no recovery — and since Qeema uses anonymous sign-in, there is no email or password to log back in with if you change your mind. Type DELETE to confirm.',
+			'settings.deleteConfirmHint' => 'Type DELETE to confirm',
+			'settings.deleteForever' => 'Delete Forever',
+			'settings.deleteFailed' => 'Could not delete your account. Please try again.',
+			'settings.deletePartialFailure' => 'Your data was deleted but your account could not be fully removed. Please try again or contact support.',
 			'home.title' => 'Qeema',
 			'home.totalSavingsNominal' => 'Total Savings',
 			'home.totalSavingsReal' => 'Adjusted for Inflation',

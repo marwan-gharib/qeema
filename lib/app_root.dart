@@ -1,6 +1,11 @@
 import 'dart:async';
 
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:material_ui/material_ui.dart';
+import 'package:qeema/core/cubits/locale_cubit/locale_cubit.dart';
+import 'package:qeema/core/cubits/locale_cubit/locale_state.dart';
+import 'package:qeema/core/cubits/theme_cubit/theme_cubit.dart';
+import 'package:qeema/core/cubits/theme_cubit/theme_state.dart';
 import 'package:qeema/core/di/injection_container.dart';
 import 'package:qeema/core/i18n/strings.g.dart';
 import 'package:qeema/core/network/supabase_client_provider.dart';
@@ -125,15 +130,24 @@ class QeemaApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp.router(
-      title: context.t.app.name,
-      debugShowCheckedModeBanner: false,
-      theme: AppTheme.light(),
-      darkTheme: AppTheme.dark(),
-      themeMode: ThemeMode.system,
-      routerConfig: AppRouter.router,
-      supportedLocales: AppLocaleUtils.supportedLocales,
-      builder: (context, child) => AppLockGate(child: child!),
+    return BlocBuilder<ThemeCubit, AppThemeState>(
+      builder: (context, themeState) {
+        return BlocBuilder<LocaleCubit, LocaleState>(
+          builder: (context, localeState) {
+            return MaterialApp.router(
+              title: context.t.app.name,
+              debugShowCheckedModeBanner: false,
+              theme: AppTheme.light(),
+              darkTheme: AppTheme.dark(),
+              themeMode: themeState.mode,
+              locale: localeState.locale.flutterLocale,
+              routerConfig: AppRouter.router,
+              supportedLocales: AppLocaleUtils.supportedLocales,
+              builder: (context, child) => AppLockGate(child: child!),
+            );
+          },
+        );
+      },
     );
   }
 }
