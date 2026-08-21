@@ -50,6 +50,10 @@
       "hoursAgo": "{hours}h ago",
       "daysAgo": "{days}d ago"
     },
+    "currency": {
+      "egp": "EGP",
+      "usd": "USD"
+    },
     "auth": {
       "unlockReason": "Unlock Qeema to view your finances",
       "biometricFailed": "Biometric authentication failed"
@@ -197,7 +201,16 @@
     "history": {
       "created": "Created",
       "updated": "Updated",
-      "deleted": "Deleted"
+      "deleted": "Deleted",
+      "assetAdded": "Asset added",
+      "assetDeleted": "Asset deleted",
+      "fieldAmount": "Amount",
+      "fieldEntryPrice": "Entry price",
+      "fieldEntryDate": "Entry date",
+      "fieldNote": "Note",
+      "noteUpdated": "Note updated",
+      "dateChanged": "Entry date changed",
+      "fieldChanged": "{field}: {oldValue} → {newValue}"
     },
     "delete": {
       "confirmTitle": "Delete Asset?",
@@ -275,9 +288,9 @@
     "emptyTitle": "No market prices yet",
     "emptyBody": "Market price data will appear here once it becomes available.",
     "range": {
-      "oneWeek": "1W",
-      "oneMonth": "1M",
-      "threeMonths": "3M"
+      "oneWeek": "1 week",
+      "oneMonth": "1 month",
+      "threeMonths": "3 months"
     }
   }
 }

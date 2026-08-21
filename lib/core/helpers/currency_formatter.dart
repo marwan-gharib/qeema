@@ -1,4 +1,6 @@
 import 'package:decimal/decimal.dart';
+import 'package:intl/intl.dart';
+import 'package:qeema/core/i18n/strings.g.dart';
 
 class CurrencyFormatter {
   const CurrencyFormatter._();
@@ -7,43 +9,32 @@ class CurrencyFormatter {
     Decimal amount, {
     String symbol = 'EGP',
     int decimalPlaces = 2,
+    String? locale,
   }) {
-    final formatted = amount.toStringAsFixed(decimalPlaces);
-    return '$symbol $formatted';
+    final formatted = NumberFormat.decimalPattern(_locale(locale))
+      ..minimumFractionDigits = decimalPlaces
+      ..maximumFractionDigits = decimalPlaces;
+    return '${currencyName(symbol)} ${formatted.format(amount.toDouble())}';
   }
 
-  static String formatCompact(Decimal amount, {int decimalPlaces = 1}) {
-    final abs = amount.abs();
-    String formatted;
-    String suffix;
-    if (abs >= Decimal.fromInt(1000000)) {
-      formatted = _unitValue(
-        amount,
-        Decimal.fromInt(1000000),
-        decimalPlaces: decimalPlaces,
-      );
-      suffix = 'M';
-    } else if (abs >= Decimal.fromInt(1000)) {
-      formatted = _unitValue(
-        amount,
-        Decimal.fromInt(1000),
-        decimalPlaces: decimalPlaces,
-      );
-      suffix = 'K';
-    } else {
-      return amount.toStringAsFixed(2);
-    }
-    if (formatted.endsWith('.0')) {
-      formatted = formatted.substring(0, formatted.length - 2);
-    }
-    return '$formatted$suffix';
-  }
-
-  static String _unitValue(
-    Decimal amount,
-    Decimal unit, {
+  static String formatCompact(
+    Decimal amount, {
     int decimalPlaces = 1,
+    String? locale,
   }) {
-    return (amount / unit).toDouble().toStringAsFixed(decimalPlaces);
+    final formatter = NumberFormat.compact(locale: _locale(locale))
+      ..maximumFractionDigits = decimalPlaces;
+    return formatter.format(amount.toDouble());
+  }
+
+  static String _locale(String? locale) =>
+      locale ?? LocaleSettings.currentLocale.languageCode;
+
+  static String currencyName(String code) {
+    return switch (code) {
+      'EGP' => t.core.currency.egp,
+      'USD' => t.core.currency.usd,
+      _ => code,
+    };
   }
 }

@@ -39,7 +39,7 @@ class MarketPriceCard extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  type.name,
+                  context.assetTypeName(type.code),
                   style: context.textTheme.labelLarge?.copyWith(
                     color: colors.textPrimary,
                     fontWeight: FontWeight.w600,

@@ -32,7 +32,7 @@ class AssetTypeTile extends StatelessWidget {
           const SizedBox(width: AppSpacing.sm),
           Expanded(
             child: Text(
-              type.name,
+              context.assetTypeName(type.code),
               style: Theme.of(context).textTheme.bodyLarge?.copyWith(
                 fontWeight: isSelected ? FontWeight.w600 : null,
               ),

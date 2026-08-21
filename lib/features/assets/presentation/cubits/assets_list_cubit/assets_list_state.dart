@@ -1,3 +1,4 @@
+import 'package:qeema/core/error/failures.dart';
 import 'package:qeema/features/assets/domain/entities/asset_entity.dart';
 
 enum AssetsSortBy { dateNewest, dateOldest, valueHighest, valueLowest }
@@ -60,7 +61,7 @@ class AssetsListLoaded extends AssetsListState {
 }
 
 class AssetsListError extends AssetsListState {
-  const AssetsListError(this.message);
+  const AssetsListError(this.failure);
 
-  final String message;
+  final Failure failure;
 }

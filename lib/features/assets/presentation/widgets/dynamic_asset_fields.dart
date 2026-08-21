@@ -2,6 +2,7 @@ import 'package:material_ui/material_ui.dart';
 import 'package:qeema/core/animations/app_animated_entry.dart';
 import 'package:qeema/core/animations/entry_animation_type.dart';
 import 'package:qeema/core/helpers/date_formatter.dart';
+import 'package:qeema/core/helpers/currency_formatter.dart';
 import 'package:qeema/core/helpers/validators.dart';
 import 'package:qeema/core/i18n/strings.g.dart';
 import 'package:qeema/core/theme/app_spacing.dart';
@@ -120,7 +121,7 @@ class _DynamicAssetFieldsState extends State<DynamicAssetFields> {
   Widget build(BuildContext context) {
     final type = widget.selectedType;
     final t = context.t.assets.add;
-    final unit = type.baseUnit;
+    final unit = _displayUnit(type.baseUnit);
 
     return AppAnimatedEntry(
       type: EntryAnimationType.fadeSlideUp,
@@ -146,7 +147,8 @@ class _DynamicAssetFieldsState extends State<DynamicAssetFields> {
           if (type.isMarketBased) ...[
             AppTextField(
               controller: widget.priceController,
-              label: '${t.priceAtEntry} (EGP per $unit)',
+              label:
+                  '${t.priceAtEntry} (${CurrencyFormatter.currencyName('EGP')} / $unit)',
               hint: widget.priceHint ?? '0.00',
               keyboardType: const TextInputType.numberWithOptions(
                 decimal: true,
@@ -183,5 +185,12 @@ class _DynamicAssetFieldsState extends State<DynamicAssetFields> {
         ],
       ),
     );
+  }
+
+  String _displayUnit(String unit) {
+    return switch (unit) {
+      'EGP' || 'USD' => CurrencyFormatter.currencyName(unit),
+      _ => unit,
+    };
   }
 }
