@@ -2,6 +2,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:material_ui/material_ui.dart';
 import 'package:qeema/core/animations/app_motion.dart';
 import 'package:qeema/core/extensions/build_context_extensions.dart';
+import 'package:qeema/core/extensions/failure_localization_extension.dart';
 import 'package:qeema/core/i18n/strings.g.dart';
 import 'package:qeema/core/theme/app_spacing.dart';
 import 'package:qeema/core/widgets/app_empty_state.dart';
@@ -28,10 +29,7 @@ class MarketPriceDetailScreen extends StatelessWidget {
           backgroundColor: colors.background,
           appBar: AppBar(
             title: state is MarketPriceDetailLoaded
-                ? _TypeTitle(
-                    code: state.assetType.code,
-                    name: state.assetType.name,
-                  )
+                ? _TypeTitle(code: state.assetType.code)
                 : null,
           ),
           body: AnimatedSwitcher(
@@ -41,7 +39,7 @@ class MarketPriceDetailScreen extends StatelessWidget {
             child: switch (state) {
               MarketPriceDetailLoading() => const _DetailLoadingBody(),
               MarketPriceDetailError(:final failure) => AppErrorState(
-                message: failure.message,
+                message: failure.localizedMessage(context),
                 onRetry: () => context.read<MarketPriceDetailCubit>().loadRange(
                   context.read<MarketPriceDetailCubit>().lastRange,
                 ),
@@ -131,10 +129,9 @@ class _DetailLoadingBody extends StatelessWidget {
 }
 
 class _TypeTitle extends StatelessWidget {
-  const _TypeTitle({required this.code, required this.name});
+  const _TypeTitle({required this.code});
 
   final String code;
-  final String name;
 
   @override
   Widget build(BuildContext context) {
@@ -144,7 +141,7 @@ class _TypeTitle extends StatelessWidget {
       children: [
         Icon(AssetTypeTile.iconForType(code), size: 22, color: colors.primary),
         const SizedBox(width: AppSpacing.xs),
-        Text(name),
+        Text(context.assetTypeName(code)),
       ],
     );
   }

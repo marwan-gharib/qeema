@@ -6,6 +6,8 @@ import 'package:qeema/core/animations/app_animated_entry.dart';
 import 'package:qeema/core/animations/entry_animation_type.dart';
 import 'package:qeema/core/animations/micro_interactions/tap_scale.dart';
 import 'package:qeema/core/extensions/build_context_extensions.dart';
+import 'package:qeema/core/extensions/failure_localization_extension.dart';
+import 'package:qeema/core/helpers/currency_formatter.dart';
 import 'package:qeema/core/i18n/strings.g.dart';
 import 'package:qeema/core/router/route_names.dart';
 import 'package:qeema/core/theme/app_spacing.dart';
@@ -38,7 +40,7 @@ class AssetDetailContent extends StatelessWidget {
     final locale = Localizations.localeOf(context).toLanguageTag();
     final currencyFormat = NumberFormat.currency(
       locale: locale,
-      symbol: 'EGP ',
+      symbol: '${CurrencyFormatter.currencyName('EGP')} ',
       decimalDigits: 2,
     );
     final isGain = asset.isGain;
@@ -189,7 +191,7 @@ class AssetDetailContent extends StatelessWidget {
                             ScaffoldMessenger.of(context).showSnackBar(
                               SnackBar(
                                 content: Text(
-                                  failure.message ?? 'Delete failed',
+                                  failure.localizedMessage(context),
                                 ),
                                 backgroundColor: colors.error,
                               ),
@@ -225,7 +227,7 @@ class _AssetDetailHeader extends StatelessWidget {
     final locale = Localizations.localeOf(context).toLanguageTag();
     final currencyFormat = NumberFormat.currency(
       locale: locale,
-      symbol: 'EGP ',
+      symbol: '${CurrencyFormatter.currencyName('EGP')} ',
       decimalDigits: 2,
     );
 
@@ -245,7 +247,7 @@ class _AssetDetailHeader extends StatelessWidget {
           ),
           const SizedBox(height: AppSpacing.xxs),
           Text(
-            _unitLabel(asset.assetType),
+            _unitLabel(context, asset.assetType),
             style: Theme.of(
               context,
             ).textTheme.bodySmall?.copyWith(color: colors.textSecondary),
@@ -275,15 +277,15 @@ class _AssetDetailHeader extends StatelessWidget {
     }
   }
 
-  String _unitLabel(AssetType type) {
+  String _unitLabel(BuildContext context, AssetType type) {
     switch (type) {
       case AssetType.egpCash:
-        return 'EGP';
+        return context.t.assets.list.tabEgp;
       case AssetType.usdCash:
-        return 'USD';
+        return context.t.assets.list.tabUsd;
       case AssetType.gold21:
       case AssetType.gold24:
-        return 'grams';
+        return context.t.assets.add.amountGrams;
     }
   }
 }

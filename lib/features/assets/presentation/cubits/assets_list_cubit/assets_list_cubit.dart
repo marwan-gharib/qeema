@@ -15,8 +15,7 @@ class AssetsListCubit extends Cubit<AssetsListState> {
 
     result.fold(
       onSuccess: (assets) => emit(AssetsListLoaded(allAssets: assets)),
-      onFailure: (failure) =>
-          emit(AssetsListError(failure.message ?? 'خطأ غير معروف')),
+      onFailure: (failure) => emit(AssetsListError(failure)),
     );
   }
 

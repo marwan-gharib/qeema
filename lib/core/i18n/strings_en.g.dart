@@ -83,6 +83,7 @@ class Translations$core$en {
 	late final Translations$core$search$en search = Translations$core$search$en.internal(_root);
 	late final Translations$core$validation$en validation = Translations$core$validation$en.internal(_root);
 	late final Translations$core$dates$en dates = Translations$core$dates$en.internal(_root);
+	late final Translations$core$currency$en currency = Translations$core$currency$en.internal(_root);
 	late final Translations$core$auth$en auth = Translations$core$auth$en.internal(_root);
 	late final Translations$core$actions$en actions = Translations$core$actions$en.internal(_root);
 	late final Translations$core$notification$en notification = Translations$core$notification$en.internal(_root);
@@ -591,6 +592,21 @@ class Translations$core$dates$en {
 	String get daysAgo => '{days}d ago';
 }
 
+// Path: core.currency
+class Translations$core$currency$en {
+	Translations$core$currency$en.internal(this._root);
+
+	final Translations _root; // ignore: unused_field
+
+	// Translations
+
+	/// en: 'EGP'
+	String get egp => 'EGP';
+
+	/// en: 'USD'
+	String get usd => 'USD';
+}
+
 // Path: core.auth
 class Translations$core$auth$en {
 	Translations$core$auth$en.internal(this._root);
@@ -937,6 +953,33 @@ class Translations$assets$history$en {
 
 	/// en: 'Deleted'
 	String get deleted => 'Deleted';
+
+	/// en: 'Asset added'
+	String get assetAdded => 'Asset added';
+
+	/// en: 'Asset deleted'
+	String get assetDeleted => 'Asset deleted';
+
+	/// en: 'Amount'
+	String get fieldAmount => 'Amount';
+
+	/// en: 'Entry price'
+	String get fieldEntryPrice => 'Entry price';
+
+	/// en: 'Entry date'
+	String get fieldEntryDate => 'Entry date';
+
+	/// en: 'Note'
+	String get fieldNote => 'Note';
+
+	/// en: 'Note updated'
+	String get noteUpdated => 'Note updated';
+
+	/// en: 'Entry date changed'
+	String get dateChanged => 'Entry date changed';
+
+	/// en: '{field}: {oldValue} → {newValue}'
+	String get fieldChanged => '{field}: {oldValue} → {newValue}';
 }
 
 // Path: assets.delete
@@ -1037,14 +1080,14 @@ class Translations$marketPrices$range$en {
 
 	// Translations
 
-	/// en: '1W'
-	String get oneWeek => '1W';
+	/// en: '1 week'
+	String get oneWeek => '1 week';
 
-	/// en: '1M'
-	String get oneMonth => '1M';
+	/// en: '1 month'
+	String get oneMonth => '1 month';
 
-	/// en: '3M'
-	String get threeMonths => '3M';
+	/// en: '3 months'
+	String get threeMonths => '3 months';
 }
 
 /// The flat map containing all translations for locale <en>.
@@ -1089,6 +1132,8 @@ extension on Translations {
 			'core.dates.minutesAgo' => '{minutes}m ago',
 			'core.dates.hoursAgo' => '{hours}h ago',
 			'core.dates.daysAgo' => '{days}d ago',
+			'core.currency.egp' => 'EGP',
+			'core.currency.usd' => 'USD',
 			'core.auth.unlockReason' => 'Unlock Qeema to view your finances',
 			'core.auth.biometricFailed' => 'Biometric authentication failed',
 			'core.actions.cancel' => 'Cancel',
@@ -1198,6 +1243,15 @@ extension on Translations {
 			'assets.history.created' => 'Created',
 			'assets.history.updated' => 'Updated',
 			'assets.history.deleted' => 'Deleted',
+			'assets.history.assetAdded' => 'Asset added',
+			'assets.history.assetDeleted' => 'Asset deleted',
+			'assets.history.fieldAmount' => 'Amount',
+			'assets.history.fieldEntryPrice' => 'Entry price',
+			'assets.history.fieldEntryDate' => 'Entry date',
+			'assets.history.fieldNote' => 'Note',
+			'assets.history.noteUpdated' => 'Note updated',
+			'assets.history.dateChanged' => 'Entry date changed',
+			'assets.history.fieldChanged' => '{field}: {oldValue} → {newValue}',
 			'assets.delete.confirmTitle' => 'Delete Asset?',
 			'assets.delete.confirmBody' => 'This will permanently delete this asset record.',
 			'assets.failure.assetNotFound' => 'Asset not found.',
@@ -1253,9 +1307,9 @@ extension on Translations {
 			'marketPrices.showingAvailableData' => 'Showing available data ({days} days)',
 			'marketPrices.emptyTitle' => 'No market prices yet',
 			'marketPrices.emptyBody' => 'Market price data will appear here once it becomes available.',
-			'marketPrices.range.oneWeek' => '1W',
-			'marketPrices.range.oneMonth' => '1M',
-			'marketPrices.range.threeMonths' => '3M',
+			'marketPrices.range.oneWeek' => '1 week',
+			'marketPrices.range.oneMonth' => '1 month',
+			'marketPrices.range.threeMonths' => '3 months',
 			_ => null,
 		};
 	}

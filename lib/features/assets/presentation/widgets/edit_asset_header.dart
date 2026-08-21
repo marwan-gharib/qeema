@@ -36,7 +36,7 @@ class EditAssetHeader extends StatelessWidget {
                 ),
               ),
               Text(
-                typeEntity.name,
+                context.assetTypeName(typeEntity.code),
                 style: context.textTheme.bodyLarge?.copyWith(
                   color: colors.textPrimary,
                   fontWeight: FontWeight.w600,

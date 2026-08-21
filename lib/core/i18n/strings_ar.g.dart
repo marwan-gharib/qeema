@@ -78,6 +78,7 @@ class _Translations$core$ar extends Translations$core$en {
 	@override late final _Translations$core$search$ar search = _Translations$core$search$ar._(_root);
 	@override late final _Translations$core$validation$ar validation = _Translations$core$validation$ar._(_root);
 	@override late final _Translations$core$dates$ar dates = _Translations$core$dates$ar._(_root);
+	@override late final _Translations$core$currency$ar currency = _Translations$core$currency$ar._(_root);
 	@override late final _Translations$core$auth$ar auth = _Translations$core$auth$ar._(_root);
 	@override late final _Translations$core$actions$ar actions = _Translations$core$actions$ar._(_root);
 	@override late final _Translations$core$notification$ar notification = _Translations$core$notification$ar._(_root);
@@ -364,6 +365,17 @@ class _Translations$core$dates$ar extends Translations$core$dates$en {
 	@override String get daysAgo => 'منذ {days} يوم';
 }
 
+// Path: core.currency
+class _Translations$core$currency$ar extends Translations$core$currency$en {
+	_Translations$core$currency$ar._(TranslationsAr root) : this._root = root, super.internal(root);
+
+	final TranslationsAr _root; // ignore: unused_field
+
+	// Translations
+	@override String get egp => 'جنيه مصري';
+	@override String get usd => 'دولار امريكي';
+}
+
 // Path: core.auth
 class _Translations$core$auth$ar extends Translations$core$auth$en {
 	_Translations$core$auth$ar._(TranslationsAr root) : this._root = root, super.internal(root);
@@ -443,8 +455,8 @@ class _Translations$assets$list$ar extends Translations$assets$list$en {
 
 	// Translations
 	@override String get title => 'الأصول';
-	@override String get tabEgp => 'نقدي جنيه';
-	@override String get tabUsd => 'دولار';
+	@override String get tabEgp => 'جنيه مصري';
+	@override String get tabUsd => 'دولار امريكي';
 	@override String get tabGold21 => 'ذهب 21';
 	@override String get tabGold24 => 'ذهب 24';
 	@override String get sortFilter => 'ترتيب وتصفية';
@@ -470,8 +482,8 @@ class _Translations$assets$add$ar extends Translations$assets$add$en {
 	@override String get selectType => 'اختر نوع الأصل';
 	@override String get amount => 'الكمية';
 	@override String get amountGrams => 'الكمية (جرام)';
-	@override String get amountEgp => 'الكمية (جنيه)';
-	@override String get amountUsd => 'الكمية (دولار)';
+	@override String get amountEgp => 'الكمية (جنيه مصري)';
+	@override String get amountUsd => 'الكمية (دولار امريكي)';
 	@override String get priceAtEntry => 'سعر الشراء';
 	@override String get pricePerGram => 'سعر الجرام عند الشراء';
 	@override String get pricePerUnit => 'سعر الوحدة عند الشراء';
@@ -562,6 +574,15 @@ class _Translations$assets$history$ar extends Translations$assets$history$en {
 	@override String get created => 'تم الإنشاء';
 	@override String get updated => 'تم التحديث';
 	@override String get deleted => 'تم الحذف';
+	@override String get assetAdded => 'تمت إضافة الأصل';
+	@override String get assetDeleted => 'تم حذف الأصل';
+	@override String get fieldAmount => 'الكمية';
+	@override String get fieldEntryPrice => 'سعر الشراء';
+	@override String get fieldEntryDate => 'تاريخ الشراء';
+	@override String get fieldNote => 'ملاحظة';
+	@override String get noteUpdated => 'تم تحديث الملاحظة';
+	@override String get dateChanged => 'تم تغيير تاريخ الشراء';
+	@override String get fieldChanged => '{field}: {oldValue} ← {newValue}';
 }
 
 // Path: assets.delete
@@ -627,7 +648,7 @@ class _Translations$insights$goalFeasibility$ar extends Translations$insights$go
 
 	// Translations
 	@override String get title => 'فحص هدف الادخار';
-	@override String get body => 'بالمعدل الحالي للتضخم، قد تحتاج أهداف الادخار الخاصة بك إلى المراجعة upward للحفاظ على قيمتها الحقيقية.';
+	@override String get body => 'بالمعدل الحالي للتضخم، قد تحتاج أهداف الادخار الخاصة بك إلى مراجعة بالزيادة للحفاظ على قيمتها الحقيقية.';
 }
 
 // Path: marketPrices.range
@@ -637,9 +658,9 @@ class _Translations$marketPrices$range$ar extends Translations$marketPrices$rang
 	final TranslationsAr _root; // ignore: unused_field
 
 	// Translations
-	@override String get oneWeek => '1W';
-	@override String get oneMonth => '1M';
-	@override String get threeMonths => '3M';
+	@override String get oneWeek => 'أسبوع';
+	@override String get oneMonth => 'شهر';
+	@override String get threeMonths => '٣ أشهر';
 }
 
 /// The flat map containing all translations for locale <ar>.
@@ -684,6 +705,8 @@ extension on TranslationsAr {
 			'core.dates.minutesAgo' => 'منذ {minutes} دقيقة',
 			'core.dates.hoursAgo' => 'منذ {hours} ساعة',
 			'core.dates.daysAgo' => 'منذ {days} يوم',
+			'core.currency.egp' => 'جنيه مصري',
+			'core.currency.usd' => 'دولار امريكي',
 			'core.auth.unlockReason' => 'افتح قيّمة لعرض أموالك',
 			'core.auth.biometricFailed' => 'فشل التحقق البيومتري',
 			'core.actions.cancel' => 'إلغاء',
@@ -737,8 +760,8 @@ extension on TranslationsAr {
 			'appLock.noCredentials' => 'لم يتم إعداد قفل للجهاز. قم بإعداد قفل شاشة في إعدادات جهازك.',
 			'appLock.unavailable' => 'التحقق من الجهاز غير متاح على هذا الجهاز.',
 			'assets.list.title' => 'الأصول',
-			'assets.list.tabEgp' => 'نقدي جنيه',
-			'assets.list.tabUsd' => 'دولار',
+			'assets.list.tabEgp' => 'جنيه مصري',
+			'assets.list.tabUsd' => 'دولار امريكي',
 			'assets.list.tabGold21' => 'ذهب 21',
 			'assets.list.tabGold24' => 'ذهب 24',
 			'assets.list.sortFilter' => 'ترتيب وتصفية',
@@ -755,8 +778,8 @@ extension on TranslationsAr {
 			'assets.add.selectType' => 'اختر نوع الأصل',
 			'assets.add.amount' => 'الكمية',
 			'assets.add.amountGrams' => 'الكمية (جرام)',
-			'assets.add.amountEgp' => 'الكمية (جنيه)',
-			'assets.add.amountUsd' => 'الكمية (دولار)',
+			'assets.add.amountEgp' => 'الكمية (جنيه مصري)',
+			'assets.add.amountUsd' => 'الكمية (دولار امريكي)',
 			'assets.add.priceAtEntry' => 'سعر الشراء',
 			'assets.add.pricePerGram' => 'سعر الجرام عند الشراء',
 			'assets.add.pricePerUnit' => 'سعر الوحدة عند الشراء',
@@ -793,6 +816,15 @@ extension on TranslationsAr {
 			'assets.history.created' => 'تم الإنشاء',
 			'assets.history.updated' => 'تم التحديث',
 			'assets.history.deleted' => 'تم الحذف',
+			'assets.history.assetAdded' => 'تمت إضافة الأصل',
+			'assets.history.assetDeleted' => 'تم حذف الأصل',
+			'assets.history.fieldAmount' => 'الكمية',
+			'assets.history.fieldEntryPrice' => 'سعر الشراء',
+			'assets.history.fieldEntryDate' => 'تاريخ الشراء',
+			'assets.history.fieldNote' => 'ملاحظة',
+			'assets.history.noteUpdated' => 'تم تحديث الملاحظة',
+			'assets.history.dateChanged' => 'تم تغيير تاريخ الشراء',
+			'assets.history.fieldChanged' => '{field}: {oldValue} ← {newValue}',
 			'assets.delete.confirmTitle' => 'حذف الأصل؟',
 			'assets.delete.confirmBody' => 'سيؤدي هذا إلى حذف سجل الأصل بشكل دائم.',
 			'assets.failure.assetNotFound' => 'الأصل غير موجود.',
@@ -840,7 +872,7 @@ extension on TranslationsAr {
 			'insights.inflationLoss.title' => 'تم اكتشاف تآكل تضخمي',
 			'insights.inflationLoss.body' => 'فقدت أموالك {erosion}% من قوتها الشرائية منذ أن بدأت التتبع.',
 			'insights.goalFeasibility.title' => 'فحص هدف الادخار',
-			'insights.goalFeasibility.body' => 'بالمعدل الحالي للتضخم، قد تحتاج أهداف الادخار الخاصة بك إلى المراجعة upward للحفاظ على قيمتها الحقيقية.',
+			'insights.goalFeasibility.body' => 'بالمعدل الحالي للتضخم، قد تحتاج أهداف الادخار الخاصة بك إلى مراجعة بالزيادة للحفاظ على قيمتها الحقيقية.',
 			'marketPrices.title' => 'أسعار السوق',
 			'marketPrices.dataSourceDisclosure' => 'الأسعار مبنية على أسعار الصرف الرسمية والأسعار العالمية الفورية — وقد تختلف عن أسعار السوق المحلي أو تجار الذهب.',
 			'marketPrices.lastUpdated' => 'آخر تحديث {when}',
@@ -848,9 +880,9 @@ extension on TranslationsAr {
 			'marketPrices.showingAvailableData' => 'عرض البيانات المتاحة ({days} يوم)',
 			'marketPrices.emptyTitle' => 'لا توجد أسعار سوق بعد',
 			'marketPrices.emptyBody' => 'ستظهر بيانات أسعار السوق هنا بمجرد توفرها.',
-			'marketPrices.range.oneWeek' => '1W',
-			'marketPrices.range.oneMonth' => '1M',
-			'marketPrices.range.threeMonths' => '3M',
+			'marketPrices.range.oneWeek' => 'أسبوع',
+			'marketPrices.range.oneMonth' => 'شهر',
+			'marketPrices.range.threeMonths' => '٣ أشهر',
 			_ => null,
 		};
 	}

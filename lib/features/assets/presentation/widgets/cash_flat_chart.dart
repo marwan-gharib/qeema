@@ -67,7 +67,7 @@ class CashFlatChart extends StatelessWidget {
                   ),
                 ),
                 Text(
-                  'today',
+                  DateFormatter.formatShort(today),
                   style: context.textTheme.bodySmall?.copyWith(
                     color: colors.textSecondary,
                     fontSize: 10,

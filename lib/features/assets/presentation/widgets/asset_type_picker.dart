@@ -70,7 +70,9 @@ class AssetTypePicker extends StatelessWidget {
           AnimatedSwitcher(
             duration: AppMotion.fast,
             child: Text(
-              selectedType?.name ?? '',
+              selectedType == null
+                  ? ''
+                  : context.assetTypeName(selectedType.code),
               key: ValueKey(selectedType?.id ?? 'none'),
               style: Theme.of(context).textTheme.bodyLarge,
             ),

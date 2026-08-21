@@ -4,6 +4,7 @@ import 'package:material_ui/material_ui.dart';
 import 'package:qeema/core/animations/app_animated_entry.dart';
 import 'package:qeema/core/animations/entry_animation_type.dart';
 import 'package:qeema/core/extensions/build_context_extensions.dart';
+import 'package:qeema/core/extensions/failure_localization_extension.dart';
 import 'package:qeema/core/i18n/strings.g.dart';
 import 'package:qeema/core/router/route_names.dart';
 import 'package:qeema/core/theme/app_spacing.dart';
@@ -33,7 +34,7 @@ class HomeScreen extends StatelessWidget {
           return switch (state) {
             HomeLoading() => const DashboardSkeleton(),
             HomeError(:final failure) => AppErrorState(
-              message: failure.message,
+              message: failure.localizedMessage(context),
               onRetry: () => context.read<HomeCubit>().loadDashboard(),
             ),
             HomeLoaded(:final summary) when !summary.hasAssets => AppEmptyState(

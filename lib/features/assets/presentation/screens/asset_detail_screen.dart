@@ -2,6 +2,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:material_ui/material_ui.dart';
 import 'package:qeema/core/animations/app_motion.dart';
+import 'package:qeema/core/extensions/failure_localization_extension.dart';
 import 'package:qeema/core/i18n/strings.g.dart';
 import 'package:qeema/core/widgets/app_empty_state.dart';
 import 'package:qeema/core/widgets/app_error_state.dart';
@@ -30,7 +31,7 @@ class AssetDetailScreen extends StatelessWidget {
         return Scaffold(
           appBar: AppBar(
             title: state is AssetDetailLoaded
-                ? Text(_typeLabel(state.asset.assetType))
+                ? Text(_typeLabel(context, state.asset.assetType))
                 : null,
           ),
           body: AnimatedSwitcher(
@@ -41,7 +42,7 @@ class AssetDetailScreen extends StatelessWidget {
               AssetDetailInitial() ||
               AssetDetailLoading() => const AssetDetailSkeleton(),
               AssetDetailError(:final failure) => AppErrorState(
-                message: failure.message,
+                message: failure.localizedMessage(context),
                 onRetry: () => context.read<AssetDetailCubit>().refresh(),
               ),
               AssetDetailNotFound() => AppEmptyState(
@@ -69,15 +70,15 @@ class AssetDetailScreen extends StatelessWidget {
   }
 }
 
-String _typeLabel(AssetType type) {
+String _typeLabel(BuildContext context, AssetType type) {
   switch (type) {
     case AssetType.egpCash:
-      return 'EGP Cash';
+      return context.t.assets.list.tabEgp;
     case AssetType.usdCash:
-      return 'USD';
+      return context.t.assets.list.tabUsd;
     case AssetType.gold21:
-      return 'Gold 21K';
+      return context.t.assets.list.tabGold21;
     case AssetType.gold24:
-      return 'Gold 24K';
+      return context.t.assets.list.tabGold24;
   }
 }

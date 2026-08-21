@@ -3,6 +3,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:material_ui/material_ui.dart';
 import 'package:qeema/core/animations/micro_interactions/success_pulse.dart';
+import 'package:qeema/core/extensions/build_context_extensions.dart';
+import 'package:qeema/core/extensions/failure_localization_extension.dart';
 import 'package:qeema/core/i18n/strings.g.dart';
 import 'package:qeema/core/theme/app_spacing.dart';
 import 'package:qeema/core/widgets/app_button.dart';
@@ -127,7 +129,7 @@ class _EditAssetScreenState extends State<EditAssetScreen> {
         if (state.submitFailure != null) {
           AppSnackBar.showError(
             context,
-            state.submitFailure!.message ?? t.core.failure.unknownFailure,
+            state.submitFailure!.localizedMessage(context),
           );
         }
         if (state.submitSucceeded) {
@@ -154,7 +156,7 @@ class _EditAssetScreenState extends State<EditAssetScreen> {
           return Scaffold(
             appBar: AppBar(),
             body: AppErrorState(
-              message: state.loadFailure!.message,
+              message: state.loadFailure!.localizedMessage(context),
               onRetry: () => context.read<EditAssetCubit>().loadAsset(),
             ),
           );
@@ -171,7 +173,7 @@ class _EditAssetScreenState extends State<EditAssetScreen> {
         }
 
         return Scaffold(
-          appBar: AppBar(title: Text(typeEntity.name)),
+          appBar: AppBar(title: Text(context.assetTypeName(typeEntity.code))),
           body: SuccessPulse(
             triggered: state.submitSucceeded,
             child: SingleChildScrollView(

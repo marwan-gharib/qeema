@@ -2,6 +2,8 @@ import 'package:decimal/decimal.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 import 'package:material_ui/material_ui.dart';
+import 'package:qeema/core/helpers/currency_formatter.dart';
+import 'package:qeema/core/i18n/strings.g.dart';
 import 'package:qeema/core/router/route_paths.dart';
 import 'package:qeema/core/theme/app_colors_extension.dart';
 import 'package:qeema/core/widgets/percent_change_badge.dart';
@@ -18,7 +20,7 @@ class AssetListItem extends StatelessWidget {
     final locale = Localizations.localeOf(context).toLanguageTag();
     final currencyFormat = NumberFormat.currency(
       locale: locale,
-      symbol: 'EGP ',
+      symbol: '${CurrencyFormatter.currencyName('EGP')} ',
       decimalDigits: 2,
     );
     final dateFormat = DateFormat.yMMMd(locale);
@@ -40,7 +42,7 @@ class AssetListItem extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    _labelForType(asset.assetType),
+                    _labelForType(context, asset.assetType),
                     style: Theme.of(context).textTheme.bodyLarge?.copyWith(
                       color: colors.textPrimary,
                       fontWeight: FontWeight.w500,
@@ -93,16 +95,16 @@ class AssetListItem extends StatelessWidget {
     }
   }
 
-  String _labelForType(AssetType type) {
+  String _labelForType(BuildContext context, AssetType type) {
     switch (type) {
       case AssetType.egpCash:
-        return 'EGP';
+        return context.t.assets.list.tabEgp;
       case AssetType.usdCash:
-        return 'USD';
+        return context.t.assets.list.tabUsd;
       case AssetType.gold21:
-        return 'Gold 21K';
+        return context.t.assets.list.tabGold21;
       case AssetType.gold24:
-        return 'Gold 24K';
+        return context.t.assets.list.tabGold24;
     }
   }
 }
