@@ -55,6 +55,20 @@ class AppTheme {
         ),
       ),
       dividerTheme: DividerThemeData(color: colors.divider, thickness: 1),
+      dialogTheme: _dialogTheme(colors),
+      bottomSheetTheme: _bottomSheetTheme(colors),
+      snackBarTheme: _snackBarTheme(colors),
+      iconTheme: IconThemeData(color: colors.textPrimary),
+      listTileTheme: ListTileThemeData(
+        textColor: colors.textPrimary,
+        iconColor: colors.textSecondary,
+      ),
+      textButtonTheme: _textButtonTheme(colors),
+      outlinedButtonTheme: _outlinedButtonTheme(colors),
+      floatingActionButtonTheme: FloatingActionButtonThemeData(
+        backgroundColor: colors.primary,
+        foregroundColor: colors.onPrimary,
+      ),
     );
   }
 
@@ -106,6 +120,56 @@ class AppTheme {
         ),
       ),
       dividerTheme: DividerThemeData(color: colors.divider, thickness: 1),
+    );
+  }
+
+  static DialogThemeData _dialogTheme(AppColors colors) {
+    return DialogThemeData(
+      backgroundColor: colors.surface,
+      surfaceTintColor: colors.surface,
+      titleTextStyle: AppTextTheme.textTheme.titleMedium?.copyWith(
+        color: colors.textPrimary,
+      ),
+      contentTextStyle: AppTextTheme.textTheme.bodyMedium?.copyWith(
+        color: colors.textSecondary,
+      ),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+    );
+  }
+
+  static BottomSheetThemeData _bottomSheetTheme(AppColors colors) {
+    return BottomSheetThemeData(
+      backgroundColor: colors.surface,
+      modalBackgroundColor: colors.surface,
+      surfaceTintColor: colors.surface,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
+      ),
+    );
+  }
+
+  static SnackBarThemeData _snackBarTheme(AppColors colors) {
+    return SnackBarThemeData(
+      backgroundColor: colors.surfaceAlt,
+      contentTextStyle: AppTextTheme.textTheme.bodyMedium?.copyWith(
+        color: colors.textPrimary,
+      ),
+      actionTextColor: colors.primaryVariant,
+    );
+  }
+
+  static TextButtonThemeData _textButtonTheme(AppColors colors) {
+    return TextButtonThemeData(
+      style: TextButton.styleFrom(foregroundColor: colors.primaryVariant),
+    );
+  }
+
+  static OutlinedButtonThemeData _outlinedButtonTheme(AppColors colors) {
+    return OutlinedButtonThemeData(
+      style: OutlinedButton.styleFrom(
+        foregroundColor: colors.primaryVariant,
+        side: BorderSide(color: colors.primaryVariant),
+      ),
     );
   }
 }

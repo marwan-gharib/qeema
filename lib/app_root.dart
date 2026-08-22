@@ -60,22 +60,11 @@ class _AppRootState extends State<AppRoot> {
           return const _ColdStartDecidingPlaceholder();
         }
         if (snapshot.data == ColdStartDecision.requireUnlock) {
-          return MaterialApp(
-            theme: AppTheme.light(),
-            darkTheme: AppTheme.dark(),
-            themeMode: ThemeMode.system,
-            debugShowCheckedModeBanner: false,
-            supportedLocales: AppLocaleUtils.supportedLocales,
-            localizationsDelegates: const [
-              GlobalMaterialLocalizations.delegate,
-              GlobalCupertinoLocalizations.delegate,
-              GlobalWidgetsLocalizations.delegate,
-            ],
-            home: ColdStartLockScreen(
-              onUnlocked: () => setState(() {
-                _decisionFuture = Future.value(ColdStartDecision.proceed);
-              }),
-            ),
+          return ColdStartLockApp(
+            themeCubit: getIt<ThemeCubit>(),
+            onUnlocked: () => setState(() {
+              _decisionFuture = Future.value(ColdStartDecision.proceed);
+            }),
           );
         }
         return const QeemaApp();
@@ -131,6 +120,42 @@ class ColdStartLockScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return LockScreen(onUnlocked: onUnlocked, lockCubit: lockCubit);
+  }
+}
+
+class ColdStartLockApp extends StatelessWidget {
+  const ColdStartLockApp({
+    super.key,
+    required this.themeCubit,
+    required this.onUnlocked,
+    this.lockCubit,
+  });
+
+  final ThemeCubit themeCubit;
+  final VoidCallback onUnlocked;
+  final LockCubit? lockCubit;
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocBuilder<ThemeCubit, AppThemeState>(
+      bloc: themeCubit,
+      builder: (context, themeState) => MaterialApp(
+        theme: AppTheme.light(),
+        darkTheme: AppTheme.dark(),
+        themeMode: themeState.mode,
+        debugShowCheckedModeBanner: false,
+        supportedLocales: AppLocaleUtils.supportedLocales,
+        localizationsDelegates: const [
+          GlobalMaterialLocalizations.delegate,
+          GlobalCupertinoLocalizations.delegate,
+          GlobalWidgetsLocalizations.delegate,
+        ],
+        home: ColdStartLockScreen(
+          onUnlocked: onUnlocked,
+          lockCubit: lockCubit,
+        ),
+      ),
+    );
   }
 }
 

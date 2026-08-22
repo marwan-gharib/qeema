@@ -35,7 +35,9 @@ class LanguageSelectorSheet extends StatelessWidget {
           children: [
             Text(
               t.settings.languageSheetTitle,
-              style: context.textTheme.titleMedium,
+              style: context.textTheme.titleMedium!.copyWith(
+                color: context.colors.textPrimary,
+              ),
             ),
             const SizedBox(height: AppSpacing.md),
             for (final (locale, label) in [

@@ -129,7 +129,9 @@ class _AppLockToggleTileState extends State<AppLockToggleTile> {
                   children: [
                     Text(
                       t.settings.requireUnlock,
-                      style: context.textTheme.bodyLarge,
+                      style: context.textTheme.bodyLarge!.copyWith(
+                        color: colors.textPrimary,
+                      ),
                     ),
                     if (!_deviceSupported) ...[
                       const SizedBox(height: AppSpacing.xxs),

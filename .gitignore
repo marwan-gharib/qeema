@@ -44,7 +44,7 @@ app.*.map.json
 /android/app/profile
 /android/app/release
 
-*.md
+# *.md
 !README.md
 *.env
 *.txt

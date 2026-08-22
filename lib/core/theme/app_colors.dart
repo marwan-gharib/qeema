@@ -38,9 +38,9 @@ class AppColors {
     surfaceAlt: Color(0xFFFFF3D9),
     textPrimary: Color(0xFF2B2A26),
     textSecondary: Color(0xFF79766D),
-    error: Color(0xFFD96C4B),
+    error: Color(0xFFDB7250),
     divider: Color(0xFFEFE7D6),
-    onPrimary: Color(0xFFFFFFFF),
+    onPrimary: Color(0xFF2B2A26),
   );
 
   static const dark = AppColors(

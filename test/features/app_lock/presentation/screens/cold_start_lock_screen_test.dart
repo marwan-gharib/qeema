@@ -1,6 +1,7 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:material_ui/material_ui.dart';
 import 'package:qeema/app_root.dart';
+import 'package:qeema/core/cubits/theme_cubit/theme_cubit.dart';
 import 'package:qeema/core/i18n/strings.g.dart';
 import 'package:qeema/core/services/biometric_auth_service.dart';
 import 'package:qeema/core/theme/app_theme.dart';
@@ -37,9 +38,46 @@ Widget _buildTestApp(Widget child) {
 void main() {
   group('ColdStartLockScreen', () {
     late LockCubit cubit;
+    late ThemeCubit themeCubit;
 
     setUp(() {
       cubit = _MockLockCubit(_MockBioService(MockLocalAuthentication()));
+      themeCubit = ThemeCubit(MockCacheService());
+    });
+
+    tearDown(() async {
+      await cubit.close();
+      await themeCubit.close();
+    });
+
+    testWidgets('follows the selected theme and rebuilds when it changes', (
+      tester,
+    ) async {
+      LocaleSettings.setLocaleSync(AppLocale.en);
+      await themeCubit.setThemeMode(ThemeMode.light);
+      await tester.pumpWidget(
+        TranslationProvider(
+          child: ColdStartLockApp(
+            themeCubit: themeCubit,
+            onUnlocked: () {},
+            lockCubit: cubit,
+          ),
+        ),
+      );
+      await tester.pump();
+
+      expect(
+        Theme.of(tester.element(find.byType(LockScreen))).brightness,
+        Brightness.light,
+      );
+
+      await themeCubit.setThemeMode(ThemeMode.dark);
+      await tester.pump();
+
+      expect(
+        Theme.of(tester.element(find.byType(LockScreen))).brightness,
+        Brightness.dark,
+      );
     });
 
     testWidgets('renders LockScreen', (tester) async {

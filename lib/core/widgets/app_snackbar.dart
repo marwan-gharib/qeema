@@ -13,7 +13,14 @@ class AppSnackBar {
   static void showError(BuildContext context, String message) {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
-        content: Text(message),
+        content: Text(
+          message,
+          style: Theme.of(context).brightness == Brightness.light
+              ? context.textTheme.bodyMedium?.copyWith(
+                  color: context.colorScheme.onError,
+                )
+              : null,
+        ),
         backgroundColor: context.colorScheme.error,
       ),
     );

@@ -32,7 +32,14 @@ class SelectorOptionRow extends StatelessWidget {
       ),
       child: Row(
         children: [
-          Expanded(child: Text(label, style: context.textTheme.bodyLarge)),
+          Expanded(
+            child: Text(
+              label,
+              style: context.textTheme.bodyLarge!.copyWith(
+                color: context.colors.textPrimary,
+              ),
+            ),
+          ),
           if (isSelected) Icon(Icons.check, size: 20, color: colors.primary),
         ],
       ),
