@@ -418,7 +418,8 @@ class _Translations$auth$welcome$ar extends Translations$auth$welcome$en {
 	// Translations
 	@override String get headline => 'اعرف القيمة الحقيقية لأموالك';
 	@override String get subtext => 'تتبع مدخراتك مقابل التضخم وشاهد قوتك الشرائية الحقيقية عبر الزمن.';
-	@override String get primaryCta => 'ابدأ بتتبع مدخراتك';
+	@override String get continueAsGuestCta => 'متابعة كضيف';
+	@override String get googleSignInCta => 'تسجيل الدخول باستخدام بجوجل';
 	@override String get guestDisclosure => 'لا حاجة لحساب. يمكنك إنشاء واحد لاحقاً.';
 }
 
@@ -715,7 +716,8 @@ extension on TranslationsAr {
 			'core.notification.channelDescription' => 'إشعارات حول تغيرات الأسعار',
 			'auth.welcome.headline' => 'اعرف القيمة الحقيقية لأموالك',
 			'auth.welcome.subtext' => 'تتبع مدخراتك مقابل التضخم وشاهد قوتك الشرائية الحقيقية عبر الزمن.',
-			'auth.welcome.primaryCta' => 'ابدأ بتتبع مدخراتك',
+			'auth.welcome.continueAsGuestCta' => 'متابعة كضيف',
+			'auth.welcome.googleSignInCta' => 'تسجيل الدخول باستخدام بجوجل',
 			'auth.welcome.guestDisclosure' => 'لا حاجة لحساب. يمكنك إنشاء واحد لاحقاً.',
 			'auth.error.networkError' => 'لا يوجد اتصال بالإنترنت. يرجى التحقق من شبكتك والمحاولة مرة أخرى.',
 			'auth.error.tooManyRequests' => 'محاولات كثيرة جداً. يرجى الانتظار لحظة والمحاولة مرة أخرى.',

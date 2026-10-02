@@ -71,7 +71,8 @@
     "welcome": {
       "headline": "Know what your money is really worth",
       "subtext": "Track your savings against inflation and see your real purchasing power over time.",
-      "primaryCta": "Start Tracking Your Savings",
+      "continueAsGuestCta": "Continue as Guest",
+      "googleSignInCta": "Sign in with Google",
       "guestDisclosure": "No account needed. You can create one later."
     },
     "error": {

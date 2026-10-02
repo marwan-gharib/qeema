@@ -666,8 +666,11 @@ class Translations$auth$welcome$en {
 	/// en: 'Track your savings against inflation and see your real purchasing power over time.'
 	String get subtext => 'Track your savings against inflation and see your real purchasing power over time.';
 
-	/// en: 'Start Tracking Your Savings'
-	String get primaryCta => 'Start Tracking Your Savings';
+	/// en: 'Continue as Guest'
+	String get continueAsGuestCta => 'Continue as Guest';
+
+	/// en: 'Sign in with Google'
+	String get googleSignInCta => 'Sign in with Google';
 
 	/// en: 'No account needed. You can create one later.'
 	String get guestDisclosure => 'No account needed. You can create one later.';
@@ -1142,7 +1145,8 @@ extension on Translations {
 			'core.notification.channelDescription' => 'Notifications about price changes',
 			'auth.welcome.headline' => 'Know what your money is really worth',
 			'auth.welcome.subtext' => 'Track your savings against inflation and see your real purchasing power over time.',
-			'auth.welcome.primaryCta' => 'Start Tracking Your Savings',
+			'auth.welcome.continueAsGuestCta' => 'Continue as Guest',
+			'auth.welcome.googleSignInCta' => 'Sign in with Google',
 			'auth.welcome.guestDisclosure' => 'No account needed. You can create one later.',
 			'auth.error.networkError' => 'No internet connection. Please check your network and try again.',
 			'auth.error.tooManyRequests' => 'Too many attempts. Please wait a moment and try again.',

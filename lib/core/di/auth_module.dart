@@ -4,6 +4,8 @@ import 'package:qeema/features/auth/data/datasources/remote/auth_remote_datasour
 import 'package:qeema/features/auth/data/repositories/auth_repository_impl.dart';
 import 'package:qeema/features/auth/domain/repositories/auth_repository.dart';
 import 'package:qeema/features/auth/domain/usecases/continue_as_guest_usecase.dart';
+import 'package:qeema/features/auth/domain/usecases/google_sign_in_usecase.dart';
+import 'package:qeema/features/auth/presentation/cubits/google_sign_in_cubit/google_sign_in_cubit.dart';
 import 'package:qeema/features/auth/presentation/cubits/welcome_cubit/welcome_cubit.dart';
 
 Future<void> initAuthModule(GetIt getIt) async {
@@ -16,5 +18,9 @@ Future<void> initAuthModule(GetIt getIt) async {
   getIt.registerLazySingleton(
     () => ContinueAsGuestUseCase(getIt<AuthRepository>()),
   );
+  getIt.registerLazySingleton(
+    () => GoogleSignInUseCase(getIt<AuthRepository>()),
+  );
   getIt.registerFactory(() => WelcomeCubit(getIt<ContinueAsGuestUseCase>()));
+  getIt.registerFactory(() => GoogleSignInCubit(getIt<GoogleSignInUseCase>()));
 }

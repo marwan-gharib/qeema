@@ -17,6 +17,7 @@ import 'package:qeema/features/assets/presentation/screens/add_asset_screen.dart
 import 'package:qeema/features/assets/presentation/screens/asset_detail_screen.dart';
 import 'package:qeema/features/assets/presentation/screens/assets_list_screen.dart';
 import 'package:qeema/features/assets/presentation/screens/edit_asset_screen.dart';
+import 'package:qeema/features/auth/presentation/cubits/google_sign_in_cubit/google_sign_in_cubit.dart';
 import 'package:qeema/features/auth/presentation/cubits/welcome_cubit/welcome_cubit.dart';
 import 'package:qeema/features/auth/presentation/screens/welcome_screen.dart';
 import 'package:qeema/features/home/presentation/cubits/home_cubit/home_cubit.dart';
@@ -172,8 +173,11 @@ class AppRouterRoutes {
         path: RoutePaths.welcome,
         name: RouteNames.welcome,
         pageBuilder: (context, state) => slideUpPage(
-          child: BlocProvider(
-            create: (context) => getIt<WelcomeCubit>(),
+          child: MultiBlocProvider(
+            providers: [
+              BlocProvider(create: (context) => getIt<WelcomeCubit>()),
+              BlocProvider(create: (context) => getIt<GoogleSignInCubit>()),
+            ],
             child: const WelcomeScreen(),
           ),
           pageKey: const ValueKey('welcome'),

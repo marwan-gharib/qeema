@@ -15,4 +15,9 @@ class MockAuthRemoteDataSource implements AuthRemoteDataSource {
     }
     return const AuthUserModel(id: 'anon-1', email: '', isAnonymous: true);
   }
+
+  @override
+  Future<AuthUserModel> googleSignIn() {
+    throw UnimplementedError();
+  }
 }

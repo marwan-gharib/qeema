@@ -88,6 +88,11 @@ class MockAuthRepository implements AuthRepository {
   @override
   Future<ApiResult<AuthUserEntity>> continueAsGuest() async =>
       continueAsGuestResult;
+
+  @override
+  Future<ApiResult<AuthUserEntity>> googleSignIn() {
+    throw UnimplementedError();
+  }
 }
 
 class MockContinueAsGuestUseCase implements ContinueAsGuestUseCase {
