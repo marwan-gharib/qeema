@@ -13,6 +13,11 @@ class CacheException implements Exception {
   final String? message;
 }
 
+class SignOutException implements Exception {
+  const SignOutException([this.message]);
+  final String? message;
+}
+
 class AccountDeletionException implements Exception {
   const AccountDeletionException([this.message]);
   final String? message;

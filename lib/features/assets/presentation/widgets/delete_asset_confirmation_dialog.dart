@@ -1,3 +1,4 @@
+import 'package:go_router/go_router.dart';
 import 'package:material_ui/material_ui.dart';
 import 'package:qeema/core/extensions/build_context_extensions.dart';
 import 'package:qeema/core/i18n/strings.g.dart';
@@ -36,12 +37,12 @@ class DeleteAssetConfirmationDialog extends StatelessWidget {
       ),
       actions: [
         TextButton(
-          onPressed: () => Navigator.of(context).pop(false),
+          onPressed: () => context.pop(false),
           style: TextButton.styleFrom(foregroundColor: colors.textSecondary),
           child: Text(context.t.core.actions.cancel),
         ),
         FilledButton(
-          onPressed: () => Navigator.of(context).pop(true),
+          onPressed: () => context.pop(true),
           style: FilledButton.styleFrom(
             backgroundColor: colors.error,
             foregroundColor: colors.onPrimary,

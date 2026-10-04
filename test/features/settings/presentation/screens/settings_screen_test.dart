@@ -12,12 +12,17 @@ import 'package:qeema/core/router/route_paths.dart';
 import 'package:qeema/core/services/app_lock_service.dart';
 import 'package:qeema/core/services/biometric_auth_service.dart';
 import 'package:qeema/core/theme/app_theme.dart';
+import 'package:qeema/core/utils/api_result.dart';
 import 'package:qeema/core/widgets/app_button.dart';
 import 'package:qeema/core/widgets/app_text_field.dart';
 import 'package:qeema/features/app_lock/presentation/cubits/lock_cubit/lock_cubit.dart';
+import 'package:qeema/features/auth/domain/entities/auth_user_entity.dart';
 import 'package:qeema/features/settings/presentation/cubits/delete_account_cubit/delete_account_cubit.dart';
+import 'package:qeema/features/settings/presentation/cubits/logout_cubit/logout_cubit.dart';
+import 'package:qeema/features/settings/presentation/cubits/profile_header_cubit/profile_header_cubit.dart';
 import 'package:qeema/features/settings/presentation/screens/settings_screen.dart';
 import 'package:qeema/features/settings/presentation/widgets/language_selector_sheet.dart';
+import 'package:qeema/features/settings/presentation/widgets/profile_header_card.dart';
 import 'package:qeema/features/settings/presentation/widgets/theme_selector_sheet.dart';
 
 import '../../../../helpers/mocks.dart';
@@ -30,6 +35,9 @@ void main() {
   late ThemeCubit themeCubit;
   late MockDeleteAccountUseCase deleteUseCase;
   late DeleteAccountCubit deleteCubit;
+  late MockLogoutUseCase logoutUseCase;
+  late LogoutCubit logoutCubit;
+  late ProfileHeaderCubit profileHeaderCubit;
 
   const packageInfoChannel = MethodChannel(
     'dev.fluttercommunity.plus/package_info',
@@ -52,6 +60,19 @@ void main() {
     themeCubit = ThemeCubit(cacheService);
     deleteUseCase = MockDeleteAccountUseCase();
     deleteCubit = DeleteAccountCubit(deleteUseCase);
+    logoutUseCase = MockLogoutUseCase();
+    logoutCubit = LogoutCubit(
+      logoutUseCase,
+      MockAccountRepository(isAnonymous: false),
+    );
+    profileHeaderCubit = ProfileHeaderCubit(
+      MockWatchAuthUserUseCase()
+        ..result = Stream.value(
+          const Success(
+            AuthUserEntity(id: 'user-1', email: '', isAnonymous: true),
+          ),
+        ),
+    );
 
     getIt
       ..registerLazySingleton<AppLockService>(
@@ -71,6 +92,8 @@ void main() {
     localeCubit.close();
     themeCubit.close();
     deleteCubit.close();
+    logoutCubit.close();
+    profileHeaderCubit.close();
     getIt.reset();
   });
 
@@ -82,6 +105,11 @@ void main() {
           path: RoutePaths.settings,
           name: RouteNames.settings,
           builder: (_, _) => const SettingsScreen(),
+        ),
+        GoRoute(
+          path: RoutePaths.welcome,
+          name: RouteNames.welcome,
+          builder: (_, _) => const Scaffold(body: Text('Welcome Stub')),
         ),
         GoRoute(
           path: RoutePaths.onboarding,
@@ -96,6 +124,8 @@ void main() {
           BlocProvider<LocaleCubit>.value(value: localeCubit),
           BlocProvider<ThemeCubit>.value(value: themeCubit),
           BlocProvider<DeleteAccountCubit>.value(value: deleteCubit),
+          BlocProvider<LogoutCubit>.value(value: logoutCubit),
+          BlocProvider<ProfileHeaderCubit>.value(value: profileHeaderCubit),
         ],
         child: MaterialApp.router(
           theme: AppTheme.light(),
@@ -126,6 +156,21 @@ void main() {
     expect(find.text('App Version'), findsOneWidget);
     expect(find.text('Data & Methodology'), findsOneWidget);
     expect(find.text('Delete Account'), findsOneWidget);
+  });
+
+  testWidgets('shows the profile header above the first section', (
+    tester,
+  ) async {
+    await tester.pumpWidget(harness());
+    await settle(tester);
+
+    expect(find.byType(ProfileHeaderCard), findsOneWidget);
+    expect(find.text('Guest'), findsOneWidget);
+    expect(find.text('Signed in as guest'), findsOneWidget);
+
+    final headerTop = tester.getTopLeft(find.byType(ProfileHeaderCard)).dy;
+    final sectionTop = tester.getTopLeft(find.text('SECURITY')).dy;
+    expect(headerTop, lessThan(sectionTop));
   });
 
   testWidgets('changing the language updates the preferences tile', (
@@ -175,12 +220,14 @@ void main() {
     );
   });
 
-  testWidgets('deleting the account navigates to onboarding on success', (
+  testWidgets('deleting the account navigates to welcome on success', (
     tester,
   ) async {
     await tester.pumpWidget(harness());
     await settle(tester);
 
+    await tester.ensureVisible(find.text('Delete Account'));
+    await tester.pump();
     await tester.tap(find.text('Delete Account'));
     await tester.pumpAndSettle();
 
@@ -190,6 +237,25 @@ void main() {
     await tester.pumpAndSettle();
 
     expect(deleteUseCase.calls, 1);
-    expect(find.text('Onboarding Stub'), findsOneWidget);
+    expect(find.text('Welcome Stub'), findsOneWidget);
+  });
+
+  testWidgets('logging out as Google user navigates to welcome', (
+    tester,
+  ) async {
+    await tester.pumpWidget(harness());
+    await settle(tester);
+
+    await tester.ensureVisible(find.text('Log Out'));
+    await tester.pump();
+    await tester.tap(find.text('Log Out'));
+    await tester.pumpAndSettle();
+
+    expect(find.text('Log Out?'), findsOneWidget);
+    await tester.tap(find.widgetWithText(AppButton, 'Log Out'));
+    await tester.pumpAndSettle();
+
+    expect(logoutUseCase.calls, 1);
+    expect(find.text('Welcome Stub'), findsOneWidget);
   });
 }

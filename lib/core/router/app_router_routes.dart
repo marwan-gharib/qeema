@@ -29,6 +29,8 @@ import 'package:qeema/features/market_prices/presentation/screens/market_prices_
 import 'package:qeema/features/onboarding/presentation/cubits/onboarding_cubit/onboarding_cubit.dart';
 import 'package:qeema/features/onboarding/presentation/screens/onboarding_screen.dart';
 import 'package:qeema/features/settings/presentation/cubits/delete_account_cubit/delete_account_cubit.dart';
+import 'package:qeema/features/settings/presentation/cubits/logout_cubit/logout_cubit.dart';
+import 'package:qeema/features/settings/presentation/cubits/profile_header_cubit/profile_header_cubit.dart';
 import 'package:qeema/features/settings/presentation/screens/settings_screen.dart';
 import 'package:qeema/features/splash/presentation/screens/splash_screen.dart';
 
@@ -139,8 +141,12 @@ class AppRouterRoutes {
             GoRoute(
               path: RoutePaths.settings,
               name: RouteNames.settings,
-              builder: (context, state) => BlocProvider(
-                create: (_) => getIt<DeleteAccountCubit>(),
+              builder: (context, state) => MultiBlocProvider(
+                providers: [
+                  BlocProvider(create: (_) => getIt<DeleteAccountCubit>()),
+                  BlocProvider(create: (_) => getIt<LogoutCubit>()),
+                  BlocProvider(create: (_) => getIt<ProfileHeaderCubit>()),
+                ],
                 child: const SettingsScreen(),
               ),
             ),

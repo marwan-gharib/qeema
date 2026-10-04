@@ -98,4 +98,23 @@ class AuthRemoteDataSource {
       rethrow;
     }
   }
+
+  /// Emits the mapped current user, seeded once and then on every auth
+  /// event. `currentUser` is read per event because gotrue updates it before
+  /// notifying listeners, so replays can never surface stale data.
+  Stream<AuthUserModel?> authStateChanges() async* {
+    final auth = _provider.client.auth;
+    yield _currentUserInfo();
+    // Transient auth errors are swallowed so a failed token refresh never
+    // tears down the stream; no auth data is logged.
+    await for (final _ in auth.onAuthStateChange.handleError((Object _) {})) {
+      yield _currentUserInfo();
+    }
+  }
+
+  AuthUserModel? _currentUserInfo() {
+    final user = _provider.client.auth.currentUser;
+    if (user == null) return null;
+    return AuthUserMapper.fromSupabaseUser(user);
+  }
 }

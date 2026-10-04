@@ -5,11 +5,20 @@ class AuthUserModel {
     required this.id,
     required this.email,
     this.isAnonymous = false,
+    this.displayName,
+    this.avatarUrl,
   });
   final String id;
   final String email;
   final bool isAnonymous;
+  final String? displayName;
+  final String? avatarUrl;
 
-  AuthUserEntity toEntity() =>
-      AuthUserEntity(id: id, email: email, isAnonymous: isAnonymous);
+  AuthUserEntity toEntity() => AuthUserEntity(
+    id: id,
+    email: email,
+    isAnonymous: isAnonymous,
+    displayName: displayName,
+    avatarUrl: avatarUrl,
+  );
 }

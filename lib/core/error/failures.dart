@@ -91,6 +91,10 @@ final class InvalidAssetAmountFailure extends Failure {
     : super('Amount must be greater than zero.');
 }
 
+final class SignOutFailure extends Failure {
+  const SignOutFailure([super.message]);
+}
+
 final class AccountDeletionFailure extends Failure {
   const AccountDeletionFailure([super.message]);
 }

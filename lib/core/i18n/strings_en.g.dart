@@ -273,6 +273,8 @@ class Translations$settings$en {
 	/// en: 'Settings'
 	String get title => 'Settings';
 
+	late final Translations$settings$profile$en profile = Translations$settings$profile$en.internal(_root);
+
 	/// en: 'Security'
 	String get securitySection => 'Security';
 
@@ -350,6 +352,27 @@ class Translations$settings$en {
 
 	/// en: 'Your data was deleted but your account could not be fully removed. Please try again or contact support.'
 	String get deletePartialFailure => 'Your data was deleted but your account could not be fully removed. Please try again or contact support.';
+
+	/// en: 'Log Out'
+	String get logout => 'Log Out';
+
+	/// en: 'Log Out?'
+	String get logoutDialogTitle => 'Log Out?';
+
+	/// en: 'You will be signed out of Qeema. Your data stays on your account — sign back in anytime to pick up where you left off.'
+	String get logoutDialogBody => 'You will be signed out of Qeema. Your data stays on your account — sign back in anytime to pick up where you left off.';
+
+	/// en: 'You are logged in as a guest. Logging out permanently deletes this guest account and ALL of its data. There is no recovery — and since Qeema uses anonymous sign-in, there is no email or password to log back in with if you change your mind.'
+	String get logoutGuestDialogBody => 'You are logged in as a guest. Logging out permanently deletes this guest account and ALL of its data. There is no recovery — and since Qeema uses anonymous sign-in, there is no email or password to log back in with if you change your mind.';
+
+	/// en: 'Log Out'
+	String get logoutConfirm => 'Log Out';
+
+	/// en: 'Delete & Log Out'
+	String get logoutDeleteConfirm => 'Delete & Log Out';
+
+	/// en: 'Could not log out. Please try again.'
+	String get logoutFailed => 'Could not log out. Please try again.';
 }
 
 // Path: home
@@ -1015,6 +1038,27 @@ class Translations$assets$failure$en {
 	String get invalidAmount => 'Amount must be greater than zero.';
 }
 
+// Path: settings.profile
+class Translations$settings$profile$en {
+	Translations$settings$profile$en.internal(this._root);
+
+	final Translations _root; // ignore: unused_field
+
+	// Translations
+
+	/// en: 'Guest'
+	String get guest => 'Guest';
+
+	/// en: 'Signed in as guest'
+	String get signedInAsGuest => 'Signed in as guest';
+
+	/// en: 'User'
+	String get fallbackName => 'User';
+
+	/// en: 'Signed in as {name}'
+	String get semanticLabel => 'Signed in as {name}';
+}
+
 // Path: insights.assetPerformance
 class Translations$insights$assetPerformance$en {
 	Translations$insights$assetPerformance$en.internal(this._root);
@@ -1261,6 +1305,10 @@ extension on Translations {
 			'assets.failure.assetNotFound' => 'Asset not found.',
 			'assets.failure.invalidAmount' => 'Amount must be greater than zero.',
 			'settings.title' => 'Settings',
+			'settings.profile.guest' => 'Guest',
+			'settings.profile.signedInAsGuest' => 'Signed in as guest',
+			'settings.profile.fallbackName' => 'User',
+			'settings.profile.semanticLabel' => 'Signed in as {name}',
 			'settings.securitySection' => 'Security',
 			'settings.preferencesSection' => 'Preferences',
 			'settings.aboutSection' => 'About',
@@ -1287,6 +1335,13 @@ extension on Translations {
 			'settings.deleteForever' => 'Delete Forever',
 			'settings.deleteFailed' => 'Could not delete your account. Please try again.',
 			'settings.deletePartialFailure' => 'Your data was deleted but your account could not be fully removed. Please try again or contact support.',
+			'settings.logout' => 'Log Out',
+			'settings.logoutDialogTitle' => 'Log Out?',
+			'settings.logoutDialogBody' => 'You will be signed out of Qeema. Your data stays on your account — sign back in anytime to pick up where you left off.',
+			'settings.logoutGuestDialogBody' => 'You are logged in as a guest. Logging out permanently deletes this guest account and ALL of its data. There is no recovery — and since Qeema uses anonymous sign-in, there is no email or password to log back in with if you change your mind.',
+			'settings.logoutConfirm' => 'Log Out',
+			'settings.logoutDeleteConfirm' => 'Delete & Log Out',
+			'settings.logoutFailed' => 'Could not log out. Please try again.',
 			'home.title' => 'Qeema',
 			'home.totalSavingsNominal' => 'Total Savings',
 			'home.totalSavingsReal' => 'Adjusted for Inflation',

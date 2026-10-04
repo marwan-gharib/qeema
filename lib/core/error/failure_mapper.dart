@@ -26,6 +26,7 @@ Failure mapExceptionToFailure(Object error) {
     ),
     final SocketException _ => const NetworkAuthFailure(),
     final HttpException _ => const NetworkAuthFailure(),
+    final app.SignOutException _ => const SignOutFailure(),
     _ => const UnknownFailure(),
   };
 }

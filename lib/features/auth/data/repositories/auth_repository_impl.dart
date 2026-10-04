@@ -27,4 +27,15 @@ final class AuthRepositoryImpl implements AuthRepository {
       return ResultFailure(mapExceptionToFailure(e));
     }
   }
+
+  @override
+  Stream<ApiResult<AuthUserEntity?>> authStateChanges() async* {
+    try {
+      await for (final model in _remoteDataSource.authStateChanges()) {
+        yield Success(model?.toEntity());
+      }
+    } catch (e) {
+      yield ResultFailure(mapExceptionToFailure(e));
+    }
+  }
 }

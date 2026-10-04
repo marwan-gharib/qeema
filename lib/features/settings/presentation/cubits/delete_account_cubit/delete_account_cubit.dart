@@ -8,8 +8,10 @@ class DeleteAccountCubit extends Cubit<DeleteAccountState> {
   final DeleteAccountUseCase _deleteAccountUseCase;
 
   Future<void> deleteAccount() async {
+    if (isClosed) return;
     emit(const DeleteAccountDeleting());
     final result = await _deleteAccountUseCase();
+    if (isClosed) return;
     result.fold(
       onSuccess: (_) => emit(const DeleteAccountSuccess()),
       onFailure: (failure) => emit(DeleteAccountFailure(failure)),
