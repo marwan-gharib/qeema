@@ -18,10 +18,7 @@ import 'package:qeema/core/navigation/bottom_nav_item.dart';
 import 'package:qeema/core/network/supabase_client_provider.dart';
 import 'package:qeema/core/router/app_router.dart';
 import 'package:qeema/core/router/route_guards.dart';
-import 'package:qeema/core/services/app_lock_service.dart';
-import 'package:qeema/core/services/biometric_auth_service.dart';
 import 'package:qeema/core/utils/api_result.dart';
-import 'package:qeema/features/app_lock/presentation/cubits/lock_cubit/lock_cubit.dart';
 import 'package:qeema/features/assets/presentation/cubits/assets_list_cubit/assets_list_cubit.dart';
 import 'package:qeema/features/home/domain/entities/dashboard_summary_entity.dart';
 import 'package:qeema/features/home/domain/usecases/get_dashboard_summary_usecase.dart';
@@ -147,15 +144,6 @@ void main() {
       ..result = const Success(true);
     getIt
       ..registerLazySingleton<SupabaseClientProvider>(() => supabaseProvider)
-      ..registerLazySingleton<AppLockService>(
-        () => AppLockService(MockSecureStorageService()),
-      )
-      ..registerLazySingleton<BiometricAuthService>(
-        () => BiometricAuthService(MockLocalAuthentication()),
-      )
-      ..registerFactory<LockCubit>(
-        () => LockCubit(getIt<BiometricAuthService>()),
-      )
       ..registerLazySingleton<CacheService>(() => cacheService)
       ..registerLazySingleton<LocaleCubit>(
         () => LocaleCubit(getIt<CacheService>()),

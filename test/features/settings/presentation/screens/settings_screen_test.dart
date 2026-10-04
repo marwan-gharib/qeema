@@ -9,13 +9,10 @@ import 'package:qeema/core/di/injection_container.dart';
 import 'package:qeema/core/i18n/strings.g.dart';
 import 'package:qeema/core/router/route_names.dart';
 import 'package:qeema/core/router/route_paths.dart';
-import 'package:qeema/core/services/app_lock_service.dart';
-import 'package:qeema/core/services/biometric_auth_service.dart';
 import 'package:qeema/core/theme/app_theme.dart';
 import 'package:qeema/core/utils/api_result.dart';
 import 'package:qeema/core/widgets/app_button.dart';
 import 'package:qeema/core/widgets/app_text_field.dart';
-import 'package:qeema/features/app_lock/presentation/cubits/lock_cubit/lock_cubit.dart';
 import 'package:qeema/features/auth/domain/entities/auth_user_entity.dart';
 import 'package:qeema/features/settings/presentation/cubits/delete_account_cubit/delete_account_cubit.dart';
 import 'package:qeema/features/settings/presentation/cubits/logout_cubit/logout_cubit.dart';
@@ -73,17 +70,6 @@ void main() {
           ),
         ),
     );
-
-    getIt
-      ..registerLazySingleton<AppLockService>(
-        () => AppLockService(MockSecureStorageService()),
-      )
-      ..registerLazySingleton<BiometricAuthService>(
-        () => BiometricAuthService(MockLocalAuthentication()),
-      )
-      ..registerFactory<LockCubit>(
-        () => LockCubit(getIt<BiometricAuthService>()),
-      );
   });
 
   tearDown(() {
@@ -141,16 +127,14 @@ void main() {
     await tester.pump(const Duration(milliseconds: 1000));
   }
 
-  testWidgets('renders all four sections', (tester) async {
+  testWidgets('renders three sections', (tester) async {
     await tester.pumpWidget(harness());
     await settle(tester);
 
     expect(find.text('Settings'), findsOneWidget);
-    expect(find.text('SECURITY'), findsOneWidget);
     expect(find.text('PREFERENCES'), findsOneWidget);
     expect(find.text('ABOUT'), findsOneWidget);
     expect(find.text('DANGER ZONE'), findsOneWidget);
-    expect(find.text('Require device unlock to open Qeema'), findsOneWidget);
     expect(find.text('Language'), findsOneWidget);
     expect(find.text('Theme'), findsOneWidget);
     expect(find.text('App Version'), findsOneWidget);
@@ -169,7 +153,7 @@ void main() {
     expect(find.text('Signed in as guest'), findsOneWidget);
 
     final headerTop = tester.getTopLeft(find.byType(ProfileHeaderCard)).dy;
-    final sectionTop = tester.getTopLeft(find.text('SECURITY')).dy;
+    final sectionTop = tester.getTopLeft(find.text('PREFERENCES')).dy;
     expect(headerTop, lessThan(sectionTop));
   });
 

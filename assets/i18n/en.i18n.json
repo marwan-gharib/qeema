@@ -54,10 +54,6 @@
       "egp": "EGP",
       "usd": "USD"
     },
-    "auth": {
-      "unlockReason": "Unlock Qeema to view your finances",
-      "biometricFailed": "Biometric authentication failed"
-    },
     "actions": {
       "cancel": "Cancel",
       "delete": "Delete"
@@ -111,7 +107,6 @@
     "notifications": "Notifications",
     "profile": "Profile",
     "settings": "Settings",
-    "biometricSetup": "Biometric Setup",
     "addAsset": "Add Asset",
     "assetDetail": "Asset {id}",
     "editAsset": "Edit Asset {id}",
@@ -124,11 +119,6 @@
     "assets": "Assets",
     "marketPrices": "Market Prices",
     "settings": "Settings"
-  },
-  "appLock": {
-    "tooManyAttempts": "Too many attempts. Try again later.",
-    "noCredentials": "No device lock set up. Set up a screen lock in your device settings.",
-    "unavailable": "Device authentication is not available on this device."
   },
   "assets": {
     "list": {
@@ -234,9 +224,6 @@
     "preferencesSection": "Preferences",
     "aboutSection": "About",
     "dangerZoneSection": "Danger Zone",
-    "requireUnlock": "Require device unlock to open Qeema",
-    "noDeviceLock": "Your device doesn't have a screen lock set up. Set one up in your device settings to use this feature.",
-    "authCancelled": "Authentication was cancelled.",
     "language": "Language",
     "languageSheetTitle": "Choose Language",
     "languageEnglish": "English",

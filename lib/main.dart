@@ -9,6 +9,7 @@ import 'package:qeema/core/cubits/locale_cubit/locale_cubit.dart';
 import 'package:qeema/core/cubits/theme_cubit/theme_cubit.dart';
 import 'package:qeema/core/di/injection_container.dart';
 import 'package:qeema/core/i18n/strings.g.dart';
+import 'package:qeema/core/local/secure/secure_storage_service.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 Future<void> main() async {
@@ -20,6 +21,11 @@ Future<void> main() async {
   );
 
   await initDependencies();
+
+  // Legacy App Lock cleanup — remove after one release cycle
+  try {
+    await getIt<SecureStorageService>().delete(key: 'is_local_auth_enabled');
+  } catch (_) {}
 
   await LocaleSettings.useDeviceLocale();
   await initializeDateFormatting(LocaleSettings.currentLocale.languageCode);

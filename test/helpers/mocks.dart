@@ -1,6 +1,3 @@
-import 'package:local_auth/local_auth.dart';
-import 'package:local_auth_platform_interface/local_auth_platform_interface.dart'
-    show AuthMessages;
 import 'package:qeema/core/error/failures.dart';
 import 'package:qeema/core/local/cache/cache_service.dart';
 import 'package:qeema/core/local/secure/secure_storage_service.dart';
@@ -116,43 +113,6 @@ class MockWatchAuthUserUseCase implements WatchAuthUserUseCase {
 
   @override
   Stream<ApiResult<AuthUserEntity?>> call() => result;
-}
-
-class MockLocalAuthentication implements LocalAuthentication {
-  bool authenticateResult = true;
-  bool throwException = false;
-  LocalAuthException? exceptionToThrow;
-  bool isDeviceSupportedResult = true;
-  bool canCheckBiometricsResult = false;
-  List<BiometricType> availableBiometrics = [];
-
-  @override
-  Future<bool> authenticate({
-    required String localizedReason,
-    Iterable<AuthMessages> authMessages = const <AuthMessages>[],
-    bool biometricOnly = false,
-    bool sensitiveTransaction = true,
-    bool persistAcrossBackgrounding = false,
-  }) async {
-    if (throwException) {
-      throw exceptionToThrow ??
-          const LocalAuthException(code: LocalAuthExceptionCode.unknownError);
-    }
-    return authenticateResult;
-  }
-
-  @override
-  Future<bool> get canCheckBiometrics async => canCheckBiometricsResult;
-
-  @override
-  Future<bool> isDeviceSupported() async => isDeviceSupportedResult;
-
-  @override
-  Future<List<BiometricType>> getAvailableBiometrics() async =>
-      availableBiometrics;
-
-  @override
-  Future<bool> stopAuthentication() async => false;
 }
 
 class MockSecureStorageService implements SecureStorageService {

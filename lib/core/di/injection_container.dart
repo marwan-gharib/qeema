@@ -1,6 +1,5 @@
 import 'package:get_it/get_it.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-import 'package:qeema/core/di/app_lock_module.dart';
 import 'package:qeema/core/di/assets_module.dart';
 import 'package:qeema/core/di/auth_module.dart';
 import 'package:qeema/core/di/core_module.dart';
@@ -18,7 +17,6 @@ Future<void> initDependencies() async {
   await initCoreModule(getIt);
   await initOnboardingModule(getIt);
   await initAuthModule(getIt);
-  initAppLockModule(getIt);
   initAssetsModule(getIt);
   initHomeModule(getIt);
   initMarketPricesModule(getIt);

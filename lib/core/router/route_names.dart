@@ -4,7 +4,6 @@ final class RouteNames {
   static const String splash = 'splash';
   static const String onboarding = 'onboarding';
   static const String welcome = 'welcome';
-  static const String biometricSetup = 'biometricSetup';
   static const String home = 'home';
   static const String assets = 'assets';
   static const String addAsset = 'addAsset';

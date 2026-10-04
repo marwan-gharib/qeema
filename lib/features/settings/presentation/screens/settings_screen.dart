@@ -13,7 +13,6 @@ import 'package:qeema/core/i18n/strings.g.dart';
 import 'package:qeema/core/router/route_paths.dart';
 import 'package:qeema/core/theme/app_spacing.dart';
 import 'package:qeema/core/widgets/app_surface_card.dart';
-import 'package:qeema/features/app_lock/presentation/widgets/app_lock_toggle_tile.dart';
 import 'package:qeema/features/settings/presentation/cubits/delete_account_cubit/delete_account_cubit.dart';
 import 'package:qeema/features/settings/presentation/cubits/delete_account_cubit/delete_account_state.dart';
 import 'package:qeema/features/settings/presentation/cubits/logout_cubit/logout_cubit.dart';
@@ -67,10 +66,6 @@ class SettingsScreen extends StatelessWidget {
             ),
             AppAnimatedEntry(
               type: EntryAnimationType.fadeSlideUp,
-              child: _buildSecuritySection(context),
-            ),
-            AppAnimatedEntry(
-              type: EntryAnimationType.fadeSlideUp,
               child: _buildPreferencesSection(context),
             ),
             AppAnimatedEntry(
@@ -84,14 +79,6 @@ class SettingsScreen extends StatelessWidget {
           ],
         ),
       ),
-    );
-  }
-
-  Widget _buildSecuritySection(BuildContext context) {
-    return _buildSection(
-      context: context,
-      header: context.t.settings.securitySection,
-      tiles: const [AppLockToggleTile()],
     );
   }
 

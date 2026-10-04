@@ -45,7 +45,6 @@ class TranslationsAr extends Translations with BaseTranslations<AppLocale, Trans
 	@override late final _Translations$onboarding$ar onboarding = _Translations$onboarding$ar._(_root);
 	@override late final _Translations$navigation$ar navigation = _Translations$navigation$ar._(_root);
 	@override late final _Translations$nav$ar nav = _Translations$nav$ar._(_root);
-	@override late final _Translations$appLock$ar appLock = _Translations$appLock$ar._(_root);
 	@override late final _Translations$assets$ar assets = _Translations$assets$ar._(_root);
 	@override late final _Translations$settings$ar settings = _Translations$settings$ar._(_root);
 	@override late final _Translations$home$ar home = _Translations$home$ar._(_root);
@@ -79,7 +78,6 @@ class _Translations$core$ar extends Translations$core$en {
 	@override late final _Translations$core$validation$ar validation = _Translations$core$validation$ar._(_root);
 	@override late final _Translations$core$dates$ar dates = _Translations$core$dates$ar._(_root);
 	@override late final _Translations$core$currency$ar currency = _Translations$core$currency$ar._(_root);
-	@override late final _Translations$core$auth$ar auth = _Translations$core$auth$ar._(_root);
 	@override late final _Translations$core$actions$ar actions = _Translations$core$actions$ar._(_root);
 	@override late final _Translations$core$notification$ar notification = _Translations$core$notification$ar._(_root);
 }
@@ -133,7 +131,6 @@ class _Translations$navigation$ar extends Translations$navigation$en {
 	@override String get notifications => 'الإشعارات';
 	@override String get profile => 'الملف الشخصي';
 	@override String get settings => 'الإعدادات';
-	@override String get biometricSetup => 'إعداد التحقق البيومتري';
 	@override String get addAsset => 'إضافة أصل';
 	@override String get assetDetail => 'الأصل {id}';
 	@override String get editAsset => 'تعديل الأصل {id}';
@@ -153,18 +150,6 @@ class _Translations$nav$ar extends Translations$nav$en {
 	@override String get assets => 'الأصول';
 	@override String get marketPrices => 'أسعار السوق';
 	@override String get settings => 'الإعدادات';
-}
-
-// Path: appLock
-class _Translations$appLock$ar extends Translations$appLock$en {
-	_Translations$appLock$ar._(TranslationsAr root) : this._root = root, super.internal(root);
-
-	final TranslationsAr _root; // ignore: unused_field
-
-	// Translations
-	@override String get tooManyAttempts => 'محاولات كثيرة جداً. حاول مرة أخرى لاحقاً.';
-	@override String get noCredentials => 'لم يتم إعداد قفل للجهاز. قم بإعداد قفل شاشة في إعدادات جهازك.';
-	@override String get unavailable => 'التحقق من الجهاز غير متاح على هذا الجهاز.';
 }
 
 // Path: assets
@@ -199,9 +184,6 @@ class _Translations$settings$ar extends Translations$settings$en {
 	@override String get preferencesSection => 'التفضيلات';
 	@override String get aboutSection => 'حول';
 	@override String get dangerZoneSection => 'منطقة الخطر';
-	@override String get requireUnlock => 'طلب فتح قفل الجهاز لفتح قيّمة';
-	@override String get noDeviceLock => 'جهازك لا يحتوي على قفل شاشة. قم بإعداد واحد في إعدادات جهازك لاستخدام هذه الميزة.';
-	@override String get authCancelled => 'تم إلغاء التحقق.';
 	@override String get language => 'اللغة';
 	@override String get languageSheetTitle => 'اختر اللغة';
 	@override String get languageEnglish => 'English';
@@ -382,17 +364,6 @@ class _Translations$core$currency$ar extends Translations$core$currency$en {
 	// Translations
 	@override String get egp => 'جنيه مصري';
 	@override String get usd => 'دولار امريكي';
-}
-
-// Path: core.auth
-class _Translations$core$auth$ar extends Translations$core$auth$en {
-	_Translations$core$auth$ar._(TranslationsAr root) : this._root = root, super.internal(root);
-
-	final TranslationsAr _root; // ignore: unused_field
-
-	// Translations
-	@override String get unlockReason => 'افتح قيّمة لعرض أموالك';
-	@override String get biometricFailed => 'فشل التحقق البيومتري';
 }
 
 // Path: core.actions
@@ -729,8 +700,6 @@ extension on TranslationsAr {
 			'core.dates.daysAgo' => 'منذ {days} يوم',
 			'core.currency.egp' => 'جنيه مصري',
 			'core.currency.usd' => 'دولار امريكي',
-			'core.auth.unlockReason' => 'افتح قيّمة لعرض أموالك',
-			'core.auth.biometricFailed' => 'فشل التحقق البيومتري',
 			'core.actions.cancel' => 'إلغاء',
 			'core.actions.delete' => 'حذف',
 			'core.notification.channelName' => 'تنبيهات الأسعار',
@@ -768,7 +737,6 @@ extension on TranslationsAr {
 			'navigation.notifications' => 'الإشعارات',
 			'navigation.profile' => 'الملف الشخصي',
 			'navigation.settings' => 'الإعدادات',
-			'navigation.biometricSetup' => 'إعداد التحقق البيومتري',
 			'navigation.addAsset' => 'إضافة أصل',
 			'navigation.assetDetail' => 'الأصل {id}',
 			'navigation.editAsset' => 'تعديل الأصل {id}',
@@ -779,9 +747,6 @@ extension on TranslationsAr {
 			'nav.assets' => 'الأصول',
 			'nav.marketPrices' => 'أسعار السوق',
 			'nav.settings' => 'الإعدادات',
-			'appLock.tooManyAttempts' => 'محاولات كثيرة جداً. حاول مرة أخرى لاحقاً.',
-			'appLock.noCredentials' => 'لم يتم إعداد قفل للجهاز. قم بإعداد قفل شاشة في إعدادات جهازك.',
-			'appLock.unavailable' => 'التحقق من الجهاز غير متاح على هذا الجهاز.',
 			'assets.list.title' => 'الأصول',
 			'assets.list.tabEgp' => 'جنيه مصري',
 			'assets.list.tabUsd' => 'دولار امريكي',
@@ -861,9 +826,6 @@ extension on TranslationsAr {
 			'settings.preferencesSection' => 'التفضيلات',
 			'settings.aboutSection' => 'حول',
 			'settings.dangerZoneSection' => 'منطقة الخطر',
-			'settings.requireUnlock' => 'طلب فتح قفل الجهاز لفتح قيّمة',
-			'settings.noDeviceLock' => 'جهازك لا يحتوي على قفل شاشة. قم بإعداد واحد في إعدادات جهازك لاستخدام هذه الميزة.',
-			'settings.authCancelled' => 'تم إلغاء التحقق.',
 			'settings.language' => 'اللغة',
 			'settings.languageSheetTitle' => 'اختر اللغة',
 			'settings.languageEnglish' => 'English',

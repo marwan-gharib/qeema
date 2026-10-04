@@ -46,7 +46,6 @@ class Translations with BaseTranslations<AppLocale, Translations> {
 	late final Translations$onboarding$en onboarding = Translations$onboarding$en.internal(_root);
 	late final Translations$navigation$en navigation = Translations$navigation$en.internal(_root);
 	late final Translations$nav$en nav = Translations$nav$en.internal(_root);
-	late final Translations$appLock$en appLock = Translations$appLock$en.internal(_root);
 	late final Translations$assets$en assets = Translations$assets$en.internal(_root);
 	late final Translations$settings$en settings = Translations$settings$en.internal(_root);
 	late final Translations$home$en home = Translations$home$en.internal(_root);
@@ -84,7 +83,6 @@ class Translations$core$en {
 	late final Translations$core$validation$en validation = Translations$core$validation$en.internal(_root);
 	late final Translations$core$dates$en dates = Translations$core$dates$en.internal(_root);
 	late final Translations$core$currency$en currency = Translations$core$currency$en.internal(_root);
-	late final Translations$core$auth$en auth = Translations$core$auth$en.internal(_root);
 	late final Translations$core$actions$en actions = Translations$core$actions$en.internal(_root);
 	late final Translations$core$notification$en notification = Translations$core$notification$en.internal(_root);
 }
@@ -182,9 +180,6 @@ class Translations$navigation$en {
 	/// en: 'Settings'
 	String get settings => 'Settings';
 
-	/// en: 'Biometric Setup'
-	String get biometricSetup => 'Biometric Setup';
-
 	/// en: 'Add Asset'
 	String get addAsset => 'Add Asset';
 
@@ -223,24 +218,6 @@ class Translations$nav$en {
 
 	/// en: 'Settings'
 	String get settings => 'Settings';
-}
-
-// Path: appLock
-class Translations$appLock$en {
-	Translations$appLock$en.internal(this._root);
-
-	final Translations _root; // ignore: unused_field
-
-	// Translations
-
-	/// en: 'Too many attempts. Try again later.'
-	String get tooManyAttempts => 'Too many attempts. Try again later.';
-
-	/// en: 'No device lock set up. Set up a screen lock in your device settings.'
-	String get noCredentials => 'No device lock set up. Set up a screen lock in your device settings.';
-
-	/// en: 'Device authentication is not available on this device.'
-	String get unavailable => 'Device authentication is not available on this device.';
 }
 
 // Path: assets
@@ -286,15 +263,6 @@ class Translations$settings$en {
 
 	/// en: 'Danger Zone'
 	String get dangerZoneSection => 'Danger Zone';
-
-	/// en: 'Require device unlock to open Qeema'
-	String get requireUnlock => 'Require device unlock to open Qeema';
-
-	/// en: 'Your device doesn't have a screen lock set up. Set one up in your device settings to use this feature.'
-	String get noDeviceLock => 'Your device doesn\'t have a screen lock set up. Set one up in your device settings to use this feature.';
-
-	/// en: 'Authentication was cancelled.'
-	String get authCancelled => 'Authentication was cancelled.';
 
 	/// en: 'Language'
 	String get language => 'Language';
@@ -628,21 +596,6 @@ class Translations$core$currency$en {
 
 	/// en: 'USD'
 	String get usd => 'USD';
-}
-
-// Path: core.auth
-class Translations$core$auth$en {
-	Translations$core$auth$en.internal(this._root);
-
-	final Translations _root; // ignore: unused_field
-
-	// Translations
-
-	/// en: 'Unlock Qeema to view your finances'
-	String get unlockReason => 'Unlock Qeema to view your finances';
-
-	/// en: 'Biometric authentication failed'
-	String get biometricFailed => 'Biometric authentication failed';
 }
 
 // Path: core.actions
@@ -1181,8 +1134,6 @@ extension on Translations {
 			'core.dates.daysAgo' => '{days}d ago',
 			'core.currency.egp' => 'EGP',
 			'core.currency.usd' => 'USD',
-			'core.auth.unlockReason' => 'Unlock Qeema to view your finances',
-			'core.auth.biometricFailed' => 'Biometric authentication failed',
 			'core.actions.cancel' => 'Cancel',
 			'core.actions.delete' => 'Delete',
 			'core.notification.channelName' => 'Price Alerts',
@@ -1220,7 +1171,6 @@ extension on Translations {
 			'navigation.notifications' => 'Notifications',
 			'navigation.profile' => 'Profile',
 			'navigation.settings' => 'Settings',
-			'navigation.biometricSetup' => 'Biometric Setup',
 			'navigation.addAsset' => 'Add Asset',
 			'navigation.assetDetail' => 'Asset {id}',
 			'navigation.editAsset' => 'Edit Asset {id}',
@@ -1231,9 +1181,6 @@ extension on Translations {
 			'nav.assets' => 'Assets',
 			'nav.marketPrices' => 'Market Prices',
 			'nav.settings' => 'Settings',
-			'appLock.tooManyAttempts' => 'Too many attempts. Try again later.',
-			'appLock.noCredentials' => 'No device lock set up. Set up a screen lock in your device settings.',
-			'appLock.unavailable' => 'Device authentication is not available on this device.',
 			'assets.list.title' => 'Assets',
 			'assets.list.tabEgp' => 'EGP Cash',
 			'assets.list.tabUsd' => 'USD',
@@ -1313,9 +1260,6 @@ extension on Translations {
 			'settings.preferencesSection' => 'Preferences',
 			'settings.aboutSection' => 'About',
 			'settings.dangerZoneSection' => 'Danger Zone',
-			'settings.requireUnlock' => 'Require device unlock to open Qeema',
-			'settings.noDeviceLock' => 'Your device doesn\'t have a screen lock set up. Set one up in your device settings to use this feature.',
-			'settings.authCancelled' => 'Authentication was cancelled.',
 			'settings.language' => 'Language',
 			'settings.languageSheetTitle' => 'Choose Language',
 			'settings.languageEnglish' => 'English',

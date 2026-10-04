@@ -6,7 +6,6 @@ class AppConstants {
   static const Duration cacheDuration = Duration(hours: 1);
   static const Duration marketPriceCacheDuration = Duration(hours: 12);
 
-  static const String biometricEnabledKey = 'biometric_enabled';
   static const String lastFullSyncAtKey = 'last_full_sync_at';
   static const String onboardingCompletedKey = 'onboarding_completed';
   static const String appLocaleKey = 'app_locale';

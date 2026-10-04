@@ -189,13 +189,6 @@ class AppRouterRoutes {
           pageKey: const ValueKey('welcome'),
         ),
       ),
-      GoRoute(
-        path: RoutePaths.biometricSetup,
-        name: RouteNames.biometricSetup,
-        builder: (context, state) => Scaffold(
-          body: Center(child: Text(context.t.navigation.biometricSetup)),
-        ),
-      ),
       shellRoute,
       GoRoute(
         path: RoutePaths.insights,

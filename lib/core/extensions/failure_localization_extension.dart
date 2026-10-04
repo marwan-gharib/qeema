@@ -29,10 +29,6 @@ extension FailureLocalization on Failure {
       AnonymousSignInDisabledFailure() => t.auth.error.anonymousSignInDisabled,
       AccountDeletionPartialFailure() => t.settings.deletePartialFailure,
       AccountDeletionFailure() => t.settings.deleteFailed,
-      LocalAuthCancelledFailure() => t.settings.authCancelled,
-      LocalAuthLockoutFailure() => t.appLock.tooManyAttempts,
-      LocalAuthNoCredentialsFailure() => t.appLock.noCredentials,
-      LocalAuthUnavailableFailure() => t.appLock.unavailable,
       _ => t.core.failure.unknownFailure,
     };
   }
