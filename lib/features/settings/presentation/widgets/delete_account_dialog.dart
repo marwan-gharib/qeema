@@ -1,4 +1,5 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 import 'package:material_ui/material_ui.dart';
 import 'package:qeema/core/constants/app_constants.dart';
 import 'package:qeema/core/error/failures.dart';
@@ -16,7 +17,10 @@ class DeleteAccountDialog extends StatefulWidget {
   static Future<void> show(BuildContext context) {
     return showDialog<void>(
       context: context,
-      builder: (_) => const DeleteAccountDialog(),
+      builder: (_) => BlocProvider.value(
+        value: context.read<DeleteAccountCubit>(),
+        child: const DeleteAccountDialog(),
+      ),
     );
   }
 
@@ -40,19 +44,13 @@ class _DeleteAccountDialogState extends State<DeleteAccountDialog> {
 
     return BlocConsumer<DeleteAccountCubit, DeleteAccountState>(
       listener: (context, state) {
-        switch (state) {
-          case DeleteAccountInitial():
-          case DeleteAccountDeleting():
-            break;
-          case DeleteAccountSuccess():
-            Navigator.pop(context);
-          case DeleteAccountFailure(:final failure):
-            final message = switch (failure) {
-              final AccountDeletionPartialFailure _ =>
-                t.settings.deletePartialFailure,
-              _ => t.settings.deleteFailed,
-            };
-            AppSnackBar.showError(context, message);
+        if (state is DeleteAccountFailure) {
+          final message = switch (state.failure) {
+            final AccountDeletionPartialFailure _ =>
+              t.settings.deletePartialFailure,
+            _ => t.settings.deleteFailed,
+          };
+          AppSnackBar.showError(context, state.failure.message ?? message);
         }
       },
       builder: (context, state) {
@@ -80,7 +78,7 @@ class _DeleteAccountDialogState extends State<DeleteAccountDialog> {
           ),
           actions: [
             TextButton(
-              onPressed: isDeleting ? null : () => Navigator.pop(context),
+              onPressed: isDeleting ? null : () => context.pop(context),
               child: Text(t.core.actions.cancel),
             ),
             AppButton(

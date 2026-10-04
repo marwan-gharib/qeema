@@ -9,6 +9,12 @@ class _MockAccountRepository implements AccountRepository {
 
   @override
   Future<ApiResult<void>> deleteAccount() async => result;
+
+  @override
+  Future<ApiResult<void>> logout() async => result;
+
+  @override
+  bool isCurrentUserAnonymous() => false;
 }
 
 void main() {

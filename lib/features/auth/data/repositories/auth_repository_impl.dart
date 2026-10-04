@@ -17,4 +17,25 @@ final class AuthRepositoryImpl implements AuthRepository {
       return ResultFailure(mapExceptionToFailure(e));
     }
   }
+
+  @override
+  Future<ApiResult<AuthUserEntity>> googleSignIn() async {
+    try {
+      final model = await _remoteDataSource.googleSignIn();
+      return Success(model.toEntity());
+    } catch (e) {
+      return ResultFailure(mapExceptionToFailure(e));
+    }
+  }
+
+  @override
+  Stream<ApiResult<AuthUserEntity?>> authStateChanges() async* {
+    try {
+      await for (final model in _remoteDataSource.authStateChanges()) {
+        yield Success(model?.toEntity());
+      }
+    } catch (e) {
+      yield ResultFailure(mapExceptionToFailure(e));
+    }
+  }
 }

@@ -8,6 +8,7 @@ import 'package:qeema/core/utils/api_result.dart';
 import 'package:qeema/features/auth/domain/entities/auth_user_entity.dart';
 import 'package:qeema/features/auth/domain/repositories/auth_repository.dart';
 import 'package:qeema/features/auth/domain/usecases/continue_as_guest_usecase.dart';
+import 'package:qeema/features/auth/domain/usecases/watch_auth_user_usecase.dart';
 import 'package:qeema/features/onboarding/domain/repositories/onboarding_repository.dart';
 import 'package:qeema/features/onboarding/domain/usecases/complete_onboarding_usecase.dart';
 import 'package:qeema/features/onboarding/domain/usecases/get_onboarding_seen_usecase.dart';
@@ -84,10 +85,21 @@ class MockAuthRepository implements AuthRepository {
   ApiResult<AuthUserEntity> continueAsGuestResult = const Success(
     AuthUserEntity(id: 'anon-1', email: '', isAnonymous: true),
   );
+  Stream<ApiResult<AuthUserEntity?>> authStateChangesStream =
+      const Stream.empty();
+
+  @override
+  Stream<ApiResult<AuthUserEntity?>> authStateChanges() =>
+      authStateChangesStream;
 
   @override
   Future<ApiResult<AuthUserEntity>> continueAsGuest() async =>
       continueAsGuestResult;
+
+  @override
+  Future<ApiResult<AuthUserEntity>> googleSignIn() {
+    throw UnimplementedError();
+  }
 }
 
 class MockContinueAsGuestUseCase implements ContinueAsGuestUseCase {
@@ -97,6 +109,13 @@ class MockContinueAsGuestUseCase implements ContinueAsGuestUseCase {
 
   @override
   Future<ApiResult<AuthUserEntity>> call() async => result;
+}
+
+class MockWatchAuthUserUseCase implements WatchAuthUserUseCase {
+  Stream<ApiResult<AuthUserEntity?>> result = const Stream.empty();
+
+  @override
+  Stream<ApiResult<AuthUserEntity?>> call() => result;
 }
 
 class MockLocalAuthentication implements LocalAuthentication {

@@ -1,4 +1,5 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 import 'package:material_ui/material_ui.dart';
 import 'package:qeema/core/animations/micro_interactions/tap_scale.dart';
 import 'package:qeema/core/cubits/theme_cubit/theme_cubit.dart';
@@ -48,7 +49,7 @@ class ThemeSelectorSheet extends StatelessWidget {
                 child: TapScale(
                   onTap: () {
                     context.read<ThemeCubit>().setThemeMode(mode);
-                    Navigator.pop(context);
+                    context.pop(context);
                   },
                   child: SelectorOptionRow(
                     label: label,

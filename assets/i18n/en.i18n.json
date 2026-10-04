@@ -71,7 +71,8 @@
     "welcome": {
       "headline": "Know what your money is really worth",
       "subtext": "Track your savings against inflation and see your real purchasing power over time.",
-      "primaryCta": "Start Tracking Your Savings",
+      "continueAsGuestCta": "Continue as Guest",
+      "googleSignInCta": "Sign in with Google",
       "guestDisclosure": "No account needed. You can create one later."
     },
     "error": {
@@ -223,6 +224,12 @@
   },
   "settings": {
     "title": "Settings",
+    "profile": {
+      "guest": "Guest",
+      "signedInAsGuest": "Signed in as guest",
+      "fallbackName": "User",
+      "semanticLabel": "Signed in as {name}"
+    },
     "securitySection": "Security",
     "preferencesSection": "Preferences",
     "aboutSection": "About",
@@ -248,7 +255,14 @@
     "deleteConfirmHint": "Type DELETE to confirm",
     "deleteForever": "Delete Forever",
     "deleteFailed": "Could not delete your account. Please try again.",
-    "deletePartialFailure": "Your data was deleted but your account could not be fully removed. Please try again or contact support."
+    "deletePartialFailure": "Your data was deleted but your account could not be fully removed. Please try again or contact support.",
+    "logout": "Log Out",
+    "logoutDialogTitle": "Log Out?",
+    "logoutDialogBody": "You will be signed out of Qeema. Your data stays on your account — sign back in anytime to pick up where you left off.",
+    "logoutGuestDialogBody": "You are logged in as a guest. Logging out permanently deletes this guest account and ALL of its data. There is no recovery — and since Qeema uses anonymous sign-in, there is no email or password to log back in with if you change your mind.",
+    "logoutConfirm": "Log Out",
+    "logoutDeleteConfirm": "Delete & Log Out",
+    "logoutFailed": "Could not log out. Please try again."
   },
   "home": {
     "title": "Qeema",

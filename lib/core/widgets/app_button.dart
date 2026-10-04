@@ -1,5 +1,6 @@
 import 'package:material_ui/material_ui.dart';
 import 'package:qeema/core/extensions/build_context_extensions.dart';
+import 'package:qeema/core/theme/app_spacing.dart';
 
 class AppButton extends StatelessWidget {
   const AppButton({
@@ -10,6 +11,7 @@ class AppButton extends StatelessWidget {
     this.isOutline = false,
     this.isText = false,
     this.backgroundColor,
+    this.prefixWidget,
   });
   final String label;
   final VoidCallback? onPressed;
@@ -17,6 +19,7 @@ class AppButton extends StatelessWidget {
   final bool isOutline;
   final bool isText;
   final Color? backgroundColor;
+  final Widget? prefixWidget;
 
   @override
   Widget build(BuildContext context) {
@@ -78,6 +81,14 @@ class AppButton extends StatelessWidget {
               child: CircularProgressIndicator(
                 strokeWidth: 2,
                 color: context.colorScheme.onPrimary,
+              ),
+            )
+          : prefixWidget != null
+          ? Center(
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                spacing: AppSpacing.sm,
+                children: [prefixWidget!, Text(label)],
               ),
             )
           : Text(label),

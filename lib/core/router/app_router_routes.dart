@@ -17,6 +17,7 @@ import 'package:qeema/features/assets/presentation/screens/add_asset_screen.dart
 import 'package:qeema/features/assets/presentation/screens/asset_detail_screen.dart';
 import 'package:qeema/features/assets/presentation/screens/assets_list_screen.dart';
 import 'package:qeema/features/assets/presentation/screens/edit_asset_screen.dart';
+import 'package:qeema/features/auth/presentation/cubits/google_sign_in_cubit/google_sign_in_cubit.dart';
 import 'package:qeema/features/auth/presentation/cubits/welcome_cubit/welcome_cubit.dart';
 import 'package:qeema/features/auth/presentation/screens/welcome_screen.dart';
 import 'package:qeema/features/home/presentation/cubits/home_cubit/home_cubit.dart';
@@ -28,6 +29,8 @@ import 'package:qeema/features/market_prices/presentation/screens/market_prices_
 import 'package:qeema/features/onboarding/presentation/cubits/onboarding_cubit/onboarding_cubit.dart';
 import 'package:qeema/features/onboarding/presentation/screens/onboarding_screen.dart';
 import 'package:qeema/features/settings/presentation/cubits/delete_account_cubit/delete_account_cubit.dart';
+import 'package:qeema/features/settings/presentation/cubits/logout_cubit/logout_cubit.dart';
+import 'package:qeema/features/settings/presentation/cubits/profile_header_cubit/profile_header_cubit.dart';
 import 'package:qeema/features/settings/presentation/screens/settings_screen.dart';
 import 'package:qeema/features/splash/presentation/screens/splash_screen.dart';
 
@@ -138,8 +141,12 @@ class AppRouterRoutes {
             GoRoute(
               path: RoutePaths.settings,
               name: RouteNames.settings,
-              builder: (context, state) => BlocProvider(
-                create: (_) => getIt<DeleteAccountCubit>(),
+              builder: (context, state) => MultiBlocProvider(
+                providers: [
+                  BlocProvider(create: (_) => getIt<DeleteAccountCubit>()),
+                  BlocProvider(create: (_) => getIt<LogoutCubit>()),
+                  BlocProvider(create: (_) => getIt<ProfileHeaderCubit>()),
+                ],
                 child: const SettingsScreen(),
               ),
             ),
@@ -172,8 +179,11 @@ class AppRouterRoutes {
         path: RoutePaths.welcome,
         name: RouteNames.welcome,
         pageBuilder: (context, state) => slideUpPage(
-          child: BlocProvider(
-            create: (context) => getIt<WelcomeCubit>(),
+          child: MultiBlocProvider(
+            providers: [
+              BlocProvider(create: (context) => getIt<WelcomeCubit>()),
+              BlocProvider(create: (context) => getIt<GoogleSignInCubit>()),
+            ],
             child: const WelcomeScreen(),
           ),
           pageKey: const ValueKey('welcome'),

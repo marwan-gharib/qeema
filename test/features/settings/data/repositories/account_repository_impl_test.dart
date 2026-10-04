@@ -77,4 +77,50 @@ void main() {
 
     expect((result as ResultFailure<void>).failure, isA<UnknownFailure>());
   });
+
+  test('Danger Zone deletion is sent as user-confirmed so the server accepts '
+      'permanent accounts', () async {
+    final result = await repository.deleteAccount();
+
+    expect(result, isA<Success<void>>());
+    expect(dataSource.deleteAccountCalls, 1);
+    expect(dataSource.lastUserConfirmed, true);
+  });
+
+  test('logout as guest deletes without user confirmation so the server still '
+      'enforces the anonymous-only rule', () async {
+    dataSource.anonymousResult = true;
+
+    final result = await repository.logout();
+
+    expect(result, isA<Success<void>>());
+    expect(dataSource.deleteAccountCalls, 1);
+    expect(dataSource.lastUserConfirmed, false);
+    expect(dataSource.signOutCalls, 1);
+    expect(database.clearAllCalls, 1);
+  });
+
+  test('logout as a Google user never invokes server-side deletion', () async {
+    dataSource.anonymousResult = false;
+
+    final result = await repository.logout();
+
+    expect(result, isA<Success<void>>());
+    expect(dataSource.deleteAccountCalls, 0);
+    expect(dataSource.signOutCalls, 1);
+    expect(database.clearAllCalls, 1);
+  });
+
+  test('logout as guest keeps local data when deletion fails', () async {
+    dataSource.anonymousResult = true;
+    dataSource.errorToThrow = const AccountDeletionException();
+    await cacheService.set(key: 'k', value: 'v');
+
+    final result = await repository.logout();
+
+    expect(result, isA<ResultFailure<void>>());
+    expect(dataSource.signOutCalls, 0);
+    expect(database.clearAllCalls, 0);
+    expect(cacheService.getSync(key: 'k'), 'v');
+  });
 }

@@ -4,6 +4,10 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 
 class MockAuthRemoteDataSource implements AuthRemoteDataSource {
   bool shouldThrowAnonymousDisabled = false;
+  Stream<AuthUserModel?> authStateChangeStream = const Stream.empty();
+
+  @override
+  Stream<AuthUserModel?> authStateChanges() => authStateChangeStream;
 
   @override
   Future<AuthUserModel> signInAnonymously() async {
@@ -14,5 +18,10 @@ class MockAuthRemoteDataSource implements AuthRemoteDataSource {
       );
     }
     return const AuthUserModel(id: 'anon-1', email: '', isAnonymous: true);
+  }
+
+  @override
+  Future<AuthUserModel> googleSignIn() {
+    throw UnimplementedError();
   }
 }

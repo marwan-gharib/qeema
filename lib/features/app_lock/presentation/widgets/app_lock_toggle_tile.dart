@@ -92,7 +92,7 @@ class _AppLockToggleTileState extends State<AppLockToggleTile> {
       final LocalAuthUnavailableFailure _ => t.settings.noDeviceLock,
       _ => failure.message ?? t.core.failure.unknownFailure,
     };
-    AppSnackBar.showError(context, message);
+    AppSnackBar.showError(context, failure.message ?? message);
   }
 
   @override

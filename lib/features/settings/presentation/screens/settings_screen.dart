@@ -16,8 +16,12 @@ import 'package:qeema/core/widgets/app_surface_card.dart';
 import 'package:qeema/features/app_lock/presentation/widgets/app_lock_toggle_tile.dart';
 import 'package:qeema/features/settings/presentation/cubits/delete_account_cubit/delete_account_cubit.dart';
 import 'package:qeema/features/settings/presentation/cubits/delete_account_cubit/delete_account_state.dart';
+import 'package:qeema/features/settings/presentation/cubits/logout_cubit/logout_cubit.dart';
+import 'package:qeema/features/settings/presentation/cubits/logout_cubit/logout_state.dart';
 import 'package:qeema/features/settings/presentation/widgets/delete_account_dialog.dart';
 import 'package:qeema/features/settings/presentation/widgets/language_selector_sheet.dart';
+import 'package:qeema/features/settings/presentation/widgets/logout_dialog.dart';
+import 'package:qeema/features/settings/presentation/widgets/profile_header_card.dart';
 import 'package:qeema/features/settings/presentation/widgets/settings_section_header.dart';
 import 'package:qeema/features/settings/presentation/widgets/settings_tile.dart';
 import 'package:qeema/features/settings/presentation/widgets/theme_selector_sheet.dart';
@@ -32,9 +36,23 @@ class SettingsScreen extends StatelessWidget {
     return Scaffold(
       backgroundColor: context.colors.background,
       appBar: AppBar(title: Text(t.settings.title)),
-      body: BlocListener<DeleteAccountCubit, DeleteAccountState>(
-        listenWhen: (previous, current) => current is DeleteAccountSuccess,
-        listener: (context, state) => context.go(RoutePaths.onboarding),
+      body: MultiBlocListener(
+        listeners: [
+          BlocListener<DeleteAccountCubit, DeleteAccountState>(
+            listenWhen: (previous, current) => current is DeleteAccountSuccess,
+            listener: (context, state) {
+              if (!context.mounted) return;
+              context.go(RoutePaths.welcome);
+            },
+          ),
+          BlocListener<LogoutCubit, LogoutState>(
+            listenWhen: (previous, current) => current is LogoutSuccess,
+            listener: (context, state) {
+              if (!context.mounted) return;
+              context.go(RoutePaths.welcome);
+            },
+          ),
+        ],
         child: ListView(
           padding: EdgeInsets.fromLTRB(
             AppSpacing.md,
@@ -43,6 +61,10 @@ class SettingsScreen extends StatelessWidget {
             80 + MediaQuery.paddingOf(context).bottom,
           ),
           children: [
+            const AppAnimatedEntry(
+              type: EntryAnimationType.fadeSlideUp,
+              child: ProfileHeaderCard(),
+            ),
             AppAnimatedEntry(
               type: EntryAnimationType.fadeSlideUp,
               child: _buildSecuritySection(context),
@@ -170,6 +192,15 @@ class SettingsScreen extends StatelessWidget {
       header: t.settings.dangerZoneSection,
       tiles: [
         SettingsTile(
+          icon: Icons.logout,
+          label: t.settings.logout,
+          isDestructive: true,
+          onTap: () {
+            final cubit = context.read<LogoutCubit>();
+            LogoutDialog.show(context, isGuest: cubit.isCurrentUserAnonymous());
+          },
+        ),
+        SettingsTile(
           icon: Icons.delete_outline,
           label: t.settings.deleteAccount,
           isDestructive: true,
@@ -195,7 +226,11 @@ class SettingsScreen extends StatelessWidget {
               for (var i = 0; i < tiles.length; i++) ...[
                 tiles[i],
                 if (i < tiles.length - 1)
-                  const Divider(height: 1, indent: 56, endIndent: AppSpacing.md),
+                  const Divider(
+                    height: 1,
+                    indent: 56,
+                    endIndent: AppSpacing.md,
+                  ),
               ],
             ],
           ),

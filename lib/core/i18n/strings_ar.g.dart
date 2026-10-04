@@ -194,6 +194,7 @@ class _Translations$settings$ar extends Translations$settings$en {
 
 	// Translations
 	@override String get title => 'الإعدادات';
+	@override late final _Translations$settings$profile$ar profile = _Translations$settings$profile$ar._(_root);
 	@override String get securitySection => 'الأمان';
 	@override String get preferencesSection => 'التفضيلات';
 	@override String get aboutSection => 'حول';
@@ -220,6 +221,13 @@ class _Translations$settings$ar extends Translations$settings$en {
 	@override String get deleteForever => 'حذف نهائياً';
 	@override String get deleteFailed => 'تعذر حذف حسابك. يرجى المحاولة مرة أخرى.';
 	@override String get deletePartialFailure => 'تم حذف بياناتك لكن تعذر إزالة الحساب بالكامل. يرجى المحاولة مرة أخرى أو التواصل مع الدعم.';
+	@override String get logout => 'تسجيل الخروج';
+	@override String get logoutDialogTitle => 'تسجيل الخروج؟';
+	@override String get logoutDialogBody => 'سيتم تسجيل خروجك من قيّمة. بياناتك تبقى في حسابك — سجّل الدخول مرة أخرى في أي وقت لتكمل من حيث توقفت.';
+	@override String get logoutGuestDialogBody => 'أنت تستخدم التطبيق كضيف. تسجيل الخروج يحذف هذا الحساب وجميع بياناته نهائياً. لا يوجد أي استرداد — وبما أن قيّمة تستخدم الدخول المجهول، لا يوجد بريد إلكتروني أو كلمة مرور للعودة إذا غيّرت رأيك.';
+	@override String get logoutConfirm => 'تسجيل الخروج';
+	@override String get logoutDeleteConfirm => 'حذف وتسجيل الخروج';
+	@override String get logoutFailed => 'تعذر تسجيل الخروج. يرجى المحاولة مرة أخرى.';
 }
 
 // Path: home
@@ -418,7 +426,8 @@ class _Translations$auth$welcome$ar extends Translations$auth$welcome$en {
 	// Translations
 	@override String get headline => 'اعرف القيمة الحقيقية لأموالك';
 	@override String get subtext => 'تتبع مدخراتك مقابل التضخم وشاهد قوتك الشرائية الحقيقية عبر الزمن.';
-	@override String get primaryCta => 'ابدأ بتتبع مدخراتك';
+	@override String get continueAsGuestCta => 'متابعة كضيف';
+	@override String get googleSignInCta => 'تسجيل الدخول باستخدام بجوجل';
 	@override String get guestDisclosure => 'لا حاجة لحساب. يمكنك إنشاء واحد لاحقاً.';
 }
 
@@ -607,6 +616,19 @@ class _Translations$assets$failure$ar extends Translations$assets$failure$en {
 	@override String get invalidAmount => 'يجب أن تكون الكمية أكبر من الصفر.';
 }
 
+// Path: settings.profile
+class _Translations$settings$profile$ar extends Translations$settings$profile$en {
+	_Translations$settings$profile$ar._(TranslationsAr root) : this._root = root, super.internal(root);
+
+	final TranslationsAr _root; // ignore: unused_field
+
+	// Translations
+	@override String get guest => 'ضيف';
+	@override String get signedInAsGuest => 'تم تسجيل الدخول كضيف';
+	@override String get fallbackName => 'مستخدم';
+	@override String get semanticLabel => 'تم تسجيل الدخول باسم {name}';
+}
+
 // Path: insights.assetPerformance
 class _Translations$insights$assetPerformance$ar extends Translations$insights$assetPerformance$en {
 	_Translations$insights$assetPerformance$ar._(TranslationsAr root) : this._root = root, super.internal(root);
@@ -715,7 +737,8 @@ extension on TranslationsAr {
 			'core.notification.channelDescription' => 'إشعارات حول تغيرات الأسعار',
 			'auth.welcome.headline' => 'اعرف القيمة الحقيقية لأموالك',
 			'auth.welcome.subtext' => 'تتبع مدخراتك مقابل التضخم وشاهد قوتك الشرائية الحقيقية عبر الزمن.',
-			'auth.welcome.primaryCta' => 'ابدأ بتتبع مدخراتك',
+			'auth.welcome.continueAsGuestCta' => 'متابعة كضيف',
+			'auth.welcome.googleSignInCta' => 'تسجيل الدخول باستخدام بجوجل',
 			'auth.welcome.guestDisclosure' => 'لا حاجة لحساب. يمكنك إنشاء واحد لاحقاً.',
 			'auth.error.networkError' => 'لا يوجد اتصال بالإنترنت. يرجى التحقق من شبكتك والمحاولة مرة أخرى.',
 			'auth.error.tooManyRequests' => 'محاولات كثيرة جداً. يرجى الانتظار لحظة والمحاولة مرة أخرى.',
@@ -830,6 +853,10 @@ extension on TranslationsAr {
 			'assets.failure.assetNotFound' => 'الأصل غير موجود.',
 			'assets.failure.invalidAmount' => 'يجب أن تكون الكمية أكبر من الصفر.',
 			'settings.title' => 'الإعدادات',
+			'settings.profile.guest' => 'ضيف',
+			'settings.profile.signedInAsGuest' => 'تم تسجيل الدخول كضيف',
+			'settings.profile.fallbackName' => 'مستخدم',
+			'settings.profile.semanticLabel' => 'تم تسجيل الدخول باسم {name}',
 			'settings.securitySection' => 'الأمان',
 			'settings.preferencesSection' => 'التفضيلات',
 			'settings.aboutSection' => 'حول',
@@ -856,6 +883,13 @@ extension on TranslationsAr {
 			'settings.deleteForever' => 'حذف نهائياً',
 			'settings.deleteFailed' => 'تعذر حذف حسابك. يرجى المحاولة مرة أخرى.',
 			'settings.deletePartialFailure' => 'تم حذف بياناتك لكن تعذر إزالة الحساب بالكامل. يرجى المحاولة مرة أخرى أو التواصل مع الدعم.',
+			'settings.logout' => 'تسجيل الخروج',
+			'settings.logoutDialogTitle' => 'تسجيل الخروج؟',
+			'settings.logoutDialogBody' => 'سيتم تسجيل خروجك من قيّمة. بياناتك تبقى في حسابك — سجّل الدخول مرة أخرى في أي وقت لتكمل من حيث توقفت.',
+			'settings.logoutGuestDialogBody' => 'أنت تستخدم التطبيق كضيف. تسجيل الخروج يحذف هذا الحساب وجميع بياناته نهائياً. لا يوجد أي استرداد — وبما أن قيّمة تستخدم الدخول المجهول، لا يوجد بريد إلكتروني أو كلمة مرور للعودة إذا غيّرت رأيك.',
+			'settings.logoutConfirm' => 'تسجيل الخروج',
+			'settings.logoutDeleteConfirm' => 'حذف وتسجيل الخروج',
+			'settings.logoutFailed' => 'تعذر تسجيل الخروج. يرجى المحاولة مرة أخرى.',
 			'home.title' => 'قيّمة',
 			'home.totalSavingsNominal' => 'إجمالي المدخرات',
 			'home.totalSavingsReal' => 'بعد تعديل التضخم',

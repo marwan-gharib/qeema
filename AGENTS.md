@@ -24,7 +24,7 @@ description: >
 
 ## 2. Architecture — Feature-First Clean Architecture
 
-```
+```text
 lib/
   core/
     constants/   # constants used across features, split to multiple files
@@ -39,7 +39,7 @@ lib/
     extensions/
     theme/
     utils/      # ApiResult(having fold() function instead of switch), mappers, UseCases, and other generic utilities
-    helpers/    # Have helpers for common tasks, like formatting, validation, etc. 
+    helpers/    # Have helpers for common tasks, like formatting, validation, etc.
   features/<feature_name>/
     presentation/
       screens/
@@ -61,9 +61,9 @@ lib/
 
 **Layer flow is one-directional and never bypassed: Presentation → Domain → Data.**
 
-| Layer        | Allowed                                   | Forbidden                              |
+| Layer        | Allowed                                    | Forbidden                               |
 |--------------|--------------------------------------------|-----------------------------------------|
-| Presentation | Widgets, Cubit, UI state, view models     | Business logic, direct API/DB calls     |
+| Presentation | Widgets, Cubit, UI state, view models      | Business logic, direct API/DB calls     |
 | Domain       | Usecases, entities, params, repo contracts | Any `package:flutter/...` import        |
 | Data         | API/DB calls, models, repo implementations | `BuildContext`, UI logic                |
 

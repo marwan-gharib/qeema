@@ -1,4 +1,5 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 import 'package:material_ui/material_ui.dart';
 import 'package:qeema/core/animations/app_motion.dart';
 import 'package:qeema/core/animations/micro_interactions/tap_scale.dart';
@@ -138,7 +139,7 @@ class AssetTypePicker extends StatelessWidget {
                     child: TapScale(
                       onTap: () {
                         context.read<AddAssetCubit>().selectAssetType(type);
-                        Navigator.pop(sheetContext);
+                        context.pop(sheetContext);
                       },
                       child: AssetTypeTile(
                         type: type,

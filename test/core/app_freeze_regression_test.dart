@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 
 import 'package:flutter/services.dart';
@@ -33,6 +34,8 @@ import 'package:qeema/features/onboarding/domain/usecases/complete_onboarding_us
 import 'package:qeema/features/onboarding/domain/usecases/get_onboarding_seen_usecase.dart';
 import 'package:qeema/features/onboarding/presentation/cubits/onboarding_cubit/onboarding_cubit.dart';
 import 'package:qeema/features/settings/presentation/cubits/delete_account_cubit/delete_account_cubit.dart';
+import 'package:qeema/features/settings/presentation/cubits/logout_cubit/logout_cubit.dart';
+import 'package:qeema/features/settings/presentation/cubits/profile_header_cubit/profile_header_cubit.dart';
 import 'package:qeema/features/settings/presentation/screens/settings_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
@@ -192,7 +195,18 @@ void main() {
       ..registerFactory<DeleteAccountCubit>(() {
         deleteCubitCreations++;
         return DeleteAccountCubit(MockDeleteAccountUseCase());
-      });
+      })
+      ..registerFactory<LogoutCubit>(
+        () => LogoutCubit(
+          MockLogoutUseCase(),
+          MockAccountRepository(isAnonymous: false),
+        ),
+      )
+      ..registerFactory<ProfileHeaderCubit>(
+        () => ProfileHeaderCubit(
+          MockWatchAuthUserUseCase()..result = const Stream.empty(),
+        ),
+      );
 
     await supabaseProvider.client.auth.recoverSession(_fakeSessionJson());
   });
