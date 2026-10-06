@@ -4,7 +4,6 @@ import 'package:intl/intl.dart';
 import 'package:material_ui/material_ui.dart';
 import 'package:qeema/core/animations/app_animated_entry.dart';
 import 'package:qeema/core/animations/entry_animation_type.dart';
-import 'package:qeema/core/animations/micro_interactions/tap_scale.dart';
 import 'package:qeema/core/extensions/build_context_extensions.dart';
 import 'package:qeema/core/extensions/failure_localization_extension.dart';
 import 'package:qeema/core/helpers/currency_formatter.dart';
@@ -157,8 +156,8 @@ class AssetDetailContent extends StatelessWidget {
             child: Row(
               children: [
                 Expanded(
-                  child: TapScale(
-                    onTap: () async {
+                  child: AppButton(
+                    onPressed: () async {
                       final result = await context.pushNamed<(double, double)>(
                         RouteNames.editAsset,
                         pathParameters: {'assetId': asset.id},
@@ -170,16 +169,14 @@ class AssetDetailContent extends StatelessWidget {
                         );
                       }
                     },
-                    child: AppButton(
-                      label: t.assets.detail.edit,
-                      isOutline: true,
-                    ),
+                    label: t.assets.detail.edit,
+                    isOutline: true,
                   ),
                 ),
                 const SizedBox(width: AppSpacing.sm),
                 Expanded(
-                  child: TapScale(
-                    onTap: () async {
+                  child: AppButton(
+                    onPressed: () async {
                       final confirmed =
                           await DeleteAssetConfirmationDialog.show(context);
                       if (confirmed == true && context.mounted) {
@@ -200,10 +197,8 @@ class AssetDetailContent extends StatelessWidget {
                         );
                       }
                     },
-                    child: AppButton(
-                      label: t.core.actions.delete,
-                      backgroundColor: colors.error,
-                    ),
+                    label: t.core.actions.delete,
+                    backgroundColor: colors.error,
                   ),
                 ),
               ],
