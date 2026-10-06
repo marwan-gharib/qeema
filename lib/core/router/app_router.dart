@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:go_router/go_router.dart';
 import 'package:qeema/core/di/injection_container.dart';
 import 'package:qeema/core/router/app_router_routes.dart';
@@ -15,7 +16,10 @@ class AppRouter {
 
   static final GoRouter router = GoRouter(
     initialLocation: RoutePaths.splash,
-    refreshListenable: _routeGuards.authListenable,
+    refreshListenable: Listenable.merge([
+      _routeGuards.authListenable,
+      _routeGuards.appLockListenable,
+    ]),
     redirect: _routeGuards.redirectUnauthenticated,
     routes: AppRouterRoutes.buildRoutes(routeGuards: _routeGuards),
   );

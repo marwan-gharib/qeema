@@ -20,20 +20,21 @@ class Translations with BaseTranslations<AppLocale, Translations> {
 	/// Constructing via the enum [AppLocale.build] is preferred.
 	Translations({Map<String, Node>? overrides, PluralResolver? cardinalResolver, PluralResolver? ordinalResolver, TranslationMetadata<AppLocale, Translations>? meta})
 		: assert(overrides == null, 'Set "translation_overrides: true" in order to enable this feature.'),
-		  $meta = meta ?? TranslationMetadata(
+		  _meta = meta ?? TranslationMetadata(
 		    locale: AppLocale.en,
 		    overrides: overrides ?? {},
 		    cardinalResolver: cardinalResolver,
 		    ordinalResolver: ordinalResolver,
 		  ) {
-		$meta.setFlatMapFunction(_flatMapFunction);
+		_meta.setFlatMapFunction(_flatMapFunction);
 	}
 
 	/// Metadata for the translations of <en>.
-	@override final TranslationMetadata<AppLocale, Translations> $meta;
+	final TranslationMetadata<AppLocale, Translations> _meta;
+	@override TranslationMetadata<AppLocale, Translations> get $meta => _meta;
 
 	/// Access flat map
-	dynamic operator[](String key) => $meta.getTranslation(key);
+	dynamic operator[](String key) => _meta.getTranslation(key);
 
 	late final Translations _root = this; // ignore: unused_field
 
@@ -46,12 +47,12 @@ class Translations with BaseTranslations<AppLocale, Translations> {
 	late final Translations$onboarding$en onboarding = Translations$onboarding$en.internal(_root);
 	late final Translations$navigation$en navigation = Translations$navigation$en.internal(_root);
 	late final Translations$nav$en nav = Translations$nav$en.internal(_root);
-	late final Translations$appLock$en appLock = Translations$appLock$en.internal(_root);
 	late final Translations$assets$en assets = Translations$assets$en.internal(_root);
 	late final Translations$settings$en settings = Translations$settings$en.internal(_root);
 	late final Translations$home$en home = Translations$home$en.internal(_root);
 	late final Translations$insights$en insights = Translations$insights$en.internal(_root);
 	late final Translations$marketPrices$en marketPrices = Translations$marketPrices$en.internal(_root);
+	late final Translations$app_lock$en app_lock = Translations$app_lock$en.internal(_root);
 }
 
 // Path: app
@@ -84,7 +85,6 @@ class Translations$core$en {
 	late final Translations$core$validation$en validation = Translations$core$validation$en.internal(_root);
 	late final Translations$core$dates$en dates = Translations$core$dates$en.internal(_root);
 	late final Translations$core$currency$en currency = Translations$core$currency$en.internal(_root);
-	late final Translations$core$auth$en auth = Translations$core$auth$en.internal(_root);
 	late final Translations$core$actions$en actions = Translations$core$actions$en.internal(_root);
 	late final Translations$core$notification$en notification = Translations$core$notification$en.internal(_root);
 }
@@ -182,9 +182,6 @@ class Translations$navigation$en {
 	/// en: 'Settings'
 	String get settings => 'Settings';
 
-	/// en: 'Biometric Setup'
-	String get biometricSetup => 'Biometric Setup';
-
 	/// en: 'Add Asset'
 	String get addAsset => 'Add Asset';
 
@@ -223,24 +220,6 @@ class Translations$nav$en {
 
 	/// en: 'Settings'
 	String get settings => 'Settings';
-}
-
-// Path: appLock
-class Translations$appLock$en {
-	Translations$appLock$en.internal(this._root);
-
-	final Translations _root; // ignore: unused_field
-
-	// Translations
-
-	/// en: 'Too many attempts. Try again later.'
-	String get tooManyAttempts => 'Too many attempts. Try again later.';
-
-	/// en: 'No device lock set up. Set up a screen lock in your device settings.'
-	String get noCredentials => 'No device lock set up. Set up a screen lock in your device settings.';
-
-	/// en: 'Device authentication is not available on this device.'
-	String get unavailable => 'Device authentication is not available on this device.';
 }
 
 // Path: assets
@@ -286,15 +265,6 @@ class Translations$settings$en {
 
 	/// en: 'Danger Zone'
 	String get dangerZoneSection => 'Danger Zone';
-
-	/// en: 'Require device unlock to open Qeema'
-	String get requireUnlock => 'Require device unlock to open Qeema';
-
-	/// en: 'Your device doesn't have a screen lock set up. Set one up in your device settings to use this feature.'
-	String get noDeviceLock => 'Your device doesn\'t have a screen lock set up. Set one up in your device settings to use this feature.';
-
-	/// en: 'Authentication was cancelled.'
-	String get authCancelled => 'Authentication was cancelled.';
 
 	/// en: 'Language'
 	String get language => 'Language';
@@ -454,6 +424,48 @@ class Translations$marketPrices$en {
 	String get emptyBody => 'Market price data will appear here once it becomes available.';
 
 	late final Translations$marketPrices$range$en range = Translations$marketPrices$range$en.internal(_root);
+}
+
+// Path: app_lock
+class Translations$app_lock$en {
+	Translations$app_lock$en.internal(this._root);
+
+	final Translations _root; // ignore: unused_field
+
+	// Translations
+
+	/// en: 'Unlock Qeema to continue'
+	String get promptReason => 'Unlock Qeema to continue';
+
+	/// en: 'Confirm it's you to turn off App Lock'
+	String get disableReason => 'Confirm it\'s you to turn off App Lock';
+
+	/// en: 'Qeema is locked'
+	String get title => 'Qeema is locked';
+
+	/// en: 'Use your device credentials to unlock'
+	String get hint => 'Use your device credentials to unlock';
+
+	/// en: 'Unlock'
+	String get unlockButton => 'Unlock';
+
+	/// en: 'Too many attempts. Try again after the cooldown.'
+	String get lockedOutMessage => 'Too many attempts. Try again after the cooldown.';
+
+	/// en: 'Couldn't verify you right now. Check your screen lock and try again.'
+	String get unavailableMessage => 'Couldn\'t verify you right now. Check your screen lock and try again.';
+
+	/// en: 'Couldn't verify your identity. Try again.'
+	String get errorMessage => 'Couldn\'t verify your identity. Try again.';
+
+	/// en: 'App Lock'
+	String get settingsTitle => 'App Lock';
+
+	/// en: 'Require device unlock when Qeema opens'
+	String get settingsSubtitle => 'Require device unlock when Qeema opens';
+
+	/// en: 'Set a screen lock (PIN, pattern, or password) in system settings to use App Lock'
+	String get settingsNoDeviceLock => 'Set a screen lock (PIN, pattern, or password) in system settings to use App Lock';
 }
 
 // Path: core.error
@@ -628,21 +640,6 @@ class Translations$core$currency$en {
 
 	/// en: 'USD'
 	String get usd => 'USD';
-}
-
-// Path: core.auth
-class Translations$core$auth$en {
-	Translations$core$auth$en.internal(this._root);
-
-	final Translations _root; // ignore: unused_field
-
-	// Translations
-
-	/// en: 'Unlock Qeema to view your finances'
-	String get unlockReason => 'Unlock Qeema to view your finances';
-
-	/// en: 'Biometric authentication failed'
-	String get biometricFailed => 'Biometric authentication failed';
 }
 
 // Path: core.actions
@@ -1181,8 +1178,6 @@ extension on Translations {
 			'core.dates.daysAgo' => '{days}d ago',
 			'core.currency.egp' => 'EGP',
 			'core.currency.usd' => 'USD',
-			'core.auth.unlockReason' => 'Unlock Qeema to view your finances',
-			'core.auth.biometricFailed' => 'Biometric authentication failed',
 			'core.actions.cancel' => 'Cancel',
 			'core.actions.delete' => 'Delete',
 			'core.notification.channelName' => 'Price Alerts',
@@ -1220,7 +1215,6 @@ extension on Translations {
 			'navigation.notifications' => 'Notifications',
 			'navigation.profile' => 'Profile',
 			'navigation.settings' => 'Settings',
-			'navigation.biometricSetup' => 'Biometric Setup',
 			'navigation.addAsset' => 'Add Asset',
 			'navigation.assetDetail' => 'Asset {id}',
 			'navigation.editAsset' => 'Edit Asset {id}',
@@ -1231,9 +1225,6 @@ extension on Translations {
 			'nav.assets' => 'Assets',
 			'nav.marketPrices' => 'Market Prices',
 			'nav.settings' => 'Settings',
-			'appLock.tooManyAttempts' => 'Too many attempts. Try again later.',
-			'appLock.noCredentials' => 'No device lock set up. Set up a screen lock in your device settings.',
-			'appLock.unavailable' => 'Device authentication is not available on this device.',
 			'assets.list.title' => 'Assets',
 			'assets.list.tabEgp' => 'EGP Cash',
 			'assets.list.tabUsd' => 'USD',
@@ -1313,9 +1304,6 @@ extension on Translations {
 			'settings.preferencesSection' => 'Preferences',
 			'settings.aboutSection' => 'About',
 			'settings.dangerZoneSection' => 'Danger Zone',
-			'settings.requireUnlock' => 'Require device unlock to open Qeema',
-			'settings.noDeviceLock' => 'Your device doesn\'t have a screen lock set up. Set one up in your device settings to use this feature.',
-			'settings.authCancelled' => 'Authentication was cancelled.',
 			'settings.language' => 'Language',
 			'settings.languageSheetTitle' => 'Choose Language',
 			'settings.languageEnglish' => 'English',
@@ -1369,6 +1357,17 @@ extension on Translations {
 			'marketPrices.range.oneWeek' => '1 week',
 			'marketPrices.range.oneMonth' => '1 month',
 			'marketPrices.range.threeMonths' => '3 months',
+			'app_lock.promptReason' => 'Unlock Qeema to continue',
+			'app_lock.disableReason' => 'Confirm it\'s you to turn off App Lock',
+			'app_lock.title' => 'Qeema is locked',
+			'app_lock.hint' => 'Use your device credentials to unlock',
+			'app_lock.unlockButton' => 'Unlock',
+			'app_lock.lockedOutMessage' => 'Too many attempts. Try again after the cooldown.',
+			'app_lock.unavailableMessage' => 'Couldn\'t verify you right now. Check your screen lock and try again.',
+			'app_lock.errorMessage' => 'Couldn\'t verify your identity. Try again.',
+			'app_lock.settingsTitle' => 'App Lock',
+			'app_lock.settingsSubtitle' => 'Require device unlock when Qeema opens',
+			'app_lock.settingsNoDeviceLock' => 'Set a screen lock (PIN, pattern, or password) in system settings to use App Lock',
 			_ => null,
 		};
 	}

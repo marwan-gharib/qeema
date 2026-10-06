@@ -20,4 +20,3 @@ final class GoogleSignInFailureState extends GoogleSignInState {
   const GoogleSignInFailureState(this.failure);
   final Failure failure;
 }
-  

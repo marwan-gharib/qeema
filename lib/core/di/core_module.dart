@@ -2,7 +2,6 @@ import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:get_it/get_it.dart';
-import 'package:local_auth/local_auth.dart';
 import 'package:qeema/core/cubits/locale_cubit/locale_cubit.dart';
 import 'package:qeema/core/cubits/theme_cubit/theme_cubit.dart';
 import 'package:qeema/core/financial/asset_valuator.dart';
@@ -31,10 +30,8 @@ import 'package:qeema/core/network/dio_api_client.dart';
 import 'package:qeema/core/network/network_info.dart';
 import 'package:qeema/core/network/supabase_client_provider.dart';
 import 'package:qeema/core/network/supabase_query_executor.dart';
-import 'package:qeema/core/services/biometric_auth_service.dart';
 import 'package:qeema/core/services/connectivity_service.dart';
 import 'package:qeema/core/services/local_notification_service.dart';
-import 'package:qeema/core/services/sync_service.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 Future<void> initCoreModule(GetIt getIt) async {
@@ -81,10 +78,6 @@ Future<void> initCoreModule(GetIt getIt) async {
   );
   getIt.registerLazySingleton<NetworkInfo>(() => NetworkInfo(Connectivity()));
 
-  getIt.registerLazySingleton<SyncService>(() => SyncService());
-  getIt.registerLazySingleton<BiometricAuthService>(
-    () => BiometricAuthService(LocalAuthentication()),
-  );
   getIt.registerLazySingleton<LocalNotificationService>(
     () => LocalNotificationService(FlutterLocalNotificationsPlugin()),
   );

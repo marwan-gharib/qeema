@@ -1,202 +1,175 @@
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:local_auth/local_auth.dart';
 import 'package:material_ui/material_ui.dart';
 import 'package:qeema/core/error/failures.dart';
 import 'package:qeema/core/i18n/strings.g.dart';
-import 'package:qeema/core/services/biometric_auth_service.dart';
 import 'package:qeema/core/theme/app_theme.dart';
 import 'package:qeema/core/utils/api_result.dart';
 import 'package:qeema/core/widgets/app_button.dart';
-import 'package:qeema/features/app_lock/presentation/cubits/lock_cubit/lock_cubit.dart';
-import 'package:qeema/features/app_lock/presentation/cubits/lock_cubit/lock_state.dart';
+import 'package:qeema/core/widgets/app_loader.dart';
+import 'package:qeema/features/app_lock/domain/entities/app_lock_status.dart';
+import 'package:qeema/features/app_lock/presentation/cubits/app_lock_cubit/app_lock_cubit.dart';
+import 'package:qeema/features/app_lock/presentation/cubits/app_lock_cubit/app_lock_state.dart';
 import 'package:qeema/features/app_lock/presentation/screens/lock_screen.dart';
 
-class _MockBiometricAuthService implements BiometricAuthService {
-  @override
-  Future<ApiResult<bool>> authenticate({
-    required String localizedReason,
-  }) async {
-    return const Success(true);
-  }
-
-  @override
-  Future<bool> get isDeviceSupported async => true;
-
-  @override
-  Future<bool> get canCheckBiometrics async => false;
-
-  @override
-  Future<List<BiometricType>> getAvailableBiometrics() async => [];
-}
-
-final _mockBio = _MockBiometricAuthService();
-
-Widget _buildTestApp(LockCubit cubit) {
-  LocaleSettings.setLocaleSync(AppLocale.en);
-  return TranslationProvider(
-    child: MaterialApp(
-      theme: AppTheme.light(),
-      home: LockScreen(onUnlocked: () {}, lockCubit: cubit),
-    ),
-  );
-}
-
-class _MockLockCubit extends LockCubit {
-  _MockLockCubit(super.biometricAuthService, AppLockState initialState)
-    : _initialState = initialState;
-
-  final AppLockState _initialState;
-  var authCallCount = 0;
-
-  @override
-  AppLockState get state => _initialState;
-
-  @override
-  Future<void> authenticate({required String localizedReason}) async {
-    authCallCount++;
-  }
-}
+import '../../../../helpers/app_lock_mocks.dart';
 
 void main() {
-  group('LockScreen', () {
-    testWidgets('renders unlock prompt in initial state', (tester) async {
-      await tester.pumpWidget(
-        _buildTestApp(_MockLockCubit(_mockBio, const AppLockInitial())),
-      );
-      await tester.pump();
+  late MockGetAppLockEnabledUseCase getEnabled;
+  late MockCheckDeviceLockAvailableUseCase checkAvailable;
+  late MockAuthenticateDeviceUseCase authenticate;
+  late MockSetRecentsPreviewHiddenUseCase setRecentsPreviewHidden;
+  late AppLockCubit cubit;
 
-      expect(find.text('Qeema'), findsOneWidget);
-      expect(find.text('Value'), findsOneWidget);
-      expect(find.text('Unlock Qeema to view your finances'), findsOneWidget);
-      expect(find.byIcon(Icons.lock_outline), findsOneWidget);
-      expect(find.byType(AppButton), findsNothing);
-    });
+  setUp(() {
+    LocaleSettings.setLocaleSync(AppLocale.en);
+    getEnabled = MockGetAppLockEnabledUseCase();
+    checkAvailable = MockCheckDeviceLockAvailableUseCase();
+    authenticate = MockAuthenticateDeviceUseCase();
+    setRecentsPreviewHidden = MockSetRecentsPreviewHiddenUseCase();
+    cubit = AppLockCubit(
+      getEnabled,
+      checkAvailable,
+      authenticate,
+      setRecentsPreviewHidden,
+    );
+  });
 
-    testWidgets('shows loading indicator when authenticating', (tester) async {
-      await tester.pumpWidget(
-        _buildTestApp(_MockLockCubit(_mockBio, const AppLockAuthenticating())),
-      );
-      await tester.pump();
+  tearDown(() {
+    cubit.close();
+  });
 
-      expect(find.byType(CircularProgressIndicator), findsOneWidget);
-      expect(find.byType(AppButton), findsOneWidget);
-    });
+  Widget harness() {
+    return TranslationProvider(
+      child: BlocProvider<AppLockCubit>.value(
+        value: cubit,
+        child: MaterialApp(theme: AppTheme.light(), home: const LockScreen()),
+      ),
+    );
+  }
 
-    testWidgets('shows mapped error on LocalAuthLockoutFailure', (
-      tester,
-    ) async {
-      await tester.pumpWidget(
-        _buildTestApp(
-          _MockLockCubit(
-            _mockBio,
-            const AppLockError(LocalAuthLockoutFailure()),
-          ),
-        ),
-      );
-      await tester.pump();
-      await tester.pump(const Duration(milliseconds: 500));
+  Future<void> settle(WidgetTester tester) async {
+    await tester.pump();
+    await tester.pump(const Duration(milliseconds: 300));
+  }
 
-      expect(find.text('Too many attempts. Try again later.'), findsOneWidget);
-      expect(find.byType(AppButton), findsOneWidget);
-      expect(find.text('Try Again'), findsOneWidget);
-    });
+  testWidgets('shows the prompt loader while the state is still checking', (
+    tester,
+  ) async {
+    await tester.pumpWidget(harness());
+    await settle(tester);
 
-    testWidgets('shows mapped error on LocalAuthCancelledFailure', (
-      tester,
-    ) async {
-      await tester.pumpWidget(
-        _buildTestApp(
-          _MockLockCubit(
-            _mockBio,
-            const AppLockError(LocalAuthCancelledFailure()),
-          ),
-        ),
-      );
-      await tester.pump();
-      await tester.pump(const Duration(milliseconds: 500));
+    expect(find.byType(AppLoader), findsOneWidget);
+    expect(find.text('Qeema is locked'), findsOneWidget);
+    expect(find.text('Use your device credentials to unlock'), findsOneWidget);
+    expect(find.byType(AppButton), findsNothing);
+  });
 
-      expect(find.text('Biometric authentication failed'), findsOneWidget);
-    });
+  testWidgets('shows the unlock button after the user cancels the prompt', (
+    tester,
+  ) async {
+    authenticate.result = const Success(AppLockStatus.failed);
+    await cubit.onAppResumed();
 
-    testWidgets('shows mapped error on LocalAuthNoCredentialsFailure', (
-      tester,
-    ) async {
-      await tester.pumpWidget(
-        _buildTestApp(
-          _MockLockCubit(
-            _mockBio,
-            const AppLockError(LocalAuthNoCredentialsFailure()),
-          ),
-        ),
-      );
-      await tester.pump();
-      await tester.pump(const Duration(milliseconds: 500));
+    await tester.pumpWidget(harness());
+    await settle(tester);
 
-      expect(
-        find.text(
-          'No device lock set up. Set up a screen lock in your device settings.',
-        ),
-        findsOneWidget,
-      );
-    });
+    expect(find.byType(AppButton), findsOneWidget);
+    expect(find.widgetWithText(AppButton, 'Unlock'), findsOneWidget);
+    expect(find.byType(AppLoader), findsNothing);
+  });
 
-    testWidgets('renders with disableAnimations: true without error', (
-      tester,
-    ) async {
-      LocaleSettings.setLocaleSync(AppLocale.en);
-      await tester.pumpWidget(
-        MediaQuery(
-          data: const MediaQueryData(disableAnimations: true),
-          child: TranslationProvider(
-            child: MaterialApp(
-              theme: AppTheme.light(),
-              home: LockScreen(
-                onUnlocked: () {},
-                lockCubit: _MockLockCubit(_mockBio, const AppLockInitial()),
+  testWidgets('shows the locked-out message when the OS locks out attempts', (
+    tester,
+  ) async {
+    authenticate.result = const Success(AppLockStatus.lockedOut);
+    await cubit.onAppResumed();
+
+    await tester.pumpWidget(harness());
+    await settle(tester);
+
+    expect(
+      find.text('Too many attempts. Try again after the cooldown.'),
+      findsOneWidget,
+    );
+    expect(find.widgetWithText(AppButton, 'Unlock'), findsOneWidget);
+  });
+
+  testWidgets('shows the error message and stays locked when evaluation '
+      'fails', (tester) async {
+    getEnabled.result = const ResultFailure(CacheFailure());
+    await cubit.onAppResumed();
+
+    await tester.pumpWidget(harness());
+    await settle(tester);
+
+    expect(
+      find.text("Couldn't verify your identity. Try again."),
+      findsOneWidget,
+    );
+    expect(find.widgetWithText(AppButton, 'Unlock'), findsOneWidget);
+  });
+
+  testWidgets('a back gesture cannot pop the lock screen', (tester) async {
+    authenticate.result = const Success(AppLockStatus.failed);
+    await cubit.onAppResumed();
+
+    var popResults = 0;
+    await tester.pumpWidget(
+      TranslationProvider(
+        child: BlocProvider<AppLockCubit>.value(
+          value: cubit,
+          child: MaterialApp(
+            theme: AppTheme.light(),
+            home: Builder(
+              builder: (context) => Scaffold(
+                body: TextButton(
+                  onPressed: () => Navigator.of(context)
+                      .push(
+                        MaterialPageRoute<void>(
+                          builder: (_) => const LockScreen(),
+                        ),
+                      )
+                      .then((_) => popResults++),
+                  child: const Text('enter'),
+                ),
               ),
             ),
           ),
         ),
-      );
-      await tester.pump();
+      ),
+    );
+    await settle(tester);
 
-      expect(find.text('Qeema'), findsOneWidget);
-    });
+    await tester.tap(find.text('enter'));
+    await tester.pumpAndSettle();
+    expect(find.byType(LockScreen), findsOneWidget);
 
-    testWidgets('PopScope prevents back navigation', (tester) async {
-      await tester.pumpWidget(
-        _buildTestApp(_MockLockCubit(_mockBio, const AppLockInitial())),
-      );
-      await tester.pump();
+    await tester.binding.handlePopRoute();
+    await tester.pumpAndSettle();
 
-      final popScope = tester.widget<PopScope>(find.byType(PopScope));
-      expect(popScope.canPop, false);
-    });
+    expect(
+      find.byType(LockScreen),
+      findsOneWidget,
+      reason: 'PopScope(canPop: false) must keep the user on /lock',
+    );
+    expect(popResults, 0);
+  });
 
-    testWidgets('retry button triggers authenticate call', (tester) async {
-      final cubit = _MockLockCubit(
-        _mockBio,
-        const AppLockError(LocalAuthCancelledFailure()),
-      );
-      await tester.pumpWidget(_buildTestApp(cubit));
-      await tester.pump();
-      await tester.pump(const Duration(milliseconds: 500));
+  testWidgets('tapping Unlock re-evaluates the gate and opens when the '
+      'prompt succeeds', (tester) async {
+    authenticate.result = const Success(AppLockStatus.failed);
+    await cubit.onAppResumed();
+    await tester.pumpWidget(harness());
+    await settle(tester);
+    expect(find.byType(AppButton), findsOneWidget);
 
-      cubit.authCallCount = 0;
-      await tester.tap(find.text('Try Again'));
-      await tester.pump();
+    authenticate.result = const Success(AppLockStatus.authenticated);
+    await tester.tap(find.widgetWithText(AppButton, 'Unlock'));
+    await settle(tester);
 
-      expect(cubit.authCallCount, 1);
-    });
-
-    testWidgets('shows lock icon when biometrics unavailable', (tester) async {
-      await tester.pumpWidget(
-        _buildTestApp(_MockLockCubit(_mockBio, const AppLockInitial())),
-      );
-      await tester.pump();
-
-      expect(find.byIcon(Icons.lock_outline), findsOneWidget);
-      expect(find.byIcon(Icons.fingerprint), findsNothing);
-    });
+    expect(cubit.state, isA<AppLockUnlocked>());
+    expect(find.byType(AppButton), findsNothing);
+    expect(find.byType(AppLoader), findsOneWidget);
   });
 }

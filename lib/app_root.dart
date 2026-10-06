@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:cupertino_ui/cupertino_ui.dart'
     show GlobalCupertinoLocalizations;
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -10,152 +8,17 @@ import 'package:qeema/core/cubits/locale_cubit/locale_cubit.dart';
 import 'package:qeema/core/cubits/locale_cubit/locale_state.dart';
 import 'package:qeema/core/cubits/theme_cubit/theme_cubit.dart';
 import 'package:qeema/core/cubits/theme_cubit/theme_state.dart';
-import 'package:qeema/core/di/injection_container.dart';
 import 'package:qeema/core/i18n/strings.g.dart';
-import 'package:qeema/core/network/supabase_client_provider.dart';
 import 'package:qeema/core/router/app_router.dart';
-import 'package:qeema/core/services/app_lock_service.dart';
-import 'package:qeema/core/services/biometric_auth_service.dart';
 import 'package:qeema/core/theme/app_theme.dart';
-import 'package:qeema/core/utils/logger.dart';
-import 'package:qeema/features/app_lock/presentation/cubits/lock_cubit/lock_cubit.dart';
-import 'package:qeema/features/app_lock/presentation/screens/lock_screen.dart';
-import 'package:qeema/features/app_lock/presentation/widgets/app_lock_gate.dart';
+import 'package:qeema/features/app_lock/presentation/widgets/app_lock_overlay.dart';
 
-class AppRoot extends StatefulWidget {
+class AppRoot extends StatelessWidget {
   const AppRoot({super.key});
 
   @override
-  State<AppRoot> createState() => _AppRootState();
-}
-
-class _AppRootState extends State<AppRoot> {
-  late Future<ColdStartDecision> _decisionFuture;
-
-  @override
-  void initState() {
-    super.initState();
-    _decisionFuture = _resolveColdStartDecision();
-  }
-
-  Future<ColdStartDecision> _resolveColdStartDecision() async {
-    try {
-      return await _resolveColdStartDecisionFromGetIt().timeout(
-        const Duration(seconds: 10),
-      );
-    } on TimeoutException {
-      Logger.warning(
-        '[AppRoot] cold-start decision timed out, defaulting to requireUnlock',
-      );
-      return ColdStartDecision.requireUnlock;
-    }
-  }
-
-  @override
   Widget build(BuildContext context) {
-    return FutureBuilder<ColdStartDecision>(
-      future: _decisionFuture,
-      builder: (context, snapshot) {
-        if (!snapshot.hasData) {
-          return const _ColdStartDecidingPlaceholder();
-        }
-        if (snapshot.data == ColdStartDecision.requireUnlock) {
-          return ColdStartLockApp(
-            themeCubit: getIt<ThemeCubit>(),
-            onUnlocked: () => setState(() {
-              _decisionFuture = Future.value(ColdStartDecision.proceed);
-            }),
-          );
-        }
-        return const QeemaApp();
-      },
-    );
-  }
-}
-
-Future<ColdStartDecision> _resolveColdStartDecisionFromGetIt() async {
-  final hasSession =
-      getIt<SupabaseClientProvider>().client.auth.currentSession != null;
-  return resolveColdStartDecision(
-    hasSession: hasSession,
-    isEnabled: getIt<AppLockService>().isEnabled(),
-    isDeviceSupported: getIt<BiometricAuthService>().isDeviceSupported,
-  );
-}
-
-Future<ColdStartDecision> resolveColdStartDecision({
-  required bool hasSession,
-  required Future<bool> isEnabled,
-  required Future<bool> isDeviceSupported,
-}) async {
-  if (!hasSession || !await isEnabled || !await isDeviceSupported) {
-    return ColdStartDecision.proceed;
-  }
-  return ColdStartDecision.requireUnlock;
-}
-
-enum ColdStartDecision { proceed, requireUnlock }
-
-class _ColdStartDecidingPlaceholder extends StatelessWidget {
-  const _ColdStartDecidingPlaceholder();
-
-  @override
-  Widget build(BuildContext context) {
-    return SizedBox.expand(
-      child: ColoredBox(color: AppTheme.light().scaffoldBackgroundColor),
-    );
-  }
-}
-
-class ColdStartLockScreen extends StatelessWidget {
-  const ColdStartLockScreen({
-    super.key,
-    required this.onUnlocked,
-    this.lockCubit,
-  });
-
-  final VoidCallback onUnlocked;
-  final LockCubit? lockCubit;
-
-  @override
-  Widget build(BuildContext context) {
-    return LockScreen(onUnlocked: onUnlocked, lockCubit: lockCubit);
-  }
-}
-
-class ColdStartLockApp extends StatelessWidget {
-  const ColdStartLockApp({
-    super.key,
-    required this.themeCubit,
-    required this.onUnlocked,
-    this.lockCubit,
-  });
-
-  final ThemeCubit themeCubit;
-  final VoidCallback onUnlocked;
-  final LockCubit? lockCubit;
-
-  @override
-  Widget build(BuildContext context) {
-    return BlocBuilder<ThemeCubit, AppThemeState>(
-      bloc: themeCubit,
-      builder: (context, themeState) => MaterialApp(
-        theme: AppTheme.light(),
-        darkTheme: AppTheme.dark(),
-        themeMode: themeState.mode,
-        debugShowCheckedModeBanner: false,
-        supportedLocales: AppLocaleUtils.supportedLocales,
-        localizationsDelegates: const [
-          GlobalMaterialLocalizations.delegate,
-          GlobalCupertinoLocalizations.delegate,
-          GlobalWidgetsLocalizations.delegate,
-        ],
-        home: ColdStartLockScreen(
-          onUnlocked: onUnlocked,
-          lockCubit: lockCubit,
-        ),
-      ),
-    );
+    return const QeemaApp();
   }
 }
 
@@ -187,7 +50,10 @@ class QeemaApp extends StatelessWidget {
                 GlobalCupertinoLocalizations.delegate,
                 GlobalWidgetsLocalizations.delegate,
               ],
-              builder: (context, child) => AppLockGate(child: child!),
+              builder: (context, child) {
+                if (child == null) return const SizedBox.shrink();
+                return AppLockOverlay(child: child);
+              },
             );
           },
         );

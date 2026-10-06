@@ -64,10 +64,13 @@ void main() {
 
     test('ignores non-string metadata values', () {
       final model = AuthUserMapper.fromSupabaseUser(
-        buildUser(email: 'jane@example.com', metadata: const {
-          'full_name': 42,
-          'name': <String>['x'],
-        }),
+        buildUser(
+          email: 'jane@example.com',
+          metadata: const {
+            'full_name': 42,
+            'name': <String>['x'],
+          },
+        ),
       );
 
       expect(model.displayName, 'jane');
@@ -93,10 +96,12 @@ void main() {
   group('avatarUrl fallback', () {
     test('uses avatar_url from metadata', () {
       final model = AuthUserMapper.fromSupabaseUser(
-        buildUser(metadata: const {
-          'avatar_url': ' https://example.com/a.png ',
-          'picture': 'https://example.com/b.png',
-        }),
+        buildUser(
+          metadata: const {
+            'avatar_url': ' https://example.com/a.png ',
+            'picture': 'https://example.com/b.png',
+          },
+        ),
       );
 
       expect(model.avatarUrl, 'https://example.com/a.png');
@@ -111,10 +116,7 @@ void main() {
     });
 
     test('returns null when absent, blank, or non-string', () {
-      expect(
-        AuthUserMapper.fromSupabaseUser(buildUser()).avatarUrl,
-        isNull,
-      );
+      expect(AuthUserMapper.fromSupabaseUser(buildUser()).avatarUrl, isNull);
       expect(
         AuthUserMapper.fromSupabaseUser(
           buildUser(metadata: const {'avatar_url': '   '}),

@@ -9,6 +9,7 @@ import 'package:qeema/core/router/route_guards.dart';
 import 'package:qeema/core/router/route_names.dart';
 import 'package:qeema/core/router/route_paths.dart';
 import 'package:qeema/core/router/route_segments.dart';
+import 'package:qeema/features/app_lock/presentation/screens/lock_screen.dart';
 import 'package:qeema/features/assets/presentation/cubits/add_asset_cubit/add_asset_cubit.dart';
 import 'package:qeema/features/assets/presentation/cubits/asset_detail_cubit/asset_detail_cubit.dart';
 import 'package:qeema/features/assets/presentation/cubits/assets_list_cubit/assets_list_cubit.dart';
@@ -28,6 +29,7 @@ import 'package:qeema/features/market_prices/presentation/screens/market_price_d
 import 'package:qeema/features/market_prices/presentation/screens/market_prices_list_screen.dart';
 import 'package:qeema/features/onboarding/presentation/cubits/onboarding_cubit/onboarding_cubit.dart';
 import 'package:qeema/features/onboarding/presentation/screens/onboarding_screen.dart';
+import 'package:qeema/features/settings/presentation/cubits/app_lock_settings_cubit/app_lock_settings_cubit.dart';
 import 'package:qeema/features/settings/presentation/cubits/delete_account_cubit/delete_account_cubit.dart';
 import 'package:qeema/features/settings/presentation/cubits/logout_cubit/logout_cubit.dart';
 import 'package:qeema/features/settings/presentation/cubits/profile_header_cubit/profile_header_cubit.dart';
@@ -146,6 +148,9 @@ class AppRouterRoutes {
                   BlocProvider(create: (_) => getIt<DeleteAccountCubit>()),
                   BlocProvider(create: (_) => getIt<LogoutCubit>()),
                   BlocProvider(create: (_) => getIt<ProfileHeaderCubit>()),
+                  BlocProvider(
+                    create: (_) => getIt<AppLockSettingsCubit>()..load(),
+                  ),
                 ],
                 child: const SettingsScreen(),
               ),
@@ -189,14 +194,12 @@ class AppRouterRoutes {
           pageKey: const ValueKey('welcome'),
         ),
       ),
-      GoRoute(
-        path: RoutePaths.biometricSetup,
-        name: RouteNames.biometricSetup,
-        builder: (context, state) => Scaffold(
-          body: Center(child: Text(context.t.navigation.biometricSetup)),
-        ),
-      ),
       shellRoute,
+      GoRoute(
+        path: RoutePaths.lock,
+        name: RouteNames.lock,
+        builder: (context, state) => const LockScreen(),
+      ),
       GoRoute(
         path: RoutePaths.insights,
         name: RouteNames.insights,

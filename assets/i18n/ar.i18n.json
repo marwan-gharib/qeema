@@ -54,10 +54,6 @@
       "egp": "جنيه مصري",
       "usd": "دولار امريكي"
     },
-    "auth": {
-      "unlockReason": "افتح قيّمة لعرض أموالك",
-      "biometricFailed": "فشل التحقق البيومتري"
-    },
     "actions": {
       "cancel": "إلغاء",
       "delete": "حذف"
@@ -100,7 +96,7 @@
       "gold": "ذهب"
     }
   },
-  "navigation": {
+"navigation": {
     "splash": "شاشة البداية",
     "welcome": "مرحباً",
     "home": "الرئيسية",
@@ -111,7 +107,6 @@
     "notifications": "الإشعارات",
     "profile": "الملف الشخصي",
     "settings": "الإعدادات",
-    "biometricSetup": "إعداد التحقق البيومتري",
     "addAsset": "إضافة أصل",
     "assetDetail": "الأصل {id}",
     "editAsset": "تعديل الأصل {id}",
@@ -124,11 +119,6 @@
     "assets": "الأصول",
     "marketPrices": "أسعار السوق",
     "settings": "الإعدادات"
-  },
-  "appLock": {
-    "tooManyAttempts": "محاولات كثيرة جداً. حاول مرة أخرى لاحقاً.",
-    "noCredentials": "لم يتم إعداد قفل للجهاز. قم بإعداد قفل شاشة في إعدادات جهازك.",
-    "unavailable": "التحقق من الجهاز غير متاح على هذا الجهاز."
   },
   "assets": {
     "list": {
@@ -234,9 +224,6 @@
     "preferencesSection": "التفضيلات",
     "aboutSection": "حول",
     "dangerZoneSection": "منطقة الخطر",
-    "requireUnlock": "طلب فتح قفل الجهاز لفتح قيّمة",
-    "noDeviceLock": "جهازك لا يحتوي على قفل شاشة. قم بإعداد واحد في إعدادات جهازك لاستخدام هذه الميزة.",
-    "authCancelled": "تم إلغاء التحقق.",
     "language": "اللغة",
     "languageSheetTitle": "اختر اللغة",
     "languageEnglish": "English",
@@ -306,5 +293,18 @@
       "oneMonth": "شهر",
       "threeMonths": "٣ أشهر"
     }
+  },
+  "app_lock": {
+    "promptReason": "افتح قيّمة للمتابعة",
+    "disableReason": "أكّد هويتك لإيقاف قفل التطبيق",
+    "title": "قيّمة مقفلة",
+    "hint": "استخدم بيانات اعتماد جهازك لفتح التطبيق",
+    "unlockButton": "فتح",
+    "lockedOutMessage": "محاولات كثيرة. أعد المحاولة بعد انتهاء المهلة.",
+    "unavailableMessage": "تعذّر التحقق الآن. تحقق من قفل الجهاز ثم أعد المحاولة.",
+    "errorMessage": "تعذّر التحقق من هويتك. حاول مرة أخرى.",
+    "settingsTitle": "قفل التطبيق",
+    "settingsSubtitle": "طلب فتح الجهاز عند فتح قيّمة",
+    "settingsNoDeviceLock": "اضبط قفل شاشة (رمز أو نمط أو كلمة مرور) في إعدادات النظام لاستخدام قفل التطبيق"
   }
 }

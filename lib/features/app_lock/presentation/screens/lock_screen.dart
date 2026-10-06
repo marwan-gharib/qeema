@@ -1,65 +1,92 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:material_ui/material_ui.dart';
-import 'package:qeema/core/di/injection_container.dart';
+import 'package:qeema/core/constants/app_assets.dart';
+import 'package:qeema/core/extensions/build_context_extensions.dart';
 import 'package:qeema/core/i18n/strings.g.dart';
-import 'package:qeema/features/app_lock/presentation/cubits/lock_cubit/lock_cubit.dart';
-import 'package:qeema/features/app_lock/presentation/cubits/lock_cubit/lock_state.dart';
-import 'package:qeema/features/app_lock/presentation/widgets/lock_screen_body.dart';
+import 'package:qeema/core/theme/app_spacing.dart';
+import 'package:qeema/core/widgets/app_button.dart';
+import 'package:qeema/core/widgets/app_loader.dart';
+import 'package:qeema/features/app_lock/presentation/cubits/app_lock_cubit/app_lock_cubit.dart';
+import 'package:qeema/features/app_lock/presentation/cubits/app_lock_cubit/app_lock_state.dart';
 
-class LockScreen extends StatefulWidget {
-  const LockScreen({super.key, required this.onUnlocked, this.lockCubit});
-
-  final VoidCallback onUnlocked;
-  final LockCubit? lockCubit;
-
-  @override
-  State<LockScreen> createState() => _LockScreenState();
-}
-
-class _LockScreenState extends State<LockScreen> {
-  late final LockCubit _cubit;
-  bool _hasBiometrics = false;
-
-  @override
-  void initState() {
-    super.initState();
-    _cubit = widget.lockCubit ?? getIt<LockCubit>();
-    _checkBiometrics();
-    WidgetsBinding.instance.addPostFrameCallback((_) => _triggerAuth());
-  }
-
-  Future<void> _checkBiometrics() async {
-    final canCheck = await _cubit.canCheckBiometrics;
-    if (mounted) setState(() => _hasBiometrics = canCheck);
-  }
-
-  void _triggerAuth() {
-    _cubit.authenticate(localizedReason: context.t.core.auth.unlockReason);
-  }
-
-  @override
-  void dispose() {
-    if (widget.lockCubit == null) {
-      _cubit.close();
-    }
-    super.dispose();
-  }
+class LockScreen extends StatelessWidget {
+  const LockScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider.value(
-      value: _cubit,
-      child: BlocListener<LockCubit, AppLockState>(
-        listenWhen: (previous, current) => current is AppLockUnlocked,
-        listener: (context, state) => widget.onUnlocked(),
-        child: PopScope(
-          canPop: false,
-          child: Scaffold(
-            body: LockScreenBody(
-              onRetry: _triggerAuth,
-              hasBiometrics: _hasBiometrics,
-            ),
-          ),
+    // The lock screen must never be popped: the router redirects to it from
+    // every protected route, so a back gesture has to stay inside the app.
+    return PopScope(
+      canPop: false,
+      child: Scaffold(
+        backgroundColor: context.colors.background,
+        body: BlocBuilder<AppLockCubit, AppLockState>(
+          builder: (context, state) {
+            final t = context.t;
+            final (message, prompting) = switch (state) {
+              AppLockInitial() || AppLockChecking() => (null, true),
+              AppLockLocked(:final reason) => switch (reason) {
+                AppLockLockedReason.prompt => (null, true),
+                AppLockLockedReason.cancelled => (null, false),
+                AppLockLockedReason.lockedOut => (
+                  t.app_lock.lockedOutMessage,
+                  false,
+                ),
+              },
+              AppLockUnlocked() || AppLockDisabled() => (null, true),
+              AppLockError() => (t.app_lock.errorMessage, false),
+            };
+
+            return SafeArea(
+              child: Center(
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: AppSpacing.xl,
+                    vertical: AppSpacing.lg,
+                  ),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Image.asset(AppAssets.qeemaLogo, width: 88, height: 88),
+                      const SizedBox(height: AppSpacing.xl),
+                      Text(
+                        t.app_lock.title,
+                        style: context.textTheme.headlineSmall,
+                        textAlign: TextAlign.center,
+                      ),
+                      const SizedBox(height: AppSpacing.sm),
+                      Text(
+                        t.app_lock.hint,
+                        style: context.textTheme.bodyMedium?.copyWith(
+                          color: context.colors.textSecondary,
+                        ),
+                        textAlign: TextAlign.center,
+                      ),
+                      if (message != null) ...[
+                        const SizedBox(height: AppSpacing.md),
+                        Text(
+                          message,
+                          style: context.textTheme.bodyMedium?.copyWith(
+                            color: context.colors.error,
+                          ),
+                          textAlign: TextAlign.center,
+                        ),
+                      ],
+                      const SizedBox(height: AppSpacing.xl),
+                      if (prompting)
+                        const AppLoader()
+                      else
+                        AppButton(
+                          label: t.app_lock.unlockButton,
+                          onPressed: () =>
+                              context.read<AppLockCubit>().unlock(),
+                        ),
+                    ],
+                  ),
+                ),
+              ),
+            );
+          },
         ),
       ),
     );

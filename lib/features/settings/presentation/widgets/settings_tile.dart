@@ -8,6 +8,7 @@ class SettingsTile extends StatelessWidget {
     super.key,
     required this.icon,
     required this.label,
+    this.subtitle,
     this.trailing,
     this.onTap,
     this.isDestructive = false,
@@ -15,6 +16,7 @@ class SettingsTile extends StatelessWidget {
 
   final IconData icon;
   final String label;
+  final String? subtitle;
   final Widget? trailing;
   final VoidCallback? onTap;
   final bool isDestructive;
@@ -38,10 +40,31 @@ class SettingsTile extends StatelessWidget {
           ),
           const SizedBox(width: AppSpacing.md),
           Expanded(
-            child: Text(
-              label,
-              style: context.textTheme.bodyLarge?.copyWith(color: foreground),
-            ),
+            child: subtitle == null
+                ? Text(
+                    label,
+                    style: context.textTheme.bodyLarge?.copyWith(
+                      color: foreground,
+                    ),
+                  )
+                : Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        label,
+                        style: context.textTheme.bodyLarge?.copyWith(
+                          color: foreground,
+                        ),
+                      ),
+                      const SizedBox(height: AppSpacing.xxs),
+                      Text(
+                        subtitle!,
+                        style: context.textTheme.bodySmall?.copyWith(
+                          color: colors.textSecondary,
+                        ),
+                      ),
+                    ],
+                  ),
           ),
           trailing ?? const SizedBox.shrink(),
         ],
