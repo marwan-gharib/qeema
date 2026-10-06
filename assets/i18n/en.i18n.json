@@ -293,5 +293,18 @@
       "oneMonth": "1 month",
       "threeMonths": "3 months"
     }
+  },
+  "app_lock": {
+    "promptReason": "Unlock Qeema to continue",
+    "disableReason": "Confirm it's you to turn off App Lock",
+    "title": "Qeema is locked",
+    "hint": "Use your device credentials to unlock",
+    "unlockButton": "Unlock",
+    "lockedOutMessage": "Too many attempts. Try again after the cooldown.",
+    "unavailableMessage": "Couldn't verify you right now. Check your screen lock and try again.",
+    "errorMessage": "Couldn't verify your identity. Try again.",
+    "settingsTitle": "App Lock",
+    "settingsSubtitle": "Require device unlock when Qeema opens",
+    "settingsNoDeviceLock": "Set a screen lock (PIN, pattern, or password) in system settings to use App Lock"
   }
 }

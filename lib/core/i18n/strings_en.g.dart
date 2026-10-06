@@ -20,20 +20,21 @@ class Translations with BaseTranslations<AppLocale, Translations> {
 	/// Constructing via the enum [AppLocale.build] is preferred.
 	Translations({Map<String, Node>? overrides, PluralResolver? cardinalResolver, PluralResolver? ordinalResolver, TranslationMetadata<AppLocale, Translations>? meta})
 		: assert(overrides == null, 'Set "translation_overrides: true" in order to enable this feature.'),
-		  $meta = meta ?? TranslationMetadata(
+		  _meta = meta ?? TranslationMetadata(
 		    locale: AppLocale.en,
 		    overrides: overrides ?? {},
 		    cardinalResolver: cardinalResolver,
 		    ordinalResolver: ordinalResolver,
 		  ) {
-		$meta.setFlatMapFunction(_flatMapFunction);
+		_meta.setFlatMapFunction(_flatMapFunction);
 	}
 
 	/// Metadata for the translations of <en>.
-	@override final TranslationMetadata<AppLocale, Translations> $meta;
+	final TranslationMetadata<AppLocale, Translations> _meta;
+	@override TranslationMetadata<AppLocale, Translations> get $meta => _meta;
 
 	/// Access flat map
-	dynamic operator[](String key) => $meta.getTranslation(key);
+	dynamic operator[](String key) => _meta.getTranslation(key);
 
 	late final Translations _root = this; // ignore: unused_field
 
@@ -51,6 +52,7 @@ class Translations with BaseTranslations<AppLocale, Translations> {
 	late final Translations$home$en home = Translations$home$en.internal(_root);
 	late final Translations$insights$en insights = Translations$insights$en.internal(_root);
 	late final Translations$marketPrices$en marketPrices = Translations$marketPrices$en.internal(_root);
+	late final Translations$app_lock$en app_lock = Translations$app_lock$en.internal(_root);
 }
 
 // Path: app
@@ -422,6 +424,48 @@ class Translations$marketPrices$en {
 	String get emptyBody => 'Market price data will appear here once it becomes available.';
 
 	late final Translations$marketPrices$range$en range = Translations$marketPrices$range$en.internal(_root);
+}
+
+// Path: app_lock
+class Translations$app_lock$en {
+	Translations$app_lock$en.internal(this._root);
+
+	final Translations _root; // ignore: unused_field
+
+	// Translations
+
+	/// en: 'Unlock Qeema to continue'
+	String get promptReason => 'Unlock Qeema to continue';
+
+	/// en: 'Confirm it's you to turn off App Lock'
+	String get disableReason => 'Confirm it\'s you to turn off App Lock';
+
+	/// en: 'Qeema is locked'
+	String get title => 'Qeema is locked';
+
+	/// en: 'Use your device credentials to unlock'
+	String get hint => 'Use your device credentials to unlock';
+
+	/// en: 'Unlock'
+	String get unlockButton => 'Unlock';
+
+	/// en: 'Too many attempts. Try again after the cooldown.'
+	String get lockedOutMessage => 'Too many attempts. Try again after the cooldown.';
+
+	/// en: 'Couldn't verify you right now. Check your screen lock and try again.'
+	String get unavailableMessage => 'Couldn\'t verify you right now. Check your screen lock and try again.';
+
+	/// en: 'Couldn't verify your identity. Try again.'
+	String get errorMessage => 'Couldn\'t verify your identity. Try again.';
+
+	/// en: 'App Lock'
+	String get settingsTitle => 'App Lock';
+
+	/// en: 'Require device unlock when Qeema opens'
+	String get settingsSubtitle => 'Require device unlock when Qeema opens';
+
+	/// en: 'Set a screen lock (PIN, pattern, or password) in system settings to use App Lock'
+	String get settingsNoDeviceLock => 'Set a screen lock (PIN, pattern, or password) in system settings to use App Lock';
 }
 
 // Path: core.error
@@ -1313,6 +1357,17 @@ extension on Translations {
 			'marketPrices.range.oneWeek' => '1 week',
 			'marketPrices.range.oneMonth' => '1 month',
 			'marketPrices.range.threeMonths' => '3 months',
+			'app_lock.promptReason' => 'Unlock Qeema to continue',
+			'app_lock.disableReason' => 'Confirm it\'s you to turn off App Lock',
+			'app_lock.title' => 'Qeema is locked',
+			'app_lock.hint' => 'Use your device credentials to unlock',
+			'app_lock.unlockButton' => 'Unlock',
+			'app_lock.lockedOutMessage' => 'Too many attempts. Try again after the cooldown.',
+			'app_lock.unavailableMessage' => 'Couldn\'t verify you right now. Check your screen lock and try again.',
+			'app_lock.errorMessage' => 'Couldn\'t verify your identity. Try again.',
+			'app_lock.settingsTitle' => 'App Lock',
+			'app_lock.settingsSubtitle' => 'Require device unlock when Qeema opens',
+			'app_lock.settingsNoDeviceLock' => 'Set a screen lock (PIN, pattern, or password) in system settings to use App Lock',
 			_ => null,
 		};
 	}

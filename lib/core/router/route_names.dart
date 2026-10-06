@@ -19,4 +19,5 @@ final class RouteNames {
   static const String notificationSettings = 'notificationSettings';
   static const String profile = 'profile';
   static const String settings = 'settings';
+  static const String lock = 'lock';
 }

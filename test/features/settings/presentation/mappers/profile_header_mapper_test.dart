@@ -59,10 +59,7 @@ void main() {
 
       expect(first, second);
       expect(first.hashCode, second.hashCode);
-      expect(
-        ProfileHeaderLoaded(first),
-        ProfileHeaderLoaded(second),
-      );
+      expect(ProfileHeaderLoaded(first), ProfileHeaderLoaded(second));
     });
   });
 }

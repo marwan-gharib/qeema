@@ -32,7 +32,6 @@ import 'package:qeema/core/network/supabase_client_provider.dart';
 import 'package:qeema/core/network/supabase_query_executor.dart';
 import 'package:qeema/core/services/connectivity_service.dart';
 import 'package:qeema/core/services/local_notification_service.dart';
-import 'package:qeema/core/services/sync_service.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 Future<void> initCoreModule(GetIt getIt) async {
@@ -79,7 +78,6 @@ Future<void> initCoreModule(GetIt getIt) async {
   );
   getIt.registerLazySingleton<NetworkInfo>(() => NetworkInfo(Connectivity()));
 
-  getIt.registerLazySingleton<SyncService>(() => SyncService());
   getIt.registerLazySingleton<LocalNotificationService>(
     () => LocalNotificationService(FlutterLocalNotificationsPlugin()),
   );

@@ -16,22 +16,22 @@ class TranslationsAr extends Translations with BaseTranslations<AppLocale, Trans
 	/// Constructing via the enum [AppLocale.build] is preferred.
 	TranslationsAr({Map<String, Node>? overrides, PluralResolver? cardinalResolver, PluralResolver? ordinalResolver, TranslationMetadata<AppLocale, Translations>? meta})
 		: assert(overrides == null, 'Set "translation_overrides: true" in order to enable this feature.'),
-		  $meta = meta ?? TranslationMetadata(
+		  _meta = meta ?? TranslationMetadata(
 		    locale: AppLocale.ar,
 		    overrides: overrides ?? {},
 		    cardinalResolver: cardinalResolver,
 		    ordinalResolver: ordinalResolver,
 		  ),
 		  super(cardinalResolver: cardinalResolver, ordinalResolver: ordinalResolver) {
-		super.$meta.setFlatMapFunction($meta.getTranslation); // copy base translations to super.$meta
-		$meta.setFlatMapFunction(_flatMapFunction);
+		_meta.setFlatMapFunction(_flatMapFunction);
 	}
 
 	/// Metadata for the translations of <ar>.
-	@override final TranslationMetadata<AppLocale, Translations> $meta;
+	final TranslationMetadata<AppLocale, Translations> _meta;
+	@override TranslationMetadata<AppLocale, Translations> get $meta => _meta;
 
 	/// Access flat map
-	@override dynamic operator[](String key) => $meta.getTranslation(key) ?? super.$meta.getTranslation(key);
+	@override dynamic operator[](String key) => _meta.getTranslation(key) ?? super[key];
 
 	late final TranslationsAr _root = this; // ignore: unused_field
 
@@ -50,6 +50,7 @@ class TranslationsAr extends Translations with BaseTranslations<AppLocale, Trans
 	@override late final _Translations$home$ar home = _Translations$home$ar._(_root);
 	@override late final _Translations$insights$ar insights = _Translations$insights$ar._(_root);
 	@override late final _Translations$marketPrices$ar marketPrices = _Translations$marketPrices$ar._(_root);
+	@override late final _Translations$app_lock$ar app_lock = _Translations$app_lock$ar._(_root);
 }
 
 // Path: app
@@ -258,6 +259,26 @@ class _Translations$marketPrices$ar extends Translations$marketPrices$en {
 	@override String get emptyTitle => 'لا توجد أسعار سوق بعد';
 	@override String get emptyBody => 'ستظهر بيانات أسعار السوق هنا بمجرد توفرها.';
 	@override late final _Translations$marketPrices$range$ar range = _Translations$marketPrices$range$ar._(_root);
+}
+
+// Path: app_lock
+class _Translations$app_lock$ar extends Translations$app_lock$en {
+	_Translations$app_lock$ar._(TranslationsAr root) : this._root = root, super.internal(root);
+
+	final TranslationsAr _root; // ignore: unused_field
+
+	// Translations
+	@override String get promptReason => 'افتح قيّمة للمتابعة';
+	@override String get disableReason => 'أكّد هويتك لإيقاف قفل التطبيق';
+	@override String get title => 'قيّمة مقفلة';
+	@override String get hint => 'استخدم بيانات اعتماد جهازك لفتح التطبيق';
+	@override String get unlockButton => 'فتح';
+	@override String get lockedOutMessage => 'محاولات كثيرة. أعد المحاولة بعد انتهاء المهلة.';
+	@override String get unavailableMessage => 'تعذّر التحقق الآن. تحقق من قفل الجهاز ثم أعد المحاولة.';
+	@override String get errorMessage => 'تعذّر التحقق من هويتك. حاول مرة أخرى.';
+	@override String get settingsTitle => 'قفل التطبيق';
+	@override String get settingsSubtitle => 'طلب فتح الجهاز عند فتح قيّمة';
+	@override String get settingsNoDeviceLock => 'اضبط قفل شاشة (رمز أو نمط أو كلمة مرور) في إعدادات النظام لاستخدام قفل التطبيق';
 }
 
 // Path: core.error
@@ -879,6 +900,17 @@ extension on TranslationsAr {
 			'marketPrices.range.oneWeek' => 'أسبوع',
 			'marketPrices.range.oneMonth' => 'شهر',
 			'marketPrices.range.threeMonths' => '٣ أشهر',
+			'app_lock.promptReason' => 'افتح قيّمة للمتابعة',
+			'app_lock.disableReason' => 'أكّد هويتك لإيقاف قفل التطبيق',
+			'app_lock.title' => 'قيّمة مقفلة',
+			'app_lock.hint' => 'استخدم بيانات اعتماد جهازك لفتح التطبيق',
+			'app_lock.unlockButton' => 'فتح',
+			'app_lock.lockedOutMessage' => 'محاولات كثيرة. أعد المحاولة بعد انتهاء المهلة.',
+			'app_lock.unavailableMessage' => 'تعذّر التحقق الآن. تحقق من قفل الجهاز ثم أعد المحاولة.',
+			'app_lock.errorMessage' => 'تعذّر التحقق من هويتك. حاول مرة أخرى.',
+			'app_lock.settingsTitle' => 'قفل التطبيق',
+			'app_lock.settingsSubtitle' => 'طلب فتح الجهاز عند فتح قيّمة',
+			'app_lock.settingsNoDeviceLock' => 'اضبط قفل شاشة (رمز أو نمط أو كلمة مرور) في إعدادات النظام لاستخدام قفل التطبيق',
 			_ => null,
 		};
 	}

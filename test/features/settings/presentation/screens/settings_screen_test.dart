@@ -13,7 +13,10 @@ import 'package:qeema/core/theme/app_theme.dart';
 import 'package:qeema/core/utils/api_result.dart';
 import 'package:qeema/core/widgets/app_button.dart';
 import 'package:qeema/core/widgets/app_text_field.dart';
+import 'package:qeema/features/app_lock/domain/entities/app_lock_status.dart';
+import 'package:qeema/features/app_lock/presentation/cubits/app_lock_cubit/app_lock_cubit.dart';
 import 'package:qeema/features/auth/domain/entities/auth_user_entity.dart';
+import 'package:qeema/features/settings/presentation/cubits/app_lock_settings_cubit/app_lock_settings_cubit.dart';
 import 'package:qeema/features/settings/presentation/cubits/delete_account_cubit/delete_account_cubit.dart';
 import 'package:qeema/features/settings/presentation/cubits/logout_cubit/logout_cubit.dart';
 import 'package:qeema/features/settings/presentation/cubits/profile_header_cubit/profile_header_cubit.dart';
@@ -22,6 +25,7 @@ import 'package:qeema/features/settings/presentation/widgets/language_selector_s
 import 'package:qeema/features/settings/presentation/widgets/profile_header_card.dart';
 import 'package:qeema/features/settings/presentation/widgets/theme_selector_sheet.dart';
 
+import '../../../../helpers/app_lock_mocks.dart';
 import '../../../../helpers/mocks.dart';
 import '../../../../helpers/recording_locale_cubit.dart';
 import '../../../../helpers/settings_mocks.dart';
@@ -35,12 +39,18 @@ void main() {
   late MockLogoutUseCase logoutUseCase;
   late LogoutCubit logoutCubit;
   late ProfileHeaderCubit profileHeaderCubit;
+  late MockGetAppLockEnabledUseCase getAppLockEnabled;
+  late MockSetAppLockEnabledUseCase setAppLockEnabled;
+  late MockCheckDeviceLockAvailableUseCase checkDeviceLockAvailable;
+  late MockAuthenticateDeviceUseCase authenticateDevice;
+  late SpyAppLockCubit appLockCubit;
+  late AppLockSettingsCubit appLockSettingsCubit;
 
   const packageInfoChannel = MethodChannel(
     'dev.fluttercommunity.plus/package_info',
   );
 
-  setUp(() {
+  setUp(() async {
     TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger
         .setMockMethodCallHandler(packageInfoChannel, (call) async {
           return {
@@ -70,6 +80,24 @@ void main() {
           ),
         ),
     );
+    getAppLockEnabled = MockGetAppLockEnabledUseCase();
+    setAppLockEnabled = MockSetAppLockEnabledUseCase();
+    checkDeviceLockAvailable = MockCheckDeviceLockAvailableUseCase();
+    authenticateDevice = MockAuthenticateDeviceUseCase();
+    appLockCubit = SpyAppLockCubit(
+      getAppLockEnabled,
+      checkDeviceLockAvailable,
+      authenticateDevice,
+      MockSetRecentsPreviewHiddenUseCase(),
+    );
+    appLockSettingsCubit = AppLockSettingsCubit(
+      getAppLockEnabled,
+      setAppLockEnabled,
+      checkDeviceLockAvailable,
+      authenticateDevice,
+      appLockCubit,
+    );
+    await appLockSettingsCubit.load();
   });
 
   tearDown(() {
@@ -80,6 +108,8 @@ void main() {
     deleteCubit.close();
     logoutCubit.close();
     profileHeaderCubit.close();
+    appLockCubit.close();
+    appLockSettingsCubit.close();
     getIt.reset();
   });
 
@@ -112,6 +142,8 @@ void main() {
           BlocProvider<DeleteAccountCubit>.value(value: deleteCubit),
           BlocProvider<LogoutCubit>.value(value: logoutCubit),
           BlocProvider<ProfileHeaderCubit>.value(value: profileHeaderCubit),
+          BlocProvider<AppLockCubit>.value(value: appLockCubit),
+          BlocProvider<AppLockSettingsCubit>.value(value: appLockSettingsCubit),
         ],
         child: MaterialApp.router(
           theme: AppTheme.light(),
@@ -127,19 +159,103 @@ void main() {
     await tester.pump(const Duration(milliseconds: 1000));
   }
 
-  testWidgets('renders three sections', (tester) async {
+  testWidgets('renders four sections including security', (tester) async {
     await tester.pumpWidget(harness());
     await settle(tester);
 
     expect(find.text('Settings'), findsOneWidget);
     expect(find.text('PREFERENCES'), findsOneWidget);
+    expect(find.text('SECURITY'), findsOneWidget);
     expect(find.text('ABOUT'), findsOneWidget);
     expect(find.text('DANGER ZONE'), findsOneWidget);
     expect(find.text('Language'), findsOneWidget);
     expect(find.text('Theme'), findsOneWidget);
+    expect(find.text('App Lock'), findsOneWidget);
     expect(find.text('App Version'), findsOneWidget);
     expect(find.text('Data & Methodology'), findsOneWidget);
     expect(find.text('Delete Account'), findsOneWidget);
+  });
+
+  testWidgets('turning app lock off authenticates first, then persists and '
+      'refreshes the gate', (tester) async {
+    await tester.pumpWidget(harness());
+    await settle(tester);
+
+    final toggle = find.byType(Switch);
+    expect(tester.widget<Switch>(toggle).value, isTrue);
+
+    await tester.ensureVisible(toggle);
+    await tester.pump();
+    await tester.tap(toggle);
+    await tester.pumpAndSettle();
+
+    expect(authenticateDevice.reasons, hasLength(1));
+    expect(setAppLockEnabled.calls, [false]);
+    expect(appLockCubit.refreshCalls, 1);
+    expect(tester.widget<Switch>(toggle).value, isFalse);
+  });
+
+  testWidgets('turning app lock off keeps the switch on when the user '
+      'cancels the prompt', (tester) async {
+    authenticateDevice.result = const Success(AppLockStatus.failed);
+    await tester.pumpWidget(harness());
+    await settle(tester);
+
+    final toggle = find.byType(Switch);
+    await tester.ensureVisible(toggle);
+    await tester.pump();
+    await tester.tap(toggle);
+    await tester.pumpAndSettle();
+
+    expect(setAppLockEnabled.calls, isEmpty);
+    expect(tester.widget<Switch>(toggle).value, isTrue);
+  });
+
+  testWidgets('disables the switch with an explanation when the device has '
+      'no lock', (tester) async {
+    checkDeviceLockAvailable.result = const Success(false);
+    await appLockSettingsCubit.load();
+    await tester.pumpWidget(harness());
+    await settle(tester);
+
+    expect(
+      find.text(
+        'Set a screen lock (PIN, pattern, or password) in system settings '
+        'to use App Lock',
+      ),
+      findsOneWidget,
+    );
+    expect(tester.widget<Switch>(find.byType(Switch)).onChanged, isNull);
+
+    await tester.ensureVisible(find.byType(Switch));
+    await tester.pump();
+    await tester.tap(find.byType(Switch));
+    await tester.pumpAndSettle();
+
+    expect(authenticateDevice.reasons, isEmpty);
+    expect(setAppLockEnabled.calls, isEmpty);
+  });
+
+  testWidgets('turning app lock on persists without authentication', (
+    tester,
+  ) async {
+    setAppLockEnabled.calls.clear();
+    authenticateDevice.reasons.clear();
+    getAppLockEnabled.result = const Success(false);
+    await appLockSettingsCubit.load();
+    await tester.pumpWidget(harness());
+    await settle(tester);
+    final toggle = find.byType(Switch);
+    expect(tester.widget<Switch>(toggle).value, isFalse);
+
+    await tester.ensureVisible(toggle);
+    await tester.pump();
+    await tester.tap(toggle);
+    await tester.pumpAndSettle();
+
+    expect(authenticateDevice.reasons, isEmpty);
+    expect(setAppLockEnabled.calls, [true]);
+    expect(tester.widget<Switch>(toggle).value, isTrue);
   });
 
   testWidgets('shows the profile header above the first section', (

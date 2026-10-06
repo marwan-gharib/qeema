@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:material_ui/material_ui.dart';
@@ -13,6 +15,9 @@ import 'package:qeema/core/i18n/strings.g.dart';
 import 'package:qeema/core/router/route_paths.dart';
 import 'package:qeema/core/theme/app_spacing.dart';
 import 'package:qeema/core/widgets/app_surface_card.dart';
+import 'package:qeema/features/app_lock/presentation/cubits/app_lock_cubit/app_lock_cubit.dart';
+import 'package:qeema/features/settings/presentation/cubits/app_lock_settings_cubit/app_lock_settings_cubit.dart';
+import 'package:qeema/features/settings/presentation/cubits/app_lock_settings_cubit/app_lock_settings_state.dart';
 import 'package:qeema/features/settings/presentation/cubits/delete_account_cubit/delete_account_cubit.dart';
 import 'package:qeema/features/settings/presentation/cubits/delete_account_cubit/delete_account_state.dart';
 import 'package:qeema/features/settings/presentation/cubits/logout_cubit/logout_cubit.dart';
@@ -51,6 +56,17 @@ class SettingsScreen extends StatelessWidget {
               context.go(RoutePaths.welcome);
             },
           ),
+          BlocListener<AppLockSettingsCubit, AppLockSettingsState>(
+            listenWhen: (previous, current) => switch ((previous, current)) {
+              (final AppLockSettingsLoaded p, final AppLockSettingsLoaded c) =>
+                p.isEnabled != c.isEnabled,
+              _ => false,
+            },
+            listener: (context, state) {
+              if (!context.mounted) return;
+              unawaited(context.read<AppLockCubit>().refresh());
+            },
+          ),
         ],
         child: ListView(
           padding: EdgeInsets.fromLTRB(
@@ -67,6 +83,10 @@ class SettingsScreen extends StatelessWidget {
             AppAnimatedEntry(
               type: EntryAnimationType.fadeSlideUp,
               child: _buildPreferencesSection(context),
+            ),
+            AppAnimatedEntry(
+              type: EntryAnimationType.fadeSlideUp,
+              child: _buildSecuritySection(context),
             ),
             AppAnimatedEntry(
               type: EntryAnimationType.fadeSlideUp,
@@ -144,6 +164,51 @@ class SettingsScreen extends StatelessWidget {
                 ],
               ),
             );
+          },
+        ),
+      ],
+    );
+  }
+
+  Widget _buildSecuritySection(BuildContext context) {
+    final t = context.t;
+
+    return _buildSection(
+      context: context,
+      header: t.settings.securitySection,
+      tiles: [
+        BlocBuilder<AppLockSettingsCubit, AppLockSettingsState>(
+          builder: (context, state) {
+            final cubit = context.read<AppLockSettingsCubit>();
+            return switch (state) {
+              AppLockSettingsLoading() => SettingsTile(
+                icon: Icons.lock_outline,
+                label: t.app_lock.settingsTitle,
+                trailing: const SizedBox(
+                  width: 16,
+                  height: 16,
+                  child: CircularProgressIndicator(strokeWidth: 2),
+                ),
+              ),
+              AppLockSettingsFailure() => SettingsTile(
+                icon: Icons.lock_outline,
+                label: t.app_lock.settingsTitle,
+                subtitle: t.app_lock.errorMessage,
+              ),
+              AppLockSettingsLoaded() => SettingsTile(
+                icon: Icons.lock_outline,
+                label: t.app_lock.settingsTitle,
+                subtitle: state.deviceLockAvailable
+                    ? t.app_lock.settingsSubtitle
+                    : t.app_lock.settingsNoDeviceLock,
+                trailing: Switch(
+                  value: state.deviceLockAvailable && state.isEnabled,
+                  onChanged: !state.deviceLockAvailable || state.isBusy
+                      ? null
+                      : cubit.setEnabled,
+                ),
+              ),
+            };
           },
         ),
       ],

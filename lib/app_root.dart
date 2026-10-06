@@ -11,6 +11,7 @@ import 'package:qeema/core/cubits/theme_cubit/theme_state.dart';
 import 'package:qeema/core/i18n/strings.g.dart';
 import 'package:qeema/core/router/app_router.dart';
 import 'package:qeema/core/theme/app_theme.dart';
+import 'package:qeema/features/app_lock/presentation/widgets/app_lock_overlay.dart';
 
 class AppRoot extends StatelessWidget {
   const AppRoot({super.key});
@@ -49,6 +50,10 @@ class QeemaApp extends StatelessWidget {
                 GlobalCupertinoLocalizations.delegate,
                 GlobalWidgetsLocalizations.delegate,
               ],
+              builder: (context, child) {
+                if (child == null) return const SizedBox.shrink();
+                return AppLockOverlay(child: child);
+              },
             );
           },
         );

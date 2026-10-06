@@ -10,5 +10,6 @@ class AppConstants {
   static const String onboardingCompletedKey = 'onboarding_completed';
   static const String appLocaleKey = 'app_locale';
   static const String appThemeModeKey = 'app_theme_mode';
+  static const String appLockEnabledKey = 'app_lock_enabled';
   static const String deleteAccountConfirmationPhrase = 'DELETE';
 }

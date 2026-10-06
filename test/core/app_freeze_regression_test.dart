@@ -19,6 +19,7 @@ import 'package:qeema/core/network/supabase_client_provider.dart';
 import 'package:qeema/core/router/app_router.dart';
 import 'package:qeema/core/router/route_guards.dart';
 import 'package:qeema/core/utils/api_result.dart';
+import 'package:qeema/features/app_lock/presentation/cubits/app_lock_cubit/app_lock_cubit.dart';
 import 'package:qeema/features/assets/presentation/cubits/assets_list_cubit/assets_list_cubit.dart';
 import 'package:qeema/features/home/domain/entities/dashboard_summary_entity.dart';
 import 'package:qeema/features/home/domain/usecases/get_dashboard_summary_usecase.dart';
@@ -30,6 +31,7 @@ import 'package:qeema/features/onboarding/domain/repositories/onboarding_reposit
 import 'package:qeema/features/onboarding/domain/usecases/complete_onboarding_usecase.dart';
 import 'package:qeema/features/onboarding/domain/usecases/get_onboarding_seen_usecase.dart';
 import 'package:qeema/features/onboarding/presentation/cubits/onboarding_cubit/onboarding_cubit.dart';
+import 'package:qeema/features/settings/presentation/cubits/app_lock_settings_cubit/app_lock_settings_cubit.dart';
 import 'package:qeema/features/settings/presentation/cubits/delete_account_cubit/delete_account_cubit.dart';
 import 'package:qeema/features/settings/presentation/cubits/logout_cubit/logout_cubit.dart';
 import 'package:qeema/features/settings/presentation/cubits/profile_header_cubit/profile_header_cubit.dart';
@@ -38,6 +40,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 import '../features/home/data/repositories/mocks/mock_home_dependencies.dart';
+import '../helpers/app_lock_mocks.dart';
 import '../helpers/mocks.dart';
 import '../helpers/settings_mocks.dart';
 
@@ -159,12 +162,6 @@ void main() {
       ..registerFactory<OnboardingCubit>(
         () => OnboardingCubit(getIt<CompleteOnboardingUseCase>()),
       )
-      ..registerLazySingleton<RouteGuards>(
-        () => RouteGuards(
-          getIt<SupabaseClientProvider>(),
-          getIt<GetOnboardingSeenUseCase>(),
-        ),
-      )
       ..registerFactory<HomeCubit>(() {
         homeCubitCreations++;
         return HomeCubit(MockGetDashboardSummaryUseCase());
@@ -194,6 +191,30 @@ void main() {
         () => ProfileHeaderCubit(
           MockWatchAuthUserUseCase()..result = const Stream.empty(),
         ),
+      )
+      ..registerLazySingleton<AppLockCubit>(
+        () => AppLockCubit(
+          MockGetAppLockEnabledUseCase(),
+          MockCheckDeviceLockAvailableUseCase(),
+          MockAuthenticateDeviceUseCase(),
+          MockSetRecentsPreviewHiddenUseCase(),
+        ),
+      )
+      ..registerFactory<AppLockSettingsCubit>(
+        () => AppLockSettingsCubit(
+          MockGetAppLockEnabledUseCase(),
+          MockSetAppLockEnabledUseCase(),
+          MockCheckDeviceLockAvailableUseCase(),
+          MockAuthenticateDeviceUseCase(),
+          getIt<AppLockCubit>(),
+        ),
+      )
+      ..registerLazySingleton<RouteGuards>(
+        () => RouteGuards(
+          getIt<SupabaseClientProvider>(),
+          getIt<GetOnboardingSeenUseCase>(),
+          FakeAppLockGate(),
+        ),
       );
 
     await supabaseProvider.client.auth.recoverSession(_fakeSessionJson());
@@ -211,6 +232,7 @@ void main() {
         providers: [
           BlocProvider(create: (_) => getIt<LocaleCubit>()),
           BlocProvider(create: (_) => getIt<ThemeCubit>()),
+          BlocProvider(create: (_) => getIt<AppLockCubit>()),
         ],
         child: TranslationProvider(child: const AppRoot()),
       ),
