@@ -1,6 +1,7 @@
 import 'package:material_ui/material_ui.dart';
 import 'package:qeema/core/animations/app_motion.dart';
 import 'package:qeema/core/extensions/build_context_extensions.dart';
+import 'package:qeema/core/theme/app_sizes.dart';
 
 /// A celebratory scale-pulse + checkmark fade-in, triggered once when
 /// [triggered] becomes true.
@@ -88,7 +89,11 @@ class _SuccessPulseState extends State<SuccessPulse>
 
     final check =
         widget.checkmark ??
-        Icon(Icons.check_circle, color: context.colors.secondary, size: 48);
+        Icon(
+          Icons.check_circle,
+          color: context.colors.secondary,
+          size: AppSizes.iconHero,
+        );
 
     if (_checkOpacity == null) {
       return Stack(

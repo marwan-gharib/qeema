@@ -55,7 +55,7 @@ class LogoutDialog extends StatelessWidget {
                     : t.settings.logoutDialogBody,
               ),
               if (isGuest) ...[
-                const SizedBox(height: AppSpacing.md),
+                SizedBox(height: AppSpacing.md),
                 Text(
                   t.settings.deleteConfirmHint,
                   style: context.textTheme.bodySmall?.copyWith(

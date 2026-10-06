@@ -1,5 +1,8 @@
 import 'package:material_ui/material_ui.dart';
 import 'package:qeema/core/extensions/build_context_extensions.dart';
+import 'package:qeema/core/responsive/responsive.dart';
+import 'package:qeema/core/theme/app_radius.dart';
+import 'package:qeema/core/theme/app_sizes.dart';
 import 'package:qeema/core/theme/app_spacing.dart';
 import 'package:qeema/core/widgets/app_button.dart';
 
@@ -15,7 +18,7 @@ class AppEmptyState extends StatelessWidget {
     this.container = false,
     this.height,
     this.margin,
-    this.padding = const EdgeInsets.all(32),
+    this.padding,
     this.iconColor,
     this.titleStyle,
     this.subtitleStyle,
@@ -29,7 +32,9 @@ class AppEmptyState extends StatelessWidget {
   final bool container;
   final double? height;
   final EdgeInsetsGeometry? margin;
-  final EdgeInsetsGeometry padding;
+
+  /// Defaults to [AppSpacing.xl] all around; `null` means the default.
+  final EdgeInsetsGeometry? padding;
   final Color? iconColor;
   final TextStyle? titleStyle;
   final TextStyle? subtitleStyle;
@@ -37,18 +42,19 @@ class AppEmptyState extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colors = context.colors;
+    final effectivePadding = padding ?? EdgeInsets.all(AppSpacing.xl);
 
     final content = Column(
       mainAxisSize: MainAxisSize.min,
       children: [
         Icon(
           icon,
-          size: container ? 48 : 64,
+          size: container ? AppSizes.iconHero : AppSizes.iconState,
           color: container
               ? colors.textSecondary.withAlpha(100)
               : iconColor ?? context.colorScheme.primary.withValues(alpha: 0.5),
         ),
-        SizedBox(height: container ? AppSpacing.sm : 16),
+        SizedBox(height: container ? AppSpacing.sm : AppSpacing.md),
         Text(
           title,
           style: container
@@ -59,7 +65,7 @@ class AppEmptyState extends StatelessWidget {
           textAlign: TextAlign.center,
         ),
         if (subtitle != null) ...[
-          SizedBox(height: container ? AppSpacing.xs : 8),
+          SizedBox(height: AppSpacing.xs),
           Text(
             subtitle!,
             style: container
@@ -71,7 +77,7 @@ class AppEmptyState extends StatelessWidget {
           ),
         ],
         if (action != null || (actionLabel != null && onAction != null)) ...[
-          SizedBox(height: container ? AppSpacing.sm : 24),
+          SizedBox(height: container ? AppSpacing.sm : AppSpacing.lg),
           action ?? AppButton(label: actionLabel!, onPressed: onAction),
         ],
       ],
@@ -79,17 +85,17 @@ class AppEmptyState extends StatelessWidget {
 
     if (!container) {
       return Center(
-        child: Padding(padding: padding, child: content),
+        child: Padding(padding: effectivePadding, child: content),
       );
     }
 
     return Container(
-      height: height,
+      height: height == null ? null : Responsive.height(height!),
       margin: margin ?? EdgeInsets.zero,
-      padding: padding,
+      padding: effectivePadding,
       decoration: BoxDecoration(
         color: colors.surfaceAlt,
-        borderRadius: BorderRadius.circular(12),
+        borderRadius: BorderRadius.circular(AppRadius.sm),
       ),
       child: FittedBox(fit: BoxFit.scaleDown, child: content),
     );

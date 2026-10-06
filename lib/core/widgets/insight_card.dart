@@ -2,6 +2,9 @@ import 'package:material_ui/material_ui.dart';
 import 'package:qeema/core/extensions/build_context_extensions.dart';
 import 'package:qeema/core/financial/models/insight.dart';
 import 'package:qeema/core/financial/models/insight_severity.dart';
+import 'package:qeema/core/theme/app_radius.dart';
+import 'package:qeema/core/theme/app_sizes.dart';
+import 'package:qeema/core/theme/app_spacing.dart';
 
 class InsightCard extends StatelessWidget {
   const InsightCard({super.key, required this.insight});
@@ -16,10 +19,10 @@ class InsightCard extends StatelessWidget {
     };
 
     return Container(
-      margin: const EdgeInsets.only(bottom: 12),
+      margin: EdgeInsets.only(bottom: AppSpacing.sm),
       decoration: BoxDecoration(
         color: colors.surfaceAlt,
-        borderRadius: BorderRadius.circular(12),
+        borderRadius: BorderRadius.circular(AppRadius.sm),
         border: Border.all(color: colors.divider),
       ),
       child: IntrinsicHeight(
@@ -27,18 +30,18 @@ class InsightCard extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             Container(
-              width: 4,
+              width: AppSizes.accentBar,
               decoration: BoxDecoration(
                 color: accentColor,
-                borderRadius: const BorderRadius.only(
-                  topLeft: Radius.circular(12),
-                  bottomLeft: Radius.circular(12),
+                borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(AppRadius.sm),
+                  bottomLeft: Radius.circular(AppRadius.sm),
                 ),
               ),
             ),
             Expanded(
               child: Padding(
-                padding: const EdgeInsets.all(16),
+                padding: EdgeInsets.all(AppSpacing.md),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -48,7 +51,7 @@ class InsightCard extends StatelessWidget {
                         color: colors.textPrimary,
                       ),
                     ),
-                    const SizedBox(height: 4),
+                    SizedBox(height: AppSpacing.xxs),
                     Text(
                       insight.body,
                       style: context.textTheme.bodySmall?.copyWith(

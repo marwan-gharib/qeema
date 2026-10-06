@@ -4,6 +4,8 @@ import 'package:material_ui/material_ui.dart';
 import 'package:qeema/core/extensions/build_context_extensions.dart';
 import 'package:qeema/core/helpers/currency_formatter.dart';
 import 'package:qeema/core/helpers/date_formatter.dart';
+import 'package:qeema/core/responsive/responsive.dart';
+import 'package:qeema/core/theme/app_borders.dart';
 import 'package:qeema/core/theme/app_spacing.dart';
 
 /// A single chartable point shared by every line chart in the app. Features
@@ -78,8 +80,8 @@ class AppLineChart extends StatelessWidget {
 
     return RepaintBoundary(
       child: SizedBox(
-        width: width,
-        height: height,
+        width: width == null ? null : Responsive.width(width!),
+        height: Responsive.height(height),
         child: LineChart(
           LineChartData(
             gridData: showAxisLabels
@@ -88,7 +90,7 @@ class AppLineChart extends StatelessWidget {
                     horizontalInterval: yRange / gridIntervalDivisor,
                     getDrawingHorizontalLine: (value) => FlLine(
                       color: colors.divider.withAlpha(50),
-                      strokeWidth: 1,
+                      strokeWidth: AppBorders.hairline,
                     ),
                     drawVerticalLine: false,
                   )
@@ -112,9 +114,8 @@ class AppLineChart extends StatelessWidget {
 
                           return LineTooltipItem(
                             '$date\n',
-                            context.textTheme.bodySmall!.copyWith(
+                            context.textStyles.chartAxisLabel.copyWith(
                               color: colors.textSecondary,
-                              fontSize: 10,
                             ),
                             children: [
                               TextSpan(
@@ -136,16 +137,15 @@ class AppLineChart extends StatelessWidget {
                     leftTitles: AxisTitles(
                       sideTitles: SideTitles(
                         showTitles: true,
-                        reservedSize: 44,
+                        reservedSize: Responsive.adapt(44),
                         interval: yRange / leftTitleIntervalDivisor,
                         getTitlesWidget: (value, _) => Text(
                           formatValue(
                             Decimal.parse(value.toStringAsFixed(0)),
                             2,
                           ),
-                          style: context.textTheme.bodySmall?.copyWith(
+                          style: context.textStyles.chartAxisLabel.copyWith(
                             color: colors.textSecondary,
-                            fontSize: 10,
                           ),
                         ),
                       ),
@@ -159,7 +159,7 @@ class AppLineChart extends StatelessWidget {
                     bottomTitles: AxisTitles(
                       sideTitles: SideTitles(
                         showTitles: true,
-                        reservedSize: 28,
+                        reservedSize: Responsive.adapt(28),
                         interval: _calculateBottomInterval(
                           points.length,
                           bottomLabelCount,
@@ -170,12 +170,11 @@ class AppLineChart extends StatelessWidget {
                             return const SizedBox.shrink();
                           }
                           return Padding(
-                            padding: const EdgeInsets.only(top: AppSpacing.xs),
+                            padding: EdgeInsets.only(top: AppSpacing.xs),
                             child: Text(
                               formatDate(points[index].date),
-                              style: context.textTheme.bodySmall?.copyWith(
+                              style: context.textStyles.chartAxisLabel.copyWith(
                                 color: colors.textSecondary,
-                                fontSize: 10,
                               ),
                             ),
                           );

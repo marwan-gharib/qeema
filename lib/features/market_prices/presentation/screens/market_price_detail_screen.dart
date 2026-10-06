@@ -4,7 +4,9 @@ import 'package:qeema/core/animations/app_motion.dart';
 import 'package:qeema/core/extensions/build_context_extensions.dart';
 import 'package:qeema/core/extensions/failure_localization_extension.dart';
 import 'package:qeema/core/i18n/strings.g.dart';
+import 'package:qeema/core/theme/app_sizes.dart';
 import 'package:qeema/core/theme/app_spacing.dart';
+import 'package:qeema/core/widgets/app_content_box.dart';
 import 'package:qeema/core/widgets/app_empty_state.dart';
 import 'package:qeema/core/widgets/app_error_state.dart';
 import 'package:qeema/features/assets/presentation/widgets/asset_type_tile.dart';
@@ -32,21 +34,24 @@ class MarketPriceDetailScreen extends StatelessWidget {
                 ? _TypeTitle(code: state.assetType.code)
                 : null,
           ),
-          body: AnimatedSwitcher(
-            duration: MediaQuery.of(context).disableAnimations
-                ? Duration.zero
-                : AppMotion.normal,
-            child: switch (state) {
-              MarketPriceDetailLoading() => const _DetailLoadingBody(),
-              MarketPriceDetailError(:final failure) => AppErrorState(
-                message: failure.localizedMessage(context),
-                onRetry: () => context.read<MarketPriceDetailCubit>().loadRange(
-                  context.read<MarketPriceDetailCubit>().lastRange,
+          body: AppContentBox(
+            child: AnimatedSwitcher(
+              duration: MediaQuery.of(context).disableAnimations
+                  ? Duration.zero
+                  : AppMotion.normal,
+              child: switch (state) {
+                MarketPriceDetailLoading() => const _DetailLoadingBody(),
+                MarketPriceDetailError(:final failure) => AppErrorState(
+                  message: failure.localizedMessage(context),
+                  onRetry: () =>
+                      context.read<MarketPriceDetailCubit>().loadRange(
+                        context.read<MarketPriceDetailCubit>().lastRange,
+                      ),
                 ),
-              ),
-              MarketPriceDetailLoaded(:final points, :final selectedRange) =>
-                _DetailContent(points: points, selectedRange: selectedRange),
-            },
+                MarketPriceDetailLoaded(:final points, :final selectedRange) =>
+                  _DetailContent(points: points, selectedRange: selectedRange),
+              },
+            ),
           ),
         );
       },
@@ -73,7 +78,7 @@ class _DetailContent extends StatelessWidget {
         : points.last.date.difference(points.first.date).inDays + 1;
 
     return SingleChildScrollView(
-      padding: const EdgeInsets.all(AppSpacing.md),
+      padding: EdgeInsets.all(AppSpacing.md),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
@@ -90,8 +95,8 @@ class _DetailContent extends StatelessWidget {
               subtitle: context.t.assets.chart.noDataSubtitle,
               container: true,
               height: 250,
-              margin: const EdgeInsets.symmetric(vertical: AppSpacing.md),
-              padding: const EdgeInsets.all(AppSpacing.lg),
+              margin: EdgeInsets.symmetric(vertical: AppSpacing.md),
+              padding: EdgeInsets.all(AppSpacing.lg),
             )
           else ...[
             MarketPriceChart(priceHistory: chartHistory),
@@ -139,8 +144,12 @@ class _TypeTitle extends StatelessWidget {
     return Row(
       mainAxisSize: MainAxisSize.min,
       children: [
-        Icon(AssetTypeTile.iconForType(code), size: 22, color: colors.primary),
-        const SizedBox(width: AppSpacing.xs),
+        Icon(
+          AssetTypeTile.iconForType(code),
+          size: AppSizes.iconTile,
+          color: colors.primary,
+        ),
+        SizedBox(width: AppSpacing.xs),
         Text(context.assetTypeName(code)),
       ],
     );

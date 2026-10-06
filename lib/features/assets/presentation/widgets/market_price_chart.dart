@@ -16,9 +16,9 @@ class MarketPriceChart extends StatelessWidget {
     final t = context.t.assets;
 
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: AppSpacing.md),
+      padding: EdgeInsets.symmetric(vertical: AppSpacing.md),
       child: AppSurfaceCard(
-        padding: const EdgeInsets.all(AppSpacing.md),
+        padding: EdgeInsets.all(AppSpacing.md),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -28,7 +28,7 @@ class MarketPriceChart extends StatelessWidget {
                 color: context.colors.textSecondary,
               ),
             ),
-            const SizedBox(height: AppSpacing.sm),
+            SizedBox(height: AppSpacing.sm),
             AppLineChart(
               points: [
                 for (final point in priceHistory)

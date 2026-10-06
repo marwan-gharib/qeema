@@ -1,4 +1,5 @@
 import 'package:material_ui/material_ui.dart';
+import 'package:qeema/core/responsive/responsive.dart';
 import 'package:qeema/features/onboarding/presentation/widgets/diverging_lines_painter.dart';
 
 class InflationChartIllustration extends StatelessWidget {
@@ -13,8 +14,8 @@ class InflationChartIllustration extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      width: 200,
-      height: 120,
+      width: Responsive.width(200),
+      height: Responsive.height(120),
       child: CustomPaint(
         painter: DivergingLinesPainter(
           nominalColor: primary,

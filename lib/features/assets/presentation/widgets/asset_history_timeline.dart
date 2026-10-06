@@ -2,6 +2,7 @@ import 'package:material_ui/material_ui.dart';
 import 'package:qeema/core/animations/staggered_list_animator.dart';
 import 'package:qeema/core/extensions/build_context_extensions.dart';
 import 'package:qeema/core/i18n/strings.g.dart';
+import 'package:qeema/core/theme/app_radius.dart';
 import 'package:qeema/core/theme/app_spacing.dart';
 import 'package:qeema/features/assets/domain/entities/asset_history_entry_entity.dart';
 import 'package:qeema/features/assets/presentation/widgets/asset_history_entry_tile.dart';
@@ -17,11 +18,11 @@ class AssetHistoryTimeline extends StatelessWidget {
     final colors = context.colors;
 
     return Container(
-      margin: const EdgeInsets.symmetric(vertical: AppSpacing.sm),
-      padding: const EdgeInsets.all(AppSpacing.md),
+      margin: EdgeInsets.symmetric(vertical: AppSpacing.sm),
+      padding: EdgeInsets.all(AppSpacing.md),
       decoration: BoxDecoration(
         color: colors.surfaceAlt,
-        borderRadius: BorderRadius.circular(12),
+        borderRadius: BorderRadius.circular(AppRadius.sm),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -33,7 +34,7 @@ class AssetHistoryTimeline extends StatelessWidget {
               fontWeight: FontWeight.w600,
             ),
           ),
-          const SizedBox(height: AppSpacing.sm),
+          SizedBox(height: AppSpacing.sm),
           StaggeredListAnimator(
             children: history.map((entry) {
               return AssetHistoryEntryTile(entry: entry);

@@ -1,4 +1,5 @@
 import 'package:material_ui/material_ui.dart';
+import 'package:qeema/core/theme/app_sizes.dart';
 import 'package:qeema/core/theme/app_spacing.dart';
 
 class AssetIcon extends StatelessWidget {
@@ -18,15 +19,15 @@ class AssetIcon extends StatelessWidget {
       mainAxisSize: MainAxisSize.min,
       children: [
         Container(
-          width: 64,
-          height: 64,
+          width: AppSizes.iconState,
+          height: AppSizes.iconState,
           decoration: BoxDecoration(
             shape: BoxShape.circle,
             color: color.withValues(alpha: 0.15),
           ),
-          child: Icon(icon, size: 32, color: color),
+          child: Icon(icon, size: AppSizes.iconXl, color: color),
         ),
-        const SizedBox(height: AppSpacing.xs),
+        SizedBox(height: AppSpacing.xs),
         Text(label, style: Theme.of(context).textTheme.bodySmall),
       ],
     );

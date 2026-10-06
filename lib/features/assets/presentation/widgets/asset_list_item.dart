@@ -6,6 +6,8 @@ import 'package:qeema/core/helpers/currency_formatter.dart';
 import 'package:qeema/core/i18n/strings.g.dart';
 import 'package:qeema/core/router/route_paths.dart';
 import 'package:qeema/core/theme/app_colors_extension.dart';
+import 'package:qeema/core/theme/app_sizes.dart';
+import 'package:qeema/core/theme/app_spacing.dart';
 import 'package:qeema/core/widgets/percent_change_badge.dart';
 import 'package:qeema/features/assets/domain/entities/asset_entity.dart';
 
@@ -28,15 +30,18 @@ class AssetListItem extends StatelessWidget {
     return InkWell(
       onTap: () => context.push('${RoutePaths.assets}/${asset.id}'),
       child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+        padding: EdgeInsets.symmetric(
+          horizontal: AppSpacing.md,
+          vertical: AppSpacing.sm,
+        ),
         child: Row(
           children: [
             Icon(
               _iconForType(asset.assetType),
-              size: 24,
+              size: AppSizes.iconStandard,
               color: colors.primary,
             ),
-            const SizedBox(width: 12),
+            SizedBox(width: AppSpacing.sm),
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -48,7 +53,7 @@ class AssetListItem extends StatelessWidget {
                       fontWeight: FontWeight.w500,
                     ),
                   ),
-                  const SizedBox(height: 2),
+                  SizedBox(height: AppSpacing.xxxs),
                   Text(
                     dateFormat.format(asset.entryDate),
                     style: Theme.of(context).textTheme.bodySmall?.copyWith(
@@ -58,7 +63,7 @@ class AssetListItem extends StatelessWidget {
                 ],
               ),
             ),
-            const SizedBox(width: 12),
+            SizedBox(width: AppSpacing.sm),
             Column(
               crossAxisAlignment: CrossAxisAlignment.end,
               children: [
@@ -69,7 +74,7 @@ class AssetListItem extends StatelessWidget {
                     fontWeight: FontWeight.w600,
                   ),
                 ),
-                const SizedBox(height: 4),
+                SizedBox(height: AppSpacing.xxs),
                 PercentChangeBadge(
                   percent: asset.gainLossPercent == null
                       ? null

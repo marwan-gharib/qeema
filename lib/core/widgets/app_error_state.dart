@@ -1,6 +1,8 @@
 import 'package:material_ui/material_ui.dart';
 import 'package:qeema/core/extensions/build_context_extensions.dart';
 import 'package:qeema/core/i18n/strings.g.dart';
+import 'package:qeema/core/theme/app_sizes.dart';
+import 'package:qeema/core/theme/app_spacing.dart';
 import 'package:qeema/core/widgets/app_button.dart';
 
 class AppErrorState extends StatelessWidget {
@@ -12,23 +14,23 @@ class AppErrorState extends StatelessWidget {
   Widget build(BuildContext context) {
     return Center(
       child: Padding(
-        padding: const EdgeInsets.all(32),
+        padding: EdgeInsets.all(AppSpacing.xl),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
             Icon(
               Icons.error_outline,
-              size: 64,
+              size: AppSizes.iconState,
               color: context.colorScheme.error,
             ),
-            const SizedBox(height: 16),
+            SizedBox(height: AppSpacing.md),
             Text(
               message ?? context.t.core.error.body,
               style: context.textTheme.bodyLarge,
               textAlign: TextAlign.center,
             ),
             if (onRetry != null) ...[
-              const SizedBox(height: 24),
+              SizedBox(height: AppSpacing.lg),
               AppButton(
                 label: context.t.core.error.tryAgain,
                 onPressed: onRetry,

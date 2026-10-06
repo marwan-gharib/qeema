@@ -9,6 +9,7 @@ import 'package:qeema/core/cubits/locale_cubit/locale_cubit.dart';
 import 'package:qeema/core/cubits/theme_cubit/theme_cubit.dart';
 import 'package:qeema/core/di/injection_container.dart';
 import 'package:qeema/core/i18n/strings.g.dart';
+import 'package:qeema/core/responsive/responsive.dart';
 import 'package:qeema/features/app_lock/presentation/cubits/app_lock_cubit/app_lock_cubit.dart';
 import 'package:qeema/features/app_lock/presentation/widgets/app_lock_lifecycle_observer.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
@@ -25,6 +26,8 @@ Future<void> main() async {
 
   await LocaleSettings.useDeviceLocale();
   await initializeDateFormatting(LocaleSettings.currentLocale.languageCode);
+
+  await Responsive.ensureInitialized();
 
   runApp(
     MultiBlocProvider(

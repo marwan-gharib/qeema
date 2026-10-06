@@ -1,10 +1,14 @@
 import 'package:material_ui/material_ui.dart';
 import 'package:qeema/core/animations/app_motion.dart';
 import 'package:qeema/core/extensions/build_context_extensions.dart';
+import 'package:qeema/core/responsive/responsive.dart';
 
 /// A themed shimmer placeholder — an animated gradient sweep over a rounded
 /// rectangle. Gradient colors use [context.colors] (surface / surfaceAlt / divider)
 /// so it looks correct in light and dark themes.
+///
+/// Dimensions are baseline design units (375×812) and are scaled with the
+/// screen, so call sites pass raw design values.
 ///
 /// When [MediaQuery.disableAnimations] is true, renders a static filled box.
 class ShimmerBox extends StatefulWidget {
@@ -81,11 +85,13 @@ class _ShimmerBoxState extends State<ShimmerBox>
 
   Widget _buildSolid(BuildContext context) {
     return Container(
-      width: widget.width,
-      height: widget.height,
+      width: Responsive.width(widget.width),
+      height: Responsive.height(widget.height),
       decoration: BoxDecoration(
         color: context.colors.surfaceAlt,
-        borderRadius: BorderRadius.circular(widget.borderRadius),
+        borderRadius: BorderRadius.circular(
+          Responsive.radius(widget.borderRadius),
+        ),
       ),
     );
   }

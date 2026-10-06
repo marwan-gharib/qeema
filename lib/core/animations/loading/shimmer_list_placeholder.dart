@@ -14,23 +14,23 @@ class ShimmerListPlaceholder extends StatelessWidget {
       shrinkWrap: true,
       physics: const NeverScrollableScrollPhysics(),
       itemCount: itemCount,
-      separatorBuilder: (_, _) => const SizedBox(height: AppSpacing.sm),
-      itemBuilder: (_, _) => const Row(
+      separatorBuilder: (_, _) => SizedBox(height: AppSpacing.sm),
+      itemBuilder: (_, _) => Row(
         children: [
-          ShimmerBox(width: 48, height: 48, borderRadius: 24),
+          const ShimmerBox(width: 48, height: 48, borderRadius: 24),
           SizedBox(width: AppSpacing.md),
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                ShimmerBox(height: 14),
+                const ShimmerBox(height: 14),
                 SizedBox(height: AppSpacing.xxs),
-                ShimmerBox(width: 80, height: 12),
+                const ShimmerBox(width: 80, height: 12),
               ],
             ),
           ),
           SizedBox(width: AppSpacing.sm),
-          ShimmerBox(width: 72, height: 14),
+          const ShimmerBox(width: 72, height: 14),
         ],
       ),
     );

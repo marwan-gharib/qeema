@@ -21,7 +21,7 @@ class RealValueTrendChart extends StatelessWidget {
         subtitle: t.noDataSubtitle,
         container: true,
         height: 250,
-        padding: const EdgeInsets.all(AppSpacing.md),
+        padding: EdgeInsets.all(AppSpacing.md),
       );
     }
 

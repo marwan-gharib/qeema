@@ -1,6 +1,7 @@
 import 'package:material_ui/material_ui.dart';
 import 'package:qeema/core/animations/micro_interactions/tap_scale.dart';
 import 'package:qeema/core/extensions/build_context_extensions.dart';
+import 'package:qeema/core/theme/app_sizes.dart';
 import 'package:qeema/core/theme/app_spacing.dart';
 
 class SettingsTile extends StatelessWidget {
@@ -27,7 +28,7 @@ class SettingsTile extends StatelessWidget {
     final foreground = isDestructive ? colors.error : colors.textPrimary;
 
     final tile = Padding(
-      padding: const EdgeInsets.symmetric(
+      padding: EdgeInsets.symmetric(
         horizontal: AppSpacing.md,
         vertical: AppSpacing.sm,
       ),
@@ -35,10 +36,10 @@ class SettingsTile extends StatelessWidget {
         children: [
           Icon(
             icon,
-            size: 22,
+            size: AppSizes.iconTile,
             color: isDestructive ? colors.error : colors.primary,
           ),
-          const SizedBox(width: AppSpacing.md),
+          SizedBox(width: AppSpacing.md),
           Expanded(
             child: subtitle == null
                 ? Text(
@@ -56,7 +57,7 @@ class SettingsTile extends StatelessWidget {
                           color: foreground,
                         ),
                       ),
-                      const SizedBox(height: AppSpacing.xxs),
+                      SizedBox(height: AppSpacing.xxs),
                       Text(
                         subtitle!,
                         style: context.textTheme.bodySmall?.copyWith(

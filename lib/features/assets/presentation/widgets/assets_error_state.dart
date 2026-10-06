@@ -2,6 +2,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:material_ui/material_ui.dart';
 import 'package:qeema/core/i18n/strings.g.dart';
 import 'package:qeema/core/theme/app_colors_extension.dart';
+import 'package:qeema/core/theme/app_sizes.dart';
+import 'package:qeema/core/theme/app_spacing.dart';
 import 'package:qeema/features/assets/presentation/cubits/assets_list_cubit/assets_list_cubit.dart';
 
 class AssetsErrorState extends StatelessWidget {
@@ -16,12 +18,16 @@ class AssetsErrorState extends StatelessWidget {
 
     return Center(
       child: Padding(
-        padding: const EdgeInsets.all(32),
+        padding: EdgeInsets.all(AppSpacing.xl),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Icon(Icons.cloud_off_rounded, size: 64, color: colors.error),
-            const SizedBox(height: 16),
+            Icon(
+              Icons.cloud_off_rounded,
+              size: AppSizes.iconState,
+              color: colors.error,
+            ),
+            SizedBox(height: AppSpacing.md),
             Text(
               t.core.error.title,
               style: Theme.of(
@@ -29,7 +35,7 @@ class AssetsErrorState extends StatelessWidget {
               ).textTheme.titleMedium?.copyWith(color: colors.textPrimary),
               textAlign: TextAlign.center,
             ),
-            const SizedBox(height: 8),
+            SizedBox(height: AppSpacing.xs),
             Text(
               message,
               style: Theme.of(
@@ -37,7 +43,7 @@ class AssetsErrorState extends StatelessWidget {
               ).textTheme.bodyMedium?.copyWith(color: colors.textSecondary),
               textAlign: TextAlign.center,
             ),
-            const SizedBox(height: 24),
+            SizedBox(height: AppSpacing.lg),
             FilledButton.icon(
               onPressed: () => context.read<AssetsListCubit>().loadAssets(),
               icon: const Icon(Icons.refresh),

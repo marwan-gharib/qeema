@@ -2,6 +2,7 @@ import 'package:material_ui/material_ui.dart';
 import 'package:qeema/core/extensions/build_context_extensions.dart';
 import 'package:qeema/core/helpers/currency_formatter.dart';
 import 'package:qeema/core/i18n/strings.g.dart';
+import 'package:qeema/core/theme/app_radius.dart';
 import 'package:qeema/core/theme/app_spacing.dart';
 import 'package:qeema/core/widgets/app_surface_card.dart';
 import 'package:qeema/features/home/domain/entities/dashboard_summary_entity.dart';
@@ -17,8 +18,8 @@ class DashboardSummaryCard extends StatelessWidget {
     final t = context.t;
 
     return AppSurfaceCard(
-      padding: const EdgeInsets.all(AppSpacing.lg),
-      borderRadius: 16,
+      padding: EdgeInsets.all(AppSpacing.lg),
+      borderRadius: AppRadius.md,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -28,7 +29,7 @@ class DashboardSummaryCard extends StatelessWidget {
               color: colors.textSecondary,
             ),
           ),
-          const SizedBox(height: AppSpacing.xxs),
+          SizedBox(height: AppSpacing.xxs),
           Text(
             CurrencyFormatter.format(summary.nominalTotal),
             style: context.textTheme.headlineMedium?.copyWith(
@@ -36,14 +37,14 @@ class DashboardSummaryCard extends StatelessWidget {
               fontWeight: FontWeight.bold,
             ),
           ),
-          const SizedBox(height: AppSpacing.md),
+          SizedBox(height: AppSpacing.md),
           Text(
             t.home.totalSavingsReal,
             style: context.textTheme.labelSmall?.copyWith(
               color: colors.textSecondary,
             ),
           ),
-          const SizedBox(height: AppSpacing.xxs),
+          SizedBox(height: AppSpacing.xxs),
           Text(
             CurrencyFormatter.format(summary.realTotal),
             style: context.textTheme.titleLarge?.copyWith(

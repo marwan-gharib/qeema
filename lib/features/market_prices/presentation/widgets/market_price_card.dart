@@ -3,7 +3,10 @@ import 'package:material_ui/material_ui.dart';
 import 'package:qeema/core/extensions/build_context_extensions.dart';
 import 'package:qeema/core/helpers/currency_formatter.dart';
 import 'package:qeema/core/i18n/strings.g.dart';
+import 'package:qeema/core/responsive/responsive.dart';
 import 'package:qeema/core/router/route_names.dart';
+import 'package:qeema/core/theme/app_radius.dart';
+import 'package:qeema/core/theme/app_sizes.dart';
 import 'package:qeema/core/theme/app_spacing.dart';
 import 'package:qeema/core/widgets/app_surface_card.dart';
 import 'package:qeema/core/widgets/percent_change_badge.dart';
@@ -24,8 +27,8 @@ class MarketPriceCard extends StatelessWidget {
     final type = summary.assetType;
 
     return AppSurfaceCard(
-      padding: const EdgeInsets.all(AppSpacing.md),
-      borderRadius: 16,
+      padding: EdgeInsets.all(AppSpacing.md),
+      borderRadius: AppRadius.md,
       onTap: () => context.pushNamed(
         RouteNames.marketPriceDetail,
         pathParameters: {'typeId': type.id},
@@ -33,7 +36,7 @@ class MarketPriceCard extends StatelessWidget {
       child: Row(
         children: [
           _TypeIcon(code: type.code),
-          const SizedBox(width: AppSpacing.sm),
+          SizedBox(width: AppSpacing.sm),
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -45,7 +48,7 @@ class MarketPriceCard extends StatelessWidget {
                     fontWeight: FontWeight.w600,
                   ),
                 ),
-                const SizedBox(height: 2),
+                SizedBox(height: AppSpacing.xxxs),
                 Text(
                   summary.todayPrice == null
                       ? '—'
@@ -58,7 +61,7 @@ class MarketPriceCard extends StatelessWidget {
                     fontWeight: FontWeight.bold,
                   ),
                 ),
-                const SizedBox(height: 2),
+                SizedBox(height: AppSpacing.xxxs),
                 summary.hasHistory
                     ? StaleDataIndicator(
                         fetchedAt: summary.fetchedAt!,
@@ -66,15 +69,14 @@ class MarketPriceCard extends StatelessWidget {
                       )
                     : Text(
                         t.notEnoughHistory,
-                        style: context.textTheme.bodySmall?.copyWith(
+                        style: context.textStyles.footnote.copyWith(
                           color: colors.textSecondary,
-                          fontSize: 11,
                         ),
                       ),
               ],
             ),
           ),
-          const SizedBox(width: AppSpacing.sm),
+          SizedBox(width: AppSpacing.sm),
           Column(
             crossAxisAlignment: CrossAxisAlignment.end,
             children: [
@@ -85,7 +87,7 @@ class MarketPriceCard extends StatelessWidget {
                   ],
                   isGain: summary.isGain,
                 ),
-              const SizedBox(height: 6),
+              SizedBox(height: AppSpacing.tight),
               PercentChangeBadge(percent: summary.weeklyChangePercent),
             ],
           ),
@@ -109,24 +111,25 @@ class _TypeIcon extends StatelessWidget {
       children: [
         Icon(
           AssetTypeTile.iconForType(code),
-          size: 32,
+          size: AppSizes.iconXl,
           color: colors.textPrimary,
         ),
         if (code.startsWith('gold_'))
           Positioned(
-            right: -10,
-            top: -6,
+            right: Responsive.width(-10),
+            top: Responsive.height(-6),
             child: Container(
-              padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 1),
+              padding: EdgeInsets.symmetric(
+                horizontal: AppSpacing.xxs,
+                vertical: Responsive.adapt(1),
+              ),
               decoration: BoxDecoration(
                 color: colors.primary,
-                borderRadius: BorderRadius.circular(4),
+                borderRadius: BorderRadius.circular(AppRadius.xxs),
               ),
               child: Text(
                 code == 'gold_21' ? '21K' : '24K',
-                style: TextStyle(
-                  fontSize: 10,
-                  fontWeight: FontWeight.bold,
+                style: context.textStyles.caratBadge.copyWith(
                   color: colors.onPrimary,
                 ),
               ),

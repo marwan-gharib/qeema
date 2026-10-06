@@ -4,6 +4,9 @@ import 'package:qeema/core/animations/app_motion.dart';
 import 'package:qeema/core/animations/loading/shimmer_box.dart';
 import 'package:qeema/core/extensions/build_context_extensions.dart';
 import 'package:qeema/core/i18n/strings.g.dart';
+import 'package:qeema/core/responsive/responsive.dart';
+import 'package:qeema/core/theme/app_radius.dart';
+import 'package:qeema/core/theme/app_sizes.dart';
 import 'package:qeema/core/theme/app_spacing.dart';
 import 'package:qeema/core/widgets/app_surface_card.dart';
 import 'package:qeema/features/settings/presentation/cubits/profile_header_cubit/profile_header_cubit.dart';
@@ -17,8 +20,9 @@ import 'package:qeema/features/settings/presentation/widgets/profile_header_avat
 class ProfileHeaderCard extends StatelessWidget {
   const ProfileHeaderCard({super.key});
 
-  static const double _radius = 24;
-  static const EdgeInsets _contentPadding = EdgeInsets.all(20);
+  static double get _radius => AppRadius.xl;
+
+  static EdgeInsets get _contentPadding => EdgeInsets.all(Responsive.adapt(20));
 
   @override
   Widget build(BuildContext context) {
@@ -80,19 +84,19 @@ class ProfileHeaderCard extends StatelessWidget {
   }
 
   Widget _buildSkeleton() {
-    return const Row(
+    return Row(
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        ShimmerBox(width: 72, height: 72, borderRadius: 36),
+        const ShimmerBox(width: 72, height: 72, borderRadius: 36),
         SizedBox(width: AppSpacing.md),
         Expanded(
           child: Column(
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              ShimmerBox(width: 160, height: 16, borderRadius: 8),
+              const ShimmerBox(width: 160, height: 16, borderRadius: 8),
               SizedBox(height: AppSpacing.xs),
-              ShimmerBox(width: 110, height: 12, borderRadius: 8),
+              const ShimmerBox(width: 110, height: 12, borderRadius: 8),
             ],
           ),
         ),
@@ -137,7 +141,7 @@ class ProfileHeaderCard extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         avatar,
-        const SizedBox(width: AppSpacing.md),
+        SizedBox(width: AppSpacing.md),
         Expanded(
           child: Column(
             mainAxisSize: MainAxisSize.min,
@@ -152,7 +156,7 @@ class ProfileHeaderCard extends StatelessWidget {
                 ),
               ),
               if (subtitle != null && subtitle.isNotEmpty) ...[
-                const SizedBox(height: AppSpacing.xxs),
+                SizedBox(height: AppSpacing.xxs),
                 Text(
                   subtitle,
                   maxLines: 1,
@@ -162,10 +166,7 @@ class ProfileHeaderCard extends StatelessWidget {
                   ),
                 ),
               ],
-              if (badge != null) ...[
-                const SizedBox(height: AppSpacing.xs),
-                badge,
-              ],
+              if (badge != null) ...[SizedBox(height: AppSpacing.xs), badge],
             ],
           ),
         ),
@@ -176,20 +177,23 @@ class ProfileHeaderCard extends StatelessWidget {
   Widget _guestBadge(BuildContext context) {
     final colors = context.colors;
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+      padding: EdgeInsets.symmetric(
+        horizontal: Responsive.adapt(10),
+        vertical: AppSpacing.xxs,
+      ),
       decoration: BoxDecoration(
         color: colors.secondary.withAlpha(45),
-        borderRadius: BorderRadius.circular(20),
+        borderRadius: BorderRadius.circular(AppRadius.lg),
       ),
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
           Icon(
             Icons.person_outline_rounded,
-            size: 14,
+            size: AppSizes.iconInline,
             color: colors.textPrimary,
           ),
-          const SizedBox(width: 4),
+          SizedBox(width: AppSpacing.xxs),
           Text(
             context.t.settings.profile.signedInAsGuest,
             maxLines: 1,

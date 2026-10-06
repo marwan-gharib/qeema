@@ -8,6 +8,7 @@ import 'package:qeema/core/extensions/build_context_extensions.dart';
 import 'package:qeema/core/i18n/strings.g.dart';
 import 'package:qeema/core/theme/app_spacing.dart';
 import 'package:qeema/core/widgets/app_button.dart';
+import 'package:qeema/core/widgets/app_content_box.dart';
 import 'package:qeema/features/onboarding/presentation/cubits/onboarding_cubit/onboarding_cubit.dart';
 import 'package:qeema/features/onboarding/presentation/cubits/onboarding_cubit/onboarding_state.dart';
 import 'package:qeema/features/onboarding/presentation/widgets/onboarding_illustration.dart';
@@ -119,46 +120,47 @@ class _OnboardingPageViewState extends State<OnboardingPageView> {
           right: 0,
           child: AppAnimatedEntry(
             type: EntryAnimationType.fadeSlideUp,
-            duration: AppMotion.slow,
+            duration: AppMotion.normal,
             delay: const Duration(milliseconds: 300),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                OnboardingPageIndicator(
-                  totalPages: OnboardingCubit.totalPages,
-                  currentPage: currentPage,
-                ),
-                const SizedBox(height: AppSpacing.lg),
-                Padding(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: AppSpacing.lg,
+            child: AppContentBox(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  OnboardingPageIndicator(
+                    totalPages: OnboardingCubit.totalPages,
+                    currentPage: currentPage,
                   ),
-                  child: TapScale(
-                    onTap: () => context.read<OnboardingCubit>().next(),
-                    child: AnimatedSwitcher(
-                      duration: AppMotion.normal,
-                      switchInCurve: AppMotion.entrance,
-                      switchOutCurve: AppMotion.exit,
-                      transitionBuilder: (child, animation) {
-                        return ScaleTransition(
-                          scale: animation,
-                          child: FadeTransition(
-                            opacity: animation,
-                            child: child,
-                          ),
-                        );
-                      },
-                      child: AppButton(
-                        key: ValueKey(isLastPage ? 'getStarted' : 'next'),
-                        label: isLastPage
-                            ? t.onboarding.getStarted
-                            : t.onboarding.next,
-                        onPressed: () => context.read<OnboardingCubit>().next(),
+                  SizedBox(height: AppSpacing.lg),
+                  Padding(
+                    padding: EdgeInsets.symmetric(horizontal: AppSpacing.lg),
+                    child: TapScale(
+                      onTap: () => context.read<OnboardingCubit>().next(),
+                      child: AnimatedSwitcher(
+                        duration: AppMotion.normal,
+                        switchInCurve: AppMotion.entrance,
+                        switchOutCurve: AppMotion.exit,
+                        transitionBuilder: (child, animation) {
+                          return ScaleTransition(
+                            scale: animation,
+                            child: FadeTransition(
+                              opacity: animation,
+                              child: child,
+                            ),
+                          );
+                        },
+                        child: AppButton(
+                          key: ValueKey(isLastPage ? 'getStarted' : 'next'),
+                          label: isLastPage
+                              ? t.onboarding.getStarted
+                              : t.onboarding.next,
+                          onPressed: () =>
+                              context.read<OnboardingCubit>().next(),
+                        ),
                       ),
                     ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
         ),

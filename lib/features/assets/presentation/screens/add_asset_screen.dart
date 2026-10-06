@@ -8,6 +8,7 @@ import 'package:qeema/core/extensions/failure_localization_extension.dart';
 import 'package:qeema/core/i18n/strings.g.dart';
 import 'package:qeema/core/theme/app_spacing.dart';
 import 'package:qeema/core/widgets/app_button.dart';
+import 'package:qeema/core/widgets/app_content_box.dart';
 import 'package:qeema/core/widgets/app_snackbar.dart';
 import 'package:qeema/features/assets/domain/params/add_asset_params.dart';
 import 'package:qeema/features/assets/presentation/cubits/add_asset_cubit/add_asset_cubit.dart';
@@ -84,7 +85,7 @@ class _AddAssetScreenState extends State<AddAssetScreen> {
       builder: (context, state) {
         return Scaffold(
           appBar: AppBar(title: Text(t.assets.add.title)),
-          body: _buildBody(context, state),
+          body: AppContentBox(child: _buildBody(context, state)),
         );
       },
     );
@@ -108,7 +109,7 @@ class _AddAssetScreenState extends State<AddAssetScreen> {
       key: const ValueKey('form'),
       triggered: showSuccess,
       child: SingleChildScrollView(
-        padding: const EdgeInsets.all(AppSpacing.lg),
+        padding: EdgeInsets.all(AppSpacing.lg),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
@@ -125,7 +126,7 @@ class _AddAssetScreenState extends State<AddAssetScreen> {
                     setState(() => _formValid = valid),
               ),
             ],
-            const SizedBox(height: AppSpacing.lg),
+            SizedBox(height: AppSpacing.lg),
             AppButton(
               label: t.assets.add.submit,
               isLoading: state.isSubmitting,
@@ -136,7 +137,7 @@ class _AddAssetScreenState extends State<AddAssetScreen> {
                   ? _submit
                   : null,
             ),
-            const SizedBox(height: AppSpacing.lg),
+            SizedBox(height: AppSpacing.lg),
           ],
         ),
       ),

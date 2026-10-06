@@ -64,7 +64,7 @@ class _DeleteAccountDialogState extends State<DeleteAccountDialog> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(t.settings.deleteDialogBody),
-              const SizedBox(height: AppSpacing.md),
+              SizedBox(height: AppSpacing.md),
               AppTextField(
                 controller: _controller,
                 hint: t.settings.deleteConfirmHint,

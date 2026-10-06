@@ -6,6 +6,9 @@ import 'package:qeema/core/animations/micro_interactions/tap_scale.dart';
 import 'package:qeema/core/animations/staggered_list_animator.dart';
 import 'package:qeema/core/extensions/build_context_extensions.dart';
 import 'package:qeema/core/i18n/strings.g.dart';
+import 'package:qeema/core/responsive/responsive.dart';
+import 'package:qeema/core/theme/app_radius.dart';
+import 'package:qeema/core/theme/app_sizes.dart';
 import 'package:qeema/core/theme/app_spacing.dart';
 import 'package:qeema/features/assets/domain/entities/asset_type_entity.dart';
 import 'package:qeema/features/assets/presentation/cubits/add_asset_cubit/add_asset_cubit.dart';
@@ -30,7 +33,7 @@ class AssetTypePicker extends StatelessWidget {
             context,
           ).textTheme.titleSmall?.copyWith(color: context.colors.textSecondary),
         ),
-        const SizedBox(height: AppSpacing.md),
+        SizedBox(height: AppSpacing.md),
         BlocBuilder<AddAssetCubit, AddAssetState>(
           buildWhen: (previous, current) =>
               previous.selectedType != current.selectedType,
@@ -52,10 +55,10 @@ class AssetTypePicker extends StatelessWidget {
     return Container(
       decoration: BoxDecoration(
         color: context.colors.surfaceAlt,
-        borderRadius: BorderRadius.circular(12),
+        borderRadius: BorderRadius.circular(AppRadius.sm),
         border: Border.all(color: context.colors.divider),
       ),
-      padding: const EdgeInsets.symmetric(
+      padding: EdgeInsets.symmetric(
         horizontal: AppSpacing.md,
         vertical: AppSpacing.sm,
       ),
@@ -65,9 +68,12 @@ class AssetTypePicker extends StatelessWidget {
             duration: AppMotion.fast,
             child: selectedType != null
                 ? _buildTypeBadge(context, selectedType)
-                : const SizedBox(width: 28, height: 28),
+                : SizedBox(
+                    width: AppSizes.iconLarge,
+                    height: AppSizes.iconLarge,
+                  ),
           ),
-          const SizedBox(width: AppSpacing.md),
+          SizedBox(width: AppSpacing.md),
           AnimatedSwitcher(
             duration: AppMotion.fast,
             child: Text(
@@ -94,24 +100,25 @@ class AssetTypePicker extends StatelessWidget {
       children: [
         Icon(
           AssetTypeTile.iconForType(type.code),
-          size: 28,
+          size: AppSizes.iconLarge,
           color: colors.textPrimary,
         ),
         if (type.code.startsWith('gold_'))
           Positioned(
-            right: -10,
-            top: -6,
+            right: Responsive.width(-10),
+            top: Responsive.height(-6),
             child: Container(
-              padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 1),
+              padding: EdgeInsets.symmetric(
+                horizontal: AppSpacing.xxs,
+                vertical: Responsive.adapt(1),
+              ),
               decoration: BoxDecoration(
                 color: colors.primary,
-                borderRadius: BorderRadius.circular(4),
+                borderRadius: BorderRadius.circular(AppRadius.xxs),
               ),
               child: Text(
                 type.code == 'gold_21' ? '21K' : '24K',
-                style: TextStyle(
-                  fontSize: 10,
-                  fontWeight: FontWeight.bold,
+                style: context.textStyles.caratBadge.copyWith(
                   color: colors.onPrimary,
                 ),
               ),
@@ -124,18 +131,18 @@ class AssetTypePicker extends StatelessWidget {
   void _showTypeSheet(BuildContext context, AssetTypeEntity? currentSelection) {
     showModalBottomSheet<void>(
       context: context,
-      shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(AppRadius.md)),
       ),
       builder: (sheetContext) {
         return SafeArea(
           child: SingleChildScrollView(
-            padding: const EdgeInsets.all(AppSpacing.md),
+            padding: EdgeInsets.all(AppSpacing.md),
             child: StaggeredListAnimator(
               children: [
                 for (final type in assetTypes)
                   Padding(
-                    padding: const EdgeInsets.only(bottom: AppSpacing.xs),
+                    padding: EdgeInsets.only(bottom: AppSpacing.xs),
                     child: TapScale(
                       onTap: () {
                         context.read<AddAssetCubit>().selectAssetType(type);

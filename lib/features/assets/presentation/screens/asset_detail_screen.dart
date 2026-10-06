@@ -4,6 +4,7 @@ import 'package:material_ui/material_ui.dart';
 import 'package:qeema/core/animations/app_motion.dart';
 import 'package:qeema/core/extensions/failure_localization_extension.dart';
 import 'package:qeema/core/i18n/strings.g.dart';
+import 'package:qeema/core/widgets/app_content_box.dart';
 import 'package:qeema/core/widgets/app_empty_state.dart';
 import 'package:qeema/core/widgets/app_error_state.dart';
 import 'package:qeema/features/assets/domain/entities/asset_entity.dart';
@@ -34,35 +35,37 @@ class AssetDetailScreen extends StatelessWidget {
                 ? Text(_typeLabel(context, state.asset.assetType))
                 : null,
           ),
-          body: AnimatedSwitcher(
-            duration: MediaQuery.of(context).disableAnimations
-                ? Duration.zero
-                : AppMotion.normal,
-            child: switch (state) {
-              AssetDetailInitial() ||
-              AssetDetailLoading() => const AssetDetailSkeleton(),
-              AssetDetailError(:final failure) => AppErrorState(
-                message: failure.localizedMessage(context),
-                onRetry: () => context.read<AssetDetailCubit>().refresh(),
-              ),
-              AssetDetailNotFound() => AppEmptyState(
-                icon: Icons.search_off_rounded,
-                title: t.assets.detail.notFoundTitle,
-                subtitle: t.assets.detail.notFoundBody,
-                actionLabel: t.assets.list.title,
-                onAction: () => context.pop(),
-              ),
-              AssetDetailLoaded(
-                :final asset,
-                :final history,
-                :final priceHistory,
-              ) =>
-                AssetDetailContent(
-                  asset: asset,
-                  history: history,
-                  priceHistory: priceHistory,
+          body: AppContentBox(
+            child: AnimatedSwitcher(
+              duration: MediaQuery.of(context).disableAnimations
+                  ? Duration.zero
+                  : AppMotion.normal,
+              child: switch (state) {
+                AssetDetailInitial() ||
+                AssetDetailLoading() => const AssetDetailSkeleton(),
+                AssetDetailError(:final failure) => AppErrorState(
+                  message: failure.localizedMessage(context),
+                  onRetry: () => context.read<AssetDetailCubit>().refresh(),
                 ),
-            },
+                AssetDetailNotFound() => AppEmptyState(
+                  icon: Icons.search_off_rounded,
+                  title: t.assets.detail.notFoundTitle,
+                  subtitle: t.assets.detail.notFoundBody,
+                  actionLabel: t.assets.list.title,
+                  onAction: () => context.pop(),
+                ),
+                AssetDetailLoaded(
+                  :final asset,
+                  :final history,
+                  :final priceHistory,
+                ) =>
+                  AssetDetailContent(
+                    asset: asset,
+                    history: history,
+                    priceHistory: priceHistory,
+                  ),
+              },
+            ),
           ),
         );
       },

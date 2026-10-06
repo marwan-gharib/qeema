@@ -1,5 +1,6 @@
 import 'package:material_ui/material_ui.dart';
 import 'package:qeema/core/theme/app_colors_extension.dart';
+import 'package:qeema/core/theme/app_spacing.dart';
 
 const double _brandLetterSpacing = 1.2;
 
@@ -43,7 +44,7 @@ class SplashBrandText extends StatelessWidget {
               letterSpacing: _brandLetterSpacing,
             ),
           ),
-          const SizedBox(height: 8),
+          SizedBox(height: AppSpacing.xs),
           Text(
             tagline,
             style: textTheme.titleLarge?.copyWith(

@@ -2,6 +2,8 @@ import 'package:material_ui/material_ui.dart';
 import 'package:qeema/core/extensions/build_context_extensions.dart';
 import 'package:qeema/core/helpers/date_formatter.dart';
 import 'package:qeema/core/i18n/strings.g.dart';
+import 'package:qeema/core/theme/app_sizes.dart';
+import 'package:qeema/core/theme/app_spacing.dart';
 import 'package:qeema/features/assets/domain/entities/asset_history_entry_entity.dart';
 
 class AssetHistoryEntryTile extends StatelessWidget {
@@ -24,15 +26,15 @@ class AssetHistoryEntryTile extends StatelessWidget {
     final summary = _summarizeChange(t.assets.history);
 
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 8),
+      padding: EdgeInsets.symmetric(vertical: AppSpacing.xs),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Padding(
-            padding: const EdgeInsets.only(top: 2),
-            child: Icon(icon, size: 20, color: iconColor),
+            padding: EdgeInsets.only(top: AppSpacing.xxxs),
+            child: Icon(icon, size: AppSizes.iconMedium, color: iconColor),
           ),
-          const SizedBox(width: 12),
+          SizedBox(width: AppSpacing.sm),
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -44,7 +46,7 @@ class AssetHistoryEntryTile extends StatelessWidget {
                     fontWeight: FontWeight.w500,
                   ),
                 ),
-                const SizedBox(height: 2),
+                SizedBox(height: AppSpacing.xxxs),
                 Text(
                   _relativeTime(entry.changedAt, t.core.dates),
                   style: context.textTheme.bodySmall?.copyWith(

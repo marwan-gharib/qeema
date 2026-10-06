@@ -11,6 +11,7 @@ import 'package:qeema/core/i18n/strings.g.dart';
 import 'package:qeema/core/router/route_names.dart';
 import 'package:qeema/core/theme/app_spacing.dart';
 import 'package:qeema/core/widgets/app_button.dart';
+import 'package:qeema/core/widgets/app_content_box.dart';
 import 'package:qeema/core/widgets/app_snackbar.dart';
 import 'package:qeema/features/auth/presentation/cubits/google_sign_in_cubit/google_sign_in_cubit.dart';
 import 'package:qeema/features/auth/presentation/cubits/google_sign_in_cubit/google_sign_in_state.dart';
@@ -41,129 +42,131 @@ class WelcomeScreen extends StatelessWidget {
           ),
         ),
         child: SafeArea(
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: AppSpacing.lg),
-            child: Column(
-              children: [
-                const Spacer(flex: 2),
-                const AppAnimatedEntry(
-                  type: EntryAnimationType.popIn,
-                  child: WelcomeHeroIllustration(),
-                ),
-                const SizedBox(height: AppSpacing.xl),
-                AppAnimatedEntry(
-                  type: EntryAnimationType.fadeSlideUp,
-                  delay: AppMotion.normal,
-                  child: Text(
-                    t.auth.welcome.headline,
-                    textAlign: TextAlign.center,
-                    style: context.textTheme.displayMedium?.copyWith(
-                      color: colors.textPrimary,
-                    ),
+          child: AppContentBox(
+            child: Padding(
+              padding: EdgeInsets.symmetric(horizontal: AppSpacing.lg),
+              child: Column(
+                children: [
+                  const Spacer(flex: 2),
+                  const AppAnimatedEntry(
+                    type: EntryAnimationType.popIn,
+                    child: WelcomeHeroIllustration(),
                   ),
-                ),
-                const SizedBox(height: AppSpacing.sm),
-                AppAnimatedEntry(
-                  type: EntryAnimationType.fadeSlideUp,
-                  delay: AppMotion.normal + const Duration(milliseconds: 100),
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: AppSpacing.md,
-                    ),
+                  SizedBox(height: AppSpacing.xl),
+                  AppAnimatedEntry(
+                    type: EntryAnimationType.fadeSlideUp,
+                    delay: AppMotion.normal,
                     child: Text(
-                      t.auth.welcome.subtext,
+                      t.auth.welcome.headline,
                       textAlign: TextAlign.center,
-                      style: context.textTheme.bodyLarge?.copyWith(
-                        color: colors.textSecondary,
+                      style: context.textTheme.displayMedium?.copyWith(
+                        color: colors.textPrimary,
                       ),
                     ),
                   ),
-                ),
-                const Spacer(flex: 1),
-                BlocConsumer<GoogleSignInCubit, GoogleSignInState>(
-                  listener: (context, state) {
-                    if (state is GoogleSignInFailureState) {
-                      final message = switch (state.failure) {
-                        final AnonymousSignInDisabledFailure _ =>
-                          t.auth.error.anonymousSignInDisabled,
-                        final NetworkAuthFailure _ => t.auth.error.networkError,
-                        _ => t.auth.error.unknownError,
-                      };
-                      AppSnackBar.showError(
-                        context,
-                        state.failure.message ?? message,
-                      );
-                    } else if (state is GoogleSignInSuccessState) {
-                      context.goNamed(RouteNames.home);
-                    }
-                  },
-                  builder: (context, state) {
-                    final isLoading = state is GoogleSignInLoadingState;
-                    return AppAnimatedEntry(
-                      type: EntryAnimationType.fadeSlideUp,
-                      delay: AppMotion.slow,
-                      child: Column(
-                        children: [
-                          AppButton(
-                            label: t.auth.welcome.googleSignInCta,
-                            prefixWidget: Image.asset(
-                              AppAssets.googleLogo,
-                              width: AppSpacing.lg,
-                              height: AppSpacing.lg,
+                  SizedBox(height: AppSpacing.sm),
+                  AppAnimatedEntry(
+                    type: EntryAnimationType.fadeSlideUp,
+                    delay: AppMotion.normal + const Duration(milliseconds: 100),
+                    child: Padding(
+                      padding: EdgeInsets.symmetric(horizontal: AppSpacing.md),
+                      child: Text(
+                        t.auth.welcome.subtext,
+                        textAlign: TextAlign.center,
+                        style: context.textTheme.bodyLarge?.copyWith(
+                          color: colors.textSecondary,
+                        ),
+                      ),
+                    ),
+                  ),
+                  const Spacer(flex: 1),
+                  BlocConsumer<GoogleSignInCubit, GoogleSignInState>(
+                    listener: (context, state) {
+                      if (state is GoogleSignInFailureState) {
+                        final message = switch (state.failure) {
+                          final AnonymousSignInDisabledFailure _ =>
+                            t.auth.error.anonymousSignInDisabled,
+                          final NetworkAuthFailure _ =>
+                            t.auth.error.networkError,
+                          _ => t.auth.error.unknownError,
+                        };
+                        AppSnackBar.showError(
+                          context,
+                          state.failure.message ?? message,
+                        );
+                      } else if (state is GoogleSignInSuccessState) {
+                        context.goNamed(RouteNames.home);
+                      }
+                    },
+                    builder: (context, state) {
+                      final isLoading = state is GoogleSignInLoadingState;
+                      return AppAnimatedEntry(
+                        type: EntryAnimationType.fadeSlideUp,
+                        delay: AppMotion.slow,
+                        child: Column(
+                          children: [
+                            AppButton(
+                              label: t.auth.welcome.googleSignInCta,
+                              prefixWidget: Image.asset(
+                                AppAssets.googleLogo,
+                                width: AppSpacing.lg,
+                                height: AppSpacing.lg,
+                              ),
+                              isLoading: isLoading,
+                              onPressed: isLoading
+                                  ? null
+                                  : () => context
+                                        .read<GoogleSignInCubit>()
+                                        .googleSignIn(),
                             ),
-                            isLoading: isLoading,
-                            onPressed: isLoading
-                                ? null
-                                : () => context
-                                      .read<GoogleSignInCubit>()
-                                      .googleSignIn(),
-                          ),
-                        ],
-                      ),
-                    );
-                  },
-                ),
-                const SizedBox(height: AppSpacing.md),
-                BlocConsumer<WelcomeCubit, WelcomeState>(
-                  listener: (context, state) {
-                    if (state is WelcomeGuestFailure) {
-                      final message = switch (state.failure) {
-                        final AnonymousSignInDisabledFailure _ =>
-                          t.auth.error.anonymousSignInDisabled,
-                        final NetworkAuthFailure _ => t.auth.error.networkError,
-                        _ => t.auth.error.unknownError,
-                      };
-                      AppSnackBar.showError(
-                        context,
-                        state.failure.message ?? message,
+                          ],
+                        ),
                       );
-                    } else if (state is WelcomeGuestSuccess) {
-                      context.goNamed(RouteNames.home);
-                    }
-                  },
-                  builder: (context, state) {
-                    final isGuestLoading = state is WelcomeGuestLoading;
-                    return AppAnimatedEntry(
-                      type: EntryAnimationType.fadeSlideUp,
-                      delay: AppMotion.slow,
-                      child: Column(
-                        children: [
-                          AppButton(
-                            label: t.auth.welcome.continueAsGuestCta,
-                            isLoading: isGuestLoading,
-                            onPressed: isGuestLoading
-                                ? null
-                                : () => context
-                                      .read<WelcomeCubit>()
-                                      .continueAsGuest(),
-                          ),
-                        ],
-                      ),
-                    );
-                  },
-                ),
-                const Spacer(flex: 1),
-              ],
+                    },
+                  ),
+                  SizedBox(height: AppSpacing.md),
+                  BlocConsumer<WelcomeCubit, WelcomeState>(
+                    listener: (context, state) {
+                      if (state is WelcomeGuestFailure) {
+                        final message = switch (state.failure) {
+                          final AnonymousSignInDisabledFailure _ =>
+                            t.auth.error.anonymousSignInDisabled,
+                          final NetworkAuthFailure _ =>
+                            t.auth.error.networkError,
+                          _ => t.auth.error.unknownError,
+                        };
+                        AppSnackBar.showError(
+                          context,
+                          state.failure.message ?? message,
+                        );
+                      } else if (state is WelcomeGuestSuccess) {
+                        context.goNamed(RouteNames.home);
+                      }
+                    },
+                    builder: (context, state) {
+                      final isGuestLoading = state is WelcomeGuestLoading;
+                      return AppAnimatedEntry(
+                        type: EntryAnimationType.fadeSlideUp,
+                        delay: AppMotion.slow,
+                        child: Column(
+                          children: [
+                            AppButton(
+                              label: t.auth.welcome.continueAsGuestCta,
+                              isLoading: isGuestLoading,
+                              onPressed: isGuestLoading
+                                  ? null
+                                  : () => context
+                                        .read<WelcomeCubit>()
+                                        .continueAsGuest(),
+                            ),
+                          ],
+                        ),
+                      );
+                    },
+                  ),
+                  const Spacer(flex: 1),
+                ],
+              ),
             ),
           ),
         ),

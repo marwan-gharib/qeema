@@ -9,6 +9,7 @@ import 'package:qeema/core/cubits/locale_cubit/locale_state.dart';
 import 'package:qeema/core/cubits/theme_cubit/theme_cubit.dart';
 import 'package:qeema/core/cubits/theme_cubit/theme_state.dart';
 import 'package:qeema/core/i18n/strings.g.dart';
+import 'package:qeema/core/responsive/responsive_scope.dart';
 import 'package:qeema/core/router/app_router.dart';
 import 'package:qeema/core/theme/app_theme.dart';
 import 'package:qeema/features/app_lock/presentation/widgets/app_lock_overlay.dart';
@@ -18,7 +19,7 @@ class AppRoot extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const QeemaApp();
+    return const ResponsiveScope(child: QeemaApp());
   }
 }
 

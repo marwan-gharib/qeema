@@ -9,6 +9,8 @@ import 'package:qeema/core/extensions/failure_localization_extension.dart';
 import 'package:qeema/core/helpers/currency_formatter.dart';
 import 'package:qeema/core/i18n/strings.g.dart';
 import 'package:qeema/core/router/route_names.dart';
+import 'package:qeema/core/theme/app_radius.dart';
+import 'package:qeema/core/theme/app_sizes.dart';
 import 'package:qeema/core/theme/app_spacing.dart';
 import 'package:qeema/core/widgets/app_button.dart';
 import 'package:qeema/core/widgets/app_surface_card.dart';
@@ -45,7 +47,7 @@ class AssetDetailContent extends StatelessWidget {
     final isGain = asset.isGain;
 
     return SingleChildScrollView(
-      padding: const EdgeInsets.all(AppSpacing.md),
+      padding: EdgeInsets.all(AppSpacing.md),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
@@ -53,28 +55,28 @@ class AssetDetailContent extends StatelessWidget {
             type: EntryAnimationType.scaleIn,
             child: _AssetDetailHeader(asset: asset),
           ),
-          const SizedBox(height: AppSpacing.sm),
+          SizedBox(height: AppSpacing.sm),
           AppAnimatedEntry(
             type: EntryAnimationType.fadeSlideUp,
             delay: const Duration(milliseconds: 100),
             child: Container(
-              padding: const EdgeInsets.symmetric(
+              padding: EdgeInsets.symmetric(
                 horizontal: AppSpacing.md,
                 vertical: AppSpacing.sm,
               ),
               decoration: BoxDecoration(
                 color: (isGain ? colors.secondaryVariant : colors.error)
                     .withAlpha(25),
-                borderRadius: BorderRadius.circular(12),
+                borderRadius: BorderRadius.circular(AppRadius.sm),
               ),
               child: Row(
                 children: [
                   Icon(
                     isGain ? Icons.arrow_upward : Icons.arrow_downward,
                     color: isGain ? colors.secondaryVariant : colors.error,
-                    size: 20,
+                    size: AppSizes.iconMedium,
                   ),
-                  const SizedBox(width: AppSpacing.sm),
+                  SizedBox(width: AppSpacing.sm),
                   Text(
                     currencyFormat.format(asset.gainLossAmount ?? 0),
                     style: Theme.of(context).textTheme.titleMedium?.copyWith(
@@ -82,16 +84,16 @@ class AssetDetailContent extends StatelessWidget {
                       fontWeight: FontWeight.w700,
                     ),
                   ),
-                  const SizedBox(width: AppSpacing.sm),
+                  SizedBox(width: AppSpacing.sm),
                   Container(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 8,
-                      vertical: 2,
+                    padding: EdgeInsets.symmetric(
+                      horizontal: AppSpacing.xs,
+                      vertical: AppSpacing.xxxs,
                     ),
                     decoration: BoxDecoration(
                       color: (isGain ? colors.secondaryVariant : colors.error)
                           .withAlpha(38),
-                      borderRadius: BorderRadius.circular(12),
+                      borderRadius: BorderRadius.circular(AppRadius.sm),
                     ),
                     child: Text(
                       '${asset.gainLossPercent?.toStringAsFixed(1) ?? "—"}%',
@@ -105,7 +107,7 @@ class AssetDetailContent extends StatelessWidget {
               ),
             ),
           ),
-          const SizedBox(height: AppSpacing.md),
+          SizedBox(height: AppSpacing.md),
           AppAnimatedEntry(
             type: EntryAnimationType.fadeSlideUp,
             delay: const Duration(milliseconds: 200),
@@ -114,19 +116,19 @@ class AssetDetailContent extends StatelessWidget {
               priceHistory: priceHistory,
             ),
           ),
-          const SizedBox(height: AppSpacing.md),
+          SizedBox(height: AppSpacing.md),
           AppAnimatedEntry(
             type: EntryAnimationType.fadeSlideUp,
             delay: const Duration(milliseconds: 300),
             child: AssetHistoryTimeline(history: history),
           ),
           if (asset.note != null && asset.note!.trim().isNotEmpty) ...[
-            const SizedBox(height: AppSpacing.md),
+            SizedBox(height: AppSpacing.md),
             AppAnimatedEntry(
               type: EntryAnimationType.fadeSlideUp,
               delay: const Duration(milliseconds: 350),
               child: AppSurfaceCard(
-                padding: const EdgeInsets.all(AppSpacing.md),
+                padding: EdgeInsets.all(AppSpacing.md),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -137,7 +139,7 @@ class AssetDetailContent extends StatelessWidget {
                         fontWeight: FontWeight.w600,
                       ),
                     ),
-                    const SizedBox(height: AppSpacing.sm),
+                    SizedBox(height: AppSpacing.sm),
                     Text(
                       asset.note!,
                       style: context.textTheme.bodyMedium?.copyWith(
@@ -149,7 +151,7 @@ class AssetDetailContent extends StatelessWidget {
               ),
             ),
           ],
-          const SizedBox(height: AppSpacing.lg),
+          SizedBox(height: AppSpacing.lg),
           AppAnimatedEntry(
             type: EntryAnimationType.fadeSlideUp,
             delay: const Duration(milliseconds: 400),
@@ -173,7 +175,7 @@ class AssetDetailContent extends StatelessWidget {
                     isOutline: true,
                   ),
                 ),
-                const SizedBox(width: AppSpacing.sm),
+                SizedBox(width: AppSpacing.sm),
                 Expanded(
                   child: AppButton(
                     onPressed: () async {
@@ -204,7 +206,7 @@ class AssetDetailContent extends StatelessWidget {
               ],
             ),
           ),
-          const SizedBox(height: AppSpacing.lg),
+          SizedBox(height: AppSpacing.lg),
         ],
       ),
     );
@@ -227,12 +229,16 @@ class _AssetDetailHeader extends StatelessWidget {
     );
 
     return AppSurfaceCard(
-      padding: const EdgeInsets.all(AppSpacing.lg),
-      borderRadius: 16,
+      padding: EdgeInsets.all(AppSpacing.lg),
+      borderRadius: AppRadius.md,
       child: Column(
         children: [
-          Icon(_iconForType(asset.assetType), size: 48, color: colors.primary),
-          const SizedBox(height: AppSpacing.sm),
+          Icon(
+            _iconForType(asset.assetType),
+            size: AppSizes.iconHero,
+            color: colors.primary,
+          ),
+          SizedBox(height: AppSpacing.sm),
           Text(
             '${asset.amount}',
             style: Theme.of(context).textTheme.headlineMedium?.copyWith(
@@ -240,14 +246,14 @@ class _AssetDetailHeader extends StatelessWidget {
               fontWeight: FontWeight.w700,
             ),
           ),
-          const SizedBox(height: AppSpacing.xxs),
+          SizedBox(height: AppSpacing.xxs),
           Text(
             _unitLabel(context, asset.assetType),
             style: Theme.of(
               context,
             ).textTheme.bodySmall?.copyWith(color: colors.textSecondary),
           ),
-          const SizedBox(height: AppSpacing.md),
+          SizedBox(height: AppSpacing.md),
           Text(
             currencyFormat.format(asset.currentValue ?? asset.entryValue),
             style: Theme.of(context).textTheme.headlineSmall?.copyWith(
