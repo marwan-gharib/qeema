@@ -104,10 +104,6 @@ class _StubOnboardingSeenUseCase implements GetOnboardingSeenUseCase {
         builder: (_, _) => const Scaffold(body: Text('home')),
       ),
       GoRoute(
-        path: RoutePaths.profile,
-        builder: (_, _) => const Scaffold(body: Text('profile')),
-      ),
-      GoRoute(
         path: RoutePaths.lock,
         builder: (_, _) => const Scaffold(body: Text('lock')),
       ),

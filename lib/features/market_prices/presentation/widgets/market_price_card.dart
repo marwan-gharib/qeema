@@ -128,7 +128,9 @@ class _TypeIcon extends StatelessWidget {
                 borderRadius: BorderRadius.circular(AppRadius.xxs),
               ),
               child: Text(
-                code == 'gold_21' ? '21K' : '24K',
+                code == 'gold_21'
+                    ? context.t.assets.carat.k21
+                    : context.t.assets.carat.k24,
                 style: context.textStyles.caratBadge.copyWith(
                   color: colors.onPrimary,
                 ),

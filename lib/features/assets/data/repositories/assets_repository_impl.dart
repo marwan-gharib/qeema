@@ -33,7 +33,7 @@ class AssetsRepositoryImpl
       final models = await _remoteDataSource.getAssets();
       return Success(toEntities(models));
     } on PostgrestException catch (e) {
-      return ResultFailure(mapSupabaseError(e));
+      return ResultFailure(mapSupabaseError(e, AssetOperation.read));
     } catch (e) {
       return const ResultFailure(UnknownFailure());
     }
@@ -54,7 +54,7 @@ class AssetsRepositoryImpl
       }).toList();
       return Success(types);
     } on PostgrestException catch (e) {
-      return ResultFailure(mapSupabaseError(e));
+      return ResultFailure(mapSupabaseError(e, AssetOperation.read));
     } catch (e) {
       return const ResultFailure(UnknownFailure());
     }
@@ -90,7 +90,7 @@ class AssetsRepositoryImpl
       final rows = await _remoteDataSource.getPriceHistory(assetTypeCode);
       return Success(rows.map(MarketPriceMapper.fromRow).toList());
     } on PostgrestException catch (e) {
-      return ResultFailure(mapSupabaseError(e));
+      return ResultFailure(mapSupabaseError(e, AssetOperation.read));
     } catch (e) {
       return const ResultFailure(UnknownFailure());
     }

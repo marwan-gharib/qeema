@@ -74,10 +74,7 @@ class ProfileHeaderCard extends StatelessWidget {
       ProfileHeaderLoaded(:final data) =>
         data.kind == ProfileHeaderKind.guest
             ? t.signedInAsGuest
-            : t.semanticLabel.replaceAll(
-                '{name}',
-                data.displayName ?? t.fallbackName,
-              ),
+            : t.semanticLabel(name: data.displayName ?? t.fallbackName),
       ProfileHeaderLoading() => null,
       ProfileHeaderSignedOut() => null,
     };

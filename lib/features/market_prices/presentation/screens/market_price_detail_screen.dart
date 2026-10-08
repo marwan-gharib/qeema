@@ -103,7 +103,7 @@ class _DetailContent extends StatelessWidget {
             if (daysCovered != null &&
                 daysCovered < _expectedDays(selectedRange))
               Text(
-                t.showingAvailableData.replaceAll('{days}', '$daysCovered'),
+                t.showingAvailableData(n: daysCovered),
                 style: context.textTheme.bodySmall?.copyWith(
                   color: colors.textSecondary,
                 ),

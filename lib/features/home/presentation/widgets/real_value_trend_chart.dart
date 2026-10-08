@@ -26,6 +26,7 @@ class RealValueTrendChart extends StatelessWidget {
     }
 
     return AppLineChart(
+      semanticsTitle: context.t.charts.semantics.realValue,
       points: [
         for (final snapshot in trendData)
           (date: snapshot.date, value: snapshot.realTotal),

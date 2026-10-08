@@ -6,11 +6,7 @@ class RoutePaths {
   static const String welcome = '/welcome';
   static const String home = '/home';
   static const String assets = '/assets';
-  static const String insights = '/insights';
-  static const String goals = '/goals';
   static const String marketPrices = '/market-prices';
-  static const String notifications = '/notifications';
-  static const String profile = '/profile';
   static const String settings = '/settings';
   static const String lock = '/lock';
 }

@@ -121,7 +121,7 @@ class _DynamicAssetFieldsState extends State<DynamicAssetFields> {
   Widget build(BuildContext context) {
     final type = widget.selectedType;
     final t = context.t.assets.add;
-    final unit = _displayUnit(type.baseUnit);
+    final unit = _displayUnit(context, type.baseUnit);
 
     return AppAnimatedEntry(
       type: EntryAnimationType.fadeSlideUp,
@@ -187,9 +187,10 @@ class _DynamicAssetFieldsState extends State<DynamicAssetFields> {
     );
   }
 
-  String _displayUnit(String unit) {
+  String _displayUnit(BuildContext context, String unit) {
     return switch (unit) {
       'EGP' || 'USD' => CurrencyFormatter.currencyName(unit),
+      'gram' => context.t.core.unit.gram,
       _ => unit,
     };
   }

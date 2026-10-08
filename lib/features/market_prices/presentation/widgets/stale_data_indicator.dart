@@ -50,16 +50,10 @@ class StaleDataIndicator extends StatelessWidget {
     final diff = DateTime.now().difference(fetchedAt);
     final when = switch (diff) {
       < const Duration(minutes: 1) => t.core.dates.justNow,
-      < const Duration(hours: 1) => t.core.dates.minutesAgo.replaceAll(
-        '{minutes}',
-        '${diff.inMinutes}',
-      ),
-      < const Duration(days: 1) => t.core.dates.hoursAgo.replaceAll(
-        '{hours}',
-        '${diff.inHours}',
-      ),
-      _ => t.core.dates.daysAgo.replaceAll('{days}', '${diff.inDays}'),
+      < const Duration(hours: 1) => t.core.dates.minutesAgo(n: diff.inMinutes),
+      < const Duration(days: 1) => t.core.dates.hoursAgo(n: diff.inHours),
+      _ => t.core.dates.daysAgo(n: diff.inDays),
     };
-    return t.marketPrices.lastUpdated.replaceAll('{when}', when);
+    return t.marketPrices.lastUpdated(when: when);
   }
 }

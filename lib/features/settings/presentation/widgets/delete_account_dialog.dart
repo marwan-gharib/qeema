@@ -2,7 +2,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:material_ui/material_ui.dart';
 import 'package:qeema/core/constants/app_constants.dart';
-import 'package:qeema/core/error/failures.dart';
+import 'package:qeema/core/extensions/failure_localization_extension.dart';
 import 'package:qeema/core/i18n/strings.g.dart';
 import 'package:qeema/core/theme/app_spacing.dart';
 import 'package:qeema/core/widgets/app_button.dart';
@@ -45,12 +45,10 @@ class _DeleteAccountDialogState extends State<DeleteAccountDialog> {
     return BlocConsumer<DeleteAccountCubit, DeleteAccountState>(
       listener: (context, state) {
         if (state is DeleteAccountFailure) {
-          final message = switch (state.failure) {
-            final AccountDeletionPartialFailure _ =>
-              t.settings.deletePartialFailure,
-            _ => t.settings.deleteFailed,
-          };
-          AppSnackBar.showError(context, state.failure.message ?? message);
+          AppSnackBar.showError(
+            context,
+            state.failure.localizedMessage(context),
+          );
         }
       },
       builder: (context, state) {

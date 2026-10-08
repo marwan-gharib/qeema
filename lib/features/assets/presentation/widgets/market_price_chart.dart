@@ -30,6 +30,7 @@ class MarketPriceChart extends StatelessWidget {
             ),
             SizedBox(height: AppSpacing.sm),
             AppLineChart(
+              semanticsTitle: context.t.charts.semantics.priceHistory,
               points: [
                 for (final point in priceHistory)
                   (date: point.priceDate, value: point.price),
@@ -37,7 +38,7 @@ class MarketPriceChart extends StatelessWidget {
               lineColor: context.colors.secondaryVariant,
               height: 250,
               gridIntervalDivisor: 6,
-              leftTitleIntervalDivisor: 3,
+              leftTitleIntervalDivisor: 2,
               bottomLabelCount: 4,
             ),
           ],

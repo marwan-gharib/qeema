@@ -23,7 +23,7 @@ class AssetHistoryEntryTile extends StatelessWidget {
       _ => (Icons.info_outline, colors.textSecondary),
     };
 
-    final summary = _summarizeChange(t.assets.history);
+    final summary = _summarizeChange(t);
 
     return Padding(
       padding: EdgeInsets.symmetric(vertical: AppSpacing.xs),
@@ -48,7 +48,7 @@ class AssetHistoryEntryTile extends StatelessWidget {
                 ),
                 SizedBox(height: AppSpacing.xxxs),
                 Text(
-                  _relativeTime(entry.changedAt, t.core.dates),
+                  _relativeTime(entry.changedAt, t),
                   style: context.textTheme.bodySmall?.copyWith(
                     color: colors.textSecondary,
                   ),
@@ -61,20 +61,23 @@ class AssetHistoryEntryTile extends StatelessWidget {
     );
   }
 
-  String _summarizeChange(Translations$assets$history$en history) {
+  String _summarizeChange(Translations t) {
+    final history = t.assets.history;
     switch (entry.changeType) {
       case 'created':
         return history.assetAdded;
       case 'deleted':
         return history.assetDeleted;
       case 'updated':
-        return _summarizeUpdate(history);
+        return _summarizeUpdate(t);
       default:
         return history.updated;
     }
   }
 
-  String _summarizeUpdate(Translations$assets$history$en history) {
+  String _summarizeUpdate(Translations t) {
+    final history = t.assets.history;
+    final unavailable = t.core.value.unavailable;
     final oldValue = entry.oldValue ?? {};
     final newValue = entry.newValue ?? {};
     final changes = <String>[];
@@ -97,31 +100,29 @@ class AssetHistoryEntryTile extends StatelessWidget {
         changes.add(history.dateChanged);
       } else {
         changes.add(
-          history.fieldChanged
-              .replaceAll('{field}', fieldLabels[key] ?? key)
-              .replaceAll('{oldValue}', oldFieldValue?.toString() ?? '-')
-              .replaceAll('{newValue}', newFieldValue?.toString() ?? '-'),
+          history.fieldChanged(
+            field: fieldLabels[key] ?? key,
+            oldValue: oldFieldValue?.toString() ?? unavailable,
+            newValue: newFieldValue?.toString() ?? unavailable,
+          ),
         );
       }
     }
 
-    return changes.isEmpty ? history.updated : changes.join('; ');
+    return changes.isEmpty
+        ? history.updated
+        : changes.join(t.core.listSeparator);
   }
 
-  String _relativeTime(DateTime date, Translations$core$dates$en dates) {
+  String _relativeTime(DateTime date, Translations t) {
+    final dates = t.core.dates;
     final now = DateTime.now();
     final diff = now.difference(date);
 
     if (diff.inMinutes < 1) return dates.justNow;
-    if (diff.inMinutes < 60) {
-      return dates.minutesAgo.replaceAll('{minutes}', '${diff.inMinutes}');
-    }
-    if (diff.inHours < 24) {
-      return dates.hoursAgo.replaceAll('{hours}', '${diff.inHours}');
-    }
-    if (diff.inDays < 7) {
-      return dates.daysAgo.replaceAll('{days}', '${diff.inDays}');
-    }
+    if (diff.inMinutes < 60) return dates.minutesAgo(n: diff.inMinutes);
+    if (diff.inHours < 24) return dates.hoursAgo(n: diff.inHours);
+    if (diff.inDays < 7) return dates.daysAgo(n: diff.inDays);
     return DateFormatter.format(date);
   }
 }

@@ -49,3 +49,5 @@ app.*.map.json
 *.env
 *.txt
 env.json
+# Widget Preview related
+.widget_preview/

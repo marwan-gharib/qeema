@@ -50,6 +50,7 @@ class TranslationsAr extends Translations with BaseTranslations<AppLocale, Trans
 	@override late final _Translations$home$ar home = _Translations$home$ar._(_root);
 	@override late final _Translations$insights$ar insights = _Translations$insights$ar._(_root);
 	@override late final _Translations$marketPrices$ar marketPrices = _Translations$marketPrices$ar._(_root);
+	@override late final _Translations$charts$ar charts = _Translations$charts$ar._(_root);
 	@override late final _Translations$app_lock$ar app_lock = _Translations$app_lock$ar._(_root);
 }
 
@@ -79,6 +80,9 @@ class _Translations$core$ar extends Translations$core$en {
 	@override late final _Translations$core$validation$ar validation = _Translations$core$validation$ar._(_root);
 	@override late final _Translations$core$dates$ar dates = _Translations$core$dates$ar._(_root);
 	@override late final _Translations$core$currency$ar currency = _Translations$core$currency$ar._(_root);
+	@override late final _Translations$core$unit$ar unit = _Translations$core$unit$ar._(_root);
+	@override late final _Translations$core$value$ar value = _Translations$core$value$ar._(_root);
+	@override String get listSeparator => '؛ ';
 	@override late final _Translations$core$actions$ar actions = _Translations$core$actions$ar._(_root);
 	@override late final _Translations$core$notification$ar notification = _Translations$core$notification$ar._(_root);
 }
@@ -133,10 +137,10 @@ class _Translations$navigation$ar extends Translations$navigation$en {
 	@override String get profile => 'الملف الشخصي';
 	@override String get settings => 'الإعدادات';
 	@override String get addAsset => 'إضافة أصل';
-	@override String get assetDetail => 'الأصل {id}';
-	@override String get editAsset => 'تعديل الأصل {id}';
+	@override String assetDetail({required Object id}) => 'الأصل ${id}';
+	@override String editAsset({required Object id}) => 'تعديل الأصل ${id}';
 	@override String get addGoal => 'إضافة هدف';
-	@override String get goalDetail => 'الهدف {id}';
+	@override String goalDetail({required Object id}) => 'الهدف ${id}';
 	@override String get notificationSettings => 'إعدادات الإشعارات';
 }
 
@@ -166,6 +170,7 @@ class _Translations$assets$ar extends Translations$assets$en {
 	@override late final _Translations$assets$detail$ar detail = _Translations$assets$detail$ar._(_root);
 	@override late final _Translations$assets$sort$ar sort = _Translations$assets$sort$ar._(_root);
 	@override late final _Translations$assets$filter$ar filter = _Translations$assets$filter$ar._(_root);
+	@override late final _Translations$assets$carat$ar carat = _Translations$assets$carat$ar._(_root);
 	@override late final _Translations$assets$chart$ar chart = _Translations$assets$chart$ar._(_root);
 	@override late final _Translations$assets$history$ar history = _Translations$assets$history$ar._(_root);
 	@override late final _Translations$assets$delete$ar delete = _Translations$assets$delete$ar._(_root);
@@ -253,12 +258,29 @@ class _Translations$marketPrices$ar extends Translations$marketPrices$en {
 	// Translations
 	@override String get title => 'أسعار السوق';
 	@override String get dataSourceDisclosure => 'الأسعار مبنية على أسعار الصرف الرسمية والأسعار العالمية الفورية — وقد تختلف عن أسعار السوق المحلي أو تجار الذهب.';
-	@override String get lastUpdated => 'آخر تحديث {when}';
+	@override String lastUpdated({required Object when}) => 'آخر تحديث ${when}';
 	@override String get notEnoughHistory => 'لا يوجد تاريخ كافٍ بعد';
-	@override String get showingAvailableData => 'عرض البيانات المتاحة ({days} يوم)';
+	@override String showingAvailableData({required num n}) => (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('ar'))(n,
+		zero: 'عرض البيانات المتاحة (${n} يوم)',
+		one: 'عرض البيانات المتاحة (يوم واحد)',
+		two: 'عرض البيانات المتاحة (يومين)',
+		few: 'عرض البيانات المتاحة (${n} أيام)',
+		many: 'عرض البيانات المتاحة (${n} يوماً)',
+		other: 'عرض البيانات المتاحة (${n} يوم)',
+	);
 	@override String get emptyTitle => 'لا توجد أسعار سوق بعد';
 	@override String get emptyBody => 'ستظهر بيانات أسعار السوق هنا بمجرد توفرها.';
 	@override late final _Translations$marketPrices$range$ar range = _Translations$marketPrices$range$ar._(_root);
+}
+
+// Path: charts
+class _Translations$charts$ar extends Translations$charts$en {
+	_Translations$charts$ar._(TranslationsAr root) : this._root = root, super.internal(root);
+
+	final TranslationsAr _root; // ignore: unused_field
+
+	// Translations
+	@override late final _Translations$charts$semantics$ar semantics = _Translations$charts$semantics$ar._(_root);
 }
 
 // Path: app_lock
@@ -276,6 +298,8 @@ class _Translations$app_lock$ar extends Translations$app_lock$en {
 	@override String get lockedOutMessage => 'محاولات كثيرة. أعد المحاولة بعد انتهاء المهلة.';
 	@override String get unavailableMessage => 'تعذّر التحقق الآن. تحقق من قفل الجهاز ثم أعد المحاولة.';
 	@override String get errorMessage => 'تعذّر التحقق من هويتك. حاول مرة أخرى.';
+	@override String get cancelledMessage => 'تم إلغاء التحقق.';
+	@override String get noCredentialsMessage => 'لا يوجد قفل شاشة على هذا الجهاز. ضع قفل شاشة لاستخدام قفل التطبيق.';
 	@override String get settingsTitle => 'قفل التطبيق';
 	@override String get settingsSubtitle => 'طلب فتح الجهاز عند فتح قيّمة';
 	@override String get settingsNoDeviceLock => 'اضبط قفل شاشة (رمز أو نمط أو كلمة مرور) في إعدادات النظام لاستخدام قفل التطبيق';
@@ -311,9 +335,21 @@ class _Translations$core$failure$ar extends Translations$core$failure$en {
 	@override String get networkFailure => 'لا يوجد اتصال بالإنترنت.';
 	@override String get cacheFailure => 'تعذر قراءة البيانات المحلية.';
 	@override String get unknownFailure => 'حدث خطأ غير متوقع.';
-	@override String get priceFetchFailure => 'تعذر جلب السعر لـ {assetTypeCode}';
-	@override String get inflationDataMissing => 'بيانات التضخم مفقودة لـ {count} شهر';
-	@override String get calculationFailed => 'فشل الحساب: {reason}';
+	@override String priceFetchFailure({required Object assetTypeCode}) => 'تعذر جلب السعر لـ ${assetTypeCode}';
+	@override String inflationDataMissing({required num n}) => (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('ar'))(n,
+		zero: 'بيانات التضخم مفقودة لـ ${n} شهر.',
+		one: 'بيانات التضخم مفقودة لشهر واحد.',
+		two: 'بيانات التضخم مفقودة لشهرين.',
+		few: 'بيانات التضخم مفقودة لـ ${n} أشهر.',
+		many: 'بيانات التضخم مفقودة لـ ${n} شهراً.',
+		other: 'بيانات التضخم مفقودة لـ ${n} شهراً.',
+	);
+	@override String get calculationFailed => 'تعذر حساب القيمة.';
+	@override String get sessionExpired => 'انتهت صلاحية جلستك. سجّل الدخول مرة أخرى.';
+	@override String get timeout => 'انتهت مهلة الطلب. حاول مرة أخرى.';
+	@override String get forbidden => 'لا تملك صلاحية القيام بذلك.';
+	@override String get notFound => 'تعذّر العثور على العنصر المطلوب.';
+	@override String get validation => 'يرجى مراجعة القيم التي أدخلتها.';
 }
 
 // Path: core.empty
@@ -371,9 +407,30 @@ class _Translations$core$dates$ar extends Translations$core$dates$en {
 
 	// Translations
 	@override String get justNow => 'الآن';
-	@override String get minutesAgo => 'منذ {minutes} دقيقة';
-	@override String get hoursAgo => 'منذ {hours} ساعة';
-	@override String get daysAgo => 'منذ {days} يوم';
+	@override String minutesAgo({required num n}) => (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('ar'))(n,
+		zero: 'منذ ${n} دقيقة',
+		one: 'منذ دقيقة واحدة',
+		two: 'منذ دقيقتين',
+		few: 'منذ ${n} دقائق',
+		many: 'منذ ${n} دقيقة',
+		other: 'منذ ${n} دقيقة',
+	);
+	@override String hoursAgo({required num n}) => (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('ar'))(n,
+		zero: 'منذ ${n} ساعة',
+		one: 'منذ ساعة واحدة',
+		two: 'منذ ساعتين',
+		few: 'منذ ${n} ساعات',
+		many: 'منذ ${n} ساعة',
+		other: 'منذ ${n} ساعة',
+	);
+	@override String daysAgo({required num n}) => (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('ar'))(n,
+		zero: 'منذ ${n} يوم',
+		one: 'منذ يوم واحد',
+		two: 'منذ يومين',
+		few: 'منذ ${n} أيام',
+		many: 'منذ ${n} يوماً',
+		other: 'منذ ${n} يوم',
+	);
 }
 
 // Path: core.currency
@@ -384,7 +441,27 @@ class _Translations$core$currency$ar extends Translations$core$currency$en {
 
 	// Translations
 	@override String get egp => 'جنيه مصري';
-	@override String get usd => 'دولار امريكي';
+	@override String get usd => 'دولار أمريكي';
+}
+
+// Path: core.unit
+class _Translations$core$unit$ar extends Translations$core$unit$en {
+	_Translations$core$unit$ar._(TranslationsAr root) : this._root = root, super.internal(root);
+
+	final TranslationsAr _root; // ignore: unused_field
+
+	// Translations
+	@override String get gram => 'جرام';
+}
+
+// Path: core.value
+class _Translations$core$value$ar extends Translations$core$value$en {
+	_Translations$core$value$ar._(TranslationsAr root) : this._root = root, super.internal(root);
+
+	final TranslationsAr _root; // ignore: unused_field
+
+	// Translations
+	@override String get unavailable => '—';
 }
 
 // Path: core.actions
@@ -457,7 +534,7 @@ class _Translations$assets$list$ar extends Translations$assets$list$en {
 	// Translations
 	@override String get title => 'الأصول';
 	@override String get tabEgp => 'جنيه مصري';
-	@override String get tabUsd => 'دولار امريكي';
+	@override String get tabUsd => 'دولار أمريكي';
 	@override String get tabGold21 => 'ذهب 21';
 	@override String get tabGold24 => 'ذهب 24';
 	@override String get sortFilter => 'ترتيب وتصفية';
@@ -484,7 +561,7 @@ class _Translations$assets$add$ar extends Translations$assets$add$en {
 	@override String get amount => 'الكمية';
 	@override String get amountGrams => 'الكمية (جرام)';
 	@override String get amountEgp => 'الكمية (جنيه مصري)';
-	@override String get amountUsd => 'الكمية (دولار امريكي)';
+	@override String get amountUsd => 'الكمية (دولار أمريكي)';
 	@override String get priceAtEntry => 'سعر الشراء';
 	@override String get pricePerGram => 'سعر الجرام عند الشراء';
 	@override String get pricePerUnit => 'سعر الوحدة عند الشراء';
@@ -507,7 +584,7 @@ class _Translations$assets$edit$ar extends Translations$assets$edit$en {
 	final TranslationsAr _root; // ignore: unused_field
 
 	// Translations
-	@override String get title => 'تعديل {type}';
+	@override String title({required Object type}) => 'تعديل ${type}';
 	@override String get submit => 'حفظ التغييرات';
 	@override String get assetTypeLabel => 'نوع الأصل';
 }
@@ -519,7 +596,7 @@ class _Translations$assets$detail$ar extends Translations$assets$detail$en {
 	final TranslationsAr _root; // ignore: unused_field
 
 	// Translations
-	@override String get entryPrice => 'سعر الشراء: {price} جنيه للوحدة';
+	@override String entryPrice({required Object price}) => 'سعر الشراء: ${price} جنيه للوحدة';
 	@override String get valueTrend => 'اتجاه القيمة';
 	@override String get editHistory => 'سجل التعديلات';
 	@override String get noHistory => 'لا يوجد سجل تعديلات بعد';
@@ -553,6 +630,17 @@ class _Translations$assets$filter$ar extends Translations$assets$filter$en {
 	@override String get all => 'الكل';
 }
 
+// Path: assets.carat
+class _Translations$assets$carat$ar extends Translations$assets$carat$en {
+	_Translations$assets$carat$ar._(TranslationsAr root) : this._root = root, super.internal(root);
+
+	final TranslationsAr _root; // ignore: unused_field
+
+	// Translations
+	@override String get k21 => '21K';
+	@override String get k24 => '24K';
+}
+
 // Path: assets.chart
 class _Translations$assets$chart$ar extends Translations$assets$chart$en {
 	_Translations$assets$chart$ar._(TranslationsAr root) : this._root = root, super.internal(root);
@@ -583,7 +671,7 @@ class _Translations$assets$history$ar extends Translations$assets$history$en {
 	@override String get fieldNote => 'ملاحظة';
 	@override String get noteUpdated => 'تم تحديث الملاحظة';
 	@override String get dateChanged => 'تم تغيير تاريخ الشراء';
-	@override String get fieldChanged => '{field}: {oldValue} ← {newValue}';
+	@override String fieldChanged({required Object field, required Object oldValue, required Object newValue}) => '${field}: ${oldValue} ← ${newValue}';
 }
 
 // Path: assets.delete
@@ -606,6 +694,12 @@ class _Translations$assets$failure$ar extends Translations$assets$failure$en {
 	// Translations
 	@override String get assetNotFound => 'الأصل غير موجود.';
 	@override String get invalidAmount => 'يجب أن تكون الكمية أكبر من الصفر.';
+	@override String get priceRequiredMarket => 'السعر مطلوب للأصول المعتمدة على السوق.';
+	@override String get addFailed => 'تعذّرت إضافة الأصل الآن. يرجى المحاولة مرة أخرى.';
+	@override String get updateFailed => 'فشل التحديث.';
+	@override String get deleteFailed => 'فشل الحذف.';
+	@override String get historyLoadFailed => 'فشل تحميل السجل.';
+	@override String get fetchFailed => 'تعذّر تحميل بياناتك الآن. يرجى المحاولة مرة أخرى.';
 }
 
 // Path: settings.profile
@@ -618,7 +712,7 @@ class _Translations$settings$profile$ar extends Translations$settings$profile$en
 	@override String get guest => 'ضيف';
 	@override String get signedInAsGuest => 'تم تسجيل الدخول كضيف';
 	@override String get fallbackName => 'مستخدم';
-	@override String get semanticLabel => 'تم تسجيل الدخول باسم {name}';
+	@override String semanticLabel({required Object name}) => 'تم تسجيل الدخول باسم ${name}';
 }
 
 // Path: insights.assetPerformance
@@ -629,7 +723,7 @@ class _Translations$insights$assetPerformance$ar extends Translations$insights$a
 
 	// Translations
 	@override String get title => 'أفضل أصل أداءً';
-	@override String get body => 'الأصل {id} يتصدر محفظتك بقيمة {value} جنيه.';
+	@override String body({required Object id, required Object value}) => 'الأصل ${id} يتصدر محفظتك بقيمة ${value} جنيه.';
 }
 
 // Path: insights.concentrationRisk
@@ -651,7 +745,7 @@ class _Translations$insights$inflationLoss$ar extends Translations$insights$infl
 
 	// Translations
 	@override String get title => 'تم اكتشاف تآكل تضخمي';
-	@override String get body => 'فقدت أموالك {erosion}% من قوتها الشرائية منذ أن بدأت التتبع.';
+	@override String body({required Object erosion}) => 'فقدت أموالك ${erosion}% من قوتها الشرائية منذ أن بدأت التتبع.';
 }
 
 // Path: insights.goalFeasibility
@@ -674,7 +768,27 @@ class _Translations$marketPrices$range$ar extends Translations$marketPrices$rang
 	// Translations
 	@override String get oneWeek => 'أسبوع';
 	@override String get oneMonth => 'شهر';
-	@override String get threeMonths => '٣ أشهر';
+	@override String get threeMonths => '3 أشهر';
+}
+
+// Path: charts.semantics
+class _Translations$charts$semantics$ar extends Translations$charts$semantics$en {
+	_Translations$charts$semantics$ar._(TranslationsAr root) : this._root = root, super.internal(root);
+
+	final TranslationsAr _root; // ignore: unused_field
+
+	// Translations
+	@override String summary({required num n, required Object title, required Object latest, required Object lowest, required Object highest}) => (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('ar'))(n,
+		zero: '${title}، آخر ${n} يوم: الأحدث ${latest}، الأدنى ${lowest}، الأعلى ${highest}.',
+		one: '${title}، لآخر يوم واحد: الأحدث ${latest}، الأدنى ${lowest}، الأعلى ${highest}.',
+		two: '${title}، لآخر يومين: الأحدث ${latest}، الأدنى ${lowest}، الأعلى ${highest}.',
+		few: '${title}، لآخر ${n} أيام: الأحدث ${latest}، الأدنى ${lowest}، الأعلى ${highest}.',
+		many: '${title}، لآخر ${n} يوماً: الأحدث ${latest}، الأدنى ${lowest}، الأعلى ${highest}.',
+		other: '${title}، لآخر ${n} يوم: الأحدث ${latest}، الأدنى ${lowest}، الأعلى ${highest}.',
+	);
+	@override String get realValue => 'القيمة الحقيقية للمحفظة';
+	@override String get priceHistory => 'سجل السعر';
+	@override String get recentPrices => 'الأسعار الأخيرة';
 }
 
 /// The flat map containing all translations for locale <ar>.
@@ -701,9 +815,14 @@ extension on TranslationsAr {
 			'core.failure.networkFailure' => 'لا يوجد اتصال بالإنترنت.',
 			'core.failure.cacheFailure' => 'تعذر قراءة البيانات المحلية.',
 			'core.failure.unknownFailure' => 'حدث خطأ غير متوقع.',
-			'core.failure.priceFetchFailure' => 'تعذر جلب السعر لـ {assetTypeCode}',
-			'core.failure.inflationDataMissing' => 'بيانات التضخم مفقودة لـ {count} شهر',
-			'core.failure.calculationFailed' => 'فشل الحساب: {reason}',
+			'core.failure.priceFetchFailure' => ({required Object assetTypeCode}) => 'تعذر جلب السعر لـ ${assetTypeCode}',
+			'core.failure.inflationDataMissing' => ({required num n}) => (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('ar'))(n, zero: 'بيانات التضخم مفقودة لـ ${n} شهر.', one: 'بيانات التضخم مفقودة لشهر واحد.', two: 'بيانات التضخم مفقودة لشهرين.', few: 'بيانات التضخم مفقودة لـ ${n} أشهر.', many: 'بيانات التضخم مفقودة لـ ${n} شهراً.', other: 'بيانات التضخم مفقودة لـ ${n} شهراً.', ), 
+			'core.failure.calculationFailed' => 'تعذر حساب القيمة.',
+			'core.failure.sessionExpired' => 'انتهت صلاحية جلستك. سجّل الدخول مرة أخرى.',
+			'core.failure.timeout' => 'انتهت مهلة الطلب. حاول مرة أخرى.',
+			'core.failure.forbidden' => 'لا تملك صلاحية القيام بذلك.',
+			'core.failure.notFound' => 'تعذّر العثور على العنصر المطلوب.',
+			'core.failure.validation' => 'يرجى مراجعة القيم التي أدخلتها.',
 			'core.empty.title' => 'لا توجد بيانات بعد',
 			'core.empty.body' => 'لا يوجد شيء هنا بعد.',
 			'core.loading.message' => 'جارٍ التحميل...',
@@ -716,11 +835,14 @@ extension on TranslationsAr {
 			'core.validation.amountRequired' => 'المبلغ مطلوب',
 			'core.validation.amountInvalid' => 'أدخل مبلغاً إيجابياً صالحاً',
 			'core.dates.justNow' => 'الآن',
-			'core.dates.minutesAgo' => 'منذ {minutes} دقيقة',
-			'core.dates.hoursAgo' => 'منذ {hours} ساعة',
-			'core.dates.daysAgo' => 'منذ {days} يوم',
+			'core.dates.minutesAgo' => ({required num n}) => (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('ar'))(n, zero: 'منذ ${n} دقيقة', one: 'منذ دقيقة واحدة', two: 'منذ دقيقتين', few: 'منذ ${n} دقائق', many: 'منذ ${n} دقيقة', other: 'منذ ${n} دقيقة', ), 
+			'core.dates.hoursAgo' => ({required num n}) => (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('ar'))(n, zero: 'منذ ${n} ساعة', one: 'منذ ساعة واحدة', two: 'منذ ساعتين', few: 'منذ ${n} ساعات', many: 'منذ ${n} ساعة', other: 'منذ ${n} ساعة', ), 
+			'core.dates.daysAgo' => ({required num n}) => (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('ar'))(n, zero: 'منذ ${n} يوم', one: 'منذ يوم واحد', two: 'منذ يومين', few: 'منذ ${n} أيام', many: 'منذ ${n} يوماً', other: 'منذ ${n} يوم', ), 
 			'core.currency.egp' => 'جنيه مصري',
-			'core.currency.usd' => 'دولار امريكي',
+			'core.currency.usd' => 'دولار أمريكي',
+			'core.unit.gram' => 'جرام',
+			'core.value.unavailable' => '—',
+			'core.listSeparator' => '؛ ',
 			'core.actions.cancel' => 'إلغاء',
 			'core.actions.delete' => 'حذف',
 			'core.notification.channelName' => 'تنبيهات الأسعار',
@@ -759,10 +881,10 @@ extension on TranslationsAr {
 			'navigation.profile' => 'الملف الشخصي',
 			'navigation.settings' => 'الإعدادات',
 			'navigation.addAsset' => 'إضافة أصل',
-			'navigation.assetDetail' => 'الأصل {id}',
-			'navigation.editAsset' => 'تعديل الأصل {id}',
+			'navigation.assetDetail' => ({required Object id}) => 'الأصل ${id}',
+			'navigation.editAsset' => ({required Object id}) => 'تعديل الأصل ${id}',
 			'navigation.addGoal' => 'إضافة هدف',
-			'navigation.goalDetail' => 'الهدف {id}',
+			'navigation.goalDetail' => ({required Object id}) => 'الهدف ${id}',
 			'navigation.notificationSettings' => 'إعدادات الإشعارات',
 			'nav.home' => 'الرئيسية',
 			'nav.assets' => 'الأصول',
@@ -770,7 +892,7 @@ extension on TranslationsAr {
 			'nav.settings' => 'الإعدادات',
 			'assets.list.title' => 'الأصول',
 			'assets.list.tabEgp' => 'جنيه مصري',
-			'assets.list.tabUsd' => 'دولار امريكي',
+			'assets.list.tabUsd' => 'دولار أمريكي',
 			'assets.list.tabGold21' => 'ذهب 21',
 			'assets.list.tabGold24' => 'ذهب 24',
 			'assets.list.sortFilter' => 'ترتيب وتصفية',
@@ -788,7 +910,7 @@ extension on TranslationsAr {
 			'assets.add.amount' => 'الكمية',
 			'assets.add.amountGrams' => 'الكمية (جرام)',
 			'assets.add.amountEgp' => 'الكمية (جنيه مصري)',
-			'assets.add.amountUsd' => 'الكمية (دولار امريكي)',
+			'assets.add.amountUsd' => 'الكمية (دولار أمريكي)',
 			'assets.add.priceAtEntry' => 'سعر الشراء',
 			'assets.add.pricePerGram' => 'سعر الجرام عند الشراء',
 			'assets.add.pricePerUnit' => 'سعر الوحدة عند الشراء',
@@ -802,10 +924,10 @@ extension on TranslationsAr {
 			'assets.add.priceRequired' => 'السعر مطلوب',
 			'assets.add.priceInvalid' => 'أدخل سعراً موجباً صالحاً',
 			'assets.add.selectTypeFirst' => 'اختر نوع الأصل أولاً',
-			'assets.edit.title' => 'تعديل {type}',
+			'assets.edit.title' => ({required Object type}) => 'تعديل ${type}',
 			'assets.edit.submit' => 'حفظ التغييرات',
 			'assets.edit.assetTypeLabel' => 'نوع الأصل',
-			'assets.detail.entryPrice' => 'سعر الشراء: {price} جنيه للوحدة',
+			'assets.detail.entryPrice' => ({required Object price}) => 'سعر الشراء: ${price} جنيه للوحدة',
 			'assets.detail.valueTrend' => 'اتجاه القيمة',
 			'assets.detail.editHistory' => 'سجل التعديلات',
 			'assets.detail.noHistory' => 'لا يوجد سجل تعديلات بعد',
@@ -819,6 +941,8 @@ extension on TranslationsAr {
 			'assets.sort.value' => 'القيمة',
 			'assets.sort.type' => 'النوع',
 			'assets.filter.all' => 'الكل',
+			'assets.carat.k21' => '21K',
+			'assets.carat.k24' => '24K',
 			'assets.chart.cashPlaceholder' => 'الأصول النقدية تحافظ على قيمة ثابتة',
 			'assets.chart.noDataTitle' => 'لا يوجد تاريخ أسعار كافٍ بعد',
 			'assets.chart.noDataSubtitle' => 'ستظهر الأسعار التاريخية هنا بمجرد توفر بيانات السوق.',
@@ -833,16 +957,22 @@ extension on TranslationsAr {
 			'assets.history.fieldNote' => 'ملاحظة',
 			'assets.history.noteUpdated' => 'تم تحديث الملاحظة',
 			'assets.history.dateChanged' => 'تم تغيير تاريخ الشراء',
-			'assets.history.fieldChanged' => '{field}: {oldValue} ← {newValue}',
+			'assets.history.fieldChanged' => ({required Object field, required Object oldValue, required Object newValue}) => '${field}: ${oldValue} ← ${newValue}',
 			'assets.delete.confirmTitle' => 'حذف الأصل؟',
 			'assets.delete.confirmBody' => 'سيؤدي هذا إلى حذف سجل الأصل بشكل دائم.',
 			'assets.failure.assetNotFound' => 'الأصل غير موجود.',
 			'assets.failure.invalidAmount' => 'يجب أن تكون الكمية أكبر من الصفر.',
+			'assets.failure.priceRequiredMarket' => 'السعر مطلوب للأصول المعتمدة على السوق.',
+			'assets.failure.addFailed' => 'تعذّرت إضافة الأصل الآن. يرجى المحاولة مرة أخرى.',
+			'assets.failure.updateFailed' => 'فشل التحديث.',
+			'assets.failure.deleteFailed' => 'فشل الحذف.',
+			'assets.failure.historyLoadFailed' => 'فشل تحميل السجل.',
+			'assets.failure.fetchFailed' => 'تعذّر تحميل بياناتك الآن. يرجى المحاولة مرة أخرى.',
 			'settings.title' => 'الإعدادات',
 			'settings.profile.guest' => 'ضيف',
 			'settings.profile.signedInAsGuest' => 'تم تسجيل الدخول كضيف',
 			'settings.profile.fallbackName' => 'مستخدم',
-			'settings.profile.semanticLabel' => 'تم تسجيل الدخول باسم {name}',
+			'settings.profile.semanticLabel' => ({required Object name}) => 'تم تسجيل الدخول باسم ${name}',
 			'settings.securitySection' => 'الأمان',
 			'settings.preferencesSection' => 'التفضيلات',
 			'settings.aboutSection' => 'حول',
@@ -883,23 +1013,27 @@ extension on TranslationsAr {
 			'home.retry' => 'حاول مرة أخرى',
 			'home.notEnoughTrendData' => 'لا توجد بيانات كافية بعد',
 			'insights.assetPerformance.title' => 'أفضل أصل أداءً',
-			'insights.assetPerformance.body' => 'الأصل {id} يتصدر محفظتك بقيمة {value} جنيه.',
+			'insights.assetPerformance.body' => ({required Object id, required Object value}) => 'الأصل ${id} يتصدر محفظتك بقيمة ${value} جنيه.',
 			'insights.concentrationRisk.title' => 'مخاطر التركيز العالي',
 			'insights.concentrationRisk.body' => 'أكثر من 80% من محفظتك في نوع أصل واحد. فكّر في التنويع لتقليل المخاطر.',
 			'insights.inflationLoss.title' => 'تم اكتشاف تآكل تضخمي',
-			'insights.inflationLoss.body' => 'فقدت أموالك {erosion}% من قوتها الشرائية منذ أن بدأت التتبع.',
+			'insights.inflationLoss.body' => ({required Object erosion}) => 'فقدت أموالك ${erosion}% من قوتها الشرائية منذ أن بدأت التتبع.',
 			'insights.goalFeasibility.title' => 'فحص هدف الادخار',
 			'insights.goalFeasibility.body' => 'بالمعدل الحالي للتضخم، قد تحتاج أهداف الادخار الخاصة بك إلى مراجعة بالزيادة للحفاظ على قيمتها الحقيقية.',
 			'marketPrices.title' => 'أسعار السوق',
 			'marketPrices.dataSourceDisclosure' => 'الأسعار مبنية على أسعار الصرف الرسمية والأسعار العالمية الفورية — وقد تختلف عن أسعار السوق المحلي أو تجار الذهب.',
-			'marketPrices.lastUpdated' => 'آخر تحديث {when}',
+			'marketPrices.lastUpdated' => ({required Object when}) => 'آخر تحديث ${when}',
 			'marketPrices.notEnoughHistory' => 'لا يوجد تاريخ كافٍ بعد',
-			'marketPrices.showingAvailableData' => 'عرض البيانات المتاحة ({days} يوم)',
+			'marketPrices.showingAvailableData' => ({required num n}) => (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('ar'))(n, zero: 'عرض البيانات المتاحة (${n} يوم)', one: 'عرض البيانات المتاحة (يوم واحد)', two: 'عرض البيانات المتاحة (يومين)', few: 'عرض البيانات المتاحة (${n} أيام)', many: 'عرض البيانات المتاحة (${n} يوماً)', other: 'عرض البيانات المتاحة (${n} يوم)', ), 
 			'marketPrices.emptyTitle' => 'لا توجد أسعار سوق بعد',
 			'marketPrices.emptyBody' => 'ستظهر بيانات أسعار السوق هنا بمجرد توفرها.',
 			'marketPrices.range.oneWeek' => 'أسبوع',
 			'marketPrices.range.oneMonth' => 'شهر',
-			'marketPrices.range.threeMonths' => '٣ أشهر',
+			'marketPrices.range.threeMonths' => '3 أشهر',
+			'charts.semantics.summary' => ({required num n, required Object title, required Object latest, required Object lowest, required Object highest}) => (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('ar'))(n, zero: '${title}، آخر ${n} يوم: الأحدث ${latest}، الأدنى ${lowest}، الأعلى ${highest}.', one: '${title}، لآخر يوم واحد: الأحدث ${latest}، الأدنى ${lowest}، الأعلى ${highest}.', two: '${title}، لآخر يومين: الأحدث ${latest}، الأدنى ${lowest}، الأعلى ${highest}.', few: '${title}، لآخر ${n} أيام: الأحدث ${latest}، الأدنى ${lowest}، الأعلى ${highest}.', many: '${title}، لآخر ${n} يوماً: الأحدث ${latest}، الأدنى ${lowest}، الأعلى ${highest}.', other: '${title}، لآخر ${n} يوم: الأحدث ${latest}، الأدنى ${lowest}، الأعلى ${highest}.', ), 
+			'charts.semantics.realValue' => 'القيمة الحقيقية للمحفظة',
+			'charts.semantics.priceHistory' => 'سجل السعر',
+			'charts.semantics.recentPrices' => 'الأسعار الأخيرة',
 			'app_lock.promptReason' => 'افتح قيّمة للمتابعة',
 			'app_lock.disableReason' => 'أكّد هويتك لإيقاف قفل التطبيق',
 			'app_lock.title' => 'قيّمة مقفلة',
@@ -908,6 +1042,8 @@ extension on TranslationsAr {
 			'app_lock.lockedOutMessage' => 'محاولات كثيرة. أعد المحاولة بعد انتهاء المهلة.',
 			'app_lock.unavailableMessage' => 'تعذّر التحقق الآن. تحقق من قفل الجهاز ثم أعد المحاولة.',
 			'app_lock.errorMessage' => 'تعذّر التحقق من هويتك. حاول مرة أخرى.',
+			'app_lock.cancelledMessage' => 'تم إلغاء التحقق.',
+			'app_lock.noCredentialsMessage' => 'لا يوجد قفل شاشة على هذا الجهاز. ضع قفل شاشة لاستخدام قفل التطبيق.',
 			'app_lock.settingsTitle' => 'قفل التطبيق',
 			'app_lock.settingsSubtitle' => 'طلب فتح الجهاز عند فتح قيّمة',
 			'app_lock.settingsNoDeviceLock' => 'اضبط قفل شاشة (رمز أو نمط أو كلمة مرور) في إعدادات النظام لاستخدام قفل التطبيق',

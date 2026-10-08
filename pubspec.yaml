@@ -14,7 +14,6 @@ dependencies:
 
   cupertino_icons: ^1.0.8
   supabase_flutter: ^2.16.0
-  dio: ^5.10.0
   drift: ^2.34.2
   sqlite3: ^3.4.0
   flutter_secure_storage: ^11.0.0

@@ -35,9 +35,7 @@ mixin AssetsRepositoryImplSupport {
       final typeCode = typeRow['code'] as String;
 
       if (isMarketBased && params.priceAtEntry == null) {
-        return const ResultFailure(
-          ValidationFailure('Price is required for market-based assets.'),
-        );
+        return const ResultFailure(PriceRequiredFailure());
       }
 
       final priceAtEntry = (params.priceAtEntry ?? Decimal.one).toDouble();
@@ -113,11 +111,9 @@ mixin AssetsRepositoryImplSupport {
         ),
       );
     } on PostgrestException catch (e) {
-      return ResultFailure(mapSupabaseError(e));
+      return ResultFailure(mapSupabaseError(e, AssetOperation.add));
     } catch (e) {
-      return const ResultFailure(
-        ServerFailure('مش قادرين نضيف الأصل دلوقتي، حاول تاني.'),
-      );
+      return ResultFailure(AssetOperationFailure(AssetOperation.add, '$e'));
     }
   }
 
@@ -191,9 +187,9 @@ mixin AssetsRepositoryImplSupport {
         ),
       );
     } on PostgrestException catch (e) {
-      return ResultFailure(mapSupabaseError(e));
+      return ResultFailure(mapSupabaseError(e, AssetOperation.update));
     } catch (e) {
-      return const ResultFailure(ServerFailure('Update failed.'));
+      return ResultFailure(AssetOperationFailure(AssetOperation.update, '$e'));
     }
   }
 
@@ -206,9 +202,9 @@ mixin AssetsRepositoryImplSupport {
       await remoteDataSource.softDeleteAsset(assetId);
       return const Success(null);
     } on PostgrestException catch (e) {
-      return ResultFailure(mapSupabaseError(e));
+      return ResultFailure(mapSupabaseError(e, AssetOperation.delete));
     } catch (e) {
-      return const ResultFailure(ServerFailure('Delete failed.'));
+      return ResultFailure(AssetOperationFailure(AssetOperation.delete, '$e'));
     }
   }
 
@@ -220,9 +216,11 @@ mixin AssetsRepositoryImplSupport {
       final entries = rows.map(AssetHistoryMapper.fromRow).toList();
       return Success(entries);
     } on PostgrestException catch (e) {
-      return ResultFailure(mapSupabaseError(e));
+      return ResultFailure(mapSupabaseError(e, AssetOperation.loadHistory));
     } catch (e) {
-      return const ResultFailure(ServerFailure('Failed to load history.'));
+      return ResultFailure(
+        AssetOperationFailure(AssetOperation.loadHistory, '$e'),
+      );
     }
   }
 
@@ -240,10 +238,10 @@ mixin AssetsRepositoryImplSupport {
     }).toList();
   }
 
-  Failure mapSupabaseError(PostgrestException e) {
-    if (e.code == 'PGRST301' || (e.message.contains('JWT'))) {
-      return const AuthFailure('انتهت صلاحية الجلسة، سجّل دخول تاني.');
+  Failure mapSupabaseError(PostgrestException e, AssetOperation operation) {
+    if (e.code == 'PGRST301' || e.message.contains('JWT')) {
+      return SessionExpiredFailure(e.message, e.code);
     }
-    return const ServerFailure('مش قادرين نجيب بياناتك دلوقتي، حاول تاني.');
+    return AssetOperationFailure(operation, e.message, e.code);
   }
 }

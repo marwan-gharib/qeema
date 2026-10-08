@@ -1,5 +1,6 @@
 import 'package:material_ui/material_ui.dart';
 import 'package:qeema/core/extensions/build_context_extensions.dart';
+import 'package:qeema/core/i18n/strings.g.dart';
 import 'package:qeema/core/responsive/responsive.dart';
 import 'package:qeema/core/theme/app_radius.dart';
 import 'package:qeema/core/theme/app_sizes.dart';
@@ -77,7 +78,9 @@ class AssetTypeTile extends StatelessWidget {
                 borderRadius: BorderRadius.circular(AppRadius.xxs),
               ),
               child: Text(
-                type.code == 'gold_21' ? '21K' : '24K',
+                type.code == 'gold_21'
+                    ? context.t.assets.carat.k21
+                    : context.t.assets.carat.k24,
                 style: context.textStyles.caratBadge.copyWith(
                   color: colors.onPrimary,
                 ),

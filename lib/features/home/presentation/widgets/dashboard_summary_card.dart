@@ -25,7 +25,7 @@ class DashboardSummaryCard extends StatelessWidget {
         children: [
           Text(
             t.home.totalSavingsNominal.toUpperCase(),
-            style: context.textTheme.labelSmall?.copyWith(
+            style: context.textTheme.titleLarge?.copyWith(
               color: colors.textSecondary,
             ),
           ),
@@ -40,7 +40,7 @@ class DashboardSummaryCard extends StatelessWidget {
           SizedBox(height: AppSpacing.md),
           Text(
             t.home.totalSavingsReal,
-            style: context.textTheme.labelSmall?.copyWith(
+            style: context.textTheme.titleLarge?.copyWith(
               color: colors.textSecondary,
             ),
           ),

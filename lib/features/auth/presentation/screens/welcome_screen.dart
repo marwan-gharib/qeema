@@ -5,8 +5,8 @@ import 'package:qeema/core/animations/app_animated_entry.dart';
 import 'package:qeema/core/animations/app_motion.dart';
 import 'package:qeema/core/animations/entry_animation_type.dart';
 import 'package:qeema/core/constants/app_assets.dart';
-import 'package:qeema/core/error/failures.dart';
 import 'package:qeema/core/extensions/build_context_extensions.dart';
+import 'package:qeema/core/extensions/failure_localization_extension.dart';
 import 'package:qeema/core/i18n/strings.g.dart';
 import 'package:qeema/core/router/route_names.dart';
 import 'package:qeema/core/theme/app_spacing.dart';
@@ -83,16 +83,9 @@ class WelcomeScreen extends StatelessWidget {
                   BlocConsumer<GoogleSignInCubit, GoogleSignInState>(
                     listener: (context, state) {
                       if (state is GoogleSignInFailureState) {
-                        final message = switch (state.failure) {
-                          final AnonymousSignInDisabledFailure _ =>
-                            t.auth.error.anonymousSignInDisabled,
-                          final NetworkAuthFailure _ =>
-                            t.auth.error.networkError,
-                          _ => t.auth.error.unknownError,
-                        };
                         AppSnackBar.showError(
                           context,
-                          state.failure.message ?? message,
+                          state.failure.localizedMessage(context),
                         );
                       } else if (state is GoogleSignInSuccessState) {
                         context.goNamed(RouteNames.home);
@@ -128,16 +121,9 @@ class WelcomeScreen extends StatelessWidget {
                   BlocConsumer<WelcomeCubit, WelcomeState>(
                     listener: (context, state) {
                       if (state is WelcomeGuestFailure) {
-                        final message = switch (state.failure) {
-                          final AnonymousSignInDisabledFailure _ =>
-                            t.auth.error.anonymousSignInDisabled,
-                          final NetworkAuthFailure _ =>
-                            t.auth.error.networkError,
-                          _ => t.auth.error.unknownError,
-                        };
                         AppSnackBar.showError(
                           context,
-                          state.failure.message ?? message,
+                          state.failure.localizedMessage(context),
                         );
                       } else if (state is WelcomeGuestSuccess) {
                         context.goNamed(RouteNames.home);
