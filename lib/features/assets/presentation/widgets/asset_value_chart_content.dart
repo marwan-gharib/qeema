@@ -31,8 +31,8 @@ class AssetValueChartBody extends StatelessWidget {
         subtitle: t.noDataSubtitle,
         container: true,
         height: 250,
-        margin: const EdgeInsets.symmetric(vertical: AppSpacing.md),
-        padding: const EdgeInsets.all(AppSpacing.lg),
+        margin: EdgeInsets.symmetric(vertical: AppSpacing.md),
+        padding: EdgeInsets.all(AppSpacing.lg),
       );
     }
 

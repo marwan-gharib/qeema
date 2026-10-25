@@ -1,6 +1,7 @@
 import 'package:decimal/decimal.dart';
 import 'package:material_ui/material_ui.dart';
 import 'package:qeema/core/extensions/build_context_extensions.dart';
+import 'package:qeema/core/i18n/strings.g.dart';
 import 'package:qeema/core/widgets/app_line_chart.dart';
 
 /// Tiny axis-less sparkline for a price card. Glanceable visual cue only:
@@ -25,6 +26,7 @@ class PriceSparkline extends StatelessWidget {
     if (points.length < 2) return const SizedBox.shrink();
 
     return AppLineChart(
+      semanticsTitle: context.t.charts.semantics.recentPrices,
       points: [for (final point in points) (date: point.$1, value: point.$2)],
       lineColor: isGain
           ? context.colors.secondaryVariant

@@ -1,6 +1,9 @@
+/// [code] is a machine-readable identifier (HTTP status, Dio error type, or a
+/// domain code) — never displayable text.
 class ServerException implements Exception {
-  const ServerException([this.message]);
+  const ServerException([this.message, this.code]);
   final String? message;
+  final String? code;
 }
 
 class AuthException implements Exception {

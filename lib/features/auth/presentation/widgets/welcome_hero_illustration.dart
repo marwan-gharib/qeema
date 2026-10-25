@@ -1,5 +1,6 @@
 import 'package:material_ui/material_ui.dart';
 import 'package:qeema/core/extensions/build_context_extensions.dart';
+import 'package:qeema/core/responsive/responsive.dart';
 
 class WelcomeHeroIllustration extends StatelessWidget {
   const WelcomeHeroIllustration({super.key});
@@ -7,11 +8,13 @@ class WelcomeHeroIllustration extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colors = context.colors;
+    final width = Responsive.width(200);
+    final height = Responsive.height(160);
     return SizedBox(
-      width: 200,
-      height: 160,
+      width: width,
+      height: height,
       child: CustomPaint(
-        size: const Size(200, 160),
+        size: Size(width, height),
         painter: _TrendMotifPainter(
           primary: colors.primary,
           secondary: colors.secondary,

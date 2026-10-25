@@ -1,5 +1,7 @@
 import 'package:material_ui/material_ui.dart';
 import 'package:qeema/core/extensions/build_context_extensions.dart';
+import 'package:qeema/core/theme/app_radius.dart';
+import 'package:qeema/core/theme/app_sizes.dart';
 import 'package:qeema/core/theme/app_spacing.dart';
 
 class SelectorOptionRow extends StatelessWidget {
@@ -17,7 +19,7 @@ class SelectorOptionRow extends StatelessWidget {
     final colors = context.colors;
 
     return Container(
-      padding: const EdgeInsets.symmetric(
+      padding: EdgeInsets.symmetric(
         horizontal: AppSpacing.md,
         vertical: AppSpacing.sm,
       ),
@@ -25,7 +27,7 @@ class SelectorOptionRow extends StatelessWidget {
         color: isSelected
             ? colors.primary.withValues(alpha: 0.12)
             : colors.surfaceAlt,
-        borderRadius: BorderRadius.circular(12),
+        borderRadius: BorderRadius.circular(AppRadius.sm),
         border: isSelected
             ? Border.all(color: colors.primary)
             : Border.all(color: colors.divider),
@@ -40,7 +42,8 @@ class SelectorOptionRow extends StatelessWidget {
               ),
             ),
           ),
-          if (isSelected) Icon(Icons.check, size: 20, color: colors.primary),
+          if (isSelected)
+            Icon(Icons.check, size: AppSizes.iconMedium, color: colors.primary),
         ],
       ),
     );

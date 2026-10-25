@@ -1,6 +1,7 @@
 import 'package:material_ui/material_ui.dart';
 import 'package:qeema/core/animations/loading/shimmer_box.dart';
 import 'package:qeema/core/extensions/build_context_extensions.dart';
+import 'package:qeema/core/responsive/responsive.dart';
 import 'package:qeema/features/settings/presentation/cubits/profile_header_cubit/profile_header_state.dart';
 
 /// Circular profile avatar: network photo for signed-in users (shimmer while
@@ -45,10 +46,11 @@ class ProfileHeaderAvatar extends StatelessWidget {
     final ringColors = isGuest
         ? <Color>[colors.secondary, colors.secondaryVariant]
         : <Color>[colors.primary, colors.primaryVariant];
+    final scaled = Responsive.adapt(size);
 
     return Container(
-      width: size + _ringThickness * 2,
-      height: size + _ringThickness * 2,
+      width: scaled + _ringThickness * 2,
+      height: scaled + _ringThickness * 2,
       padding: const EdgeInsets.all(_ringThickness),
       decoration: BoxDecoration(
         shape: BoxShape.circle,
@@ -70,10 +72,11 @@ class ProfileHeaderAvatar extends StatelessWidget {
   }
 
   Widget _buildContent(BuildContext context) {
+    final scaled = Responsive.adapt(size);
     if (kind == ProfileHeaderKind.guest) {
       return _TonalCircle(
         color: context.colors.secondary,
-        iconSize: size * 0.45,
+        iconSize: scaled * 0.45,
       );
     }
 
@@ -97,9 +100,10 @@ class ProfileHeaderAvatar extends StatelessWidget {
 
   Widget _initialsOrIcon(BuildContext context) {
     final colors = context.colors;
+    final scaled = Responsive.adapt(size);
     final initials = initialsFor(name);
     if (initials.isEmpty) {
-      return _TonalCircle(color: colors.primary, iconSize: size * 0.45);
+      return _TonalCircle(color: colors.primary, iconSize: scaled * 0.45);
     }
     return _TonalCircle(
       color: colors.primary,

@@ -5,6 +5,7 @@ import 'package:material_ui/material_ui.dart';
 import 'package:qeema/core/extensions/build_context_extensions.dart';
 import 'package:qeema/core/extensions/decimal_extensions.dart';
 import 'package:qeema/core/i18n/strings.g.dart';
+import 'package:qeema/core/responsive/responsive.dart';
 import 'package:qeema/core/theme/app_spacing.dart';
 
 class ErosionRing extends StatelessWidget {
@@ -20,8 +21,8 @@ class ErosionRing extends StatelessWidget {
       child: Column(
         children: [
           SizedBox(
-            width: 120,
-            height: 120,
+            width: Responsive.adapt(120),
+            height: Responsive.adapt(120),
             child: CustomPaint(
               painter: _ErosionRingPainter(
                 erosionFraction: erosionPercent
@@ -41,7 +42,7 @@ class ErosionRing extends StatelessWidget {
               ),
             ),
           ),
-          const SizedBox(height: AppSpacing.xs),
+          SizedBox(height: AppSpacing.xs),
           Text(
             context.t.home.erosionCaption,
             style: context.textTheme.bodySmall?.copyWith(

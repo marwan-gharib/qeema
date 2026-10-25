@@ -6,8 +6,10 @@ import 'package:qeema/core/animations/entry_animation_type.dart';
 import 'package:qeema/core/extensions/build_context_extensions.dart';
 import 'package:qeema/core/extensions/failure_localization_extension.dart';
 import 'package:qeema/core/i18n/strings.g.dart';
+import 'package:qeema/core/responsive/responsive.dart';
 import 'package:qeema/core/router/route_names.dart';
 import 'package:qeema/core/theme/app_spacing.dart';
+import 'package:qeema/core/widgets/app_content_box.dart';
 import 'package:qeema/core/widgets/app_empty_state.dart';
 import 'package:qeema/core/widgets/app_error_state.dart';
 import 'package:qeema/features/home/domain/entities/dashboard_summary_entity.dart';
@@ -29,24 +31,27 @@ class HomeScreen extends StatelessWidget {
     return Scaffold(
       backgroundColor: context.colors.background,
       appBar: AppBar(title: Text(t.home.title)),
-      body: BlocBuilder<HomeCubit, HomeState>(
-        builder: (context, state) {
-          return switch (state) {
-            HomeLoading() => const DashboardSkeleton(),
-            HomeError(:final failure) => AppErrorState(
-              message: failure.localizedMessage(context),
-              onRetry: () => context.read<HomeCubit>().loadDashboard(),
-            ),
-            HomeLoaded(:final summary) when !summary.hasAssets => AppEmptyState(
-              icon: Icons.savings_outlined,
-              title: t.assets.list.emptyNoAssets,
-              subtitle: t.assets.list.emptyNoAssetsSubtitle,
-              actionLabel: t.assets.list.addFirst,
-              onAction: () => context.pushNamed(RouteNames.addAsset),
-            ),
-            HomeLoaded(:final summary) => _DashboardContent(summary: summary),
-          };
-        },
+      body: AppContentBox(
+        child: BlocBuilder<HomeCubit, HomeState>(
+          builder: (context, state) {
+            return switch (state) {
+              HomeLoading() => const DashboardSkeleton(),
+              HomeError(:final failure) => AppErrorState(
+                message: failure.localizedMessage(context),
+                onRetry: () => context.read<HomeCubit>().loadDashboard(),
+              ),
+              HomeLoaded(:final summary) when !summary.hasAssets =>
+                AppEmptyState(
+                  icon: Icons.savings_outlined,
+                  title: t.assets.list.emptyNoAssets,
+                  subtitle: t.assets.list.emptyNoAssetsSubtitle,
+                  actionLabel: t.assets.list.addFirst,
+                  onAction: () => context.pushNamed(RouteNames.addAsset),
+                ),
+              HomeLoaded(:final summary) => _DashboardContent(summary: summary),
+            };
+          },
+        ),
       ),
     );
   }
@@ -69,26 +74,26 @@ class _DashboardContent extends StatelessWidget {
           AppSpacing.md,
           AppSpacing.md,
           AppSpacing.md,
-          80 + MediaQuery.paddingOf(context).bottom,
+          Responsive.height(80) + MediaQuery.paddingOf(context).bottom,
         ),
         children: [
           AppAnimatedEntry(
             type: EntryAnimationType.fadeSlideUp,
             child: DashboardSummaryCard(summary: summary),
           ),
-          const SizedBox(height: AppSpacing.lg),
+          SizedBox(height: AppSpacing.lg),
           AppAnimatedEntry(
             type: EntryAnimationType.scaleIn,
             delay: const Duration(milliseconds: 100),
             child: ErosionRing(erosionPercent: summary.erosionPercent),
           ),
-          const SizedBox(height: AppSpacing.lg),
+          SizedBox(height: AppSpacing.lg),
           AppAnimatedEntry(
             type: EntryAnimationType.fadeSlideUp,
             delay: const Duration(milliseconds: 200),
             child: AssetTypeMiniCardRow(summaries: summary.assetTypeSummaries),
           ),
-          const SizedBox(height: AppSpacing.lg),
+          SizedBox(height: AppSpacing.lg),
           AppAnimatedEntry(
             type: EntryAnimationType.fadeSlideUp,
             delay: const Duration(milliseconds: 300),
@@ -99,7 +104,7 @@ class _DashboardContent extends StatelessWidget {
               ),
             ),
           ),
-          const SizedBox(height: AppSpacing.xs),
+          SizedBox(height: AppSpacing.xs),
           AppAnimatedEntry(
             type: EntryAnimationType.fadeSlideUp,
             delay: const Duration(milliseconds: 350),

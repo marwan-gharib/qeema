@@ -1,6 +1,7 @@
 import 'package:material_ui/material_ui.dart';
 import 'package:qeema/core/animations/app_motion.dart';
 import 'package:qeema/core/extensions/build_context_extensions.dart';
+import 'package:qeema/core/theme/app_radius.dart';
 import 'package:qeema/core/theme/app_spacing.dart';
 
 class OnboardingPageIndicator extends StatelessWidget {
@@ -22,14 +23,14 @@ class OnboardingPageIndicator extends StatelessWidget {
           AnimatedContainer(
             duration: AppMotion.slow,
             curve: AppMotion.entrance,
-            width: i == currentPage ? 24 : 8,
-            height: 8,
+            width: i == currentPage ? AppSpacing.lg : AppSpacing.xs,
+            height: AppSpacing.xs,
             margin: EdgeInsets.only(
               right: i < totalPages - 1 ? AppSpacing.xs : 0,
             ),
             decoration: BoxDecoration(
               color: i == currentPage ? colors.primary : colors.divider,
-              borderRadius: BorderRadius.circular(4),
+              borderRadius: BorderRadius.circular(AppRadius.xxs),
             ),
           ),
       ],

@@ -3,6 +3,8 @@ import 'package:go_router/go_router.dart';
 import 'package:material_ui/material_ui.dart';
 import 'package:qeema/core/i18n/strings.g.dart';
 import 'package:qeema/core/theme/app_colors_extension.dart';
+import 'package:qeema/core/theme/app_radius.dart';
+import 'package:qeema/core/theme/app_spacing.dart';
 import 'package:qeema/features/assets/presentation/cubits/assets_list_cubit/assets_list_cubit.dart';
 import 'package:qeema/features/assets/presentation/cubits/assets_list_cubit/assets_list_state.dart';
 
@@ -16,8 +18,8 @@ class SortFilterBottomSheet extends StatelessWidget {
       backgroundColor: Theme.of(
         context,
       ).extension<AppColorsExtension>()!.surface,
-      shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(AppRadius.md)),
       ),
       builder: (_) => BlocProvider.value(
         value: cubit,
@@ -45,7 +47,7 @@ class SortFilterBottomSheet extends StatelessWidget {
 
     return SafeArea(
       child: Padding(
-        padding: const EdgeInsets.all(16),
+        padding: EdgeInsets.all(AppSpacing.md),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -57,7 +59,7 @@ class SortFilterBottomSheet extends StatelessWidget {
                 fontWeight: FontWeight.w600,
               ),
             ),
-            const SizedBox(height: 16),
+            SizedBox(height: AppSpacing.md),
             ...sortOptions.map(
               (option) => ListTile(
                 title: Text(

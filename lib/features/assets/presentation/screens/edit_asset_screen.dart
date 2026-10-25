@@ -8,6 +8,7 @@ import 'package:qeema/core/extensions/failure_localization_extension.dart';
 import 'package:qeema/core/i18n/strings.g.dart';
 import 'package:qeema/core/theme/app_spacing.dart';
 import 'package:qeema/core/widgets/app_button.dart';
+import 'package:qeema/core/widgets/app_content_box.dart';
 import 'package:qeema/core/widgets/app_error_state.dart';
 import 'package:qeema/core/widgets/app_snackbar.dart';
 import 'package:qeema/features/assets/domain/entities/asset_entity.dart';
@@ -174,40 +175,42 @@ class _EditAssetScreenState extends State<EditAssetScreen> {
 
         return Scaffold(
           appBar: AppBar(title: Text(context.assetTypeName(typeEntity.code))),
-          body: SuccessPulse(
-            triggered: state.submitSucceeded,
-            child: SingleChildScrollView(
-              padding: const EdgeInsets.all(AppSpacing.lg),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  EditAssetHeader(asset: asset, typeEntity: typeEntity),
-                  DynamicAssetFields(
-                    key: ValueKey('edit_fields_${asset.id}'),
-                    selectedType: typeEntity,
-                    amountController: _amountController,
-                    priceController: _priceController,
-                    noteController: _noteController,
-                    entryDate: state.entryDate,
-                    onEntryDateChanged: (date) =>
-                        context.read<EditAssetCubit>().updateEntryDate(date),
-                    onFormValidityChanged: (valid) => context
-                        .read<EditAssetCubit>()
-                        .updateFormValidity(valid),
-                  ),
-                  const SizedBox(height: AppSpacing.lg),
-                  AppButton(
-                    label: t.assets.edit.submit,
-                    isLoading: state.isSubmitting,
-                    onPressed:
-                        state.isFormValid &&
-                            state.hasChanges &&
-                            !state.isSubmitting
-                        ? () => _submit(context.read<EditAssetCubit>())
-                        : null,
-                  ),
-                  const SizedBox(height: AppSpacing.lg),
-                ],
+          body: AppContentBox(
+            child: SuccessPulse(
+              triggered: state.submitSucceeded,
+              child: SingleChildScrollView(
+                padding: EdgeInsets.all(AppSpacing.lg),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    EditAssetHeader(asset: asset, typeEntity: typeEntity),
+                    DynamicAssetFields(
+                      key: ValueKey('edit_fields_${asset.id}'),
+                      selectedType: typeEntity,
+                      amountController: _amountController,
+                      priceController: _priceController,
+                      noteController: _noteController,
+                      entryDate: state.entryDate,
+                      onEntryDateChanged: (date) =>
+                          context.read<EditAssetCubit>().updateEntryDate(date),
+                      onFormValidityChanged: (valid) => context
+                          .read<EditAssetCubit>()
+                          .updateFormValidity(valid),
+                    ),
+                    SizedBox(height: AppSpacing.lg),
+                    AppButton(
+                      label: t.assets.edit.submit,
+                      isLoading: state.isSubmitting,
+                      onPressed:
+                          state.isFormValid &&
+                              state.hasChanges &&
+                              !state.isSubmitting
+                          ? () => _submit(context.read<EditAssetCubit>())
+                          : null,
+                    ),
+                    SizedBox(height: AppSpacing.lg),
+                  ],
+                ),
               ),
             ),
           ),

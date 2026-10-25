@@ -52,6 +52,7 @@ class Translations with BaseTranslations<AppLocale, Translations> {
 	late final Translations$home$en home = Translations$home$en.internal(_root);
 	late final Translations$insights$en insights = Translations$insights$en.internal(_root);
 	late final Translations$marketPrices$en marketPrices = Translations$marketPrices$en.internal(_root);
+	late final Translations$charts$en charts = Translations$charts$en.internal(_root);
 	late final Translations$app_lock$en app_lock = Translations$app_lock$en.internal(_root);
 }
 
@@ -85,6 +86,12 @@ class Translations$core$en {
 	late final Translations$core$validation$en validation = Translations$core$validation$en.internal(_root);
 	late final Translations$core$dates$en dates = Translations$core$dates$en.internal(_root);
 	late final Translations$core$currency$en currency = Translations$core$currency$en.internal(_root);
+	late final Translations$core$unit$en unit = Translations$core$unit$en.internal(_root);
+	late final Translations$core$value$en value = Translations$core$value$en.internal(_root);
+
+	/// en: '; '
+	String get listSeparator => '; ';
+
 	late final Translations$core$actions$en actions = Translations$core$actions$en.internal(_root);
 	late final Translations$core$notification$en notification = Translations$core$notification$en.internal(_root);
 }
@@ -185,17 +192,17 @@ class Translations$navigation$en {
 	/// en: 'Add Asset'
 	String get addAsset => 'Add Asset';
 
-	/// en: 'Asset {id}'
-	String get assetDetail => 'Asset {id}';
+	/// en: 'Asset ${id}'
+	String assetDetail({required Object id}) => 'Asset ${id}';
 
-	/// en: 'Edit Asset {id}'
-	String get editAsset => 'Edit Asset {id}';
+	/// en: 'Edit Asset ${id}'
+	String editAsset({required Object id}) => 'Edit Asset ${id}';
 
 	/// en: 'Add Goal'
 	String get addGoal => 'Add Goal';
 
-	/// en: 'Goal {id}'
-	String get goalDetail => 'Goal {id}';
+	/// en: 'Goal ${id}'
+	String goalDetail({required Object id}) => 'Goal ${id}';
 
 	/// en: 'Notification Settings'
 	String get notificationSettings => 'Notification Settings';
@@ -235,6 +242,7 @@ class Translations$assets$en {
 	late final Translations$assets$detail$en detail = Translations$assets$detail$en.internal(_root);
 	late final Translations$assets$sort$en sort = Translations$assets$sort$en.internal(_root);
 	late final Translations$assets$filter$en filter = Translations$assets$filter$en.internal(_root);
+	late final Translations$assets$carat$en carat = Translations$assets$carat$en.internal(_root);
 	late final Translations$assets$chart$en chart = Translations$assets$chart$en.internal(_root);
 	late final Translations$assets$history$en history = Translations$assets$history$en.internal(_root);
 	late final Translations$assets$delete$en delete = Translations$assets$delete$en.internal(_root);
@@ -408,14 +416,17 @@ class Translations$marketPrices$en {
 	/// en: 'Prices are based on international spot rates and official exchange rates — local market or goldsmith prices may differ.'
 	String get dataSourceDisclosure => 'Prices are based on international spot rates and official exchange rates — local market or goldsmith prices may differ.';
 
-	/// en: 'Updated {when}'
-	String get lastUpdated => 'Updated {when}';
+	/// en: 'Updated ${when}'
+	String lastUpdated({required Object when}) => 'Updated ${when}';
 
 	/// en: 'Not enough history yet'
 	String get notEnoughHistory => 'Not enough history yet';
 
-	/// en: 'Showing available data ({days} days)'
-	String get showingAvailableData => 'Showing available data ({days} days)';
+	/// en: '(one) {Showing available data (${n} day)} (other) {Showing available data (${n} days)}'
+	String showingAvailableData({required num n}) => (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('en'))(n,
+		one: 'Showing available data (${n} day)',
+		other: 'Showing available data (${n} days)',
+	);
 
 	/// en: 'No market prices yet'
 	String get emptyTitle => 'No market prices yet';
@@ -424,6 +435,16 @@ class Translations$marketPrices$en {
 	String get emptyBody => 'Market price data will appear here once it becomes available.';
 
 	late final Translations$marketPrices$range$en range = Translations$marketPrices$range$en.internal(_root);
+}
+
+// Path: charts
+class Translations$charts$en {
+	Translations$charts$en.internal(this._root);
+
+	final Translations _root; // ignore: unused_field
+
+	// Translations
+	late final Translations$charts$semantics$en semantics = Translations$charts$semantics$en.internal(_root);
 }
 
 // Path: app_lock
@@ -457,6 +478,12 @@ class Translations$app_lock$en {
 
 	/// en: 'Couldn't verify your identity. Try again.'
 	String get errorMessage => 'Couldn\'t verify your identity. Try again.';
+
+	/// en: 'Verification was cancelled.'
+	String get cancelledMessage => 'Verification was cancelled.';
+
+	/// en: 'No screen lock is set on this device. Set a screen lock to use App Lock.'
+	String get noCredentialsMessage => 'No screen lock is set on this device. Set a screen lock to use App Lock.';
 
 	/// en: 'App Lock'
 	String get settingsTitle => 'App Lock';
@@ -527,14 +554,32 @@ class Translations$core$failure$en {
 	/// en: 'An unexpected error occurred.'
 	String get unknownFailure => 'An unexpected error occurred.';
 
-	/// en: 'Could not fetch price for {assetTypeCode}'
-	String get priceFetchFailure => 'Could not fetch price for {assetTypeCode}';
+	/// en: 'Could not fetch price for ${assetTypeCode}'
+	String priceFetchFailure({required Object assetTypeCode}) => 'Could not fetch price for ${assetTypeCode}';
 
-	/// en: 'Inflation data missing for {count} month(s)'
-	String get inflationDataMissing => 'Inflation data missing for {count} month(s)';
+	/// en: '(one) {Inflation data is missing for 1 month.} (other) {Inflation data is missing for ${n} months.}'
+	String inflationDataMissing({required num n}) => (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('en'))(n,
+		one: 'Inflation data is missing for 1 month.',
+		other: 'Inflation data is missing for ${n} months.',
+	);
 
-	/// en: 'Calculation failed: {reason}'
-	String get calculationFailed => 'Calculation failed: {reason}';
+	/// en: 'Could not calculate the value.'
+	String get calculationFailed => 'Could not calculate the value.';
+
+	/// en: 'Your session has expired. Please sign in again.'
+	String get sessionExpired => 'Your session has expired. Please sign in again.';
+
+	/// en: 'The request timed out. Please try again.'
+	String get timeout => 'The request timed out. Please try again.';
+
+	/// en: 'You don't have permission to do that.'
+	String get forbidden => 'You don\'t have permission to do that.';
+
+	/// en: 'The requested item could not be found.'
+	String get notFound => 'The requested item could not be found.';
+
+	/// en: 'Please check the values you entered.'
+	String get validation => 'Please check the values you entered.';
 }
 
 // Path: core.empty
@@ -617,14 +662,23 @@ class Translations$core$dates$en {
 	/// en: 'just now'
 	String get justNow => 'just now';
 
-	/// en: '{minutes}m ago'
-	String get minutesAgo => '{minutes}m ago';
+	/// en: '(one) {${n}m ago} (other) {${n}m ago}'
+	String minutesAgo({required num n}) => (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('en'))(n,
+		one: '${n}m ago',
+		other: '${n}m ago',
+	);
 
-	/// en: '{hours}h ago'
-	String get hoursAgo => '{hours}h ago';
+	/// en: '(one) {${n}h ago} (other) {${n}h ago}'
+	String hoursAgo({required num n}) => (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('en'))(n,
+		one: '${n}h ago',
+		other: '${n}h ago',
+	);
 
-	/// en: '{days}d ago'
-	String get daysAgo => '{days}d ago';
+	/// en: '(one) {${n}d ago} (other) {${n}d ago}'
+	String daysAgo({required num n}) => (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('en'))(n,
+		one: '${n}d ago',
+		other: '${n}d ago',
+	);
 }
 
 // Path: core.currency
@@ -640,6 +694,30 @@ class Translations$core$currency$en {
 
 	/// en: 'USD'
 	String get usd => 'USD';
+}
+
+// Path: core.unit
+class Translations$core$unit$en {
+	Translations$core$unit$en.internal(this._root);
+
+	final Translations _root; // ignore: unused_field
+
+	// Translations
+
+	/// en: 'gram'
+	String get gram => 'gram';
+}
+
+// Path: core.value
+class Translations$core$value$en {
+	Translations$core$value$en.internal(this._root);
+
+	final Translations _root; // ignore: unused_field
+
+	// Translations
+
+	/// en: '—'
+	String get unavailable => '—';
 }
 
 // Path: core.actions
@@ -863,8 +941,8 @@ class Translations$assets$edit$en {
 
 	// Translations
 
-	/// en: 'Edit {type}'
-	String get title => 'Edit {type}';
+	/// en: 'Edit ${type}'
+	String title({required Object type}) => 'Edit ${type}';
 
 	/// en: 'Save Changes'
 	String get submit => 'Save Changes';
@@ -881,8 +959,8 @@ class Translations$assets$detail$en {
 
 	// Translations
 
-	/// en: 'Entry: {price} EGP per unit'
-	String get entryPrice => 'Entry: {price} EGP per unit';
+	/// en: 'Entry: ${price} EGP per unit'
+	String entryPrice({required Object price}) => 'Entry: ${price} EGP per unit';
 
 	/// en: 'Value Trend'
 	String get valueTrend => 'Value Trend';
@@ -940,6 +1018,21 @@ class Translations$assets$filter$en {
 
 	/// en: 'All'
 	String get all => 'All';
+}
+
+// Path: assets.carat
+class Translations$assets$carat$en {
+	Translations$assets$carat$en.internal(this._root);
+
+	final Translations _root; // ignore: unused_field
+
+	// Translations
+
+	/// en: '21K'
+	String get k21 => '21K';
+
+	/// en: '24K'
+	String get k24 => '24K';
 }
 
 // Path: assets.chart
@@ -1001,8 +1094,8 @@ class Translations$assets$history$en {
 	/// en: 'Entry date changed'
 	String get dateChanged => 'Entry date changed';
 
-	/// en: '{field}: {oldValue} → {newValue}'
-	String get fieldChanged => '{field}: {oldValue} → {newValue}';
+	/// en: '${field}: ${oldValue} → ${newValue}'
+	String fieldChanged({required Object field, required Object oldValue, required Object newValue}) => '${field}: ${oldValue} → ${newValue}';
 }
 
 // Path: assets.delete
@@ -1033,6 +1126,24 @@ class Translations$assets$failure$en {
 
 	/// en: 'Amount must be greater than zero.'
 	String get invalidAmount => 'Amount must be greater than zero.';
+
+	/// en: 'Price is required for market-based assets.'
+	String get priceRequiredMarket => 'Price is required for market-based assets.';
+
+	/// en: 'Could not add the asset right now. Please try again.'
+	String get addFailed => 'Could not add the asset right now. Please try again.';
+
+	/// en: 'Update failed.'
+	String get updateFailed => 'Update failed.';
+
+	/// en: 'Delete failed.'
+	String get deleteFailed => 'Delete failed.';
+
+	/// en: 'Failed to load history.'
+	String get historyLoadFailed => 'Failed to load history.';
+
+	/// en: 'Could not load your data right now. Please try again.'
+	String get fetchFailed => 'Could not load your data right now. Please try again.';
 }
 
 // Path: settings.profile
@@ -1052,8 +1163,8 @@ class Translations$settings$profile$en {
 	/// en: 'User'
 	String get fallbackName => 'User';
 
-	/// en: 'Signed in as {name}'
-	String get semanticLabel => 'Signed in as {name}';
+	/// en: 'Signed in as ${name}'
+	String semanticLabel({required Object name}) => 'Signed in as ${name}';
 }
 
 // Path: insights.assetPerformance
@@ -1067,8 +1178,8 @@ class Translations$insights$assetPerformance$en {
 	/// en: 'Best performing asset'
 	String get title => 'Best performing asset';
 
-	/// en: 'Asset {id} leads your portfolio with a value of {value} EGP.'
-	String get body => 'Asset {id} leads your portfolio with a value of {value} EGP.';
+	/// en: 'Asset ${id} leads your portfolio with a value of ${value} EGP.'
+	String body({required Object id, required Object value}) => 'Asset ${id} leads your portfolio with a value of ${value} EGP.';
 }
 
 // Path: insights.concentrationRisk
@@ -1097,8 +1208,8 @@ class Translations$insights$inflationLoss$en {
 	/// en: 'Inflation erosion detected'
 	String get title => 'Inflation erosion detected';
 
-	/// en: 'Your money has lost {erosion}% of its purchasing power since you started tracking.'
-	String get body => 'Your money has lost {erosion}% of its purchasing power since you started tracking.';
+	/// en: 'Your money has lost ${erosion}% of its purchasing power since you started tracking.'
+	String body({required Object erosion}) => 'Your money has lost ${erosion}% of its purchasing power since you started tracking.';
 }
 
 // Path: insights.goalFeasibility
@@ -1134,6 +1245,30 @@ class Translations$marketPrices$range$en {
 	String get threeMonths => '3 months';
 }
 
+// Path: charts.semantics
+class Translations$charts$semantics$en {
+	Translations$charts$semantics$en.internal(this._root);
+
+	final Translations _root; // ignore: unused_field
+
+	// Translations
+
+	/// en: '(one) {${title}, last ${n} day: latest ${latest}, lowest ${lowest}, highest ${highest}.} (other) {${title}, last ${n} days: latest ${latest}, lowest ${lowest}, highest ${highest}.}'
+	String summary({required num n, required Object title, required Object latest, required Object lowest, required Object highest}) => (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('en'))(n,
+		one: '${title}, last ${n} day: latest ${latest}, lowest ${lowest}, highest ${highest}.',
+		other: '${title}, last ${n} days: latest ${latest}, lowest ${lowest}, highest ${highest}.',
+	);
+
+	/// en: 'Real portfolio value'
+	String get realValue => 'Real portfolio value';
+
+	/// en: 'Price history'
+	String get priceHistory => 'Price history';
+
+	/// en: 'Recent prices'
+	String get recentPrices => 'Recent prices';
+}
+
 /// The flat map containing all translations for locale <en>.
 /// Only for edge cases! For simple maps, use the map function of this library.
 ///
@@ -1158,9 +1293,14 @@ extension on Translations {
 			'core.failure.networkFailure' => 'No internet connection.',
 			'core.failure.cacheFailure' => 'Could not read local data.',
 			'core.failure.unknownFailure' => 'An unexpected error occurred.',
-			'core.failure.priceFetchFailure' => 'Could not fetch price for {assetTypeCode}',
-			'core.failure.inflationDataMissing' => 'Inflation data missing for {count} month(s)',
-			'core.failure.calculationFailed' => 'Calculation failed: {reason}',
+			'core.failure.priceFetchFailure' => ({required Object assetTypeCode}) => 'Could not fetch price for ${assetTypeCode}',
+			'core.failure.inflationDataMissing' => ({required num n}) => (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('en'))(n, one: 'Inflation data is missing for 1 month.', other: 'Inflation data is missing for ${n} months.', ), 
+			'core.failure.calculationFailed' => 'Could not calculate the value.',
+			'core.failure.sessionExpired' => 'Your session has expired. Please sign in again.',
+			'core.failure.timeout' => 'The request timed out. Please try again.',
+			'core.failure.forbidden' => 'You don\'t have permission to do that.',
+			'core.failure.notFound' => 'The requested item could not be found.',
+			'core.failure.validation' => 'Please check the values you entered.',
 			'core.empty.title' => 'No data yet',
 			'core.empty.body' => 'There\'s nothing here yet.',
 			'core.loading.message' => 'Loading...',
@@ -1173,11 +1313,14 @@ extension on Translations {
 			'core.validation.amountRequired' => 'Amount is required',
 			'core.validation.amountInvalid' => 'Enter a valid positive amount',
 			'core.dates.justNow' => 'just now',
-			'core.dates.minutesAgo' => '{minutes}m ago',
-			'core.dates.hoursAgo' => '{hours}h ago',
-			'core.dates.daysAgo' => '{days}d ago',
+			'core.dates.minutesAgo' => ({required num n}) => (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('en'))(n, one: '${n}m ago', other: '${n}m ago', ), 
+			'core.dates.hoursAgo' => ({required num n}) => (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('en'))(n, one: '${n}h ago', other: '${n}h ago', ), 
+			'core.dates.daysAgo' => ({required num n}) => (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('en'))(n, one: '${n}d ago', other: '${n}d ago', ), 
 			'core.currency.egp' => 'EGP',
 			'core.currency.usd' => 'USD',
+			'core.unit.gram' => 'gram',
+			'core.value.unavailable' => '—',
+			'core.listSeparator' => '; ',
 			'core.actions.cancel' => 'Cancel',
 			'core.actions.delete' => 'Delete',
 			'core.notification.channelName' => 'Price Alerts',
@@ -1216,10 +1359,10 @@ extension on Translations {
 			'navigation.profile' => 'Profile',
 			'navigation.settings' => 'Settings',
 			'navigation.addAsset' => 'Add Asset',
-			'navigation.assetDetail' => 'Asset {id}',
-			'navigation.editAsset' => 'Edit Asset {id}',
+			'navigation.assetDetail' => ({required Object id}) => 'Asset ${id}',
+			'navigation.editAsset' => ({required Object id}) => 'Edit Asset ${id}',
 			'navigation.addGoal' => 'Add Goal',
-			'navigation.goalDetail' => 'Goal {id}',
+			'navigation.goalDetail' => ({required Object id}) => 'Goal ${id}',
 			'navigation.notificationSettings' => 'Notification Settings',
 			'nav.home' => 'Home',
 			'nav.assets' => 'Assets',
@@ -1259,10 +1402,10 @@ extension on Translations {
 			'assets.add.priceRequired' => 'Price is required',
 			'assets.add.priceInvalid' => 'Enter a valid positive price',
 			'assets.add.selectTypeFirst' => 'Select an asset type first',
-			'assets.edit.title' => 'Edit {type}',
+			'assets.edit.title' => ({required Object type}) => 'Edit ${type}',
 			'assets.edit.submit' => 'Save Changes',
 			'assets.edit.assetTypeLabel' => 'Asset Type',
-			'assets.detail.entryPrice' => 'Entry: {price} EGP per unit',
+			'assets.detail.entryPrice' => ({required Object price}) => 'Entry: ${price} EGP per unit',
 			'assets.detail.valueTrend' => 'Value Trend',
 			'assets.detail.editHistory' => 'Edit History',
 			'assets.detail.noHistory' => 'No edit history yet',
@@ -1276,6 +1419,8 @@ extension on Translations {
 			'assets.sort.value' => 'Value',
 			'assets.sort.type' => 'Type',
 			'assets.filter.all' => 'All',
+			'assets.carat.k21' => '21K',
+			'assets.carat.k24' => '24K',
 			'assets.chart.cashPlaceholder' => 'Cash assets maintain a constant value',
 			'assets.chart.noDataTitle' => 'Not enough price history yet',
 			'assets.chart.noDataSubtitle' => 'Historical prices will appear here once market data is available.',
@@ -1290,16 +1435,22 @@ extension on Translations {
 			'assets.history.fieldNote' => 'Note',
 			'assets.history.noteUpdated' => 'Note updated',
 			'assets.history.dateChanged' => 'Entry date changed',
-			'assets.history.fieldChanged' => '{field}: {oldValue} → {newValue}',
+			'assets.history.fieldChanged' => ({required Object field, required Object oldValue, required Object newValue}) => '${field}: ${oldValue} → ${newValue}',
 			'assets.delete.confirmTitle' => 'Delete Asset?',
 			'assets.delete.confirmBody' => 'This will permanently delete this asset record.',
 			'assets.failure.assetNotFound' => 'Asset not found.',
 			'assets.failure.invalidAmount' => 'Amount must be greater than zero.',
+			'assets.failure.priceRequiredMarket' => 'Price is required for market-based assets.',
+			'assets.failure.addFailed' => 'Could not add the asset right now. Please try again.',
+			'assets.failure.updateFailed' => 'Update failed.',
+			'assets.failure.deleteFailed' => 'Delete failed.',
+			'assets.failure.historyLoadFailed' => 'Failed to load history.',
+			'assets.failure.fetchFailed' => 'Could not load your data right now. Please try again.',
 			'settings.title' => 'Settings',
 			'settings.profile.guest' => 'Guest',
 			'settings.profile.signedInAsGuest' => 'Signed in as guest',
 			'settings.profile.fallbackName' => 'User',
-			'settings.profile.semanticLabel' => 'Signed in as {name}',
+			'settings.profile.semanticLabel' => ({required Object name}) => 'Signed in as ${name}',
 			'settings.securitySection' => 'Security',
 			'settings.preferencesSection' => 'Preferences',
 			'settings.aboutSection' => 'About',
@@ -1340,23 +1491,27 @@ extension on Translations {
 			'home.retry' => 'Try Again',
 			'home.notEnoughTrendData' => 'Not enough data yet',
 			'insights.assetPerformance.title' => 'Best performing asset',
-			'insights.assetPerformance.body' => 'Asset {id} leads your portfolio with a value of {value} EGP.',
+			'insights.assetPerformance.body' => ({required Object id, required Object value}) => 'Asset ${id} leads your portfolio with a value of ${value} EGP.',
 			'insights.concentrationRisk.title' => 'High concentration risk',
 			'insights.concentrationRisk.body' => 'Over 80% of your portfolio is in one asset type. Consider diversifying to reduce risk.',
 			'insights.inflationLoss.title' => 'Inflation erosion detected',
-			'insights.inflationLoss.body' => 'Your money has lost {erosion}% of its purchasing power since you started tracking.',
+			'insights.inflationLoss.body' => ({required Object erosion}) => 'Your money has lost ${erosion}% of its purchasing power since you started tracking.',
 			'insights.goalFeasibility.title' => 'Savings goal check',
 			'insights.goalFeasibility.body' => 'At the current pace of inflation, your savings goals may need to be revised upward to maintain their real value.',
 			'marketPrices.title' => 'Market Prices',
 			'marketPrices.dataSourceDisclosure' => 'Prices are based on international spot rates and official exchange rates — local market or goldsmith prices may differ.',
-			'marketPrices.lastUpdated' => 'Updated {when}',
+			'marketPrices.lastUpdated' => ({required Object when}) => 'Updated ${when}',
 			'marketPrices.notEnoughHistory' => 'Not enough history yet',
-			'marketPrices.showingAvailableData' => 'Showing available data ({days} days)',
+			'marketPrices.showingAvailableData' => ({required num n}) => (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('en'))(n, one: 'Showing available data (${n} day)', other: 'Showing available data (${n} days)', ), 
 			'marketPrices.emptyTitle' => 'No market prices yet',
 			'marketPrices.emptyBody' => 'Market price data will appear here once it becomes available.',
 			'marketPrices.range.oneWeek' => '1 week',
 			'marketPrices.range.oneMonth' => '1 month',
 			'marketPrices.range.threeMonths' => '3 months',
+			'charts.semantics.summary' => ({required num n, required Object title, required Object latest, required Object lowest, required Object highest}) => (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('en'))(n, one: '${title}, last ${n} day: latest ${latest}, lowest ${lowest}, highest ${highest}.', other: '${title}, last ${n} days: latest ${latest}, lowest ${lowest}, highest ${highest}.', ), 
+			'charts.semantics.realValue' => 'Real portfolio value',
+			'charts.semantics.priceHistory' => 'Price history',
+			'charts.semantics.recentPrices' => 'Recent prices',
 			'app_lock.promptReason' => 'Unlock Qeema to continue',
 			'app_lock.disableReason' => 'Confirm it\'s you to turn off App Lock',
 			'app_lock.title' => 'Qeema is locked',
@@ -1365,6 +1520,8 @@ extension on Translations {
 			'app_lock.lockedOutMessage' => 'Too many attempts. Try again after the cooldown.',
 			'app_lock.unavailableMessage' => 'Couldn\'t verify you right now. Check your screen lock and try again.',
 			'app_lock.errorMessage' => 'Couldn\'t verify your identity. Try again.',
+			'app_lock.cancelledMessage' => 'Verification was cancelled.',
+			'app_lock.noCredentialsMessage' => 'No screen lock is set on this device. Set a screen lock to use App Lock.',
 			'app_lock.settingsTitle' => 'App Lock',
 			'app_lock.settingsSubtitle' => 'Require device unlock when Qeema opens',
 			'app_lock.settingsNoDeviceLock' => 'Set a screen lock (PIN, pattern, or password) in system settings to use App Lock',

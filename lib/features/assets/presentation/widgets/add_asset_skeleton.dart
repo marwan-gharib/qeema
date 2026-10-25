@@ -8,24 +8,24 @@ class AddAssetSkeleton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const SingleChildScrollView(
+    return SingleChildScrollView(
       padding: EdgeInsets.all(AppSpacing.lg),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          ShimmerLine(width: 120),
+          const ShimmerLine(width: 120),
           SizedBox(height: AppSpacing.md),
-          ShimmerCard(height: 56),
+          const ShimmerCard(height: 56),
           SizedBox(height: AppSpacing.lg),
-          ShimmerCard(height: 56),
+          const ShimmerCard(height: 56),
           SizedBox(height: AppSpacing.md),
-          ShimmerCard(height: 56),
+          const ShimmerCard(height: 56),
           SizedBox(height: AppSpacing.md),
-          ShimmerCard(height: 56),
+          const ShimmerCard(height: 56),
           SizedBox(height: AppSpacing.md),
-          ShimmerCard(height: 56),
+          const ShimmerCard(height: 56),
           SizedBox(height: AppSpacing.lg),
-          ShimmerCard(height: 48),
+          const ShimmerCard(height: 48),
           SizedBox(height: AppSpacing.lg),
         ],
       ),

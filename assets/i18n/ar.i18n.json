@@ -21,9 +21,21 @@
       "networkFailure": "لا يوجد اتصال بالإنترنت.",
       "cacheFailure": "تعذر قراءة البيانات المحلية.",
       "unknownFailure": "حدث خطأ غير متوقع.",
-      "priceFetchFailure": "تعذر جلب السعر لـ {assetTypeCode}",
-      "inflationDataMissing": "بيانات التضخم مفقودة لـ {count} شهر",
-      "calculationFailed": "فشل الحساب: {reason}"
+      "priceFetchFailure": "تعذر جلب السعر لـ ${assetTypeCode}",
+      "inflationDataMissing": {
+        "zero": "بيانات التضخم مفقودة لـ ${n} شهر.",
+        "one": "بيانات التضخم مفقودة لشهر واحد.",
+        "two": "بيانات التضخم مفقودة لشهرين.",
+        "few": "بيانات التضخم مفقودة لـ ${n} أشهر.",
+        "many": "بيانات التضخم مفقودة لـ ${n} شهراً.",
+        "other": "بيانات التضخم مفقودة لـ ${n} شهراً."
+      },
+      "calculationFailed": "تعذر حساب القيمة.",
+      "sessionExpired": "انتهت صلاحية جلستك. سجّل الدخول مرة أخرى.",
+      "timeout": "انتهت مهلة الطلب. حاول مرة أخرى.",
+      "forbidden": "لا تملك صلاحية القيام بذلك.",
+      "notFound": "تعذّر العثور على العنصر المطلوب.",
+      "validation": "يرجى مراجعة القيم التي أدخلتها."
     },
     "empty": {
       "title": "لا توجد بيانات بعد",
@@ -46,14 +58,42 @@
     },
     "dates": {
       "justNow": "الآن",
-      "minutesAgo": "منذ {minutes} دقيقة",
-      "hoursAgo": "منذ {hours} ساعة",
-      "daysAgo": "منذ {days} يوم"
+      "minutesAgo": {
+        "zero": "منذ ${n} دقيقة",
+        "one": "منذ دقيقة واحدة",
+        "two": "منذ دقيقتين",
+        "few": "منذ ${n} دقائق",
+        "many": "منذ ${n} دقيقة",
+        "other": "منذ ${n} دقيقة"
+      },
+      "hoursAgo": {
+        "zero": "منذ ${n} ساعة",
+        "one": "منذ ساعة واحدة",
+        "two": "منذ ساعتين",
+        "few": "منذ ${n} ساعات",
+        "many": "منذ ${n} ساعة",
+        "other": "منذ ${n} ساعة"
+      },
+      "daysAgo": {
+        "zero": "منذ ${n} يوم",
+        "one": "منذ يوم واحد",
+        "two": "منذ يومين",
+        "few": "منذ ${n} أيام",
+        "many": "منذ ${n} يوماً",
+        "other": "منذ ${n} يوم"
+      }
     },
     "currency": {
       "egp": "جنيه مصري",
-      "usd": "دولار امريكي"
+      "usd": "دولار أمريكي"
     },
+    "unit": {
+      "gram": "جرام"
+    },
+    "value": {
+      "unavailable": "—"
+    },
+    "listSeparator": "؛ ",
     "actions": {
       "cancel": "إلغاء",
       "delete": "حذف"
@@ -108,10 +148,10 @@
     "profile": "الملف الشخصي",
     "settings": "الإعدادات",
     "addAsset": "إضافة أصل",
-    "assetDetail": "الأصل {id}",
-    "editAsset": "تعديل الأصل {id}",
+    "assetDetail": "الأصل ${id}",
+    "editAsset": "تعديل الأصل ${id}",
     "addGoal": "إضافة هدف",
-    "goalDetail": "الهدف {id}",
+    "goalDetail": "الهدف ${id}",
     "notificationSettings": "إعدادات الإشعارات"
   },
   "nav": {
@@ -124,7 +164,7 @@
     "list": {
       "title": "الأصول",
       "tabEgp": "جنيه مصري",
-      "tabUsd": "دولار امريكي",
+      "tabUsd": "دولار أمريكي",
       "tabGold21": "ذهب 21",
       "tabGold24": "ذهب 24",
       "sortFilter": "ترتيب وتصفية",
@@ -144,7 +184,7 @@
       "amount": "الكمية",
       "amountGrams": "الكمية (جرام)",
       "amountEgp": "الكمية (جنيه مصري)",
-      "amountUsd": "الكمية (دولار امريكي)",
+      "amountUsd": "الكمية (دولار أمريكي)",
       "priceAtEntry": "سعر الشراء",
       "pricePerGram": "سعر الجرام عند الشراء",
       "pricePerUnit": "سعر الوحدة عند الشراء",
@@ -160,12 +200,12 @@
       "selectTypeFirst": "اختر نوع الأصل أولاً"
     },
     "edit": {
-      "title": "تعديل {type}",
+      "title": "تعديل ${type}",
       "submit": "حفظ التغييرات",
       "assetTypeLabel": "نوع الأصل"
     },
     "detail": {
-      "entryPrice": "سعر الشراء: {price} جنيه للوحدة",
+      "entryPrice": "سعر الشراء: ${price} جنيه للوحدة",
       "valueTrend": "اتجاه القيمة",
       "editHistory": "سجل التعديلات",
       "noHistory": "لا يوجد سجل تعديلات بعد",
@@ -184,6 +224,10 @@
     "filter": {
       "all": "الكل"
     },
+    "carat": {
+      "k21": "21K",
+      "k24": "24K"
+    },
     "chart": {
       "cashPlaceholder": "الأصول النقدية تحافظ على قيمة ثابتة",
       "noDataTitle": "لا يوجد تاريخ أسعار كافٍ بعد",
@@ -201,7 +245,7 @@
       "fieldNote": "ملاحظة",
       "noteUpdated": "تم تحديث الملاحظة",
       "dateChanged": "تم تغيير تاريخ الشراء",
-      "fieldChanged": "{field}: {oldValue} ← {newValue}"
+      "fieldChanged": "${field}: ${oldValue} ← ${newValue}"
     },
     "delete": {
       "confirmTitle": "حذف الأصل؟",
@@ -209,7 +253,13 @@
     },
     "failure": {
       "assetNotFound": "الأصل غير موجود.",
-      "invalidAmount": "يجب أن تكون الكمية أكبر من الصفر."
+      "invalidAmount": "يجب أن تكون الكمية أكبر من الصفر.",
+      "priceRequiredMarket": "السعر مطلوب للأصول المعتمدة على السوق.",
+      "addFailed": "تعذّرت إضافة الأصل الآن. يرجى المحاولة مرة أخرى.",
+      "updateFailed": "فشل التحديث.",
+      "deleteFailed": "فشل الحذف.",
+      "historyLoadFailed": "فشل تحميل السجل.",
+      "fetchFailed": "تعذّر تحميل بياناتك الآن. يرجى المحاولة مرة أخرى."
     }
   },
   "settings": {
@@ -218,7 +268,7 @@
       "guest": "ضيف",
       "signedInAsGuest": "تم تسجيل الدخول كضيف",
       "fallbackName": "مستخدم",
-      "semanticLabel": "تم تسجيل الدخول باسم {name}"
+      "semanticLabel": "تم تسجيل الدخول باسم ${name}"
     },
     "securitySection": "الأمان",
     "preferencesSection": "التفضيلات",
@@ -265,7 +315,7 @@
   "insights": {
     "assetPerformance": {
       "title": "أفضل أصل أداءً",
-      "body": "الأصل {id} يتصدر محفظتك بقيمة {value} جنيه."
+      "body": "الأصل ${id} يتصدر محفظتك بقيمة ${value} جنيه."
     },
     "concentrationRisk": {
       "title": "مخاطر التركيز العالي",
@@ -273,7 +323,7 @@
     },
     "inflationLoss": {
       "title": "تم اكتشاف تآكل تضخمي",
-      "body": "فقدت أموالك {erosion}% من قوتها الشرائية منذ أن بدأت التتبع."
+      "body": "فقدت أموالك ${erosion}% من قوتها الشرائية منذ أن بدأت التتبع."
     },
     "goalFeasibility": {
       "title": "فحص هدف الادخار",
@@ -283,15 +333,37 @@
   "marketPrices": {
     "title": "أسعار السوق",
     "dataSourceDisclosure": "الأسعار مبنية على أسعار الصرف الرسمية والأسعار العالمية الفورية — وقد تختلف عن أسعار السوق المحلي أو تجار الذهب.",
-    "lastUpdated": "آخر تحديث {when}",
+    "lastUpdated": "آخر تحديث ${when}",
     "notEnoughHistory": "لا يوجد تاريخ كافٍ بعد",
-    "showingAvailableData": "عرض البيانات المتاحة ({days} يوم)",
+    "showingAvailableData": {
+      "zero": "عرض البيانات المتاحة (${n} يوم)",
+      "one": "عرض البيانات المتاحة (يوم واحد)",
+      "two": "عرض البيانات المتاحة (يومين)",
+      "few": "عرض البيانات المتاحة (${n} أيام)",
+      "many": "عرض البيانات المتاحة (${n} يوماً)",
+      "other": "عرض البيانات المتاحة (${n} يوم)"
+    },
     "emptyTitle": "لا توجد أسعار سوق بعد",
     "emptyBody": "ستظهر بيانات أسعار السوق هنا بمجرد توفرها.",
     "range": {
       "oneWeek": "أسبوع",
       "oneMonth": "شهر",
-      "threeMonths": "٣ أشهر"
+      "threeMonths": "3 أشهر"
+    }
+  },
+  "charts": {
+    "semantics": {
+      "summary": {
+        "zero": "${title}، آخر ${n} يوم: الأحدث ${latest}، الأدنى ${lowest}، الأعلى ${highest}.",
+        "one": "${title}، لآخر يوم واحد: الأحدث ${latest}، الأدنى ${lowest}، الأعلى ${highest}.",
+        "two": "${title}، لآخر يومين: الأحدث ${latest}، الأدنى ${lowest}، الأعلى ${highest}.",
+        "few": "${title}، لآخر ${n} أيام: الأحدث ${latest}، الأدنى ${lowest}، الأعلى ${highest}.",
+        "many": "${title}، لآخر ${n} يوماً: الأحدث ${latest}، الأدنى ${lowest}، الأعلى ${highest}.",
+        "other": "${title}، لآخر ${n} يوم: الأحدث ${latest}، الأدنى ${lowest}، الأعلى ${highest}."
+      },
+      "realValue": "القيمة الحقيقية للمحفظة",
+      "priceHistory": "سجل السعر",
+      "recentPrices": "الأسعار الأخيرة"
     }
   },
   "app_lock": {
@@ -303,6 +375,8 @@
     "lockedOutMessage": "محاولات كثيرة. أعد المحاولة بعد انتهاء المهلة.",
     "unavailableMessage": "تعذّر التحقق الآن. تحقق من قفل الجهاز ثم أعد المحاولة.",
     "errorMessage": "تعذّر التحقق من هويتك. حاول مرة أخرى.",
+    "cancelledMessage": "تم إلغاء التحقق.",
+    "noCredentialsMessage": "لا يوجد قفل شاشة على هذا الجهاز. ضع قفل شاشة لاستخدام قفل التطبيق.",
     "settingsTitle": "قفل التطبيق",
     "settingsSubtitle": "طلب فتح الجهاز عند فتح قيّمة",
     "settingsNoDeviceLock": "اضبط قفل شاشة (رمز أو نمط أو كلمة مرور) في إعدادات النظام لاستخدام قفل التطبيق"

@@ -3,6 +3,7 @@ import 'package:qeema/core/animations/micro_interactions/tap_scale.dart';
 import 'package:qeema/core/extensions/build_context_extensions.dart';
 import 'package:qeema/core/navigation/bottom_nav_item_config.dart';
 import 'package:qeema/core/navigation/nav_bar_motion.dart';
+import 'package:qeema/core/theme/app_sizes.dart';
 import 'package:qeema/core/theme/app_spacing.dart';
 
 class BottomNavItem extends StatelessWidget {
@@ -34,9 +35,13 @@ class BottomNavItem extends StatelessWidget {
           AnimatedOpacity(
             duration: fadeDuration,
             opacity: isSelected ? 0 : 1,
-            child: Icon(config.icon, size: 24, color: colors.textSecondary),
+            child: Icon(
+              config.icon,
+              size: AppSizes.iconStandard,
+              color: colors.textSecondary,
+            ),
           ),
-          const SizedBox(height: AppSpacing.xxs),
+          SizedBox(height: AppSpacing.xxs),
           AnimatedOpacity(
             duration: fadeDuration,
             opacity: isSelected ? 0 : 1,

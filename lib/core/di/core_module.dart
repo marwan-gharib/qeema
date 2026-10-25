@@ -1,5 +1,4 @@
 import 'package:connectivity_plus/connectivity_plus.dart';
-import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:get_it/get_it.dart';
 import 'package:qeema/core/cubits/locale_cubit/locale_cubit.dart';
@@ -25,13 +24,10 @@ import 'package:qeema/core/local/cache/daos/market_prices_dao.dart';
 import 'package:qeema/core/local/cache/daos/snapshots_dao.dart';
 import 'package:qeema/core/local/secure/secure_storage_service.dart';
 import 'package:qeema/core/local/secure/secure_storage_service_impl.dart';
-import 'package:qeema/core/network/base_api_client.dart';
-import 'package:qeema/core/network/dio_api_client.dart';
 import 'package:qeema/core/network/network_info.dart';
 import 'package:qeema/core/network/supabase_client_provider.dart';
 import 'package:qeema/core/network/supabase_query_executor.dart';
 import 'package:qeema/core/services/connectivity_service.dart';
-import 'package:qeema/core/services/local_notification_service.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 Future<void> initCoreModule(GetIt getIt) async {
@@ -40,10 +36,6 @@ Future<void> initCoreModule(GetIt getIt) async {
   );
   getIt.registerLazySingleton<SupabaseQueryExecutor>(
     () => SupabaseQueryExecutor(getIt<SupabaseClientProvider>()),
-  );
-
-  getIt.registerLazySingleton<BaseApiClient>(
-    () => DioApiClient(baseUrl: '', authInterceptor: null),
   );
 
   getIt.registerLazySingleton<SecureStorageService>(
@@ -77,10 +69,6 @@ Future<void> initCoreModule(GetIt getIt) async {
     () => ConnectivityService(Connectivity()),
   );
   getIt.registerLazySingleton<NetworkInfo>(() => NetworkInfo(Connectivity()));
-
-  getIt.registerLazySingleton<LocalNotificationService>(
-    () => LocalNotificationService(FlutterLocalNotificationsPlugin()),
-  );
 
   getIt.registerLazySingleton<InflationCalculator>(() => InflationCalculator());
   getIt.registerLazySingleton<AssetValuator>(() => AssetValuator());

@@ -1,4 +1,5 @@
 import 'package:material_ui/material_ui.dart';
+import 'package:qeema/core/extensions/build_context_extensions.dart';
 
 class AppTextField extends StatefulWidget {
   const AppTextField({
@@ -62,6 +63,11 @@ class _AppTextFieldState extends State<AppTextField> {
       onChanged: widget.onChanged,
       autovalidateMode: widget.autovalidateMode,
       enabled: widget.enabled,
+      style: context.textTheme.bodyLarge?.copyWith(
+        color: widget.enabled
+            ? context.colors.textPrimary
+            : context.colors.textPrimary.withValues(alpha: 0.8),
+      ),
       decoration: InputDecoration(
         labelText: widget.label,
         hintText: widget.hint,

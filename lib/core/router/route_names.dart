@@ -9,15 +9,8 @@ final class RouteNames {
   static const String addAsset = 'addAsset';
   static const String assetDetail = 'assetDetail';
   static const String editAsset = 'editAsset';
-  static const String insights = 'insights';
-  static const String goals = 'goals';
-  static const String addGoal = 'addGoal';
-  static const String goalDetail = 'goalDetail';
   static const String marketPrices = 'marketPrices';
   static const String marketPriceDetail = 'marketPriceDetail';
-  static const String notifications = 'notifications';
-  static const String notificationSettings = 'notificationSettings';
-  static const String profile = 'profile';
   static const String settings = 'settings';
   static const String lock = 'lock';
 }

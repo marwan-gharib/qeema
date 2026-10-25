@@ -4,16 +4,19 @@ import 'package:qeema/core/extensions/build_context_extensions.dart';
 import 'package:qeema/core/navigation/bottom_nav_item.dart';
 import 'package:qeema/core/navigation/bottom_nav_item_config.dart';
 import 'package:qeema/core/navigation/nav_bar_motion.dart';
+import 'package:qeema/core/responsive/responsive.dart';
 import 'package:qeema/core/theme/app_spacing.dart';
 
 /// Bar height — starting value to measure on a real device; the bar must
 /// read as a floating dock, clearly separated from the screen edges.
-final double _barHeight = 64;
+/// Top-level getters (not `final`s) so every access re-reads the current
+/// scale after a rotation or resize.
+double get _barHeight => Responsive.adapt(64);
 
-final double _barRadius = _barHeight / 2;
-final double _badgeSize = AppSpacing.xxl.toDouble();
-final double _badgeLift = _badgeSize / 2;
-final double _iconSize = _badgeSize / 2;
+double get _barRadius => _barHeight / 2;
+double get _badgeSize => AppSpacing.xxl;
+double get _badgeLift => _badgeSize / 2;
+double get _iconSize => _badgeSize / 2;
 
 class BottomNavBar extends StatelessWidget {
   const BottomNavBar({
@@ -37,9 +40,9 @@ class BottomNavBar extends StatelessWidget {
     final selectedConfig = items[currentIndex];
 
     return SafeArea(
-      minimum: const EdgeInsets.only(bottom: AppSpacing.md),
+      minimum: EdgeInsets.only(bottom: AppSpacing.md),
       child: Container(
-        margin: const EdgeInsets.symmetric(horizontal: AppSpacing.lg),
+        margin: EdgeInsets.symmetric(horizontal: AppSpacing.lg),
         height: _barHeight,
         decoration: BoxDecoration(
           color: colors.surface,

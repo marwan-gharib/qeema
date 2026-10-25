@@ -21,11 +21,12 @@ class RealValueTrendChart extends StatelessWidget {
         subtitle: t.noDataSubtitle,
         container: true,
         height: 250,
-        padding: const EdgeInsets.all(AppSpacing.md),
+        padding: EdgeInsets.all(AppSpacing.md),
       );
     }
 
     return AppLineChart(
+      semanticsTitle: context.t.charts.semantics.realValue,
       points: [
         for (final snapshot in trendData)
           (date: snapshot.date, value: snapshot.realTotal),

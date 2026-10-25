@@ -1,6 +1,8 @@
 import 'package:material_ui/material_ui.dart';
 import 'package:qeema/core/extensions/build_context_extensions.dart';
 import 'package:qeema/core/i18n/strings.g.dart';
+import 'package:qeema/core/theme/app_radius.dart';
+import 'package:qeema/core/theme/app_spacing.dart';
 import 'package:qeema/features/market_prices/presentation/cubits/market_price_detail_cubit/market_price_detail_state.dart';
 
 class RangeSelectorChips extends StatelessWidget {
@@ -20,9 +22,9 @@ class RangeSelectorChips extends StatelessWidget {
     return Row(
       children: [
         _chip(context, t.oneWeek, MarketPriceRangeOption.oneWeek),
-        const SizedBox(width: 8),
+        SizedBox(width: AppSpacing.xs),
         _chip(context, t.oneMonth, MarketPriceRangeOption.oneMonth),
-        const SizedBox(width: 8),
+        SizedBox(width: AppSpacing.xs),
         _chip(context, t.threeMonths, MarketPriceRangeOption.threeMonths),
       ],
     );
@@ -48,7 +50,9 @@ class RangeSelectorChips extends StatelessWidget {
       backgroundColor: colors.surfaceAlt,
       selectedColor: colors.primary.withValues(alpha: 0.12),
       side: BorderSide(color: isSelected ? colors.primary : colors.divider),
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(AppRadius.xs),
+      ),
     );
   }
 }

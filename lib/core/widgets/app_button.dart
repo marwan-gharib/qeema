@@ -1,5 +1,8 @@
 import 'package:material_ui/material_ui.dart';
 import 'package:qeema/core/extensions/build_context_extensions.dart';
+import 'package:qeema/core/theme/app_borders.dart';
+import 'package:qeema/core/theme/app_radius.dart';
+import 'package:qeema/core/theme/app_sizes.dart';
 import 'package:qeema/core/theme/app_spacing.dart';
 
 class AppButton extends StatelessWidget {
@@ -30,16 +33,18 @@ class AppButton extends StatelessWidget {
         onPressed: isLoading ? null : onPressed,
         style: TextButton.styleFrom(
           foregroundColor: backgroundColor ?? colors.primary,
-          minimumSize: const Size.fromHeight(48),
+          minimumSize: const Size.fromHeight(AppSizes.minTouchTarget),
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(12),
+            borderRadius: BorderRadius.circular(AppRadius.sm),
           ),
         ),
         child: isLoading
-            ? const SizedBox(
-                width: 20,
-                height: 20,
-                child: CircularProgressIndicator(strokeWidth: 2),
+            ? SizedBox(
+                width: AppSizes.loader,
+                height: AppSizes.loader,
+                child: const CircularProgressIndicator(
+                  strokeWidth: AppBorders.emphasis,
+                ),
               )
             : Text(label),
       );
@@ -51,16 +56,18 @@ class AppButton extends StatelessWidget {
         style: OutlinedButton.styleFrom(
           foregroundColor: backgroundColor ?? colors.primary,
           side: BorderSide(color: backgroundColor ?? colors.primary),
-          minimumSize: const Size.fromHeight(48),
+          minimumSize: const Size.fromHeight(AppSizes.minTouchTarget),
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(12),
+            borderRadius: BorderRadius.circular(AppRadius.sm),
           ),
         ),
         child: isLoading
-            ? const SizedBox(
-                width: 20,
-                height: 20,
-                child: CircularProgressIndicator(strokeWidth: 2),
+            ? SizedBox(
+                width: AppSizes.loader,
+                height: AppSizes.loader,
+                child: const CircularProgressIndicator(
+                  strokeWidth: AppBorders.emphasis,
+                ),
               )
             : Text(label),
       );
@@ -71,15 +78,17 @@ class AppButton extends StatelessWidget {
       style: ElevatedButton.styleFrom(
         backgroundColor: backgroundColor ?? colors.primary,
         foregroundColor: context.colorScheme.onPrimary,
-        minimumSize: const Size.fromHeight(48),
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+        minimumSize: const Size.fromHeight(AppSizes.minTouchTarget),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(AppRadius.sm),
+        ),
       ),
       child: isLoading
           ? SizedBox(
-              width: 20,
-              height: 20,
+              width: AppSizes.loader,
+              height: AppSizes.loader,
               child: CircularProgressIndicator(
-                strokeWidth: 2,
+                strokeWidth: AppBorders.emphasis,
                 color: context.colorScheme.onPrimary,
               ),
             )

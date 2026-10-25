@@ -1,6 +1,7 @@
 import 'package:material_ui/material_ui.dart';
 import 'package:qeema/core/extensions/build_context_extensions.dart';
 import 'package:qeema/core/i18n/strings.g.dart';
+import 'package:qeema/core/theme/app_sizes.dart';
 import 'package:qeema/core/theme/app_spacing.dart';
 import 'package:qeema/core/widgets/app_surface_card.dart';
 import 'package:qeema/features/assets/domain/entities/asset_entity.dart';
@@ -21,11 +22,15 @@ class EditAssetHeader extends StatelessWidget {
     final colors = context.colors;
 
     return AppSurfaceCard(
-      padding: const EdgeInsets.all(AppSpacing.md),
+      padding: EdgeInsets.all(AppSpacing.md),
       child: Row(
         children: [
-          Icon(_iconForType(asset.assetType), size: 24, color: colors.primary),
-          const SizedBox(width: AppSpacing.sm),
+          Icon(
+            _iconForType(asset.assetType),
+            size: AppSizes.iconStandard,
+            color: colors.primary,
+          ),
+          SizedBox(width: AppSpacing.sm),
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [

@@ -2,6 +2,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:material_ui/material_ui.dart';
 import 'package:qeema/core/i18n/strings.g.dart';
 import 'package:qeema/core/theme/app_colors_extension.dart';
+import 'package:qeema/core/theme/app_radius.dart';
+import 'package:qeema/core/theme/app_spacing.dart';
 import 'package:qeema/features/assets/domain/entities/asset_entity.dart';
 import 'package:qeema/features/assets/presentation/cubits/assets_list_cubit/assets_list_cubit.dart';
 
@@ -25,23 +27,26 @@ class AssetTypeTabBar extends StatelessWidget {
 
     return SingleChildScrollView(
       scrollDirection: Axis.horizontal,
-      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+      padding: EdgeInsets.symmetric(
+        horizontal: AppSpacing.md,
+        vertical: AppSpacing.xs,
+      ),
       child: Row(
         children: tabs.map((tab) {
           final isActive = activeFilter == tab.type;
           return Padding(
-            padding: const EdgeInsetsDirectional.only(end: 8),
+            padding: EdgeInsetsDirectional.only(end: AppSpacing.xs),
             child: GestureDetector(
               onTap: () =>
                   context.read<AssetsListCubit>().changeFilter(tab.type),
               child: Container(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 16,
-                  vertical: 8,
+                padding: EdgeInsets.symmetric(
+                  horizontal: AppSpacing.md,
+                  vertical: AppSpacing.xs,
                 ),
                 decoration: BoxDecoration(
                   color: isActive ? colors.primary : Colors.transparent,
-                  borderRadius: BorderRadius.circular(20),
+                  borderRadius: BorderRadius.circular(AppRadius.lg),
                 ),
                 child: Text(
                   tab.label,

@@ -1,5 +1,9 @@
 import 'package:material_ui/material_ui.dart';
 import 'package:qeema/core/extensions/build_context_extensions.dart';
+import 'package:qeema/core/i18n/strings.g.dart';
+import 'package:qeema/core/responsive/responsive.dart';
+import 'package:qeema/core/theme/app_radius.dart';
+import 'package:qeema/core/theme/app_sizes.dart';
 import 'package:qeema/core/theme/app_spacing.dart';
 import 'package:qeema/features/assets/domain/entities/asset_type_entity.dart';
 
@@ -18,18 +22,18 @@ class AssetTypeTile extends StatelessWidget {
     final colors = context.colors;
 
     return Container(
-      padding: const EdgeInsets.symmetric(
+      padding: EdgeInsets.symmetric(
         horizontal: AppSpacing.md,
         vertical: AppSpacing.sm,
       ),
       decoration: BoxDecoration(
         color: isSelected ? colors.primary.withValues(alpha: 0.1) : null,
-        borderRadius: BorderRadius.circular(12),
+        borderRadius: BorderRadius.circular(AppRadius.sm),
       ),
       child: Row(
         children: [
           _buildIconWithBadge(context),
-          const SizedBox(width: AppSpacing.sm),
+          SizedBox(width: AppSpacing.sm),
           Expanded(
             child: Text(
               context.assetTypeName(type.code),
@@ -39,7 +43,11 @@ class AssetTypeTile extends StatelessWidget {
             ),
           ),
           if (isSelected)
-            Icon(Icons.check_circle, color: colors.primary, size: 24),
+            Icon(
+              Icons.check_circle,
+              color: colors.primary,
+              size: AppSizes.iconStandard,
+            ),
         ],
       ),
     );
@@ -51,22 +59,29 @@ class AssetTypeTile extends StatelessWidget {
     return Stack(
       clipBehavior: Clip.none,
       children: [
-        Icon(iconForType(type.code), size: 28, color: colors.textPrimary),
+        Icon(
+          iconForType(type.code),
+          size: AppSizes.iconLarge,
+          color: colors.textPrimary,
+        ),
         if (type.code.startsWith('gold_'))
           Positioned(
-            right: -10,
-            top: -6,
+            right: Responsive.width(-10),
+            top: Responsive.height(-6),
             child: Container(
-              padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 1),
+              padding: EdgeInsets.symmetric(
+                horizontal: AppSpacing.xxs,
+                vertical: Responsive.adapt(1),
+              ),
               decoration: BoxDecoration(
                 color: colors.primary,
-                borderRadius: BorderRadius.circular(4),
+                borderRadius: BorderRadius.circular(AppRadius.xxs),
               ),
               child: Text(
-                type.code == 'gold_21' ? '21K' : '24K',
-                style: TextStyle(
-                  fontSize: 10,
-                  fontWeight: FontWeight.bold,
+                type.code == 'gold_21'
+                    ? context.t.assets.carat.k21
+                    : context.t.assets.carat.k24,
+                style: context.textStyles.caratBadge.copyWith(
                   color: colors.onPrimary,
                 ),
               ),

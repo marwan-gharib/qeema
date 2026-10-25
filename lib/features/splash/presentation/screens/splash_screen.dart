@@ -183,7 +183,7 @@ class _SplashScreenState extends State<SplashScreen>
                   ],
                 ),
               ),
-              const SizedBox(height: AppSpacing.lg),
+              SizedBox(height: AppSpacing.lg),
               SplashBrandText(
                 textOpacity: _textOpacity,
                 textSlide: _textSlide,

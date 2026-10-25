@@ -14,7 +14,7 @@ class CurrencyFormatter {
     final formatted = NumberFormat.decimalPattern(_locale(locale))
       ..minimumFractionDigits = decimalPlaces
       ..maximumFractionDigits = decimalPlaces;
-    return '${currencyName(symbol)} ${formatted.format(amount.toDouble())}';
+    return '${formatted.format(amount.toDouble())} ${currencyName(symbol)}';
   }
 
   static String formatCompact(

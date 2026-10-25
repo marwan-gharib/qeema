@@ -5,6 +5,7 @@ import 'package:qeema/core/animations/micro_interactions/tap_scale.dart';
 import 'package:qeema/core/cubits/locale_cubit/locale_cubit.dart';
 import 'package:qeema/core/extensions/build_context_extensions.dart';
 import 'package:qeema/core/i18n/strings.g.dart';
+import 'package:qeema/core/theme/app_radius.dart';
 import 'package:qeema/core/theme/app_spacing.dart';
 import 'package:qeema/features/settings/presentation/widgets/selector_option_row.dart';
 
@@ -14,8 +15,8 @@ class LanguageSelectorSheet extends StatelessWidget {
   static Future<void> show(BuildContext context, AppLocale currentLocale) {
     return showModalBottomSheet<void>(
       context: context,
-      shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(AppRadius.md)),
       ),
       builder: (_) => LanguageSelectorSheet(currentLocale: currentLocale),
     );
@@ -29,7 +30,7 @@ class LanguageSelectorSheet extends StatelessWidget {
 
     return SafeArea(
       child: SingleChildScrollView(
-        padding: const EdgeInsets.all(AppSpacing.md),
+        padding: EdgeInsets.all(AppSpacing.md),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -40,13 +41,13 @@ class LanguageSelectorSheet extends StatelessWidget {
                 color: context.colors.textPrimary,
               ),
             ),
-            const SizedBox(height: AppSpacing.md),
+            SizedBox(height: AppSpacing.md),
             for (final (locale, label) in [
               (AppLocale.en, t.settings.languageEnglish),
               (AppLocale.ar, t.settings.languageArabic),
             ])
               Padding(
-                padding: const EdgeInsets.only(bottom: AppSpacing.xs),
+                padding: EdgeInsets.only(bottom: AppSpacing.xs),
                 child: TapScale(
                   onTap: () {
                     context.read<LocaleCubit>().setLocale(locale);

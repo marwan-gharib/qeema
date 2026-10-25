@@ -3,10 +3,17 @@ import 'package:qeema/core/constants/asset_type_codes.dart';
 import 'package:qeema/core/i18n/strings.g.dart';
 import 'package:qeema/core/theme/app_colors.dart';
 import 'package:qeema/core/theme/app_colors_extension.dart';
+import 'package:qeema/core/theme/app_text_styles.dart';
 
 extension BuildContextExtensions on BuildContext {
   AppColors get colors =>
       Theme.of(this).extension<AppColorsExtension>()!.asAppColors;
+
+  /// Falls back to freshly built styles for trees wrapped in a bare
+  /// `MaterialApp` (theme-less test harnesses).
+  AppTextStylesExtension get textStyles =>
+      Theme.of(this).extension<AppTextStylesExtension>() ??
+      AppTextStylesExtension.defaults();
 
   ColorScheme get colorScheme => Theme.of(this).colorScheme;
 

@@ -12,8 +12,12 @@ import 'package:qeema/core/cubits/theme_cubit/theme_cubit.dart';
 import 'package:qeema/core/cubits/theme_cubit/theme_state.dart';
 import 'package:qeema/core/extensions/build_context_extensions.dart';
 import 'package:qeema/core/i18n/strings.g.dart';
+import 'package:qeema/core/responsive/responsive.dart';
 import 'package:qeema/core/router/route_paths.dart';
+import 'package:qeema/core/theme/app_borders.dart';
+import 'package:qeema/core/theme/app_radius.dart';
 import 'package:qeema/core/theme/app_spacing.dart';
+import 'package:qeema/core/widgets/app_content_box.dart';
 import 'package:qeema/core/widgets/app_surface_card.dart';
 import 'package:qeema/features/app_lock/presentation/cubits/app_lock_cubit/app_lock_cubit.dart';
 import 'package:qeema/features/settings/presentation/cubits/app_lock_settings_cubit/app_lock_settings_cubit.dart';
@@ -68,35 +72,37 @@ class SettingsScreen extends StatelessWidget {
             },
           ),
         ],
-        child: ListView(
-          padding: EdgeInsets.fromLTRB(
-            AppSpacing.md,
-            AppSpacing.xs,
-            AppSpacing.md,
-            80 + MediaQuery.paddingOf(context).bottom,
+        child: AppContentBox(
+          child: ListView(
+            padding: EdgeInsets.fromLTRB(
+              AppSpacing.md,
+              AppSpacing.xs,
+              AppSpacing.md,
+              Responsive.height(80) + MediaQuery.paddingOf(context).bottom,
+            ),
+            children: [
+              const AppAnimatedEntry(
+                type: EntryAnimationType.fadeSlideUp,
+                child: ProfileHeaderCard(),
+              ),
+              AppAnimatedEntry(
+                type: EntryAnimationType.fadeSlideUp,
+                child: _buildPreferencesSection(context),
+              ),
+              AppAnimatedEntry(
+                type: EntryAnimationType.fadeSlideUp,
+                child: _buildSecuritySection(context),
+              ),
+              AppAnimatedEntry(
+                type: EntryAnimationType.fadeSlideUp,
+                child: _buildAboutSection(context),
+              ),
+              AppAnimatedEntry(
+                type: EntryAnimationType.fadeSlideUp,
+                child: _buildDangerZoneSection(context),
+              ),
+            ],
           ),
-          children: [
-            const AppAnimatedEntry(
-              type: EntryAnimationType.fadeSlideUp,
-              child: ProfileHeaderCard(),
-            ),
-            AppAnimatedEntry(
-              type: EntryAnimationType.fadeSlideUp,
-              child: _buildPreferencesSection(context),
-            ),
-            AppAnimatedEntry(
-              type: EntryAnimationType.fadeSlideUp,
-              child: _buildSecuritySection(context),
-            ),
-            AppAnimatedEntry(
-              type: EntryAnimationType.fadeSlideUp,
-              child: _buildAboutSection(context),
-            ),
-            AppAnimatedEntry(
-              type: EntryAnimationType.fadeSlideUp,
-              child: _buildDangerZoneSection(context),
-            ),
-          ],
         ),
       ),
     );
@@ -184,10 +190,10 @@ class SettingsScreen extends StatelessWidget {
               AppLockSettingsLoading() => SettingsTile(
                 icon: Icons.lock_outline,
                 label: t.app_lock.settingsTitle,
-                trailing: const SizedBox(
-                  width: 16,
-                  height: 16,
-                  child: CircularProgressIndicator(strokeWidth: 2),
+                trailing: SizedBox(
+                  width: AppSpacing.md,
+                  height: AppSpacing.md,
+                  child: const CircularProgressIndicator(strokeWidth: 2),
                 ),
               ),
               AppLockSettingsFailure() => SettingsTile(
@@ -278,9 +284,9 @@ class SettingsScreen extends StatelessWidget {
               for (var i = 0; i < tiles.length; i++) ...[
                 tiles[i],
                 if (i < tiles.length - 1)
-                  const Divider(
-                    height: 1,
-                    indent: 56,
+                  Divider(
+                    height: AppBorders.hairline,
+                    indent: Responsive.width(56),
                     endIndent: AppSpacing.md,
                   ),
               ],
@@ -296,13 +302,13 @@ class SettingsScreen extends StatelessWidget {
 
     showModalBottomSheet<void>(
       context: context,
-      shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(AppRadius.md)),
       ),
       builder: (sheetContext) {
         return SafeArea(
           child: SingleChildScrollView(
-            padding: const EdgeInsets.all(AppSpacing.lg),
+            padding: EdgeInsets.all(AppSpacing.lg),
             child: Text(
               t.settings.dataMethodologyNote,
               style: sheetContext.textTheme.bodyMedium?.copyWith(
@@ -354,10 +360,10 @@ class _AppVersionTileState extends State<_AppVersionTile> {
       icon: Icons.info_outline,
       label: context.t.settings.appVersion,
       trailing: _loading
-          ? const SizedBox(
-              width: 16,
-              height: 16,
-              child: CircularProgressIndicator(strokeWidth: 2),
+          ? SizedBox(
+              width: AppSpacing.md,
+              height: AppSpacing.md,
+              child: const CircularProgressIndicator(strokeWidth: 2),
             )
           : _version == null
           ? null

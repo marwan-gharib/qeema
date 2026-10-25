@@ -121,7 +121,7 @@ class _DynamicAssetFieldsState extends State<DynamicAssetFields> {
   Widget build(BuildContext context) {
     final type = widget.selectedType;
     final t = context.t.assets.add;
-    final unit = _displayUnit(type.baseUnit);
+    final unit = _displayUnit(context, type.baseUnit);
 
     return AppAnimatedEntry(
       type: EntryAnimationType.fadeSlideUp,
@@ -129,7 +129,7 @@ class _DynamicAssetFieldsState extends State<DynamicAssetFields> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const SizedBox(height: AppSpacing.lg),
+          SizedBox(height: AppSpacing.lg),
           AppTextField(
             controller: widget.amountController,
             label: '${t.amount} ($unit)',
@@ -143,7 +143,7 @@ class _DynamicAssetFieldsState extends State<DynamicAssetFields> {
               _validate();
             },
           ),
-          const SizedBox(height: AppSpacing.md),
+          SizedBox(height: AppSpacing.md),
           if (type.isMarketBased) ...[
             AppTextField(
               controller: widget.priceController,
@@ -162,7 +162,7 @@ class _DynamicAssetFieldsState extends State<DynamicAssetFields> {
                 _validate();
               },
             ),
-            const SizedBox(height: AppSpacing.md),
+            SizedBox(height: AppSpacing.md),
           ],
           GestureDetector(
             onTap: _pickDate,
@@ -175,7 +175,7 @@ class _DynamicAssetFieldsState extends State<DynamicAssetFields> {
               ),
             ),
           ),
-          const SizedBox(height: AppSpacing.md),
+          SizedBox(height: AppSpacing.md),
           AppTextField(
             controller: widget.noteController,
             label: t.note,
@@ -187,9 +187,10 @@ class _DynamicAssetFieldsState extends State<DynamicAssetFields> {
     );
   }
 
-  String _displayUnit(String unit) {
+  String _displayUnit(BuildContext context, String unit) {
     return switch (unit) {
       'EGP' || 'USD' => CurrencyFormatter.currencyName(unit),
+      'gram' => context.t.core.unit.gram,
       _ => unit,
     };
   }

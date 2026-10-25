@@ -136,7 +136,8 @@ void main() {
           predicate<AddAssetState>((s) => s.isSubmitting == true),
           predicate<AddAssetState>(
             (s) =>
-                s.isSubmitting == false && s.submitFailure?.message == 'error',
+                s.isSubmitting == false &&
+                s.submitFailure?.debugDetail == 'error',
           ),
         ]),
       );

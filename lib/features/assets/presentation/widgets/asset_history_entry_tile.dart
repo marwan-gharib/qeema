@@ -2,6 +2,8 @@ import 'package:material_ui/material_ui.dart';
 import 'package:qeema/core/extensions/build_context_extensions.dart';
 import 'package:qeema/core/helpers/date_formatter.dart';
 import 'package:qeema/core/i18n/strings.g.dart';
+import 'package:qeema/core/theme/app_sizes.dart';
+import 'package:qeema/core/theme/app_spacing.dart';
 import 'package:qeema/features/assets/domain/entities/asset_history_entry_entity.dart';
 
 class AssetHistoryEntryTile extends StatelessWidget {
@@ -21,18 +23,18 @@ class AssetHistoryEntryTile extends StatelessWidget {
       _ => (Icons.info_outline, colors.textSecondary),
     };
 
-    final summary = _summarizeChange(t.assets.history);
+    final summary = _summarizeChange(t);
 
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 8),
+      padding: EdgeInsets.symmetric(vertical: AppSpacing.xs),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Padding(
-            padding: const EdgeInsets.only(top: 2),
-            child: Icon(icon, size: 20, color: iconColor),
+            padding: EdgeInsets.only(top: AppSpacing.xxxs),
+            child: Icon(icon, size: AppSizes.iconMedium, color: iconColor),
           ),
-          const SizedBox(width: 12),
+          SizedBox(width: AppSpacing.sm),
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -44,9 +46,9 @@ class AssetHistoryEntryTile extends StatelessWidget {
                     fontWeight: FontWeight.w500,
                   ),
                 ),
-                const SizedBox(height: 2),
+                SizedBox(height: AppSpacing.xxxs),
                 Text(
-                  _relativeTime(entry.changedAt, t.core.dates),
+                  _relativeTime(entry.changedAt, t),
                   style: context.textTheme.bodySmall?.copyWith(
                     color: colors.textSecondary,
                   ),
@@ -59,20 +61,23 @@ class AssetHistoryEntryTile extends StatelessWidget {
     );
   }
 
-  String _summarizeChange(Translations$assets$history$en history) {
+  String _summarizeChange(Translations t) {
+    final history = t.assets.history;
     switch (entry.changeType) {
       case 'created':
         return history.assetAdded;
       case 'deleted':
         return history.assetDeleted;
       case 'updated':
-        return _summarizeUpdate(history);
+        return _summarizeUpdate(t);
       default:
         return history.updated;
     }
   }
 
-  String _summarizeUpdate(Translations$assets$history$en history) {
+  String _summarizeUpdate(Translations t) {
+    final history = t.assets.history;
+    final unavailable = t.core.value.unavailable;
     final oldValue = entry.oldValue ?? {};
     final newValue = entry.newValue ?? {};
     final changes = <String>[];
@@ -95,31 +100,29 @@ class AssetHistoryEntryTile extends StatelessWidget {
         changes.add(history.dateChanged);
       } else {
         changes.add(
-          history.fieldChanged
-              .replaceAll('{field}', fieldLabels[key] ?? key)
-              .replaceAll('{oldValue}', oldFieldValue?.toString() ?? '-')
-              .replaceAll('{newValue}', newFieldValue?.toString() ?? '-'),
+          history.fieldChanged(
+            field: fieldLabels[key] ?? key,
+            oldValue: oldFieldValue?.toString() ?? unavailable,
+            newValue: newFieldValue?.toString() ?? unavailable,
+          ),
         );
       }
     }
 
-    return changes.isEmpty ? history.updated : changes.join('; ');
+    return changes.isEmpty
+        ? history.updated
+        : changes.join(t.core.listSeparator);
   }
 
-  String _relativeTime(DateTime date, Translations$core$dates$en dates) {
+  String _relativeTime(DateTime date, Translations t) {
+    final dates = t.core.dates;
     final now = DateTime.now();
     final diff = now.difference(date);
 
     if (diff.inMinutes < 1) return dates.justNow;
-    if (diff.inMinutes < 60) {
-      return dates.minutesAgo.replaceAll('{minutes}', '${diff.inMinutes}');
-    }
-    if (diff.inHours < 24) {
-      return dates.hoursAgo.replaceAll('{hours}', '${diff.inHours}');
-    }
-    if (diff.inDays < 7) {
-      return dates.daysAgo.replaceAll('{days}', '${diff.inDays}');
-    }
+    if (diff.inMinutes < 60) return dates.minutesAgo(n: diff.inMinutes);
+    if (diff.inHours < 24) return dates.hoursAgo(n: diff.inHours);
+    if (diff.inDays < 7) return dates.daysAgo(n: diff.inDays);
     return DateFormatter.format(date);
   }
 }

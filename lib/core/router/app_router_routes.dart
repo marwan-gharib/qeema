@@ -3,7 +3,6 @@ import 'package:go_router/go_router.dart';
 import 'package:material_ui/material_ui.dart';
 import 'package:qeema/core/animations/app_page_transitions.dart';
 import 'package:qeema/core/di/injection_container.dart';
-import 'package:qeema/core/i18n/strings.g.dart';
 import 'package:qeema/core/navigation/app_shell.dart';
 import 'package:qeema/core/router/route_guards.dart';
 import 'package:qeema/core/router/route_names.dart';
@@ -199,65 +198,6 @@ class AppRouterRoutes {
         path: RoutePaths.lock,
         name: RouteNames.lock,
         builder: (context, state) => const LockScreen(),
-      ),
-      GoRoute(
-        path: RoutePaths.insights,
-        name: RouteNames.insights,
-        builder: (context, state) =>
-            Scaffold(body: Center(child: Text(context.t.navigation.insights))),
-      ),
-      GoRoute(
-        path: RoutePaths.goals,
-        name: RouteNames.goals,
-        builder: (context, state) =>
-            Scaffold(body: Center(child: Text(context.t.navigation.goals))),
-        routes: [
-          GoRoute(
-            path: RouteSegments.add,
-            name: RouteNames.addGoal,
-            builder: (context, state) => Scaffold(
-              body: Center(child: Text(context.t.navigation.addGoal)),
-            ),
-          ),
-          GoRoute(
-            path: RouteSegments.goalId,
-            name: RouteNames.goalDetail,
-            builder: (context, state) {
-              final goalId = state.pathParameters['goalId']!;
-              return Scaffold(
-                body: Center(
-                  child: Text(
-                    context.t.navigation.goalDetail.replaceAll('{id}', goalId),
-                  ),
-                ),
-              );
-            },
-          ),
-        ],
-      ),
-      GoRoute(
-        path: RoutePaths.notifications,
-        name: RouteNames.notifications,
-        builder: (context, state) => Scaffold(
-          body: Center(child: Text(context.t.navigation.notifications)),
-        ),
-        routes: [
-          GoRoute(
-            path: RouteSegments.settings,
-            name: RouteNames.notificationSettings,
-            builder: (context, state) => Scaffold(
-              body: Center(
-                child: Text(context.t.navigation.notificationSettings),
-              ),
-            ),
-          ),
-        ],
-      ),
-      GoRoute(
-        path: RoutePaths.profile,
-        name: RouteNames.profile,
-        builder: (context, state) =>
-            Scaffold(body: Center(child: Text(context.t.navigation.profile))),
       ),
     ];
   }

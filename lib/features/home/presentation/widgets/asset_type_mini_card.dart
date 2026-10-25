@@ -8,6 +8,9 @@ import 'package:qeema/core/constants/asset_type_codes.dart';
 import 'package:qeema/core/extensions/build_context_extensions.dart';
 import 'package:qeema/core/helpers/currency_formatter.dart';
 import 'package:qeema/core/i18n/strings.g.dart';
+import 'package:qeema/core/responsive/responsive.dart';
+import 'package:qeema/core/theme/app_radius.dart';
+import 'package:qeema/core/theme/app_sizes.dart';
 import 'package:qeema/core/theme/app_spacing.dart';
 import 'package:qeema/features/assets/domain/entities/asset_type_entity.dart';
 import 'package:qeema/features/home/domain/entities/asset_type_summary_entity.dart';
@@ -20,12 +23,12 @@ class AssetTypeMiniCardRow extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 116,
+      height: Responsive.height(116),
       child: ListView.separated(
         scrollDirection: Axis.horizontal,
         physics: const BouncingScrollPhysics(),
         itemCount: summaries.length,
-        separatorBuilder: (_, _) => const SizedBox(width: AppSpacing.sm),
+        separatorBuilder: (_, _) => SizedBox(width: AppSpacing.sm),
         itemBuilder: (context, index) => AppAnimatedEntry(
           type: EntryAnimationType.fadeSlideUp,
           delay: Duration(
@@ -52,11 +55,11 @@ class AssetTypeMiniCard extends StatelessWidget {
 
     return TapScale(
       child: Container(
-        width: 140,
-        padding: const EdgeInsets.all(AppSpacing.sm),
+        width: Responsive.width(140),
+        padding: EdgeInsets.all(AppSpacing.sm),
         decoration: BoxDecoration(
           color: colors.surface,
-          borderRadius: BorderRadius.circular(12),
+          borderRadius: BorderRadius.circular(AppRadius.sm),
         ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -65,10 +68,10 @@ class AssetTypeMiniCard extends StatelessWidget {
               children: [
                 Icon(
                   _iconFor(summary.assetType),
-                  size: 16,
+                  size: AppSizes.iconSmall,
                   color: colors.primary,
                 ),
-                const SizedBox(width: 6),
+                SizedBox(width: Responsive.adapt(6)),
                 Expanded(
                   child: Text(
                     _labelFor(context, summary.assetType),
@@ -93,7 +96,7 @@ class AssetTypeMiniCard extends StatelessWidget {
               ),
               overflow: TextOverflow.ellipsis,
             ),
-            const SizedBox(height: AppSpacing.xxs),
+            SizedBox(height: AppSpacing.xxs),
             _DayChangeIndicator(summary: summary),
           ],
         ),
@@ -163,17 +166,20 @@ class _DayChangeIndicator extends StatelessWidget {
     required IconData? icon,
   }) {
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
+      padding: EdgeInsets.symmetric(
+        horizontal: AppSpacing.xs,
+        vertical: AppSpacing.xxxs,
+      ),
       decoration: BoxDecoration(
         color: color.withAlpha(38),
-        borderRadius: BorderRadius.circular(12),
+        borderRadius: BorderRadius.circular(AppRadius.sm),
       ),
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
           if (icon != null) ...[
-            Icon(icon, size: 12, color: color),
-            const SizedBox(width: 2),
+            Icon(icon, size: AppSizes.iconMicro, color: color),
+            SizedBox(width: AppSpacing.xxxs),
           ],
           Text(
             text,

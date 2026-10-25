@@ -21,9 +21,17 @@
       "networkFailure": "No internet connection.",
       "cacheFailure": "Could not read local data.",
       "unknownFailure": "An unexpected error occurred.",
-      "priceFetchFailure": "Could not fetch price for {assetTypeCode}",
-      "inflationDataMissing": "Inflation data missing for {count} month(s)",
-      "calculationFailed": "Calculation failed: {reason}"
+      "priceFetchFailure": "Could not fetch price for ${assetTypeCode}",
+      "inflationDataMissing": {
+        "one": "Inflation data is missing for 1 month.",
+        "other": "Inflation data is missing for ${n} months."
+      },
+      "calculationFailed": "Could not calculate the value.",
+      "sessionExpired": "Your session has expired. Please sign in again.",
+      "timeout": "The request timed out. Please try again.",
+      "forbidden": "You don't have permission to do that.",
+      "notFound": "The requested item could not be found.",
+      "validation": "Please check the values you entered."
     },
     "empty": {
       "title": "No data yet",
@@ -46,14 +54,30 @@
     },
     "dates": {
       "justNow": "just now",
-      "minutesAgo": "{minutes}m ago",
-      "hoursAgo": "{hours}h ago",
-      "daysAgo": "{days}d ago"
+      "minutesAgo": {
+        "one": "${n}m ago",
+        "other": "${n}m ago"
+      },
+      "hoursAgo": {
+        "one": "${n}h ago",
+        "other": "${n}h ago"
+      },
+      "daysAgo": {
+        "one": "${n}d ago",
+        "other": "${n}d ago"
+      }
     },
     "currency": {
       "egp": "EGP",
       "usd": "USD"
     },
+    "unit": {
+      "gram": "gram"
+    },
+    "value": {
+      "unavailable": "—"
+    },
+    "listSeparator": "; ",
     "actions": {
       "cancel": "Cancel",
       "delete": "Delete"
@@ -108,10 +132,10 @@
     "profile": "Profile",
     "settings": "Settings",
     "addAsset": "Add Asset",
-    "assetDetail": "Asset {id}",
-    "editAsset": "Edit Asset {id}",
+    "assetDetail": "Asset ${id}",
+    "editAsset": "Edit Asset ${id}",
     "addGoal": "Add Goal",
-    "goalDetail": "Goal {id}",
+    "goalDetail": "Goal ${id}",
     "notificationSettings": "Notification Settings"
   },
   "nav": {
@@ -160,12 +184,12 @@
       "selectTypeFirst": "Select an asset type first"
     },
     "edit": {
-      "title": "Edit {type}",
+      "title": "Edit ${type}",
       "submit": "Save Changes",
       "assetTypeLabel": "Asset Type"
     },
     "detail": {
-      "entryPrice": "Entry: {price} EGP per unit",
+      "entryPrice": "Entry: ${price} EGP per unit",
       "valueTrend": "Value Trend",
       "editHistory": "Edit History",
       "noHistory": "No edit history yet",
@@ -184,6 +208,10 @@
     "filter": {
       "all": "All"
     },
+    "carat": {
+      "k21": "21K",
+      "k24": "24K"
+    },
     "chart": {
       "cashPlaceholder": "Cash assets maintain a constant value",
       "noDataTitle": "Not enough price history yet",
@@ -201,7 +229,7 @@
       "fieldNote": "Note",
       "noteUpdated": "Note updated",
       "dateChanged": "Entry date changed",
-      "fieldChanged": "{field}: {oldValue} → {newValue}"
+      "fieldChanged": "${field}: ${oldValue} → ${newValue}"
     },
     "delete": {
       "confirmTitle": "Delete Asset?",
@@ -209,7 +237,13 @@
     },
     "failure": {
       "assetNotFound": "Asset not found.",
-      "invalidAmount": "Amount must be greater than zero."
+      "invalidAmount": "Amount must be greater than zero.",
+      "priceRequiredMarket": "Price is required for market-based assets.",
+      "addFailed": "Could not add the asset right now. Please try again.",
+      "updateFailed": "Update failed.",
+      "deleteFailed": "Delete failed.",
+      "historyLoadFailed": "Failed to load history.",
+      "fetchFailed": "Could not load your data right now. Please try again."
     }
   },
   "settings": {
@@ -218,7 +252,7 @@
       "guest": "Guest",
       "signedInAsGuest": "Signed in as guest",
       "fallbackName": "User",
-      "semanticLabel": "Signed in as {name}"
+      "semanticLabel": "Signed in as ${name}"
     },
     "securitySection": "Security",
     "preferencesSection": "Preferences",
@@ -265,7 +299,7 @@
   "insights": {
     "assetPerformance": {
       "title": "Best performing asset",
-      "body": "Asset {id} leads your portfolio with a value of {value} EGP."
+      "body": "Asset ${id} leads your portfolio with a value of ${value} EGP."
     },
     "concentrationRisk": {
       "title": "High concentration risk",
@@ -273,7 +307,7 @@
     },
     "inflationLoss": {
       "title": "Inflation erosion detected",
-      "body": "Your money has lost {erosion}% of its purchasing power since you started tracking."
+      "body": "Your money has lost ${erosion}% of its purchasing power since you started tracking."
     },
     "goalFeasibility": {
       "title": "Savings goal check",
@@ -283,15 +317,29 @@
   "marketPrices": {
     "title": "Market Prices",
     "dataSourceDisclosure": "Prices are based on international spot rates and official exchange rates — local market or goldsmith prices may differ.",
-    "lastUpdated": "Updated {when}",
+    "lastUpdated": "Updated ${when}",
     "notEnoughHistory": "Not enough history yet",
-    "showingAvailableData": "Showing available data ({days} days)",
+    "showingAvailableData": {
+      "one": "Showing available data (${n} day)",
+      "other": "Showing available data (${n} days)"
+    },
     "emptyTitle": "No market prices yet",
     "emptyBody": "Market price data will appear here once it becomes available.",
     "range": {
       "oneWeek": "1 week",
       "oneMonth": "1 month",
       "threeMonths": "3 months"
+    }
+  },
+  "charts": {
+    "semantics": {
+      "summary": {
+        "one": "${title}, last ${n} day: latest ${latest}, lowest ${lowest}, highest ${highest}.",
+        "other": "${title}, last ${n} days: latest ${latest}, lowest ${lowest}, highest ${highest}."
+      },
+      "realValue": "Real portfolio value",
+      "priceHistory": "Price history",
+      "recentPrices": "Recent prices"
     }
   },
   "app_lock": {
@@ -303,6 +351,8 @@
     "lockedOutMessage": "Too many attempts. Try again after the cooldown.",
     "unavailableMessage": "Couldn't verify you right now. Check your screen lock and try again.",
     "errorMessage": "Couldn't verify your identity. Try again.",
+    "cancelledMessage": "Verification was cancelled.",
+    "noCredentialsMessage": "No screen lock is set on this device. Set a screen lock to use App Lock.",
     "settingsTitle": "App Lock",
     "settingsSubtitle": "Require device unlock when Qeema opens",
     "settingsNoDeviceLock": "Set a screen lock (PIN, pattern, or password) in system settings to use App Lock"

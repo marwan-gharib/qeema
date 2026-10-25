@@ -2,6 +2,7 @@ import 'package:go_router/go_router.dart';
 import 'package:material_ui/material_ui.dart';
 import 'package:qeema/core/extensions/build_context_extensions.dart';
 import 'package:qeema/core/i18n/strings.g.dart';
+import 'package:qeema/core/theme/app_radius.dart';
 
 class DeleteAssetConfirmationDialog extends StatelessWidget {
   const DeleteAssetConfirmationDialog({super.key});
@@ -21,7 +22,9 @@ class DeleteAssetConfirmationDialog extends StatelessWidget {
 
     return AlertDialog(
       backgroundColor: colors.surface,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(AppRadius.md),
+      ),
       title: Text(
         t.confirmTitle,
         style: theme.textTheme.titleMedium?.copyWith(
