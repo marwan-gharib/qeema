@@ -10,7 +10,6 @@ import 'package:qeema/features/assets/domain/entities/asset_type_entity.dart';
 import 'package:qeema/features/assets/domain/usecases/get_asset_types_usecase.dart';
 import 'package:qeema/features/assets/domain/usecases/get_assets_usecase.dart';
 import 'package:qeema/features/home/data/datasources/home_remote_datasource.dart';
-import 'package:qeema/features/home/data/mappers/portfolio_snapshot_mapper.dart';
 import 'package:qeema/features/home/data/models/inflation_rate_row.dart';
 import 'package:qeema/features/home/data/models/market_price_row.dart';
 import 'package:qeema/features/home/data/models/portfolio_snapshot_row.dart';
@@ -129,7 +128,7 @@ mixin HomeRepositoryImplSupport {
       );
     }).toList();
 
-    final trend = snapshotRows.map(PortfolioSnapshotMapper.fromRow).toList();
+    final trend = snapshotRows.map((row) => row.toEntity()).toList();
 
     return DashboardSummaryEntity(
       nominalTotal: nominalTotal,

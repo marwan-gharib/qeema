@@ -1,5 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:qeema/features/auth/data/mappers/auth_user_mapper.dart';
+import 'package:qeema/features/auth/data/models/auth_user_model.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 void main() {
@@ -19,7 +19,7 @@ void main() {
 
   group('displayName fallback', () {
     test('prefers full_name over name and email', () {
-      final model = AuthUserMapper.fromSupabaseUser(
+      final model = AuthUserModel.fromSupabaseUser(
         buildUser(
           email: 'jane@example.com',
           metadata: const {'full_name': 'Jane Doe', 'name': 'Other'},
@@ -30,7 +30,7 @@ void main() {
     });
 
     test('falls back to name when full_name is missing', () {
-      final model = AuthUserMapper.fromSupabaseUser(
+      final model = AuthUserModel.fromSupabaseUser(
         buildUser(email: 'jane@example.com', metadata: const {'name': 'Jane'}),
       );
 
@@ -38,7 +38,7 @@ void main() {
     });
 
     test('falls back to the email local part', () {
-      final model = AuthUserMapper.fromSupabaseUser(
+      final model = AuthUserModel.fromSupabaseUser(
         buildUser(email: 'jane@example.com'),
       );
 
@@ -46,13 +46,13 @@ void main() {
     });
 
     test('returns null when nothing resolves', () {
-      final model = AuthUserMapper.fromSupabaseUser(buildUser());
+      final model = AuthUserModel.fromSupabaseUser(buildUser());
 
       expect(model.displayName, isNull);
     });
 
     test('trims values and treats blanks as missing', () {
-      final model = AuthUserMapper.fromSupabaseUser(
+      final model = AuthUserModel.fromSupabaseUser(
         buildUser(
           email: '  jane@example.com  ',
           metadata: const {'full_name': '   ', 'name': ''},
@@ -63,7 +63,7 @@ void main() {
     });
 
     test('ignores non-string metadata values', () {
-      final model = AuthUserMapper.fromSupabaseUser(
+      final model = AuthUserModel.fromSupabaseUser(
         buildUser(
           email: 'jane@example.com',
           metadata: const {
@@ -77,7 +77,7 @@ void main() {
     });
 
     test('keeps Arabic and emoji names untouched', () {
-      final model = AuthUserMapper.fromSupabaseUser(
+      final model = AuthUserModel.fromSupabaseUser(
         buildUser(metadata: const {'full_name': 'محمد علي 😀'}),
       );
 
@@ -85,7 +85,7 @@ void main() {
     });
 
     test('returns null when the email local part is empty', () {
-      final model = AuthUserMapper.fromSupabaseUser(
+      final model = AuthUserModel.fromSupabaseUser(
         buildUser(email: '@example.com'),
       );
 
@@ -95,7 +95,7 @@ void main() {
 
   group('avatarUrl fallback', () {
     test('uses avatar_url from metadata', () {
-      final model = AuthUserMapper.fromSupabaseUser(
+      final model = AuthUserModel.fromSupabaseUser(
         buildUser(
           metadata: const {
             'avatar_url': ' https://example.com/a.png ',
@@ -108,7 +108,7 @@ void main() {
     });
 
     test('falls back to picture', () {
-      final model = AuthUserMapper.fromSupabaseUser(
+      final model = AuthUserModel.fromSupabaseUser(
         buildUser(metadata: const {'picture': 'https://example.com/b.png'}),
       );
 
@@ -116,15 +116,15 @@ void main() {
     });
 
     test('returns null when absent, blank, or non-string', () {
-      expect(AuthUserMapper.fromSupabaseUser(buildUser()).avatarUrl, isNull);
+      expect(AuthUserModel.fromSupabaseUser(buildUser()).avatarUrl, isNull);
       expect(
-        AuthUserMapper.fromSupabaseUser(
+        AuthUserModel.fromSupabaseUser(
           buildUser(metadata: const {'avatar_url': '   '}),
         ).avatarUrl,
         isNull,
       );
       expect(
-        AuthUserMapper.fromSupabaseUser(
+        AuthUserModel.fromSupabaseUser(
           buildUser(metadata: const {'avatar_url': 7}),
         ).avatarUrl,
         isNull,
@@ -133,7 +133,7 @@ void main() {
   });
 
   test('maps id, email, and isAnonymous through', () {
-    final model = AuthUserMapper.fromSupabaseUser(
+    final model = AuthUserModel.fromSupabaseUser(
       buildUser(email: null, isAnonymous: true),
     );
 

@@ -6,7 +6,6 @@ import 'package:qeema/features/assets/domain/entities/asset_type_entity.dart';
 import 'package:qeema/features/assets/domain/entities/market_price_entity.dart';
 import 'package:qeema/features/assets/domain/usecases/get_asset_types_usecase.dart';
 import 'package:qeema/features/assets/domain/usecases/get_market_price_history_usecase.dart';
-import 'package:qeema/features/market_prices/data/mappers/market_price_point_mapper.dart';
 import 'package:qeema/features/market_prices/domain/entities/market_price_point_entity.dart';
 import 'package:qeema/features/market_prices/domain/entities/market_price_summary_entity.dart';
 import 'package:qeema/features/market_prices/domain/repositories/market_prices_repository.dart';
@@ -76,7 +75,7 @@ class MarketPricesRepositoryImpl implements MarketPricesRepository {
       weeklyChangePercent: weeklyChange,
       sparklinePoints: history
           .sublist(sparklineStart)
-          .map(MarketPricePointMapper.fromMarketPrice)
+          .map(MarketPricePointEntity.fromMarketPrice)
           .toList(),
     );
   }
@@ -114,7 +113,7 @@ class MarketPricesRepositoryImpl implements MarketPricesRepository {
               (row) =>
                   !row.priceDate.isBefore(from) && !row.priceDate.isAfter(to),
             )
-            .map(MarketPricePointMapper.fromMarketPrice)
+            .map(MarketPricePointEntity.fromMarketPrice)
             .toList(),
       ),
       onFailure: (failure) => ResultFailure(failure),

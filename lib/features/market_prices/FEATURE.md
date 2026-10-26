@@ -30,7 +30,7 @@ detail chart with 1W/1M/3M range chips. Prices come from a backend cron — ther
 | cubits | `presentation/cubits/market_prices_list_cubit/` and `market_price_detail_cubit/` (cubit + state each) | List + detail state |
 | domain | `domain/entities/market_price_summary_entity.dart`, `domain/entities/market_price_point_entity.dart`, `domain/repositories/market_prices_repository.dart` | Entities + contract |
 | usecases | `domain/usecases/get_market_price_summaries_usecase.dart`, `domain/usecases/get_market_price_range_usecase.dart`, `domain/params/get_market_price_range_params.dart` | 2 usecases + params |
-| data | `data/repositories/market_prices_repository_impl.dart` (no datasource of its own), `data/mappers/market_price_point_mapper.dart` | Composes assets usecases |
+| data | `data/repositories/market_prices_repository_impl.dart` (no datasource of its own) | Composes assets usecases; adapts price rows via `MarketPricePointEntity.fromMarketPrice` |
 
 ## 4. Entities & models
 
@@ -105,9 +105,9 @@ No datasource: the feature is a pure read model over the assets feature's data l
 
 ## 12. Known issues
 
-- ARCH-1: the detail screen imports the data mapper (presentation → data) and the assets feature's
-  presentation widgets (features must never import another feature's presentation — promote to
-  core, WIDGET-3).
+- ARCH-1: PARTIALLY RESOLVED 2026-10-26 — the data mapper is gone (the adaptation lives on
+  `MarketPricePointEntity`); the detail screen still imports the assets feature's presentation
+  widgets (features must never import another feature's presentation — promote to core, WIDGET-3).
 - STATE-3: `state is` checks instead of an exhaustive switch; ANIM-2: raw AnimatedSwitcher;
   BASE-3: raw CircularProgressIndicator instead of `AppLoader`.
 - The detail screen has no pull-to-refresh, and every range change re-emits full Loading (content
@@ -117,3 +117,5 @@ No datasource: the feature is a pure read model over the assets feature's data l
 ## 13. Changelog
 
 - 2026-10-26 — Initial doc created from code (doc-sync).
+- 2026-10-26 — Refactor (DATA-5): MarketPricePointMapper dissolved into
+  `MarketPricePointEntity.fromMarketPrice` / `toMarketPrice()`.

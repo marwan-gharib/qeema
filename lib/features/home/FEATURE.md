@@ -28,7 +28,7 @@ total, an erosion ring (purchasing power lost), per-asset-type mini cards with d
 | cubits | `presentation/cubits/home_cubit/home_cubit.dart` + `presentation/cubits/home_cubit/home_state.dart` | Dashboard state |
 | domain | `domain/entities/dashboard_summary_entity.dart`, `domain/entities/portfolio_snapshot_entity.dart`, `domain/entities/asset_type_summary_entity.dart`, `domain/repositories/home_repository.dart` | Entities + contract |
 | usecases | `domain/usecases/get_dashboard_summary_usecase.dart` | The single usecase |
-| data | `data/datasources/home_remote_datasource.dart`, `data/models/market_price_row.dart`, `data/models/inflation_rate_row.dart`, `data/models/portfolio_snapshot_row.dart`, `data/repositories/home_repository_impl.dart` + `data/repositories/home_repository_impl_support.dart`, `data/mappers/portfolio_snapshot_mapper.dart` | Supabase reads + assembly |
+| data | `data/datasources/home_remote_datasource.dart`, `data/models/market_price_row.dart`, `data/models/inflation_rate_row.dart`, `data/models/portfolio_snapshot_row.dart` (with `toEntity()`), `data/repositories/home_repository_impl.dart` + `data/repositories/home_repository_impl_support.dart` | Supabase reads + assembly |
 
 ## 4. Entities & models
 
@@ -109,3 +109,5 @@ total, an erosion ring (purchasing power lost), per-asset-type mini cards with d
 ## 13. Changelog
 
 - 2026-10-26 — Initial doc created from code (doc-sync).
+- 2026-10-26 — Refactor (DATA-4/5): PortfolioSnapshotMapper dissolved into the row's `toEntity()`;
+  row JSON keys moved to SupabaseColumns constants.

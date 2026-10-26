@@ -25,13 +25,13 @@ the settings profile header.
 |  | `presentation/cubits/google_sign_in_cubit/google_sign_in_cubit.dart` + `presentation/cubits/google_sign_in_cubit/google_sign_in_state.dart` | Google flow |
 | domain | `domain/entities/auth_user_entity.dart`, `domain/repositories/auth_repository.dart` | Entity + contract |
 | usecases | `domain/usecases/continue_as_guest_usecase.dart`, `domain/usecases/google_sign_in_usecase.dart`, `domain/usecases/watch_auth_user_usecase.dart` | 3 usecases |
-| data | `data/datasources/remote/auth_remote_datasource.dart`, `data/models/auth_user_model.dart`, `data/mappers/auth_user_mapper.dart`, `data/repositories/auth_repository_impl.dart` | Supabase auth + mapping |
+| data | `data/datasources/remote/auth_remote_datasource.dart`, `data/models/auth_user_model.dart`, `data/repositories/auth_repository_impl.dart` | Supabase auth; the model parses the Supabase user |
 
 ## 4. Entities & models
 
 | Entity | Key fields | Model (data) | Notes |
 |---|---|---|---|
-| `AuthUserEntity` | id, email, isAnonymous, displayName?, avatarUrl? | `AuthUserModel` with `toEntity()` | Mapper reads Supabase userMetadata |
+| `AuthUserEntity` | id, email, isAnonymous, displayName?, avatarUrl? | `AuthUserModel` with `toEntity()` | Model's `fromSupabaseUser` reads Supabase userMetadata |
 
 ## 5. Use cases
 
@@ -88,7 +88,7 @@ the settings profile header.
 | screen | test/features/auth/presentation/screens/welcome_screen_test.dart | render + flows |
 | cubits | test/features/auth/presentation/cubits/welcome_cubit_test.dart | guest transitions |
 | usecases | test/features/auth/domain/usecases/watch_auth_user_usecase_test.dart, continue_as_guest_usecase_test.dart | stream + guest |
-| data | test/features/auth/data/repositories/auth_repository_impl_test.dart, test/features/auth/data/mappers/auth_user_mapper_test.dart | repo + mapper |
+| data | test/features/auth/data/repositories/auth_repository_impl_test.dart, test/features/auth/data/models/auth_user_model_test.dart | repo + model parsing |
 
 ## 12. Known issues
 
@@ -103,3 +103,5 @@ the settings profile header.
 ## 13. Changelog
 
 - 2026-10-26 — Initial doc created from code (doc-sync).
+- 2026-10-26 — Refactor (DATA-4/5): AuthUserMapper dissolved into `AuthUserModel.fromSupabaseUser`;
+  its test moved to test/features/auth/data/models/auth_user_model_test.dart.

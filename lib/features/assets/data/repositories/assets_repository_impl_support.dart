@@ -10,7 +10,7 @@ import 'package:qeema/core/local/cache/daos/assets_dao.dart';
 import 'package:qeema/core/utils/api_result.dart';
 import 'package:qeema/core/utils/asset_type_parsing.dart';
 import 'package:qeema/features/assets/data/datasources/assets_remote_datasource.dart';
-import 'package:qeema/features/assets/data/mappers/asset_history_mapper.dart';
+import 'package:qeema/features/assets/data/models/asset_history_model.dart';
 import 'package:qeema/features/assets/domain/entities/asset_entity.dart';
 import 'package:qeema/features/assets/domain/entities/asset_history_entry_entity.dart';
 import 'package:qeema/features/assets/domain/params/add_asset_params.dart';
@@ -226,7 +226,10 @@ mixin AssetsRepositoryImplSupport {
   ) async {
     try {
       final rows = await remoteDataSource.getAssetHistory(assetId);
-      final entries = rows.map(AssetHistoryMapper.fromRow).toList();
+      final entries = rows
+          .map(AssetHistoryModel.fromRow)
+          .map((model) => model.toEntity())
+          .toList();
       return Success(entries);
     } on PostgrestException catch (e) {
       return ResultFailure(mapSupabaseError(e, AssetOperation.loadHistory));
@@ -235,20 +238,6 @@ mixin AssetsRepositoryImplSupport {
         AssetOperationFailure(AssetOperation.loadHistory, '$e'),
       );
     }
-  }
-
-  List<AssetEntity> toEntities(List<AssetModelFromServer> models) {
-    return models.map((m) {
-      return AssetEntity(
-        id: m.id,
-        assetType: assetTypeFromString(m.assetTypeCode),
-        amount: m.amount,
-        priceAtEntry: m.priceAtEntry,
-        entryDate: m.entryDate,
-        note: m.note,
-        currentPrice: m.currentPrice,
-      );
-    }).toList();
   }
 
   Failure mapSupabaseError(PostgrestException e, AssetOperation operation) {

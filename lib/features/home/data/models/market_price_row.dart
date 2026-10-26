@@ -1,4 +1,6 @@
 import 'package:decimal/decimal.dart';
+import 'package:qeema/core/constants/supabase_columns.dart';
+import 'package:qeema/core/constants/supabase_tables.dart';
 
 class MarketPriceRow {
   const MarketPriceRow({
@@ -8,11 +10,11 @@ class MarketPriceRow {
   });
 
   factory MarketPriceRow.fromJson(Map<String, dynamic> json) {
-    final typeData = json['asset_types'] as Map<String, dynamic>?;
+    final typeData = json[SupabaseTables.assetTypes] as Map<String, dynamic>?;
     return MarketPriceRow(
-      assetTypeCode: typeData?['code'] as String? ?? '',
-      priceDate: DateTime.parse(json['price_date'] as String),
-      price: Decimal.parse((json['price'] as num).toString()),
+      assetTypeCode: typeData?[SupabaseColumns.code] as String? ?? '',
+      priceDate: DateTime.parse(json[SupabaseColumns.priceDate] as String),
+      price: Decimal.parse((json[SupabaseColumns.price] as num).toString()),
     );
   }
 

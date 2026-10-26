@@ -4,7 +4,6 @@ import 'dart:io';
 import 'package:flutter/foundation.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:qeema/core/network/supabase_client_provider.dart';
-import 'package:qeema/features/auth/data/mappers/auth_user_mapper.dart';
 import 'package:qeema/features/auth/data/models/auth_user_model.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
@@ -21,7 +20,7 @@ class AuthRemoteDataSource {
         code: 'unexpected_failure',
       );
     }
-    return AuthUserMapper.fromSupabaseUser(user);
+    return AuthUserModel.fromSupabaseUser(user);
   }
 
   Future<AuthUserModel> _nativeGoogleSignIn() async {
@@ -69,7 +68,7 @@ class AuthRemoteDataSource {
         );
       }
 
-      return AuthUserMapper.fromSupabaseUser(user);
+      return AuthUserModel.fromSupabaseUser(user);
     } on GoogleSignInException catch (e) {
       throw AuthException(
         'Google sign-in failed: ${e.code}',
@@ -115,6 +114,6 @@ class AuthRemoteDataSource {
   AuthUserModel? _currentUserInfo() {
     final user = _provider.client.auth.currentUser;
     if (user == null) return null;
-    return AuthUserMapper.fromSupabaseUser(user);
+    return AuthUserModel.fromSupabaseUser(user);
   }
 }

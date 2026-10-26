@@ -30,19 +30,18 @@ market_prices.
 | domain repo | `domain/repositories/assets_repository.dart` | Abstract contract, 7 methods |
 | usecases | `domain/usecases/` — get_assets, get_asset_types, add_asset, update_asset, soft_delete_asset, get_asset_history, get_market_price_history | 7 usecases |
 | params | `domain/params/add_asset_params.dart`, `domain/params/update_asset_params.dart` | 2 params |
-| datasources | `data/datasources/assets_remote_datasource.dart` | Supabase + Drift cache; also defines a second inline model (see Known issues) |
-| models | `data/models/asset_model.dart` | fromJson; extends the entity instead of toEntity() |
+| datasources | `data/datasources/assets_remote_datasource.dart` | Supabase + Drift cache |
+| models | `data/models/asset_model_from_server.dart`, `data/models/asset_history_model.dart`, `data/models/market_price_model.dart` | fromJson/fromRow + toEntity each |
 | repo impl | `data/repositories/assets_repository_impl.dart` + `data/repositories/assets_repository_impl_support.dart` | Remote + write-through cache |
-| mappers | `data/mappers/market_price_mapper.dart`, `data/mappers/asset_history_mapper.dart` | data/mappers is forbidden (DATA-5) |
 
 ## 4. Entities & models
 
 | Entity | Key fields | Model (data) | Notes |
 |---|---|---|---|
-| `AssetEntity` + enum `AssetType` | id, assetType, amount, priceAtEntry, entryDate, note?, currentPrice? | `AssetModel` | Getters: entryValue, currentValue, gainLossAmount/Percent, isGain |
+| `AssetEntity` + enum `AssetType` | id, assetType, amount, priceAtEntry, entryDate, note?, currentPrice? | `AssetModelFromServer` | Getters: entryValue, currentValue, gainLossAmount/Percent, isGain |
 | `AssetTypeEntity` | id, code, name, isMarketBased, baseUnit | parsed inline |  |
-| `AssetHistoryEntryEntity` | id, assetId, changeType, oldValue?, newValue?, changedAt | — |  |
-| `MarketPriceEntity` | priceDate, price, fetchedAt? | — | fetchedAt drives staleness |
+| `AssetHistoryEntryEntity` | id, assetId, changeType, oldValue?, newValue?, changedAt | `AssetHistoryModel` |  |
+| `MarketPriceEntity` | priceDate, price, fetchedAt? | `MarketPriceModel` | fetchedAt drives staleness |
 | `AddAssetParams` / `UpdateAssetParams` | amount, priceAtEntry?, entryDate, note? (assetId for update) | — |  |
 
 ## 5. Use cases
@@ -122,12 +121,12 @@ The datasource currently writes table/column names as string literals even thoug
 
 ## 12. Known issues
 
-- ARCH-10: table/column and JSON-key literals across the datasource, repo support, mappers and
-  widgets ('usd', 'gold_21', field names) although the constants exist.
+- ARCH-10: RESOLVED 2026-10-26 for datasource/repo/models/history tile ('usd' in add_asset_cubit
+  and the type display names remain until the UI-4 step).
 - DATA-3: non-defensive casts (as num / as String / DateTime.parse) — malformed data crashes
   instead of mapping to a Failure.
-- DATA-4/5: `AssetModel` has no toEntity() (extends the entity); the second model is defined inline
-  in the datasource; data/mappers folders are forbidden.
+- DATA-4/5: RESOLVED 2026-10-26 — models live in data/models/ with toEntity(); the unused
+  `AssetModel` (which extended the entity) was deleted; data/mappers was dissolved.
 - ERR-2: a private error mapper duplicates core `mapExceptionToFailure`.
 - STATE-3 / ANIM-2 / BASE-3 / UI-4: `state is` checks, raw AnimatedSwitcher, raw dialogs /
   snackbars / loaders, the hardcoded '0.00' hint, hardcoded type display names.
@@ -138,3 +137,5 @@ The datasource currently writes table/column names as string literals even thoug
 ## 13. Changelog
 
 - 2026-10-26 — Initial doc created from code (doc-sync).
+- 2026-10-26 — Refactor (DATA-4/5): models in data/models/ with toEntity(); data/mappers dissolved;
+  unused AssetModel removed; row keys moved to SupabaseColumns constants.

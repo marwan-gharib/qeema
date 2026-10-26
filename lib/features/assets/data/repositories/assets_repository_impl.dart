@@ -3,7 +3,7 @@ import 'package:qeema/core/error/failures.dart';
 import 'package:qeema/core/local/cache/daos/assets_dao.dart';
 import 'package:qeema/core/utils/api_result.dart';
 import 'package:qeema/features/assets/data/datasources/assets_remote_datasource.dart';
-import 'package:qeema/features/assets/data/mappers/market_price_mapper.dart';
+import 'package:qeema/features/assets/data/models/market_price_model.dart';
 import 'package:qeema/features/assets/data/repositories/assets_repository_impl_support.dart';
 import 'package:qeema/features/assets/domain/entities/asset_entity.dart';
 import 'package:qeema/features/assets/domain/entities/asset_history_entry_entity.dart';
@@ -32,7 +32,7 @@ class AssetsRepositoryImpl
   Future<ApiResult<List<AssetEntity>>> getAssets() async {
     try {
       final models = await _remoteDataSource.getAssets();
-      return Success(toEntities(models));
+      return Success(models.map((model) => model.toEntity()).toList());
     } on PostgrestException catch (e) {
       return ResultFailure(mapSupabaseError(e, AssetOperation.read));
     } catch (e) {
@@ -89,7 +89,9 @@ class AssetsRepositoryImpl
   ) async {
     try {
       final rows = await _remoteDataSource.getPriceHistory(assetTypeCode);
-      return Success(rows.map(MarketPriceMapper.fromRow).toList());
+      return Success(
+        rows.map(MarketPriceModel.fromRow).map((m) => m.toEntity()).toList(),
+      );
     } on PostgrestException catch (e) {
       return ResultFailure(mapSupabaseError(e, AssetOperation.read));
     } catch (e) {

@@ -11,7 +11,6 @@ import 'package:qeema/core/widgets/app_empty_state.dart';
 import 'package:qeema/core/widgets/app_error_state.dart';
 import 'package:qeema/features/assets/presentation/widgets/asset_type_tile.dart';
 import 'package:qeema/features/assets/presentation/widgets/market_price_chart.dart';
-import 'package:qeema/features/market_prices/data/mappers/market_price_point_mapper.dart';
 import 'package:qeema/features/market_prices/domain/entities/market_price_point_entity.dart';
 import 'package:qeema/features/market_prices/presentation/cubits/market_price_detail_cubit/market_price_detail_cubit.dart';
 import 'package:qeema/features/market_prices/presentation/cubits/market_price_detail_cubit/market_price_detail_state.dart';
@@ -70,9 +69,7 @@ class _DetailContent extends StatelessWidget {
     final colors = context.colors;
     final t = context.t.marketPrices;
 
-    final chartHistory = points
-        .map(MarketPricePointMapper.toMarketPrice)
-        .toList();
+    final chartHistory = points.map((point) => point.toMarketPrice()).toList();
     final daysCovered = points.length < 2
         ? null
         : points.last.date.difference(points.first.date).inDays + 1;

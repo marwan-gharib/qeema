@@ -1,6 +1,7 @@
 import 'package:qeema/core/constants/supabase_columns.dart';
 import 'package:qeema/core/constants/supabase_tables.dart';
 import 'package:qeema/core/network/supabase_client_provider.dart';
+import 'package:qeema/features/assets/data/models/asset_model_from_server.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 class AssetsRemoteDataSource {
@@ -145,41 +146,4 @@ class AssetsRemoteDataSource {
 
     return (response as List).cast<Map<String, dynamic>>();
   }
-}
-
-class AssetModelFromServer {
-  AssetModelFromServer({
-    required this.id,
-    required this.assetTypeCode,
-    required this.amount,
-    required this.priceAtEntry,
-    required this.entryDate,
-    this.note,
-    this.currentPrice,
-  });
-
-  factory AssetModelFromServer.fromJson(
-    Map<String, dynamic> json, {
-    double? currentPrice,
-  }) {
-    final typeData = json[SupabaseTables.assetTypes] as Map<String, dynamic>?;
-    final typeCode = typeData?[SupabaseColumns.code] as String? ?? '';
-    return AssetModelFromServer(
-      id: json[SupabaseColumns.id] as String,
-      assetTypeCode: typeCode,
-      amount: (json[SupabaseColumns.amount] as num).toDouble(),
-      priceAtEntry: (json[SupabaseColumns.priceAtEntry] as num).toDouble(),
-      entryDate: DateTime.parse(json[SupabaseColumns.entryDate] as String),
-      note: json[SupabaseColumns.note] as String?,
-      currentPrice: currentPrice,
-    );
-  }
-
-  final String id;
-  final String assetTypeCode;
-  final double amount;
-  final double priceAtEntry;
-  final DateTime entryDate;
-  final String? note;
-  final double? currentPrice;
 }
