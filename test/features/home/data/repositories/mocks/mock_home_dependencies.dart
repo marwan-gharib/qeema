@@ -6,34 +6,54 @@ import 'package:qeema/core/financial/models/asset_in_base_currency.dart';
 import 'package:qeema/core/financial/models/monthly_inflation_rate.dart';
 import 'package:qeema/core/utils/api_result.dart';
 import 'package:qeema/features/assets/domain/entities/asset_entity.dart';
+import 'package:qeema/features/assets/domain/entities/asset_history_entry_entity.dart';
 import 'package:qeema/features/assets/domain/entities/asset_type_entity.dart';
+import 'package:qeema/features/assets/domain/entities/market_price_entity.dart';
+import 'package:qeema/features/assets/domain/params/add_asset_params.dart';
+import 'package:qeema/features/assets/domain/params/update_asset_params.dart';
 import 'package:qeema/features/assets/domain/repositories/assets_repository.dart';
-import 'package:qeema/features/assets/domain/usecases/get_asset_types_usecase.dart';
-import 'package:qeema/features/assets/domain/usecases/get_assets_usecase.dart';
 import 'package:qeema/features/home/data/datasources/home_remote_datasource.dart';
 import 'package:qeema/features/home/data/models/inflation_rate_row.dart';
 import 'package:qeema/features/home/data/models/market_price_row.dart';
 import 'package:qeema/features/home/data/models/portfolio_snapshot_row.dart';
 
-class MockGetAssetsUseCase implements GetAssetsUseCase {
-  MockGetAssetsUseCase({this.result = const Success([])});
+class MockAssetsRepository implements AssetsRepository {
+  MockAssetsRepository({
+    this.assetsResult = const Success([]),
+    this.assetTypesResult = const Success([]),
+  });
 
-  ApiResult<List<AssetEntity>> result;
-
-  @override
-  AssetsRepository get repository => throw UnimplementedError();
-
-  @override
-  Future<ApiResult<List<AssetEntity>>> call() async => result;
-}
-
-class MockGetAssetTypesUseCase implements GetAssetTypesUseCase {
-  MockGetAssetTypesUseCase({this.result = const Success([])});
-
-  ApiResult<List<AssetTypeEntity>> result;
+  ApiResult<List<AssetEntity>> assetsResult;
+  ApiResult<List<AssetTypeEntity>> assetTypesResult;
 
   @override
-  Future<ApiResult<List<AssetTypeEntity>>> call() async => result;
+  Future<ApiResult<List<AssetEntity>>> getAssets() async => assetsResult;
+
+  @override
+  Future<ApiResult<List<AssetTypeEntity>>> getAssetTypes() async =>
+      assetTypesResult;
+
+  @override
+  Future<ApiResult<AssetEntity>> addAsset(AddAssetParams params) =>
+      throw UnimplementedError();
+
+  @override
+  Future<ApiResult<AssetEntity>> updateAsset(UpdateAssetParams params) =>
+      throw UnimplementedError();
+
+  @override
+  Future<ApiResult<void>> softDeleteAsset(String assetId) =>
+      throw UnimplementedError();
+
+  @override
+  Future<ApiResult<List<AssetHistoryEntryEntity>>> getAssetHistory(
+    String assetId,
+  ) => throw UnimplementedError();
+
+  @override
+  Future<ApiResult<List<MarketPriceEntity>>> getPriceHistory(
+    String assetTypeCode,
+  ) => throw UnimplementedError();
 }
 
 class MockHomeRemoteDataSource implements HomeRemoteDataSource {

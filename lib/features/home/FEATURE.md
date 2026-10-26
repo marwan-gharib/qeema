@@ -67,8 +67,8 @@ total, an erosion ring (purchasing power lost), per-asset-type mini cards with d
   Responsive, context extensions, failure localization, Decimal extensions, CurrencyFormatter, t,
   ApiResult, asset_type_parsing, CurrencyConverter, InflationCalculator, SupabaseQueryExecutor,
   RouteNames.
-- Depends on (features): assets — domain entities + GetAssetsUseCase / GetAssetTypesUseCase (the
-  data layer depending on another feature's usecases is an ARCH-1 violation, see Known issues).
+- Depends on (features): assets — domain entities + the `AssetsRepository` contract (home's data
+  layer composes assets' repository directly; it no longer touches assets' usecases).
 - Used by (features): none. DI: `core/di/home_module.dart`.
 
 ## 9. Localization
@@ -99,14 +99,19 @@ total, an erosion ring (purchasing power lost), per-asset-type mini cards with d
 
 ## 12. Known issues
 
-- ARCH-1: home's data layer imports the assets feature's usecases — invert via injected
-  repositories or a domain orchestration usecase.
+- ARCH-1: RESOLVED 2026-10-26 — the data layer now depends on the injected `AssetsRepository`
+  contract instead of assets' usecases (the usecases were pure pass-throughs, so behavior is
+  unchanged).
 - Dead code: the 2% significant-move threshold constant is never referenced; the i18n key
   home.priceMoveBanner is never rendered.
 - refresh() re-emits Loading, so pull-to-refresh flashes the skeleton instead of keeping content.
 - TEST-1: no tests for the usecase, the row models, or the datasource.
 
 ## 13. Changelog
+
+- 2026-10-26 — Initial doc created from code (doc-sync).
+- 2026-10-26 — Refactor (ARCH-1): HomeRepositoryImpl composes assets' `AssetsRepository` contract
+  instead of its GetAssets/GetAssetTypes usecases (pure pass-throughs — no behavior change).
 
 - 2026-10-26 — Initial doc created from code (doc-sync).
 - 2026-10-26 — Refactor (DATA-4/5): PortfolioSnapshotMapper dissolved into the row's `toEntity()`;

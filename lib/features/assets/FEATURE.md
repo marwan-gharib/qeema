@@ -89,8 +89,8 @@ The datasource currently writes table/column names as string literals even thoug
   CurrencyFormatter / DateFormatter / Validators, ApiResult, Failures, AssetsDao + AppDatabase,
   SupabaseClientProvider, AssetTypeCodes, route constants.
 - Depends on (features): none — assets is the foundation.
-- Used by (features): home (domain usecases + entities); market_prices (domain + two presentation
-  widgets pending promotion).
+- Used by (features): home (the `AssetsRepository` contract + domain entities); market_prices
+  (domain + two presentation widgets pending promotion).
 - Used by (core): `core/utils/asset_type_parsing.dart` imports the entity (core→feature exception).
 - DI: `core/di/assets_module.dart` — datasource, repo, 7 usecases, 4 cubit factories (2 of them
   factory params).

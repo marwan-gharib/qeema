@@ -7,8 +7,7 @@ import 'package:qeema/core/utils/api_result.dart';
 import 'package:qeema/core/utils/asset_type_parsing.dart';
 import 'package:qeema/features/assets/domain/entities/asset_entity.dart';
 import 'package:qeema/features/assets/domain/entities/asset_type_entity.dart';
-import 'package:qeema/features/assets/domain/usecases/get_asset_types_usecase.dart';
-import 'package:qeema/features/assets/domain/usecases/get_assets_usecase.dart';
+import 'package:qeema/features/assets/domain/repositories/assets_repository.dart';
 import 'package:qeema/features/home/data/datasources/home_remote_datasource.dart';
 import 'package:qeema/features/home/data/models/inflation_rate_row.dart';
 import 'package:qeema/features/home/data/models/market_price_row.dart';
@@ -17,8 +16,7 @@ import 'package:qeema/features/home/domain/entities/asset_type_summary_entity.da
 import 'package:qeema/features/home/domain/entities/dashboard_summary_entity.dart';
 
 mixin HomeRepositoryImplSupport {
-  GetAssetsUseCase get getAssetsUseCase;
-  GetAssetTypesUseCase get getAssetTypesUseCase;
+  AssetsRepository get assetsRepository;
   HomeRemoteDataSource get remoteDataSource;
   CurrencyConverter get currencyConverter;
   InflationCalculator get inflationCalculator;
@@ -26,7 +24,7 @@ mixin HomeRepositoryImplSupport {
   Future<ApiResult<DashboardSummaryEntity>> loadAssetTypes(
     List<AssetEntity> assets,
   ) async {
-    final typesResult = await getAssetTypesUseCase.call();
+    final typesResult = await assetsRepository.getAssetTypes();
     return typesResult.fold(
       onSuccess: (List<AssetTypeEntity> types) => loadPrices(assets, types),
       onFailure: (failure) async => ResultFailure(failure),
