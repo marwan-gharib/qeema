@@ -1,6 +1,7 @@
 import 'package:qeema/core/constants/supabase_columns.dart';
 import 'package:qeema/core/constants/supabase_tables.dart';
 import 'package:qeema/core/utils/asset_type_parsing.dart';
+import 'package:qeema/features/assets/data/models/row_parsing.dart';
 import 'package:qeema/features/assets/domain/entities/asset_entity.dart';
 
 /// One asset as returned by the joined assets/market_prices server query.
@@ -19,15 +20,20 @@ class AssetModelFromServer {
     Map<String, dynamic> json, {
     double? currentPrice,
   }) {
-    final typeData = json[SupabaseTables.assetTypes] as Map<String, dynamic>?;
-    final typeCode = typeData?[SupabaseColumns.code] as String? ?? '';
+    final typeData = optionalMap(json, SupabaseTables.assetTypes);
+    final codeValue = typeData?[SupabaseColumns.code];
+    final typeCode = codeValue == null
+        ? ''
+        : codeValue is String
+        ? codeValue
+        : malformed(SupabaseColumns.code, codeValue);
     return AssetModelFromServer(
-      id: json[SupabaseColumns.id] as String,
+      id: requiredString(json, SupabaseColumns.id),
       assetTypeCode: typeCode,
-      amount: (json[SupabaseColumns.amount] as num).toDouble(),
-      priceAtEntry: (json[SupabaseColumns.priceAtEntry] as num).toDouble(),
-      entryDate: DateTime.parse(json[SupabaseColumns.entryDate] as String),
-      note: json[SupabaseColumns.note] as String?,
+      amount: requiredNum(json, SupabaseColumns.amount).toDouble(),
+      priceAtEntry: requiredNum(json, SupabaseColumns.priceAtEntry).toDouble(),
+      entryDate: requiredDate(json, SupabaseColumns.entryDate),
+      note: optionalString(json, SupabaseColumns.note),
       currentPrice: currentPrice,
     );
   }

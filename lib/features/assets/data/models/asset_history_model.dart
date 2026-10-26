@@ -1,4 +1,5 @@
 import 'package:qeema/core/constants/supabase_columns.dart';
+import 'package:qeema/features/assets/data/models/row_parsing.dart';
 import 'package:qeema/features/assets/domain/entities/asset_history_entry_entity.dart';
 
 /// One asset_history server row, parsed at the data-layer boundary.
@@ -14,16 +15,12 @@ class AssetHistoryModel {
 
   factory AssetHistoryModel.fromRow(Map<String, dynamic> row) {
     return AssetHistoryModel(
-      id: row[SupabaseColumns.id] as String,
-      assetId: row[SupabaseColumns.assetId] as String,
-      changeType: row[SupabaseColumns.changeType] as String,
-      oldValue: (row[SupabaseColumns.oldValue] as Map<String, dynamic>?)?.map(
-        (k, v) => MapEntry(k, v),
-      ),
-      newValue: (row[SupabaseColumns.newValue] as Map<String, dynamic>?)?.map(
-        (k, v) => MapEntry(k, v),
-      ),
-      changedAt: DateTime.parse(row[SupabaseColumns.changedAt] as String),
+      id: requiredString(row, SupabaseColumns.id),
+      assetId: requiredString(row, SupabaseColumns.assetId),
+      changeType: requiredString(row, SupabaseColumns.changeType),
+      oldValue: optionalMap(row, SupabaseColumns.oldValue),
+      newValue: optionalMap(row, SupabaseColumns.newValue),
+      changedAt: requiredDate(row, SupabaseColumns.changedAt),
     );
   }
 

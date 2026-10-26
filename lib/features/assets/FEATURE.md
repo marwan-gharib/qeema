@@ -31,7 +31,7 @@ market_prices.
 | usecases | `domain/usecases/` — get_assets, get_asset_types, add_asset, update_asset, soft_delete_asset, get_asset_history, get_market_price_history | 7 usecases |
 | params | `domain/params/add_asset_params.dart`, `domain/params/update_asset_params.dart` | 2 params |
 | datasources | `data/datasources/assets_remote_datasource.dart` | Supabase + Drift cache |
-| models | `data/models/asset_model_from_server.dart`, `data/models/asset_history_model.dart`, `data/models/market_price_model.dart` | fromJson/fromRow + toEntity each |
+| models | `data/models/asset_model_from_server.dart`, `data/models/asset_history_model.dart`, `data/models/market_price_model.dart`, `data/models/row_parsing.dart` (defensive row readers, DATA-3) | fromJson/fromRow + toEntity each |
 | repo impl | `data/repositories/assets_repository_impl.dart` + `data/repositories/assets_repository_impl_support.dart` | Remote + write-through cache |
 
 ## 4. Entities & models
@@ -123,11 +123,15 @@ The datasource currently writes table/column names as string literals even thoug
 
 - ARCH-10: RESOLVED 2026-10-26 for datasource/repo/models/history tile ('usd' in add_asset_cubit
   and the type display names remain until the UI-4 step).
-- DATA-3: non-defensive casts (as num / as String / DateTime.parse) — malformed data crashes
-  instead of mapping to a Failure.
+- DATA-3: RESOLVED 2026-10-26 — models and repo/datasource row reads parse defensively via
+  `data/models/row_parsing.dart` (requiredString/Num/Bool/Date, optionalString/Map); a malformed
+  row throws a typed ServerException that the existing catches map to the same Failure types
+  as before (UnknownFailure / AssetOperationFailure), so success paths are unchanged.
 - DATA-4/5: RESOLVED 2026-10-26 — models live in data/models/ with toEntity(); the unused
   `AssetModel` (which extended the entity) was deleted; data/mappers was dissolved.
-- ERR-2: a private error mapper duplicates core `mapExceptionToFailure`.
+- ERR-2: RESOLVED 2026-10-26 — the private `mapSupabaseError` was folded into core
+  `mapExceptionToFailure` (optional `assetOperation` parameter); emitted Failure types are
+  unchanged (SessionExpiredFailure on JWT/PGRST301, else AssetOperationFailure).
 - STATE-3 / ANIM-2 / BASE-3 / UI-4: `state is` checks, raw AnimatedSwitcher, raw dialogs /
   snackbars / loaders, the hardcoded '0.00' hint, hardcoded type display names.
 - Offline-first unfinished: getAssets never reads the cache; the placeholder row is never removed;
@@ -139,3 +143,6 @@ The datasource currently writes table/column names as string literals even thoug
 - 2026-10-26 — Initial doc created from code (doc-sync).
 - 2026-10-26 — Refactor (DATA-4/5): models in data/models/ with toEntity(); data/mappers dissolved;
   unused AssetModel removed; row keys moved to SupabaseColumns constants.
+- 2026-10-26 — Refactor (ERR-2/DATA-3): mapSupabaseError folded into core mapExceptionToFailure
+  (assetOperation param); defensive row parsing via data/models/row_parsing.dart — emitted Failure
+  types unchanged.

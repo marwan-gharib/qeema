@@ -2,6 +2,7 @@ import 'package:qeema/core/constants/supabase_columns.dart';
 import 'package:qeema/core/constants/supabase_tables.dart';
 import 'package:qeema/core/network/supabase_client_provider.dart';
 import 'package:qeema/features/assets/data/models/asset_model_from_server.dart';
+import 'package:qeema/features/assets/data/models/row_parsing.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 class AssetsRemoteDataSource {
@@ -41,7 +42,7 @@ class AssetsRemoteDataSource {
               as Map<String, dynamic>?;
       final code = typeData?[SupabaseColumns.code] as String?;
       if (code != null && seenTypes.add(code)) {
-        priceMap[code] = (row[SupabaseColumns.price] as num).toDouble();
+        priceMap[code] = requiredNum(row, SupabaseColumns.price).toDouble();
       }
     }
 

@@ -4,6 +4,7 @@ import 'package:decimal/decimal.dart';
 import 'package:drift/drift.dart';
 import 'package:qeema/core/constants/supabase_columns.dart';
 import 'package:qeema/core/constants/supabase_tables.dart';
+import 'package:qeema/core/error/failure_mapper.dart';
 import 'package:qeema/core/error/failures.dart';
 import 'package:qeema/core/local/cache/app_database.dart';
 import 'package:qeema/core/local/cache/daos/assets_dao.dart';
@@ -11,6 +12,7 @@ import 'package:qeema/core/utils/api_result.dart';
 import 'package:qeema/core/utils/asset_type_parsing.dart';
 import 'package:qeema/features/assets/data/datasources/assets_remote_datasource.dart';
 import 'package:qeema/features/assets/data/models/asset_history_model.dart';
+import 'package:qeema/features/assets/data/models/row_parsing.dart';
 import 'package:qeema/features/assets/domain/entities/asset_entity.dart';
 import 'package:qeema/features/assets/domain/entities/asset_history_entry_entity.dart';
 import 'package:qeema/features/assets/domain/params/add_asset_params.dart';
@@ -35,8 +37,11 @@ mixin AssetsRepositoryImplSupport {
       final typeRow = typeRows.firstWhere(
         (r) => r[SupabaseColumns.id] == params.assetTypeId,
       );
-      final isMarketBased = typeRow[SupabaseColumns.isMarketBased] as bool;
-      final typeCode = typeRow[SupabaseColumns.code] as String;
+      final isMarketBased = requiredBool(
+        typeRow,
+        SupabaseColumns.isMarketBased,
+      );
+      final typeCode = requiredString(typeRow, SupabaseColumns.code);
 
       if (isMarketBased && params.priceAtEntry == null) {
         return const ResultFailure(PriceRequiredFailure());
@@ -78,14 +83,17 @@ mixin AssetsRepositoryImplSupport {
         if (params.note != null) SupabaseColumns.note: params.note,
       });
 
-      final serverId = result[SupabaseColumns.id] as String;
-      final serverAmount = (result[SupabaseColumns.amount] as num).toDouble();
-      final serverPrice = (result[SupabaseColumns.priceAtEntry] as num)
-          .toDouble();
-      final serverEntryDate = DateTime.parse(
-        result[SupabaseColumns.entryDate] as String,
-      );
-      final serverNote = result[SupabaseColumns.note] as String?;
+      final serverId = requiredString(result, SupabaseColumns.id);
+      final serverAmount = requiredNum(
+        result,
+        SupabaseColumns.amount,
+      ).toDouble();
+      final serverPrice = requiredNum(
+        result,
+        SupabaseColumns.priceAtEntry,
+      ).toDouble();
+      final serverEntryDate = requiredDate(result, SupabaseColumns.entryDate);
+      final serverNote = optionalString(result, SupabaseColumns.note);
 
       try {
         await assetsDao.insertOrUpdate(
@@ -118,7 +126,9 @@ mixin AssetsRepositoryImplSupport {
         ),
       );
     } on PostgrestException catch (e) {
-      return ResultFailure(mapSupabaseError(e, AssetOperation.add));
+      return ResultFailure(
+        mapExceptionToFailure(e, assetOperation: AssetOperation.add),
+      );
     } catch (e) {
       return ResultFailure(AssetOperationFailure(AssetOperation.add, '$e'));
     }
@@ -159,13 +169,16 @@ mixin AssetsRepositoryImplSupport {
         if (params.note != null) SupabaseColumns.note: params.note,
       });
 
-      final serverAmount = (result[SupabaseColumns.amount] as num).toDouble();
-      final serverPrice = (result[SupabaseColumns.priceAtEntry] as num)
-          .toDouble();
-      final serverEntryDate = DateTime.parse(
-        result[SupabaseColumns.entryDate] as String,
-      );
-      final serverNote = result[SupabaseColumns.note] as String?;
+      final serverAmount = requiredNum(
+        result,
+        SupabaseColumns.amount,
+      ).toDouble();
+      final serverPrice = requiredNum(
+        result,
+        SupabaseColumns.priceAtEntry,
+      ).toDouble();
+      final serverEntryDate = requiredDate(result, SupabaseColumns.entryDate);
+      final serverNote = optionalString(result, SupabaseColumns.note);
 
       try {
         await assetsDao.insertOrUpdate(
@@ -185,14 +198,7 @@ mixin AssetsRepositoryImplSupport {
       return Success(
         AssetEntity(
           id: params.assetId,
-          assetType: assetTypeFromString(
-            result[SupabaseTables.assetTypes] is Map
-                ? ((result[SupabaseTables.assetTypes]
-                              as Map)[SupabaseColumns.code]
-                          as String? ??
-                      '')
-                : '',
-          ),
+          assetType: assetTypeFromString(_updateTypeCode(result)),
           amount: serverAmount,
           priceAtEntry: serverPrice,
           entryDate: serverEntryDate,
@@ -200,7 +206,9 @@ mixin AssetsRepositoryImplSupport {
         ),
       );
     } on PostgrestException catch (e) {
-      return ResultFailure(mapSupabaseError(e, AssetOperation.update));
+      return ResultFailure(
+        mapExceptionToFailure(e, assetOperation: AssetOperation.update),
+      );
     } catch (e) {
       return ResultFailure(AssetOperationFailure(AssetOperation.update, '$e'));
     }
@@ -215,7 +223,9 @@ mixin AssetsRepositoryImplSupport {
       await remoteDataSource.softDeleteAsset(assetId);
       return const Success(null);
     } on PostgrestException catch (e) {
-      return ResultFailure(mapSupabaseError(e, AssetOperation.delete));
+      return ResultFailure(
+        mapExceptionToFailure(e, assetOperation: AssetOperation.delete),
+      );
     } catch (e) {
       return ResultFailure(AssetOperationFailure(AssetOperation.delete, '$e'));
     }
@@ -232,18 +242,25 @@ mixin AssetsRepositoryImplSupport {
           .toList();
       return Success(entries);
     } on PostgrestException catch (e) {
-      return ResultFailure(mapSupabaseError(e, AssetOperation.loadHistory));
+      return ResultFailure(
+        mapExceptionToFailure(e, assetOperation: AssetOperation.loadHistory),
+      );
     } catch (e) {
       return ResultFailure(
         AssetOperationFailure(AssetOperation.loadHistory, '$e'),
       );
     }
   }
+}
 
-  Failure mapSupabaseError(PostgrestException e, AssetOperation operation) {
-    if (e.code == 'PGRST301' || e.message.contains('JWT')) {
-      return SessionExpiredFailure(e.message, e.code);
-    }
-    return AssetOperationFailure(operation, e.message, e.code);
-  }
+/// Reads the joined asset_types code from an update response. A missing join
+/// or code yields '' (the parser's lenient path); a non-String code is malformed.
+String _updateTypeCode(Map<String, dynamic> result) {
+  final typeData = result[SupabaseTables.assetTypes];
+  if (typeData is! Map) return '';
+  final codeValue = typeData[SupabaseColumns.code];
+  if (codeValue == null) return '';
+  return codeValue is String
+      ? codeValue
+      : malformed(SupabaseColumns.code, codeValue);
 }

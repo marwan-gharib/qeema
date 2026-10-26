@@ -1,9 +1,11 @@
 import 'package:qeema/core/constants/supabase_columns.dart';
+import 'package:qeema/core/error/failure_mapper.dart';
 import 'package:qeema/core/error/failures.dart';
 import 'package:qeema/core/local/cache/daos/assets_dao.dart';
 import 'package:qeema/core/utils/api_result.dart';
 import 'package:qeema/features/assets/data/datasources/assets_remote_datasource.dart';
 import 'package:qeema/features/assets/data/models/market_price_model.dart';
+import 'package:qeema/features/assets/data/models/row_parsing.dart';
 import 'package:qeema/features/assets/data/repositories/assets_repository_impl_support.dart';
 import 'package:qeema/features/assets/domain/entities/asset_entity.dart';
 import 'package:qeema/features/assets/domain/entities/asset_history_entry_entity.dart';
@@ -34,7 +36,9 @@ class AssetsRepositoryImpl
       final models = await _remoteDataSource.getAssets();
       return Success(models.map((model) => model.toEntity()).toList());
     } on PostgrestException catch (e) {
-      return ResultFailure(mapSupabaseError(e, AssetOperation.read));
+      return ResultFailure(
+        mapExceptionToFailure(e, assetOperation: AssetOperation.read),
+      );
     } catch (e) {
       return const ResultFailure(UnknownFailure());
     }
@@ -46,16 +50,18 @@ class AssetsRepositoryImpl
       final rows = await _remoteDataSource.getAssetTypes();
       final types = rows.map((row) {
         return AssetTypeEntity(
-          id: row[SupabaseColumns.id] as String,
-          code: row[SupabaseColumns.code] as String,
-          name: row[SupabaseColumns.name] as String,
-          isMarketBased: row[SupabaseColumns.isMarketBased] as bool,
-          baseUnit: row[SupabaseColumns.baseUnit] as String,
+          id: requiredString(row, SupabaseColumns.id),
+          code: requiredString(row, SupabaseColumns.code),
+          name: requiredString(row, SupabaseColumns.name),
+          isMarketBased: requiredBool(row, SupabaseColumns.isMarketBased),
+          baseUnit: requiredString(row, SupabaseColumns.baseUnit),
         );
       }).toList();
       return Success(types);
     } on PostgrestException catch (e) {
-      return ResultFailure(mapSupabaseError(e, AssetOperation.read));
+      return ResultFailure(
+        mapExceptionToFailure(e, assetOperation: AssetOperation.read),
+      );
     } catch (e) {
       return const ResultFailure(UnknownFailure());
     }
@@ -93,7 +99,9 @@ class AssetsRepositoryImpl
         rows.map(MarketPriceModel.fromRow).map((m) => m.toEntity()).toList(),
       );
     } on PostgrestException catch (e) {
-      return ResultFailure(mapSupabaseError(e, AssetOperation.read));
+      return ResultFailure(
+        mapExceptionToFailure(e, assetOperation: AssetOperation.read),
+      );
     } catch (e) {
       return const ResultFailure(UnknownFailure());
     }
