@@ -34,9 +34,12 @@ class SortFilterBottomSheet extends StatelessWidget {
     final t = context.t.assets.list;
     final cubit = context.read<AssetsListCubit>();
     final state = cubit.state;
-    final currentSort = state is AssetsListLoaded
-        ? state.sortBy
-        : AssetsSortBy.dateNewest;
+    final currentSort = switch (state) {
+      AssetsListLoaded(:final sortBy) => sortBy,
+      AssetsListInitial() ||
+      AssetsListLoading() ||
+      AssetsListError() => AssetsSortBy.dateNewest,
+    };
 
     final sortOptions = <_SortOption>[
       _SortOption(t.sortDateNewest, AssetsSortBy.dateNewest),

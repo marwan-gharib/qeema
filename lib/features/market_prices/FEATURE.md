@@ -107,8 +107,9 @@ No datasource: the feature is a pure read model over the assets feature's data l
 - ARCH-1: RESOLVED 2026-10-26 — the data mapper is gone (the adaptation lives on
   `MarketPricePointEntity`) and the shared widgets moved to core/widgets; no feature imports
   another feature's data or presentation anymore.
-- STATE-3: `state is` checks instead of an exhaustive switch; ANIM-2: raw AnimatedSwitcher;
-  BASE-3: raw CircularProgressIndicator instead of `AppLoader`.
+- STATE-3: RESOLVED 2026-10-26 — exhaustive switch for the app bar title; BASE-3: RESOLVED —
+  `AppLoader` for the loading body. Still open: ANIM-2 raw AnimatedSwitcher (blocked on a core
+  `AppAnimatedSwitcher` primitive — needs a decision).
 - The detail screen has no pull-to-refresh, and every range change re-emits full Loading (content
   flashes).
 - The repository adds no caching or request de-duplication over the assets usecases it composes.
@@ -120,3 +121,5 @@ No datasource: the feature is a pure read model over the assets feature's data l
   `MarketPricePointEntity.fromMarketPrice` / `toMarketPrice()`.
 - 2026-10-26 — Refactor (WIDGET-3): AssetTypeTile + MarketPriceChart now come from core/widgets;
   the detail screen no longer imports the assets feature's presentation (ARCH-1 resolved).
+- 2026-10-26 — Refactor (STATE-3/BASE-3): exhaustive state switch for the app bar title; the
+  loading body uses AppLoader.

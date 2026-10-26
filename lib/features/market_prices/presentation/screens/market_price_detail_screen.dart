@@ -9,6 +9,7 @@ import 'package:qeema/core/theme/app_spacing.dart';
 import 'package:qeema/core/widgets/app_content_box.dart';
 import 'package:qeema/core/widgets/app_empty_state.dart';
 import 'package:qeema/core/widgets/app_error_state.dart';
+import 'package:qeema/core/widgets/app_loader.dart';
 import 'package:qeema/core/widgets/asset_type_tile.dart';
 import 'package:qeema/core/widgets/market_price_chart.dart';
 import 'package:qeema/features/market_prices/domain/entities/market_price_point_entity.dart';
@@ -29,9 +30,12 @@ class MarketPriceDetailScreen extends StatelessWidget {
         return Scaffold(
           backgroundColor: colors.background,
           appBar: AppBar(
-            title: state is MarketPriceDetailLoaded
-                ? _TypeTitle(code: state.assetType.code)
-                : null,
+            title: switch (state) {
+              MarketPriceDetailLoaded(:final assetType) => _TypeTitle(
+                code: assetType.code,
+              ),
+              MarketPriceDetailLoading() || MarketPriceDetailError() => null,
+            },
           ),
           body: AppContentBox(
             child: AnimatedSwitcher(
@@ -131,7 +135,7 @@ class _DetailLoadingBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Center(child: CircularProgressIndicator());
+    return const AppLoader();
   }
 }
 

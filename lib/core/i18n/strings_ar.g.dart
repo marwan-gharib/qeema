@@ -81,6 +81,7 @@ class _Translations$core$ar extends Translations$core$en {
 	@override late final _Translations$core$dates$ar dates = _Translations$core$dates$ar._(_root);
 	@override late final _Translations$core$currency$ar currency = _Translations$core$currency$ar._(_root);
 	@override late final _Translations$core$unit$ar unit = _Translations$core$unit$ar._(_root);
+	@override late final _Translations$core$hints$ar hints = _Translations$core$hints$ar._(_root);
 	@override late final _Translations$core$value$ar value = _Translations$core$value$ar._(_root);
 	@override String get listSeparator => '؛ ';
 	@override late final _Translations$core$actions$ar actions = _Translations$core$actions$ar._(_root);
@@ -452,6 +453,16 @@ class _Translations$core$unit$ar extends Translations$core$unit$en {
 
 	// Translations
 	@override String get gram => 'جرام';
+}
+
+// Path: core.hints
+class _Translations$core$hints$ar extends Translations$core$hints$en {
+	_Translations$core$hints$ar._(TranslationsAr root) : this._root = root, super.internal(root);
+
+	final TranslationsAr _root; // ignore: unused_field
+
+	// Translations
+	@override String get amount => '0.00';
 }
 
 // Path: core.value
@@ -841,6 +852,7 @@ extension on TranslationsAr {
 			'core.currency.egp' => 'جنيه مصري',
 			'core.currency.usd' => 'دولار أمريكي',
 			'core.unit.gram' => 'جرام',
+			'core.hints.amount' => '0.00',
 			'core.value.unavailable' => '—',
 			'core.listSeparator' => '؛ ',
 			'core.actions.cancel' => 'إلغاء',

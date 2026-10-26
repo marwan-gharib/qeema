@@ -7,6 +7,7 @@ import 'package:qeema/core/i18n/strings.g.dart';
 import 'package:qeema/core/widgets/app_content_box.dart';
 import 'package:qeema/core/widgets/app_empty_state.dart';
 import 'package:qeema/core/widgets/app_error_state.dart';
+import 'package:qeema/core/widgets/app_snackbar.dart';
 import 'package:qeema/features/assets/domain/entities/asset_entity.dart';
 import 'package:qeema/features/assets/presentation/cubits/asset_detail_cubit/asset_detail_cubit.dart';
 import 'package:qeema/features/assets/presentation/cubits/asset_detail_cubit/asset_detail_state.dart';
@@ -22,18 +23,22 @@ class AssetDetailScreen extends StatelessWidget {
 
     return BlocConsumer<AssetDetailCubit, AssetDetailState>(
       listener: (context, state) {
-        if (state is AssetDetailNotFound) {
-          ScaffoldMessenger.of(
-            context,
-          ).showSnackBar(SnackBar(content: Text(t.assets.detail.notFoundBody)));
+        if (state case AssetDetailNotFound()) {
+          AppSnackBar.show(context, t.assets.detail.notFoundBody);
         }
       },
       builder: (context, state) {
         return Scaffold(
           appBar: AppBar(
-            title: state is AssetDetailLoaded
-                ? Text(_typeLabel(context, state.asset.assetType))
-                : null,
+            title: switch (state) {
+              AssetDetailLoaded(:final asset) => Text(
+                _typeLabel(context, asset.assetType),
+              ),
+              AssetDetailInitial() ||
+              AssetDetailLoading() ||
+              AssetDetailError() ||
+              AssetDetailNotFound() => null,
+            },
           ),
           body: AppContentBox(
             child: AnimatedSwitcher(

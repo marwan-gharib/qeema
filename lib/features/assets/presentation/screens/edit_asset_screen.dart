@@ -11,6 +11,7 @@ import 'package:qeema/core/theme/app_spacing.dart';
 import 'package:qeema/core/widgets/app_button.dart';
 import 'package:qeema/core/widgets/app_content_box.dart';
 import 'package:qeema/core/widgets/app_error_state.dart';
+import 'package:qeema/core/widgets/app_loader.dart';
 import 'package:qeema/core/widgets/app_snackbar.dart';
 import 'package:qeema/features/assets/domain/entities/asset_entity.dart';
 import 'package:qeema/features/assets/domain/entities/asset_type_entity.dart';
@@ -108,10 +109,26 @@ class _EditAssetScreenState extends State<EditAssetScreen> {
       AssetType.gold24 => true,
     };
     final (String code, String name, String unit) = switch (asset.assetType) {
-      AssetType.egpCash => (AssetTypeCodes.cashEgp, 'EGP Cash', 'EGP'),
-      AssetType.usdCash => (AssetTypeCodes.usd, 'USD', 'USD'),
-      AssetType.gold21 => (AssetTypeCodes.gold21, 'Gold 21K', 'gram'),
-      AssetType.gold24 => (AssetTypeCodes.gold24, 'Gold 24K', 'gram'),
+      AssetType.egpCash => (
+        AssetTypeCodes.cashEgp,
+        context.assetTypeName(AssetTypeCodes.cashEgp),
+        'EGP',
+      ),
+      AssetType.usdCash => (
+        AssetTypeCodes.usd,
+        context.assetTypeName(AssetTypeCodes.usd),
+        'USD',
+      ),
+      AssetType.gold21 => (
+        AssetTypeCodes.gold21,
+        context.assetTypeName(AssetTypeCodes.gold21),
+        context.t.core.unit.gram,
+      ),
+      AssetType.gold24 => (
+        AssetTypeCodes.gold24,
+        context.assetTypeName(AssetTypeCodes.gold24),
+        context.t.core.unit.gram,
+      ),
     };
     return AssetTypeEntity(
       id: code,
@@ -148,10 +165,7 @@ class _EditAssetScreenState extends State<EditAssetScreen> {
       },
       builder: (context, state) {
         if (state.isLoading) {
-          return Scaffold(
-            appBar: AppBar(),
-            body: const Center(child: CircularProgressIndicator()),
-          );
+          return Scaffold(appBar: AppBar(), body: const AppLoader());
         }
 
         if (state.loadFailure != null) {

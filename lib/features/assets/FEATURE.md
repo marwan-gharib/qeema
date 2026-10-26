@@ -121,19 +121,15 @@ The datasource currently writes table/column names as string literals even thoug
 
 ## 12. Known issues
 
-- ARCH-10: RESOLVED 2026-10-26 for datasource/repo/models/history tile ('usd' in add_asset_cubit
-  and the type display names remain until the UI-4 step).
-- DATA-3: RESOLVED 2026-10-26 — models and repo/datasource row reads parse defensively via
-  `data/models/row_parsing.dart` (requiredString/Num/Bool/Date, optionalString/Map); a malformed
-  row throws a typed ServerException that the existing catches map to the same Failure types
-  as before (UnknownFailure / AssetOperationFailure), so success paths are unchanged.
-- DATA-4/5: RESOLVED 2026-10-26 — models live in data/models/ with toEntity(); the unused
-  `AssetModel` (which extended the entity) was deleted; data/mappers was dissolved.
-- ERR-2: RESOLVED 2026-10-26 — the private `mapSupabaseError` was folded into core
-  `mapExceptionToFailure` (optional `assetOperation` parameter); emitted Failure types are
-  unchanged (SessionExpiredFailure on JWT/PGRST301, else AssetOperationFailure).
-- STATE-3 / ANIM-2 / BASE-3 / UI-4: `state is` checks, raw AnimatedSwitcher, raw dialogs /
-  snackbars / loaders, the hardcoded '0.00' hint, hardcoded type display names.
+- ARCH-10 / DATA-3 / DATA-4/5 / ERR-2: RESOLVED 2026-10-26 — constants everywhere; defensive row
+  parsing via `data/models/row_parsing.dart` (malformed rows → same Failure types as before);
+  models own toEntity(), data/mappers dissolved; mapSupabaseError folded into core
+  mapExceptionToFailure (assetOperation param). See changelog.
+- STATE-3 / BASE-3 / UI-4: RESOLVED 2026-10-26 — exhaustive `switch` consumption; `AppLoader` for
+  loading bodies and `AppSnackBar` for snackbars; type names via `context.assetTypeName` and the
+  amount hint from `core.hints.amount` ('EGP'/'USD' unit codes stay — currency codes, not
+  translatable words). Still open: ANIM-2 raw AnimatedSwitcher and raw dialogs/sheets (blocked on
+  core primitives — needs a decision).
 - Offline-first unfinished: getAssets never reads the cache; the placeholder row is never removed;
   three AssetsDao methods are unused; every cache write is wrapped in a silent catch.
 - TEST-1: no screen tests; missing usecase/model tests for get/update/delete/history.
@@ -148,3 +144,5 @@ The datasource currently writes table/column names as string literals even thoug
   types unchanged.
 - 2026-10-26 — Refactor (WIDGET-3): AssetTypeTile and MarketPriceChart promoted to core/widgets
   (generalized: code/title/points params); chart test moved to test/core/widgets/.
+- 2026-10-26 — Refactor (STATE-3/BASE-3/UI-4): exhaustive state switches; AppLoader + AppSnackBar
+  swaps; edit-screen type names and amount hints localized (new core.hints.amount key).

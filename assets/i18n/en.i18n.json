@@ -74,6 +74,9 @@
     "unit": {
       "gram": "gram"
     },
+    "hints": {
+      "amount": "0.00"
+    },
     "value": {
       "unavailable": "—"
     },

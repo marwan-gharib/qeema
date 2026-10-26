@@ -87,6 +87,7 @@ class Translations$core$en {
 	late final Translations$core$dates$en dates = Translations$core$dates$en.internal(_root);
 	late final Translations$core$currency$en currency = Translations$core$currency$en.internal(_root);
 	late final Translations$core$unit$en unit = Translations$core$unit$en.internal(_root);
+	late final Translations$core$hints$en hints = Translations$core$hints$en.internal(_root);
 	late final Translations$core$value$en value = Translations$core$value$en.internal(_root);
 
 	/// en: '; '
@@ -708,6 +709,18 @@ class Translations$core$unit$en {
 	String get gram => 'gram';
 }
 
+// Path: core.hints
+class Translations$core$hints$en {
+	Translations$core$hints$en.internal(this._root);
+
+	final Translations _root; // ignore: unused_field
+
+	// Translations
+
+	/// en: '0.00'
+	String get amount => '0.00';
+}
+
 // Path: core.value
 class Translations$core$value$en {
 	Translations$core$value$en.internal(this._root);
@@ -1319,6 +1332,7 @@ extension on Translations {
 			'core.currency.egp' => 'EGP',
 			'core.currency.usd' => 'USD',
 			'core.unit.gram' => 'gram',
+			'core.hints.amount' => '0.00',
 			'core.value.unavailable' => '—',
 			'core.listSeparator' => '; ',
 			'core.actions.cancel' => 'Cancel',

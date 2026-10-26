@@ -90,6 +90,9 @@
     "unit": {
       "gram": "جرام"
     },
+    "hints": {
+      "amount": "0.00"
+    },
     "value": {
       "unavailable": "—"
     },
