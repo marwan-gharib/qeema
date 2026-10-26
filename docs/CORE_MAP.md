@@ -22,6 +22,8 @@ this file is fixed in the same task (DOC-1, DOC-6).
 | `AppChartDirectionality` | Forces a chart subtree LTR + attaches a localized semantics summary. |
 | `InsightCard` | Accent-bar card for a financial `Insight` (color by severity). |
 | `PercentChangeBadge` | Signed-percentage pill: green gain / error loss / dash when null. |
+| `AssetTypeTile` | Selectable asset-type tile from a type code: localized name, icon, carat badge; `iconForType(code)`. |
+| `MarketPriceChart` | Value-trend chart card: caller-localized `title` + `List<AppChartPoint>`; fixed 250 height. |
 
 ## Animations — `core/animations/`, import via `animations.dart`
 

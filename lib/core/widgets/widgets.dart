@@ -13,5 +13,7 @@ export 'app_loader.dart';
 export 'app_snackbar.dart';
 export 'app_surface_card.dart';
 export 'app_text_field.dart';
+export 'asset_type_tile.dart';
 export 'insight_card.dart';
+export 'market_price_chart.dart';
 export 'percent_change_badge.dart';

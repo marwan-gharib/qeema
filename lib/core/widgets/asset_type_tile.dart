@@ -6,16 +6,18 @@ import 'package:qeema/core/responsive/responsive.dart';
 import 'package:qeema/core/theme/app_radius.dart';
 import 'package:qeema/core/theme/app_sizes.dart';
 import 'package:qeema/core/theme/app_spacing.dart';
-import 'package:qeema/features/assets/domain/entities/asset_type_entity.dart';
 
+/// A selectable tile for an asset type, identified by its [code]. Shared by the
+/// assets picker and market prices (WIDGET-3); the display name and carat badge
+/// are localized from the code via core i18n.
 class AssetTypeTile extends StatelessWidget {
   const AssetTypeTile({
     super.key,
-    required this.type,
+    required this.code,
     required this.isSelected,
   });
 
-  final AssetTypeEntity type;
+  final String code;
   final bool isSelected;
 
   @override
@@ -37,7 +39,7 @@ class AssetTypeTile extends StatelessWidget {
           SizedBox(width: AppSpacing.sm),
           Expanded(
             child: Text(
-              context.assetTypeName(type.code),
+              context.assetTypeName(code),
               style: Theme.of(context).textTheme.bodyLarge?.copyWith(
                 fontWeight: isSelected ? FontWeight.w600 : null,
               ),
@@ -61,11 +63,11 @@ class AssetTypeTile extends StatelessWidget {
       clipBehavior: Clip.none,
       children: [
         Icon(
-          iconForType(type.code),
+          iconForType(code),
           size: AppSizes.iconLarge,
           color: colors.textPrimary,
         ),
-        if (type.code.startsWith(AssetTypeCodes.goldPrefix))
+        if (code.startsWith(AssetTypeCodes.goldPrefix))
           Positioned(
             right: Responsive.width(-10),
             top: Responsive.height(-6),
@@ -79,7 +81,7 @@ class AssetTypeTile extends StatelessWidget {
                 borderRadius: BorderRadius.circular(AppRadius.xxs),
               ),
               child: Text(
-                type.code == AssetTypeCodes.gold21
+                code == AssetTypeCodes.gold21
                     ? context.t.assets.carat.k21
                     : context.t.assets.carat.k24,
                 style: context.textStyles.caratBadge.copyWith(

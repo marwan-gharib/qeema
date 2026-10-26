@@ -73,9 +73,8 @@ No datasource: the feature is a pure read model over the assets feature's data l
   PercentChangeBadge, AppAnimatedEntry/EntryAnimationType/AppMotion, AppSpacing/AppRadius/AppSizes,
   Responsive, CurrencyFormatter, context extensions, failure localization, Decimal extensions,
   failures, ApiResult, RouteNames.
-- Depends on (features): assets — domain entities + 2 usecases, and (⚠ layering violation) the
-  presentation widgets `lib/features/assets/presentation/widgets/asset_type_tile.dart` and
-  `lib/features/assets/presentation/widgets/market_price_chart.dart`.
+- Depends on (features): assets — domain entities + 2 usecases (composed through the repository;
+  the presentation widgets now come from core/widgets).
 - Used by (features): none. DI: `core/di/market_prices_module.dart` — repo, 2 usecases, list cubit
   factory, detail cubit factory param.
 
@@ -105,9 +104,9 @@ No datasource: the feature is a pure read model over the assets feature's data l
 
 ## 12. Known issues
 
-- ARCH-1: PARTIALLY RESOLVED 2026-10-26 — the data mapper is gone (the adaptation lives on
-  `MarketPricePointEntity`); the detail screen still imports the assets feature's presentation
-  widgets (features must never import another feature's presentation — promote to core, WIDGET-3).
+- ARCH-1: RESOLVED 2026-10-26 — the data mapper is gone (the adaptation lives on
+  `MarketPricePointEntity`) and the shared widgets moved to core/widgets; no feature imports
+  another feature's data or presentation anymore.
 - STATE-3: `state is` checks instead of an exhaustive switch; ANIM-2: raw AnimatedSwitcher;
   BASE-3: raw CircularProgressIndicator instead of `AppLoader`.
 - The detail screen has no pull-to-refresh, and every range change re-emits full Loading (content
@@ -119,3 +118,5 @@ No datasource: the feature is a pure read model over the assets feature's data l
 - 2026-10-26 — Initial doc created from code (doc-sync).
 - 2026-10-26 — Refactor (DATA-5): MarketPricePointMapper dissolved into
   `MarketPricePointEntity.fromMarketPrice` / `toMarketPrice()`.
+- 2026-10-26 — Refactor (WIDGET-3): AssetTypeTile + MarketPriceChart now come from core/widgets;
+  the detail screen no longer imports the assets feature's presentation (ARCH-1 resolved).

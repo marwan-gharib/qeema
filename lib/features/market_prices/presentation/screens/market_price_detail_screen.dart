@@ -9,8 +9,8 @@ import 'package:qeema/core/theme/app_spacing.dart';
 import 'package:qeema/core/widgets/app_content_box.dart';
 import 'package:qeema/core/widgets/app_empty_state.dart';
 import 'package:qeema/core/widgets/app_error_state.dart';
-import 'package:qeema/features/assets/presentation/widgets/asset_type_tile.dart';
-import 'package:qeema/features/assets/presentation/widgets/market_price_chart.dart';
+import 'package:qeema/core/widgets/asset_type_tile.dart';
+import 'package:qeema/core/widgets/market_price_chart.dart';
 import 'package:qeema/features/market_prices/domain/entities/market_price_point_entity.dart';
 import 'package:qeema/features/market_prices/presentation/cubits/market_price_detail_cubit/market_price_detail_cubit.dart';
 import 'package:qeema/features/market_prices/presentation/cubits/market_price_detail_cubit/market_price_detail_state.dart';
@@ -96,7 +96,12 @@ class _DetailContent extends StatelessWidget {
               padding: EdgeInsets.all(AppSpacing.lg),
             )
           else ...[
-            MarketPriceChart(priceHistory: chartHistory),
+            MarketPriceChart(
+              title: context.t.assets.detail.valueTrend,
+              points: chartHistory
+                  .map((point) => (date: point.priceDate, value: point.price))
+                  .toList(),
+            ),
             if (daysCovered != null &&
                 daysCovered < _expectedDays(selectedRange))
               Text(

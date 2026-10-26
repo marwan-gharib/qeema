@@ -25,7 +25,7 @@ market_prices.
 |---|---|---|
 | screens | `presentation/screens/` — assets_list, add_asset, asset_detail, edit_asset | The four screens |
 | cubits | `presentation/cubits/` — assets_list_cubit, asset_detail_cubit, add_asset_cubit, edit_asset_cubit (cubit + state each) | One cubit per flow |
-| widgets | `presentation/widgets/` — AssetListItem, AssetTypeTabBar, SortFilterBottomSheet, AssetsLoadingSkeleton, AssetsErrorState, AssetTypePicker, AssetTypeTile, DynamicAssetFields, AddAssetSkeleton, EditAssetHeader, AssetDetailContent, AssetDetailSkeleton, AssetValueChartBody, CashFlatChart, MarketPriceChart, AssetHistoryTimeline, AssetHistoryEntryTile, DeleteAssetConfirmationDialog | 18 feature-only widgets (WIDGET-2); AssetTypeTile + MarketPriceChart are also used by market_prices (pending WIDGET-3 promotion) |
+| widgets | `presentation/widgets/` — AssetListItem, AssetTypeTabBar, SortFilterBottomSheet, AssetsLoadingSkeleton, AssetsErrorState, AssetTypePicker, DynamicAssetFields, AddAssetSkeleton, EditAssetHeader, AssetDetailContent, AssetDetailSkeleton, AssetValueChartBody, CashFlatChart, AssetHistoryTimeline, AssetHistoryEntryTile, DeleteAssetConfirmationDialog | 16 feature-only widgets (WIDGET-2); AssetTypeTile + MarketPriceChart were promoted to core/widgets (WIDGET-3, 2026-10-26) |
 | domain entities | `domain/entities/asset_entity.dart` (with the AssetType enum), `domain/entities/asset_type_entity.dart`, `domain/entities/asset_history_entry_entity.dart`, `domain/entities/market_price_entity.dart` | 4 entities |
 | domain repo | `domain/repositories/assets_repository.dart` | Abstract contract, 7 methods |
 | usecases | `domain/usecases/` — get_assets, get_asset_types, add_asset, update_asset, soft_delete_asset, get_asset_history, get_market_price_history | 7 usecases |
@@ -90,7 +90,7 @@ The datasource currently writes table/column names as string literals even thoug
   SupabaseClientProvider, AssetTypeCodes, route constants.
 - Depends on (features): none — assets is the foundation.
 - Used by (features): home (the `AssetsRepository` contract + domain entities); market_prices
-  (domain + two presentation widgets pending promotion).
+  (domain entities + usecases via its repository).
 - Used by (core): `core/utils/asset_type_parsing.dart` imports the entity (core→feature exception).
 - DI: `core/di/assets_module.dart` — datasource, repo, 7 usecases, 4 cubit factories (2 of them
   factory params).
@@ -146,3 +146,5 @@ The datasource currently writes table/column names as string literals even thoug
 - 2026-10-26 — Refactor (ERR-2/DATA-3): mapSupabaseError folded into core mapExceptionToFailure
   (assetOperation param); defensive row parsing via data/models/row_parsing.dart — emitted Failure
   types unchanged.
+- 2026-10-26 — Refactor (WIDGET-3): AssetTypeTile and MarketPriceChart promoted to core/widgets
+  (generalized: code/title/points params); chart test moved to test/core/widgets/.

@@ -11,10 +11,10 @@ import 'package:qeema/core/responsive/responsive.dart';
 import 'package:qeema/core/theme/app_radius.dart';
 import 'package:qeema/core/theme/app_sizes.dart';
 import 'package:qeema/core/theme/app_spacing.dart';
+import 'package:qeema/core/widgets/asset_type_tile.dart';
 import 'package:qeema/features/assets/domain/entities/asset_type_entity.dart';
 import 'package:qeema/features/assets/presentation/cubits/add_asset_cubit/add_asset_cubit.dart';
 import 'package:qeema/features/assets/presentation/cubits/add_asset_cubit/add_asset_state.dart';
-import 'package:qeema/features/assets/presentation/widgets/asset_type_tile.dart';
 
 class AssetTypePicker extends StatelessWidget {
   const AssetTypePicker({super.key, required this.assetTypes});
@@ -152,7 +152,7 @@ class AssetTypePicker extends StatelessWidget {
                         context.pop(sheetContext);
                       },
                       child: AssetTypeTile(
-                        type: type,
+                        code: type.code,
                         isSelected: currentSelection?.id == type.id,
                       ),
                     ),

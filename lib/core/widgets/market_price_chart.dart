@@ -4,17 +4,21 @@ import 'package:qeema/core/i18n/strings.g.dart';
 import 'package:qeema/core/theme/app_spacing.dart';
 import 'package:qeema/core/widgets/app_line_chart.dart';
 import 'package:qeema/core/widgets/app_surface_card.dart';
-import 'package:qeema/features/assets/domain/entities/market_price_entity.dart';
 
+/// A value-trend chart card shared by assets and market prices (WIDGET-3).
+/// The [title] comes from the caller, localized at the call site.
 class MarketPriceChart extends StatelessWidget {
-  const MarketPriceChart({super.key, required this.priceHistory});
+  const MarketPriceChart({
+    super.key,
+    required this.points,
+    required this.title,
+  });
 
-  final List<MarketPriceEntity> priceHistory;
+  final List<AppChartPoint> points;
+  final String title;
 
   @override
   Widget build(BuildContext context) {
-    final t = context.t.assets;
-
     return Padding(
       padding: EdgeInsets.symmetric(vertical: AppSpacing.md),
       child: AppSurfaceCard(
@@ -23,7 +27,7 @@ class MarketPriceChart extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              t.detail.valueTrend,
+              title,
               style: context.textTheme.labelLarge?.copyWith(
                 color: context.colors.textSecondary,
               ),
@@ -31,10 +35,7 @@ class MarketPriceChart extends StatelessWidget {
             SizedBox(height: AppSpacing.sm),
             AppLineChart(
               semanticsTitle: context.t.charts.semantics.priceHistory,
-              points: [
-                for (final point in priceHistory)
-                  (date: point.priceDate, value: point.price),
-              ],
+              points: points,
               lineColor: context.colors.secondaryVariant,
               height: 250,
               gridIntervalDivisor: 6,

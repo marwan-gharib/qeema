@@ -5,24 +5,26 @@ import 'package:intl/date_symbol_data_local.dart';
 import 'package:material_ui/material_ui.dart';
 import 'package:qeema/core/i18n/strings.g.dart';
 import 'package:qeema/core/theme/app_theme.dart';
-import 'package:qeema/features/assets/domain/entities/market_price_entity.dart';
-import 'package:qeema/features/assets/presentation/widgets/market_price_chart.dart';
+import 'package:qeema/core/widgets/app_line_chart.dart';
+import 'package:qeema/core/widgets/market_price_chart.dart';
 
-List<MarketPriceEntity> _history(int points, {double baseValue = 80000}) {
+List<AppChartPoint> _points(int count, {double baseValue = 80000}) {
   return [
-    for (var i = 0; i < points; i++)
-      MarketPriceEntity(
-        priceDate: DateTime(2026, 7, 1 + i),
-        price: Decimal.fromInt((baseValue + i).toInt()),
+    for (var i = 0; i < count; i++)
+      (
+        date: DateTime(2026, 7, 1 + i),
+        value: Decimal.fromInt((baseValue + i).toInt()),
       ),
   ];
 }
 
-Widget _chart(List<MarketPriceEntity> history) {
+Widget _chart(List<AppChartPoint> points) {
   return TranslationProvider(
     child: MaterialApp(
       theme: AppTheme.light(),
-      home: Scaffold(body: MarketPriceChart(priceHistory: history)),
+      home: Scaffold(
+        body: MarketPriceChart(points: points, title: 'Value trend'),
+      ),
     ),
   );
 }
@@ -44,7 +46,7 @@ void main() {
 
   group('axis labels', () {
     testWidgets('renders sparse bottom date labels', (tester) async {
-      await tester.pumpWidget(_chart(_history(45)));
+      await tester.pumpWidget(_chart(_points(45)));
       await tester.pump();
 
       final dateLabels = tester
@@ -65,7 +67,7 @@ void main() {
     });
 
     testWidgets('renders compact left value labels', (tester) async {
-      await tester.pumpWidget(_chart(_history(45)));
+      await tester.pumpWidget(_chart(_points(45)));
       await tester.pump();
 
       final valueLabels = tester
@@ -89,7 +91,7 @@ void main() {
     testWidgets('chart fills the available width at fixed height', (
       tester,
     ) async {
-      await tester.pumpWidget(_chart(_history(45)));
+      await tester.pumpWidget(_chart(_points(45)));
       await tester.pump();
 
       final box = tester.widget<SizedBox>(_contentSizedBox());
@@ -102,7 +104,7 @@ void main() {
     });
 
     testWidgets('renders without any zoom or scroll chrome', (tester) async {
-      await tester.pumpWidget(_chart(_history(45)));
+      await tester.pumpWidget(_chart(_points(45)));
       await tester.pump();
 
       expect(find.byType(SingleChildScrollView), findsNothing);
