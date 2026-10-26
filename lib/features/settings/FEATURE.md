@@ -94,6 +94,8 @@ account deletion.
   message.
 - Sign-out errors never block local cleanup; the local wipe always re-marks onboarding complete.
 - An unavailable device-lock sensor can never count as consent for the toggle (prompt mapper).
+- The delete-account dialog closes itself on `DeleteAccountSuccess`; the screen then shows the
+  snackbar and navigates back.
 
 ## 11. Tests
 
@@ -123,3 +125,5 @@ account deletion.
 - 2026-10-26 — Initial doc created from code (doc-sync).
 - 2026-10-26 — Refactor: STATE-2 fix — LogoutCubit depends on `IsCurrentUserAnonymousUseCase`
   (new) instead of `AccountRepository`; edge-function name moved to `Endpoints` (ARCH-10).
+- 2026-10-26 — Fix: DeleteAccountDialog now pops itself on DeleteAccountSuccess (the dialog used
+  to stay open after the account was deleted).

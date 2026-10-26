@@ -20,6 +20,7 @@ import 'package:qeema/core/router/app_router.dart';
 import 'package:qeema/core/router/route_guards.dart';
 import 'package:qeema/core/utils/api_result.dart';
 import 'package:qeema/features/app_lock/presentation/cubits/app_lock_cubit/app_lock_cubit.dart';
+import 'package:qeema/features/app_lock/presentation/widgets/app_lock_lifecycle_observer.dart';
 import 'package:qeema/features/assets/domain/entities/asset_entity.dart';
 import 'package:qeema/features/assets/domain/repositories/assets_repository.dart';
 import 'package:qeema/features/assets/domain/usecases/get_assets_usecase.dart';
@@ -246,7 +247,12 @@ void main() {
           BlocProvider(create: (_) => getIt<ThemeCubit>()),
           BlocProvider(create: (_) => getIt<AppLockCubit>()),
         ],
-        child: TranslationProvider(child: const AppRoot()),
+        // main.dart wraps the app in the lifecycle observer; without it the
+        // lock gate never leaves AppLockInitial and the overlay blanks the
+        // router, so mirror the production wiring here.
+        child: AppLockLifecycleObserver(
+          child: TranslationProvider(child: const AppRoot()),
+        ),
       ),
     );
   }

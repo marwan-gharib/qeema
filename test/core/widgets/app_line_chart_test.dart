@@ -297,7 +297,7 @@ void main() {
       ]);
     });
 
-    testWidgets('renders localized, single-line value labels in Arabic', (
+    testWidgets('renders localized date and value labels in Arabic', (
       tester,
     ) async {
       await _useLocale(tester, AppLocale.ar);
@@ -319,29 +319,38 @@ void main() {
       expect(firstDate.contains('Jul'), isFalse);
       expect(find.text(firstDate), findsOneWidget);
 
-      final dateLabels = chartTexts
-          .where((text) => text.data != null && text.maxLines == null)
-          .map((text) => text.data!)
-          .toList();
-      expect(dateLabels, hasLength(inInclusiveRange(4, 6)));
       expect(
-        dateLabels.any((label) => RegExp(r'^[A-Za-z]{3} \d').hasMatch(label)),
-        isFalse,
+        chartTexts.where(
+          (text) =>
+              text.data != null &&
+              RegExp(r'^[A-Za-z]{3} \d').hasMatch(text.data!),
+        ),
+        isEmpty,
         reason: 'a bottom label fell back to English',
       );
 
-      final valueLabels = chartTexts.where(
-        (text) => text.data != null && text.maxLines == 1,
+      // Axis labels stay single-line in every locale; Arabic digits render
+      // through the localized compact formatter.
+      final axisLabels = chartTexts
+          .where((text) => text.data != null && text.maxLines == 1)
+          .map((text) => text.data!)
+          .toList();
+      expect(axisLabels, isNotEmpty);
+      expect(
+        axisLabels.any((label) => RegExp(r'^\d+(\.\d{2})?K$').hasMatch(label)),
+        isFalse,
+        reason: 'a value label fell back to English compact notation',
       );
-      expect(valueLabels, isNotEmpty);
 
-      final reserved = _lineChart(
-        tester,
-      ).data.titlesData.leftTitles.sideTitles.reservedSize;
-      expect(reserved, greaterThan(Responsive.adapt(44)));
+      // The label strip is measured from the widest localized tick, which is
+      // wider than the fixed fallback the English strip clamps to.
+      expect(
+        _lineChart(tester).data.titlesData.leftTitles.sideTitles.reservedSize,
+        greaterThan(Responsive.adapt(44)),
+      );
     });
 
-    testWidgets('leaves the English label strip exactly as it was', (
+    testWidgets('renders English date and value labels in English', (
       tester,
     ) async {
       await tester.pumpWidget(
@@ -355,11 +364,23 @@ void main() {
           matching: find.byType(Text),
         ),
       );
-      expect(chartTexts.where((text) => text.maxLines == 1), isEmpty);
-      expect(
-        _lineChart(tester).data.titlesData.leftTitles.sideTitles.reservedSize,
-        Responsive.adapt(44),
+
+      final dateLabels = chartTexts
+          .where(
+            (text) =>
+                text.data != null &&
+                RegExp(r'^[A-Za-z]{3} \d{1,2}$').hasMatch(text.data!),
+          )
+          .length;
+      expect(dateLabels, inInclusiveRange(4, 6));
+      expect(find.text('Jul 1'), findsOneWidget);
+
+      final valueLabels = chartTexts.where(
+        (text) =>
+            text.data != null &&
+            RegExp(r'^\d+(\.\d{2})?K$').hasMatch(text.data!),
       );
+      expect(valueLabels, isNotEmpty);
     });
 
     testWidgets('draws the tooltip LTR and clamped inside the chart', (

@@ -50,6 +50,11 @@ class _DeleteAccountDialogState extends State<DeleteAccountDialog> {
             state.failure.localizedMessage(context),
           );
         }
+        if (state is DeleteAccountSuccess) {
+          // Close the dialog; the settings screen listens for the same state
+          // and navigates to welcome.
+          context.pop();
+        }
       },
       builder: (context, state) {
         final isDeleting = state is DeleteAccountDeleting;
