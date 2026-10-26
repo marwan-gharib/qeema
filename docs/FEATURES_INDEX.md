@@ -13,7 +13,7 @@ only the source files you need (DOC-1).
 | app_lock | Optional device-credential lock shielding the whole app | lib/features/app_lock/FEATURE.md | RoutePaths.lock | none |
 | home | Dashboard: nominal/real totals, erosion ring, per-type day change, 30-day trend | lib/features/home/FEATURE.md | RoutePaths.home | assets (domain) |
 | assets | Holdings CRUD: list/filter/sort, add, detail + history, edit, soft delete | lib/features/assets/FEATURE.md | RoutePaths.assets (+ add/detail/edit children) | none — foundation for home and market_prices |
-| market_prices | Read-only USD/gold market rates with sparklines and range charts | lib/features/market_prices/FEATURE.md | RoutePaths.marketPrices (+ detail child) | assets (domain, plus two presentation widgets pending WIDGET-3) |
+| market_prices | Read-only USD/gold market rates with sparklines and range charts | lib/features/market_prices/FEATURE.md | RoutePaths.marketPrices (+ detail child) | assets (domain, via repository contract and usecases); shared widgets come from core/widgets |
 | settings | Profile, app-lock toggle, language/theme, logout, delete account | lib/features/settings/FEATURE.md | RoutePaths.settings | auth, app_lock |
 
 Notes:
