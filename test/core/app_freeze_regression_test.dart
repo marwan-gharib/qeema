@@ -184,7 +184,7 @@ void main() {
       ..registerFactory<LogoutCubit>(
         () => LogoutCubit(
           MockLogoutUseCase(),
-          MockAccountRepository(isAnonymous: false),
+          MockIsCurrentUserAnonymousUseCase(isAnonymous: false),
         ),
       )
       ..registerFactory<ProfileHeaderCubit>(

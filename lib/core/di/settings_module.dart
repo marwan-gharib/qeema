@@ -9,6 +9,7 @@ import 'package:qeema/features/settings/data/datasources/remote/account_remote_d
 import 'package:qeema/features/settings/data/repositories/account_repository_impl.dart';
 import 'package:qeema/features/settings/domain/repositories/account_repository.dart';
 import 'package:qeema/features/settings/domain/usecases/delete_account_usecase.dart';
+import 'package:qeema/features/settings/domain/usecases/is_current_user_anonymous_usecase.dart';
 import 'package:qeema/features/settings/domain/usecases/logout_usecase.dart';
 import 'package:qeema/features/settings/presentation/cubits/delete_account_cubit/delete_account_cubit.dart';
 import 'package:qeema/features/settings/presentation/cubits/logout_cubit/logout_cubit.dart';
@@ -33,11 +34,17 @@ void initSettingsModule(GetIt getIt) {
     () => DeleteAccountUseCase(getIt<AccountRepository>()),
   );
   getIt.registerLazySingleton(() => LogoutUseCase(getIt<AccountRepository>()));
+  getIt.registerLazySingleton(
+    () => IsCurrentUserAnonymousUseCase(getIt<AccountRepository>()),
+  );
   getIt.registerFactory(
     () => DeleteAccountCubit(getIt<DeleteAccountUseCase>()),
   );
   getIt.registerFactory(
-    () => LogoutCubit(getIt<LogoutUseCase>(), getIt<AccountRepository>()),
+    () => LogoutCubit(
+      getIt<LogoutUseCase>(),
+      getIt<IsCurrentUserAnonymousUseCase>(),
+    ),
   );
   getIt.registerFactory(
     () => ProfileHeaderCubit(getIt<WatchAuthUserUseCase>()),

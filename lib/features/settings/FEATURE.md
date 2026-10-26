@@ -27,7 +27,7 @@ account deletion.
 |  | `presentation/widgets/logout_dialog.dart`, `presentation/widgets/delete_account_dialog.dart` | Destructive-action dialogs (guest copy; typed DELETE phrase) |
 | mappers | `presentation/mappers/profile_header_mapper.dart`, `presentation/mappers/app_lock_prompt_mapper.dart` | AuthUserEntity → header data; AppLockStatus → prompt outcome |
 | cubits | `presentation/cubits/` — profile_header_cubit, logout_cubit, delete_account_cubit, app_lock_settings_cubit (cubit + state each) | 4 cubits |
-| domain | `domain/repositories/account_repository.dart`, `domain/usecases/logout_usecase.dart`, `domain/usecases/delete_account_usecase.dart` | Contract + 2 usecases (no entities — the display model lives in the profile header state) |
+| domain | `domain/repositories/account_repository.dart`, `domain/usecases/logout_usecase.dart`, `domain/usecases/delete_account_usecase.dart`, `domain/usecases/is_current_user_anonymous_usecase.dart` | Contract + 3 usecases (no entities — the display model lives in the profile header state) |
 | data | `data/datasources/remote/account_remote_datasource.dart`, `data/repositories/account_repository_impl.dart` | Supabase auth + edge function + local wipe |
 
 ## 4. Entities & models
@@ -42,12 +42,13 @@ account deletion.
 |---|---|---|---|
 | `LogoutUseCase` | none | ApiResult(void) | Anonymous → server-side delete first, then sign-out + local wipe; failure aborts all three |
 | `DeleteAccountUseCase` | none | ApiResult(void) | Sends userConfirmed: true (Danger Zone path) so the server accepts deleting a permanent account |
+| `IsCurrentUserAnonymousUseCase` | none | bool (sync) | Session query for the guest-dialog copy; deliberately not an ApiResult (no failure mode) — see the DOM-4 note in the file |
 
 ## 6. API & storage
 
 | Key (constant) | Used by | Cache policy |
 |---|---|---|
-| Supabase edge function delete-account | `AccountRemoteDataSource.deleteAccount` | Always HTTP 200; success:false + partial:true → AccountDeletionPartialException (⚠ the name is currently a private literal, ARCH-10) |
+| Supabase edge function delete-account (`Endpoints.deleteAccountFunction`) | `AccountRemoteDataSource.deleteAccount` | Always HTTP 200; success:false + partial:true → AccountDeletionPartialException |
 | Supabase auth signOut (local scope) + GoogleSignIn signOut/disconnect | `AccountRepositoryImpl` | Sign-out is always local scope — a deleted user breaks global sign-out |
 | `AppDatabase.clearAll()`, `SecureStorageService.deleteAll()`, `CacheService.clear()` | `AccountRepositoryImpl._clearLocalData` | Ends by re-marking `AppConstants.onboardingCompletedKey` = true |
 
@@ -106,11 +107,10 @@ account deletion.
 
 ## 12. Known issues
 
-- ARCH-10: the delete-account edge-function name is a private string literal instead of a core
-  constants entry.
+- ARCH-10: RESOLVED 2026-10-26 — the edge-function name now lives in `core/constants/endpoints.dart`.
 - `AppLockSettingsCubit` depends directly on the concrete `AppLockCubit` (state owner) rather than
-  a usecase — deliberate but notable layering exception; STATE-2: `LogoutCubit` calls
-  `AccountRepository` directly.
+  a usecase — deliberate but notable layering exception; STATE-2: RESOLVED 2026-10-26 —
+  `LogoutCubit` now depends on `LogoutUseCase` + `IsCurrentUserAnonymousUseCase` only.
 - ANIM-2: raw showModalBottomSheet and showDialog in the sheets and dialogs (no core
   AppBottomSheet/AppDialog exists yet — core gap).
 - FILE-1: `presentation/screens/settings_screen.dart` (378 lines) and its test file are over the
@@ -121,3 +121,5 @@ account deletion.
 ## 13. Changelog
 
 - 2026-10-26 — Initial doc created from code (doc-sync).
+- 2026-10-26 — Refactor: STATE-2 fix — LogoutCubit depends on `IsCurrentUserAnonymousUseCase`
+  (new) instead of `AccountRepository`; edge-function name moved to `Endpoints` (ARCH-10).

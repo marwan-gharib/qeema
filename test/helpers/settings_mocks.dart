@@ -4,6 +4,7 @@ import 'package:qeema/core/utils/api_result.dart';
 import 'package:qeema/features/settings/data/datasources/remote/account_remote_datasource.dart';
 import 'package:qeema/features/settings/domain/repositories/account_repository.dart';
 import 'package:qeema/features/settings/domain/usecases/delete_account_usecase.dart';
+import 'package:qeema/features/settings/domain/usecases/is_current_user_anonymous_usecase.dart';
 import 'package:qeema/features/settings/domain/usecases/logout_usecase.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
@@ -67,6 +68,15 @@ class MockLogoutUseCase implements LogoutUseCase {
     calls++;
     return result;
   }
+}
+
+class MockIsCurrentUserAnonymousUseCase
+    implements IsCurrentUserAnonymousUseCase {
+  MockIsCurrentUserAnonymousUseCase({this.isAnonymous = false});
+  final bool isAnonymous;
+
+  @override
+  bool call() => isAnonymous;
 }
 
 class MockAccountRepository implements AccountRepository {

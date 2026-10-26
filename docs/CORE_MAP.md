@@ -62,6 +62,8 @@ Cheat sheet with the full API: `lib/core/animations/README.md`.
   `redirectUnauthenticated`.
 - `AppRouterRoutes.buildRoutes` / `buildShellRoute` — every route; screens wrapped in `BlocProvider`
   created from `getIt`; transitions via the animation folder's page functions.
+- `AppProviders` — the app-scoped `BlocProvider`s above the router (locale, theme, app lock); the
+  only `getIt` zone outside `core/di/` besides the route builders.
 - `RouteGuards` — auth + onboarding redirect logic; `AppLockGate` interface implemented by
   `AppLockCubit`.
 

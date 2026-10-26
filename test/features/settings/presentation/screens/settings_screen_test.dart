@@ -70,7 +70,7 @@ void main() {
     logoutUseCase = MockLogoutUseCase();
     logoutCubit = LogoutCubit(
       logoutUseCase,
-      MockAccountRepository(isAnonymous: false),
+      MockIsCurrentUserAnonymousUseCase(isAnonymous: false),
     );
     profileHeaderCubit = ProfileHeaderCubit(
       MockWatchAuthUserUseCase()
