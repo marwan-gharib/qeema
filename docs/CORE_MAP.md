@@ -171,8 +171,5 @@ inside `lib/app_root.dart`).
   needs it (BASE-4, ANIM-3) — do not substitute the raw SDK.
 - `core/utils/asset_type_parsing.dart` imports the assets feature's entity (core→feature, ARCH-1
   exception to resolve).
-- `core/utils/usecase.dart` base classes are flagged forbidden by DOM-1 (audit) — pending decision.
 - drift + build_runner in `core/local/cache/app_database.dart` conflicts with ARCH-8 — pending
   decision (replace with hand-written persistence or approve an exception).
-- Several constants/router classes are declared `class`/`final class` instead of
-  `abstract final class` (ARCH-7).
