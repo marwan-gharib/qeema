@@ -19,7 +19,4 @@ only the source files you need (DOC-1).
 Notes:
 
 - Cross-feature use is allowed only through domain usecases or core (ARCH-1). Known violations are
-  recorded in the offending features' docs (market_prices → assets presentation; home data layer →
-  assets usecases).
-- `core/utils/asset_type_parsing.dart` imports the assets feature's entity — the only core→feature
-  import (see docs/CORE_MAP.md, Known exceptions).
+  recorded in the offending features' docs.

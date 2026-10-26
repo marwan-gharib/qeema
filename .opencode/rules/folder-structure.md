@@ -14,6 +14,7 @@ lib/
     constants/                       # ARCH-10: ApiKeys, Endpoints, Assets, AppLottieAssets,
                                      #   AppConsts, HeroTags, Fonts... one file per purpose
     di/                              # injection_container.dart + one *_injection.dart per feature
+    domain/                          # shared pure-Dart domain types every feature may use (AssetType)
     errors/                          # Failure hierarchy + the Dio error classifier
     extensions/                      # BuildContext extensions (colors, textStyles, responsive,
                                      #   navigation, failureText)

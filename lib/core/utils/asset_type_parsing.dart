@@ -1,5 +1,5 @@
 import 'package:qeema/core/constants/asset_type_codes.dart';
-import 'package:qeema/features/assets/domain/entities/asset_entity.dart';
+import 'package:qeema/core/domain/asset_type.dart';
 
 AssetType assetTypeFromString(String code) {
   switch (code) {

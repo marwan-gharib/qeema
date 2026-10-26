@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:material_ui/material_ui.dart';
 import 'package:qeema/core/animations/micro_interactions/success_pulse.dart';
 import 'package:qeema/core/constants/asset_type_codes.dart';
+import 'package:qeema/core/domain/asset_type.dart';
 import 'package:qeema/core/extensions/build_context_extensions.dart';
 import 'package:qeema/core/extensions/failure_localization_extension.dart';
 import 'package:qeema/core/i18n/strings.g.dart';

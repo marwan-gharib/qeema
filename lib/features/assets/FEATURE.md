@@ -26,7 +26,7 @@ market_prices.
 | screens | `presentation/screens/` — assets_list, add_asset, asset_detail, edit_asset | The four screens |
 | cubits | `presentation/cubits/` — assets_list_cubit, asset_detail_cubit, add_asset_cubit, edit_asset_cubit (cubit + state each) | One cubit per flow |
 | widgets | `presentation/widgets/` — AssetListItem, AssetTypeTabBar, SortFilterBottomSheet, AssetsLoadingSkeleton, AssetsErrorState, AssetTypePicker, DynamicAssetFields, AddAssetSkeleton, EditAssetHeader, AssetDetailContent, AssetDetailSkeleton, AssetValueChartBody, CashFlatChart, AssetHistoryTimeline, AssetHistoryEntryTile, DeleteAssetConfirmationDialog | 16 feature-only widgets (WIDGET-2); AssetTypeTile + MarketPriceChart were promoted to core/widgets (WIDGET-3, 2026-10-26) |
-| domain entities | `domain/entities/asset_entity.dart` (with the AssetType enum), `domain/entities/asset_type_entity.dart`, `domain/entities/asset_history_entry_entity.dart`, `domain/entities/market_price_entity.dart` | 4 entities |
+| domain entities | `domain/entities/asset_entity.dart` (enum `AssetType` lives in `core/domain/asset_type.dart`), `domain/entities/asset_type_entity.dart`, `domain/entities/asset_history_entry_entity.dart`, `domain/entities/market_price_entity.dart` | 4 entities |
 | domain repo | `domain/repositories/assets_repository.dart` | Abstract contract, 7 methods |
 | usecases | `domain/usecases/` — get_assets, get_asset_types, add_asset, update_asset, soft_delete_asset, get_asset_history, get_market_price_history | 7 usecases |
 | params | `domain/params/add_asset_params.dart`, `domain/params/update_asset_params.dart` | 2 params |
@@ -38,7 +38,7 @@ market_prices.
 
 | Entity | Key fields | Model (data) | Notes |
 |---|---|---|---|
-| `AssetEntity` + enum `AssetType` | id, assetType, amount, priceAtEntry, entryDate, note?, currentPrice? | `AssetModelFromServer` | Getters: entryValue, currentValue, gainLossAmount/Percent, isGain |
+| `AssetEntity` (enum `AssetType` → `core/domain/asset_type.dart`) | id, assetType, amount, priceAtEntry, entryDate, note?, currentPrice? | `AssetModelFromServer` | Getters: entryValue, currentValue, gainLossAmount/Percent, isGain |
 | `AssetTypeEntity` | id, code, name, isMarketBased, baseUnit | parsed inline |  |
 | `AssetHistoryEntryEntity` | id, assetId, changeType, oldValue?, newValue?, changedAt | `AssetHistoryModel` |  |
 | `MarketPriceEntity` | priceDate, price, fetchedAt? | `MarketPriceModel` | fetchedAt drives staleness |
@@ -91,7 +91,6 @@ The datasource currently writes table/column names as string literals even thoug
 - Depends on (features): none — assets is the foundation.
 - Used by (features): home (the `AssetsRepository` contract + domain entities); market_prices
   (domain entities + usecases via its repository).
-- Used by (core): `core/utils/asset_type_parsing.dart` imports the entity (core→feature exception).
 - DI: `core/di/assets_module.dart` — datasource, repo, 7 usecases, 4 cubit factories (2 of them
   factory params).
 
@@ -116,7 +115,7 @@ The datasource currently writes table/column names as string literals even thoug
 |---|---|---|
 | data | test/features/assets/data/repositories/assets_repository_impl_test.dart (+ mocks) | repo flows |
 | domain | test/features/assets/domain/usecases/add_asset_usecase_test.dart | add validation |
-| cubits | test/features/assets/presentation/cubits/asset_detail_cubit_test.dart, add_asset_cubit_test.dart | transitions |
+| cubits | test/features/assets/presentation/cubits/asset_detail_cubit_test.dart, add_asset_cubit_test.dart, assets_list_cubit/assets_list_state_test.dart | transitions; visibleAssets sorting/filtering (regression: never sorts an unmodifiable list) |
 | widgets | test/features/assets/presentation/widgets/market_price_chart_test.dart, asset_value_chart_content_test.dart | chart bodies |
 
 ## 12. Known issues
@@ -137,12 +136,15 @@ The datasource currently writes table/column names as string literals even thoug
 ## 13. Changelog
 
 - 2026-10-26 — Initial doc created from code (doc-sync).
-- 2026-10-26 — Refactor (DATA-4/5): models in data/models/ with toEntity(); data/mappers dissolved;
-  unused AssetModel removed; row keys moved to SupabaseColumns constants.
-- 2026-10-26 — Refactor (ERR-2/DATA-3): mapSupabaseError folded into core mapExceptionToFailure
-  (assetOperation param); defensive row parsing via data/models/row_parsing.dart — emitted Failure
-  types unchanged.
+- 2026-10-26 — Refactor (DATA-4/5 + ERR-2/DATA-3): models in data/models/ with toEntity(),
+  data/mappers dissolved, unused AssetModel removed, row keys in SupabaseColumns constants;
+  mapSupabaseError folded into core mapExceptionToFailure (assetOperation param); defensive row
+  parsing via data/models/row_parsing.dart — emitted Failure types unchanged.
 - 2026-10-26 — Refactor (WIDGET-3): AssetTypeTile and MarketPriceChart promoted to core/widgets
   (generalized: code/title/points params); chart test moved to test/core/widgets/.
 - 2026-10-26 — Refactor (STATE-3/BASE-3/UI-4): exhaustive state switches; AppLoader + AppSnackBar
   swaps; edit-screen type names and amount hints localized (new core.hints.amount key).
+- 2026-10-26 — Refactor (core): AssetType enum moved to core/domain/asset_type.dart — core no
+  longer imports this feature; consumers import the core enum directly.
+- 2026-10-26 — Fix: AssetsListLoaded.visibleAssets copied allAssets before sorting (sorting the
+  unmodifiable const list threw); regression tests added in assets_list_state_test.dart.

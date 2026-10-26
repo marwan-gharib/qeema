@@ -1,10 +1,10 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:material_ui/material_ui.dart';
+import 'package:qeema/core/domain/asset_type.dart';
 import 'package:qeema/core/i18n/strings.g.dart';
 import 'package:qeema/core/theme/app_colors_extension.dart';
 import 'package:qeema/core/theme/app_radius.dart';
 import 'package:qeema/core/theme/app_spacing.dart';
-import 'package:qeema/features/assets/domain/entities/asset_entity.dart';
 import 'package:qeema/features/assets/presentation/cubits/assets_list_cubit/assets_list_cubit.dart';
 
 class AssetTypeTabBar extends StatelessWidget {

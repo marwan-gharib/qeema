@@ -1,5 +1,5 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:qeema/features/assets/domain/entities/asset_entity.dart';
+import 'package:qeema/core/domain/asset_type.dart';
 import 'package:qeema/features/assets/domain/usecases/get_assets_usecase.dart';
 import 'package:qeema/features/assets/presentation/cubits/assets_list_cubit/assets_list_state.dart';
 

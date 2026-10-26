@@ -59,8 +59,8 @@ void main() {
       await tester.pumpWidget(_wrap(MarketPriceCard(summary: summary)));
       await tester.pump();
 
-      expect(find.text('US Dollar'), findsOneWidget);
-      expect(find.text('EGP 6178.89'), findsOneWidget);
+      expect(find.text('USD'), findsOneWidget);
+      expect(find.text('6,178.89 EGP'), findsOneWidget);
       expect(find.byType(PercentChangeBadge), findsOneWidget);
       expect(find.byType(PriceSparkline), findsOneWidget);
       expect(find.byType(StaleDataIndicator), findsOneWidget);

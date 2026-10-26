@@ -105,8 +105,12 @@ Cheat sheet with the full API: `lib/core/animations/README.md`.
 - `ApiResult` — sealed Success / ResultFailure with `fold` (helpers in
   `core/extensions/api_result_extensions.dart`).
 - `Logger.info/warning/error`; `Validators.amount`.
-- `asset_type_parsing.dart` — AssetType code mapping (currently imports the assets feature's
-  entity — the one core→feature import, see Known exceptions).
+- `asset_type_parsing.dart` — AssetType code ↔ string mapping for `core/domain/asset_type.dart`.
+
+## Domain — `core/domain/`
+
+- `AssetType` — the shared asset-category enum (egpCash, usdCash, gold21, gold24). Consumed by the
+  assets feature end to end; home maps codes through `core/utils/asset_type_parsing.dart`.
 
 ## Extensions — `core/extensions/`
 
@@ -173,7 +177,5 @@ inside `lib/app_root.dart`).
   ExpandableSection, AppDialog/showAppDialog, AppBottomSheet, AppHaptics, AppLottie,
   AppRoute.create, AppHero, PagedResult, BaseApiClient. Build the core piece before a feature
   needs it (BASE-4, ANIM-3) — do not substitute the raw SDK.
-- `core/utils/asset_type_parsing.dart` imports the assets feature's entity (core→feature, ARCH-1
-  exception to resolve).
 - drift + build_runner in `core/local/cache/app_database.dart` conflicts with ARCH-8 — pending
   decision (replace with hand-written persistence or approve an exception).
