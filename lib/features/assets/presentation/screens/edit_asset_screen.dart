@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:material_ui/material_ui.dart';
 import 'package:qeema/core/animations/micro_interactions/success_pulse.dart';
+import 'package:qeema/core/constants/asset_type_codes.dart';
 import 'package:qeema/core/extensions/build_context_extensions.dart';
 import 'package:qeema/core/extensions/failure_localization_extension.dart';
 import 'package:qeema/core/i18n/strings.g.dart';
@@ -107,10 +108,10 @@ class _EditAssetScreenState extends State<EditAssetScreen> {
       AssetType.gold24 => true,
     };
     final (String code, String name, String unit) = switch (asset.assetType) {
-      AssetType.egpCash => ('cash_egp', 'EGP Cash', 'EGP'),
-      AssetType.usdCash => ('usd', 'USD', 'USD'),
-      AssetType.gold21 => ('gold_21', 'Gold 21K', 'gram'),
-      AssetType.gold24 => ('gold_24', 'Gold 24K', 'gram'),
+      AssetType.egpCash => (AssetTypeCodes.cashEgp, 'EGP Cash', 'EGP'),
+      AssetType.usdCash => (AssetTypeCodes.usd, 'USD', 'USD'),
+      AssetType.gold21 => (AssetTypeCodes.gold21, 'Gold 21K', 'gram'),
+      AssetType.gold24 => (AssetTypeCodes.gold24, 'Gold 24K', 'gram'),
     };
     return AssetTypeEntity(
       id: code,

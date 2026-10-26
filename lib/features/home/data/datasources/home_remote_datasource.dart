@@ -1,3 +1,4 @@
+import 'package:qeema/core/constants/supabase_columns.dart';
 import 'package:qeema/core/constants/supabase_tables.dart';
 import 'package:qeema/core/network/supabase_query_executor.dart';
 import 'package:qeema/core/utils/api_result.dart';
@@ -14,8 +15,8 @@ class HomeRemoteDataSource {
     return _queryExecutor.run((client) async {
       final response = await client
           .from(SupabaseTables.marketPrices)
-          .select('*, asset_types(code)')
-          .order('price_date', ascending: false);
+          .select('*, ${SupabaseTables.assetTypes}(${SupabaseColumns.code})')
+          .order(SupabaseColumns.priceDate, ascending: false);
       return (response as List)
           .map((r) => MarketPriceRow.fromJson(r as Map<String, dynamic>))
           .toList();
@@ -44,8 +45,8 @@ class HomeRemoteDataSource {
       final response = await client
           .from(SupabaseTables.portfolioSnapshots)
           .select()
-          .eq('user_id', userId)
-          .order('snapshot_date', ascending: true);
+          .eq(SupabaseColumns.userId, userId)
+          .order(SupabaseColumns.snapshotDate, ascending: true);
       return (response as List)
           .map((r) => PortfolioSnapshotRow.fromJson(r as Map<String, dynamic>))
           .toList();

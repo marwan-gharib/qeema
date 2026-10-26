@@ -1,14 +1,15 @@
+import 'package:qeema/core/constants/asset_type_codes.dart';
 import 'package:qeema/features/assets/domain/entities/asset_entity.dart';
 
 AssetType assetTypeFromString(String code) {
   switch (code) {
-    case 'cash_egp':
+    case AssetTypeCodes.cashEgp:
       return AssetType.egpCash;
-    case 'usd':
+    case AssetTypeCodes.usd:
       return AssetType.usdCash;
-    case 'gold_21':
+    case AssetTypeCodes.gold21:
       return AssetType.gold21;
-    case 'gold_24':
+    case AssetTypeCodes.gold24:
       return AssetType.gold24;
     default:
       throw FormatException('Unknown asset type code: $code');
@@ -18,12 +19,12 @@ AssetType assetTypeFromString(String code) {
 String assetTypeToString(AssetType type) {
   switch (type) {
     case AssetType.egpCash:
-      return 'cash_egp';
+      return AssetTypeCodes.cashEgp;
     case AssetType.usdCash:
-      return 'usd';
+      return AssetTypeCodes.usd;
     case AssetType.gold21:
-      return 'gold_21';
+      return AssetTypeCodes.gold21;
     case AssetType.gold24:
-      return 'gold_24';
+      return AssetTypeCodes.gold24;
   }
 }

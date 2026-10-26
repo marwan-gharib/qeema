@@ -1,6 +1,4 @@
-class ChartConstants {
-  const ChartConstants._();
-
+abstract final class ChartConstants {
   /// The app's one UI exception: charts never mirror with the locale.
   ///
   /// A chart plots time from oldest (left) to newest (right), and every part

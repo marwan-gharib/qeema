@@ -1,6 +1,4 @@
-class AppAssets {
-  AppAssets._();
-
+abstract final class AppAssets {
   static const String qeemaLogo = 'assets/images/qeema_logo.png';
   static const String googleLogo = 'assets/images/google_logo.png';
 }

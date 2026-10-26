@@ -1,3 +1,4 @@
+import 'package:qeema/core/constants/supabase_columns.dart';
 import 'package:qeema/core/error/failures.dart';
 import 'package:qeema/core/local/cache/daos/assets_dao.dart';
 import 'package:qeema/core/utils/api_result.dart';
@@ -45,11 +46,11 @@ class AssetsRepositoryImpl
       final rows = await _remoteDataSource.getAssetTypes();
       final types = rows.map((row) {
         return AssetTypeEntity(
-          id: row['id'] as String,
-          code: row['code'] as String,
-          name: row['name'] as String,
-          isMarketBased: row['is_market_based'] as bool,
-          baseUnit: row['base_unit'] as String,
+          id: row[SupabaseColumns.id] as String,
+          code: row[SupabaseColumns.code] as String,
+          name: row[SupabaseColumns.name] as String,
+          isMarketBased: row[SupabaseColumns.isMarketBased] as bool,
+          baseUnit: row[SupabaseColumns.baseUnit] as String,
         );
       }).toList();
       return Success(types);

@@ -1,3 +1,4 @@
+import 'package:qeema/core/constants/api_keys.dart';
 import 'package:qeema/features/auth/data/models/auth_user_model.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
@@ -17,8 +18,8 @@ class AuthUserMapper {
   static String? _displayName(User user) {
     final metadata = user.userMetadata;
     final candidates = <Object?>[
-      metadata?['full_name'],
-      metadata?['name'],
+      metadata?[ApiKeys.fullName],
+      metadata?[ApiKeys.name],
       _emailLocalPart(user.email),
     ];
     for (final candidate in candidates) {
@@ -29,8 +30,8 @@ class AuthUserMapper {
   }
 
   static String? _avatarUrl(User user) =>
-      _trimToNull(user.userMetadata?['avatar_url']) ??
-      _trimToNull(user.userMetadata?['picture']);
+      _trimToNull(user.userMetadata?[ApiKeys.avatarUrl]) ??
+      _trimToNull(user.userMetadata?[ApiKeys.picture]);
 
   static String? _emailLocalPart(String? email) {
     final value = _trimToNull(email);

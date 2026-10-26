@@ -1,4 +1,5 @@
 import 'package:material_ui/material_ui.dart';
+import 'package:qeema/core/constants/asset_type_codes.dart';
 import 'package:qeema/core/extensions/build_context_extensions.dart';
 import 'package:qeema/core/i18n/strings.g.dart';
 import 'package:qeema/core/responsive/responsive.dart';
@@ -64,7 +65,7 @@ class AssetTypeTile extends StatelessWidget {
           size: AppSizes.iconLarge,
           color: colors.textPrimary,
         ),
-        if (type.code.startsWith('gold_'))
+        if (type.code.startsWith(AssetTypeCodes.goldPrefix))
           Positioned(
             right: Responsive.width(-10),
             top: Responsive.height(-6),
@@ -78,7 +79,7 @@ class AssetTypeTile extends StatelessWidget {
                 borderRadius: BorderRadius.circular(AppRadius.xxs),
               ),
               child: Text(
-                type.code == 'gold_21'
+                type.code == AssetTypeCodes.gold21
                     ? context.t.assets.carat.k21
                     : context.t.assets.carat.k24,
                 style: context.textStyles.caratBadge.copyWith(
@@ -93,12 +94,12 @@ class AssetTypeTile extends StatelessWidget {
 
   static IconData iconForType(String code) {
     switch (code) {
-      case 'cash_egp':
+      case AssetTypeCodes.cashEgp:
         return Icons.payments_outlined;
-      case 'usd':
+      case AssetTypeCodes.usd:
         return Icons.attach_money;
-      case 'gold_21':
-      case 'gold_24':
+      case AssetTypeCodes.gold21:
+      case AssetTypeCodes.gold24:
         return Icons.monetization_on_outlined;
       default:
         return Icons.account_balance_outlined;

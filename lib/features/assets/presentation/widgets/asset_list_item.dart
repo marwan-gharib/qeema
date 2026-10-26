@@ -28,7 +28,7 @@ class AssetListItem extends StatelessWidget {
     final dateFormat = DateFormat.yMMMd(locale);
 
     return InkWell(
-      onTap: () => context.push('${RoutePaths.assets}/${asset.id}'),
+      onTap: () => context.push(RoutePaths.assetDetail(asset.id)),
       child: Padding(
         padding: EdgeInsets.symmetric(
           horizontal: AppSpacing.md,

@@ -1,10 +1,12 @@
 import 'package:go_router/go_router.dart';
 import 'package:material_ui/material_ui.dart';
+import 'package:qeema/core/constants/asset_type_codes.dart';
 import 'package:qeema/core/extensions/build_context_extensions.dart';
 import 'package:qeema/core/helpers/currency_formatter.dart';
 import 'package:qeema/core/i18n/strings.g.dart';
 import 'package:qeema/core/responsive/responsive.dart';
 import 'package:qeema/core/router/route_names.dart';
+import 'package:qeema/core/router/route_segments.dart';
 import 'package:qeema/core/theme/app_radius.dart';
 import 'package:qeema/core/theme/app_sizes.dart';
 import 'package:qeema/core/theme/app_spacing.dart';
@@ -31,7 +33,7 @@ class MarketPriceCard extends StatelessWidget {
       borderRadius: AppRadius.md,
       onTap: () => context.pushNamed(
         RouteNames.marketPriceDetail,
-        pathParameters: {'typeId': type.id},
+        pathParameters: {RouteSegments.typeIdParam: type.id},
       ),
       child: Row(
         children: [
@@ -114,7 +116,7 @@ class _TypeIcon extends StatelessWidget {
           size: AppSizes.iconXl,
           color: colors.textPrimary,
         ),
-        if (code.startsWith('gold_'))
+        if (code.startsWith(AssetTypeCodes.goldPrefix))
           Positioned(
             right: Responsive.width(-10),
             top: Responsive.height(-6),
@@ -128,7 +130,7 @@ class _TypeIcon extends StatelessWidget {
                 borderRadius: BorderRadius.circular(AppRadius.xxs),
               ),
               child: Text(
-                code == 'gold_21'
+                code == AssetTypeCodes.gold21
                     ? context.t.assets.carat.k21
                     : context.t.assets.carat.k24,
                 style: context.textStyles.caratBadge.copyWith(

@@ -1,4 +1,6 @@
 import 'package:material_ui/material_ui.dart';
+import 'package:qeema/core/constants/asset_history_change_types.dart';
+import 'package:qeema/core/constants/supabase_columns.dart';
 import 'package:qeema/core/extensions/build_context_extensions.dart';
 import 'package:qeema/core/helpers/date_formatter.dart';
 import 'package:qeema/core/i18n/strings.g.dart';
@@ -17,9 +19,12 @@ class AssetHistoryEntryTile extends StatelessWidget {
     final t = context.t;
 
     final (IconData icon, Color iconColor) = switch (entry.changeType) {
-      'created' => (Icons.add_circle_outline, colors.secondaryVariant),
-      'updated' => (Icons.edit_outlined, colors.primary),
-      'deleted' => (Icons.delete_outline, colors.error),
+      AssetHistoryChangeTypes.created => (
+        Icons.add_circle_outline,
+        colors.secondaryVariant,
+      ),
+      AssetHistoryChangeTypes.updated => (Icons.edit_outlined, colors.primary),
+      AssetHistoryChangeTypes.deleted => (Icons.delete_outline, colors.error),
       _ => (Icons.info_outline, colors.textSecondary),
     };
 
@@ -64,11 +69,11 @@ class AssetHistoryEntryTile extends StatelessWidget {
   String _summarizeChange(Translations t) {
     final history = t.assets.history;
     switch (entry.changeType) {
-      case 'created':
+      case AssetHistoryChangeTypes.created:
         return history.assetAdded;
-      case 'deleted':
+      case AssetHistoryChangeTypes.deleted:
         return history.assetDeleted;
-      case 'updated':
+      case AssetHistoryChangeTypes.updated:
         return _summarizeUpdate(t);
       default:
         return history.updated;
@@ -82,10 +87,10 @@ class AssetHistoryEntryTile extends StatelessWidget {
     final newValue = entry.newValue ?? {};
     final changes = <String>[];
     final fieldLabels = {
-      'amount': history.fieldAmount,
-      'price_at_entry': history.fieldEntryPrice,
-      'entry_date': history.fieldEntryDate,
-      'note': history.fieldNote,
+      SupabaseColumns.amount: history.fieldAmount,
+      SupabaseColumns.priceAtEntry: history.fieldEntryPrice,
+      SupabaseColumns.entryDate: history.fieldEntryDate,
+      SupabaseColumns.note: history.fieldNote,
     };
 
     for (final key in fieldLabels.keys) {
@@ -94,9 +99,9 @@ class AssetHistoryEntryTile extends StatelessWidget {
       final newFieldValue = newValue[key];
       if (oldFieldValue?.toString() == newFieldValue?.toString()) continue;
 
-      if (key == 'note') {
+      if (key == SupabaseColumns.note) {
         changes.add(history.noteUpdated);
-      } else if (key == 'entry_date') {
+      } else if (key == SupabaseColumns.entryDate) {
         changes.add(history.dateChanged);
       } else {
         changes.add(

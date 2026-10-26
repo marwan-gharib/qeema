@@ -1,5 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:qeema/core/constants/asset_type_codes.dart';
 import 'package:qeema/features/assets/domain/entities/asset_type_entity.dart';
 import 'package:qeema/features/assets/domain/params/add_asset_params.dart';
 import 'package:qeema/features/assets/domain/usecases/add_asset_usecase.dart';
@@ -18,7 +19,7 @@ class AddAssetCubit extends Cubit<AddAssetState> {
     if (isClosed) return;
     result.fold(
       onSuccess: (types) {
-        final usd = types.where((t) => t.code == 'usd');
+        final usd = types.where((t) => t.code == AssetTypeCodes.usd);
         emit(
           state.copyWith(
             availableTypes: types,

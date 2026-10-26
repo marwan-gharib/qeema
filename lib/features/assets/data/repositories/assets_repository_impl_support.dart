@@ -2,6 +2,8 @@ import 'dart:math' as math;
 
 import 'package:decimal/decimal.dart';
 import 'package:drift/drift.dart';
+import 'package:qeema/core/constants/supabase_columns.dart';
+import 'package:qeema/core/constants/supabase_tables.dart';
 import 'package:qeema/core/error/failures.dart';
 import 'package:qeema/core/local/cache/app_database.dart';
 import 'package:qeema/core/local/cache/daos/assets_dao.dart';
@@ -30,9 +32,11 @@ mixin AssetsRepositoryImplSupport {
 
     try {
       final typeRows = await remoteDataSource.getAssetTypes();
-      final typeRow = typeRows.firstWhere((r) => r['id'] == params.assetTypeId);
-      final isMarketBased = typeRow['is_market_based'] as bool;
-      final typeCode = typeRow['code'] as String;
+      final typeRow = typeRows.firstWhere(
+        (r) => r[SupabaseColumns.id] == params.assetTypeId,
+      );
+      final isMarketBased = typeRow[SupabaseColumns.isMarketBased] as bool;
+      final typeCode = typeRow[SupabaseColumns.code] as String;
 
       if (isMarketBased && params.priceAtEntry == null) {
         return const ResultFailure(PriceRequiredFailure());
@@ -67,18 +71,21 @@ mixin AssetsRepositoryImplSupport {
       } catch (_) {}
 
       final result = await remoteDataSource.addAsset({
-        'asset_type_id': params.assetTypeId,
-        'amount': amountDouble,
-        'price_at_entry': priceAtEntry,
-        'entry_date': entryDateStr,
-        if (params.note != null) 'note': params.note,
+        SupabaseColumns.assetTypeId: params.assetTypeId,
+        SupabaseColumns.amount: amountDouble,
+        SupabaseColumns.priceAtEntry: priceAtEntry,
+        SupabaseColumns.entryDate: entryDateStr,
+        if (params.note != null) SupabaseColumns.note: params.note,
       });
 
-      final serverId = result['id'] as String;
-      final serverAmount = (result['amount'] as num).toDouble();
-      final serverPrice = (result['price_at_entry'] as num).toDouble();
-      final serverEntryDate = DateTime.parse(result['entry_date'] as String);
-      final serverNote = result['note'] as String?;
+      final serverId = result[SupabaseColumns.id] as String;
+      final serverAmount = (result[SupabaseColumns.amount] as num).toDouble();
+      final serverPrice = (result[SupabaseColumns.priceAtEntry] as num)
+          .toDouble();
+      final serverEntryDate = DateTime.parse(
+        result[SupabaseColumns.entryDate] as String,
+      );
+      final serverNote = result[SupabaseColumns.note] as String?;
 
       try {
         await assetsDao.insertOrUpdate(
@@ -146,16 +153,19 @@ mixin AssetsRepositoryImplSupport {
 
     try {
       final result = await remoteDataSource.updateAsset(params.assetId, {
-        'amount': amountDouble,
-        'price_at_entry': priceAtEntry,
-        'entry_date': entryDateStr,
-        if (params.note != null) 'note': params.note,
+        SupabaseColumns.amount: amountDouble,
+        SupabaseColumns.priceAtEntry: priceAtEntry,
+        SupabaseColumns.entryDate: entryDateStr,
+        if (params.note != null) SupabaseColumns.note: params.note,
       });
 
-      final serverAmount = (result['amount'] as num).toDouble();
-      final serverPrice = (result['price_at_entry'] as num).toDouble();
-      final serverEntryDate = DateTime.parse(result['entry_date'] as String);
-      final serverNote = result['note'] as String?;
+      final serverAmount = (result[SupabaseColumns.amount] as num).toDouble();
+      final serverPrice = (result[SupabaseColumns.priceAtEntry] as num)
+          .toDouble();
+      final serverEntryDate = DateTime.parse(
+        result[SupabaseColumns.entryDate] as String,
+      );
+      final serverNote = result[SupabaseColumns.note] as String?;
 
       try {
         await assetsDao.insertOrUpdate(
@@ -176,8 +186,11 @@ mixin AssetsRepositoryImplSupport {
         AssetEntity(
           id: params.assetId,
           assetType: assetTypeFromString(
-            result['asset_types'] is Map
-                ? ((result['asset_types'] as Map)['code'] as String? ?? '')
+            result[SupabaseTables.assetTypes] is Map
+                ? ((result[SupabaseTables.assetTypes]
+                              as Map)[SupabaseColumns.code]
+                          as String? ??
+                      '')
                 : '',
           ),
           amount: serverAmount,

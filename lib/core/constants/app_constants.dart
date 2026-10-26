@@ -1,6 +1,4 @@
-class AppConstants {
-  const AppConstants._();
-
+abstract final class AppConstants {
   static const int connectionTimeoutSeconds = 30;
   static const int pageSize = 20;
   static const Duration cacheDuration = Duration(hours: 1);

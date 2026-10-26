@@ -4,6 +4,7 @@ import 'package:material_ui/material_ui.dart';
 import 'package:qeema/core/animations/app_motion.dart';
 import 'package:qeema/core/animations/micro_interactions/tap_scale.dart';
 import 'package:qeema/core/animations/staggered_list_animator.dart';
+import 'package:qeema/core/constants/asset_type_codes.dart';
 import 'package:qeema/core/extensions/build_context_extensions.dart';
 import 'package:qeema/core/i18n/strings.g.dart';
 import 'package:qeema/core/responsive/responsive.dart';
@@ -103,7 +104,7 @@ class AssetTypePicker extends StatelessWidget {
           size: AppSizes.iconLarge,
           color: colors.textPrimary,
         ),
-        if (type.code.startsWith('gold_'))
+        if (type.code.startsWith(AssetTypeCodes.goldPrefix))
           Positioned(
             right: Responsive.width(-10),
             top: Responsive.height(-6),
@@ -117,7 +118,7 @@ class AssetTypePicker extends StatelessWidget {
                 borderRadius: BorderRadius.circular(AppRadius.xxs),
               ),
               child: Text(
-                type.code == 'gold_21'
+                type.code == AssetTypeCodes.gold21
                     ? context.t.assets.carat.k21
                     : context.t.assets.carat.k24,
                 style: context.textStyles.caratBadge.copyWith(

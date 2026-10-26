@@ -1,3 +1,4 @@
+import 'package:qeema/core/constants/supabase_columns.dart';
 import 'package:qeema/features/assets/domain/entities/asset_history_entry_entity.dart';
 
 class AssetHistoryMapper {
@@ -5,16 +6,16 @@ class AssetHistoryMapper {
 
   static AssetHistoryEntryEntity fromRow(Map<String, dynamic> row) {
     return AssetHistoryEntryEntity(
-      id: row['id'] as String,
-      assetId: row['asset_id'] as String,
-      changeType: row['change_type'] as String,
-      oldValue: (row['old_value'] as Map<String, dynamic>?)?.map(
+      id: row[SupabaseColumns.id] as String,
+      assetId: row[SupabaseColumns.assetId] as String,
+      changeType: row[SupabaseColumns.changeType] as String,
+      oldValue: (row[SupabaseColumns.oldValue] as Map<String, dynamic>?)?.map(
         (k, v) => MapEntry(k, v),
       ),
-      newValue: (row['new_value'] as Map<String, dynamic>?)?.map(
+      newValue: (row[SupabaseColumns.newValue] as Map<String, dynamic>?)?.map(
         (k, v) => MapEntry(k, v),
       ),
-      changedAt: DateTime.parse(row['changed_at'] as String),
+      changedAt: DateTime.parse(row[SupabaseColumns.changedAt] as String),
     );
   }
 }

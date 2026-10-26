@@ -82,7 +82,8 @@ class AppRouterRoutes {
                   pageBuilder: (context, state) => sharedAxisPage(
                     child: BlocProvider(
                       create: (_) => getIt<AssetDetailCubit>(
-                        param1: state.pathParameters['assetId']!,
+                        param1:
+                            state.pathParameters[RouteSegments.assetIdParam]!,
                       ),
                       child: const AssetDetailScreen(),
                     ),
@@ -96,7 +97,8 @@ class AppRouterRoutes {
                       pageBuilder: (context, state) => slideUpPage(
                         child: BlocProvider(
                           create: (_) => getIt<EditAssetCubit>(
-                            param1: state.pathParameters['assetId']!,
+                            param1: state
+                                .pathParameters[RouteSegments.assetIdParam]!,
                           ),
                           child: const EditAssetScreen(),
                         ),
@@ -125,7 +127,8 @@ class AppRouterRoutes {
                   pageBuilder: (context, state) => sharedAxisPage(
                     child: BlocProvider(
                       create: (_) => getIt<MarketPriceDetailCubit>(
-                        param1: state.pathParameters['typeId']!,
+                        param1:
+                            state.pathParameters[RouteSegments.typeIdParam]!,
                       ),
                       child: const MarketPriceDetailScreen(),
                     ),

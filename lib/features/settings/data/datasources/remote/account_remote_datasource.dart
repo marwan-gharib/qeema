@@ -1,6 +1,8 @@
 import 'dart:async';
 
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:qeema/core/constants/api_keys.dart';
+import 'package:qeema/core/constants/endpoints.dart';
 import 'package:qeema/core/error/exceptions.dart' as app;
 import 'package:qeema/core/network/supabase_client_provider.dart';
 import 'package:qeema/core/utils/logger.dart';
@@ -10,8 +12,6 @@ class AccountRemoteDataSource {
   AccountRemoteDataSource(this._provider, [this.googleSignIn]);
   final SupabaseClientProvider _provider;
   final GoogleSignIn? googleSignIn;
-
-  static const _deleteAccountFunction = 'delete-account';
 
   /// Invokes the `delete-account` Edge Function with the current session's
   /// access token attached automatically by the client's auth header.
@@ -31,12 +31,12 @@ class AccountRemoteDataSource {
   Future<void> deleteAccount({bool userConfirmed = false}) async {
     try {
       final response = await _provider.client.functions.invoke(
-        _deleteAccountFunction,
-        body: <String, Object>{'userConfirmed': userConfirmed},
+        Endpoints.deleteAccountFunction,
+        body: <String, Object>{ApiKeys.userConfirmed: userConfirmed},
       );
       final data = response.data;
-      if (data is Map<String, dynamic> && data['success'] == true) return;
-      if (data is Map<String, dynamic> && data['partial'] == true) {
+      if (data is Map<String, dynamic> && data[ApiKeys.success] == true) return;
+      if (data is Map<String, dynamic> && data[ApiKeys.partial] == true) {
         throw const app.AccountDeletionPartialException();
       }
       throw const app.AccountDeletionException();
@@ -45,7 +45,7 @@ class AccountRemoteDataSource {
       // body only reaches us through the exception's details.
       Logger.warning('Account deletion failed: ${error.details}');
       final details = error.details;
-      if (details is Map<String, dynamic> && details['partial'] == true) {
+      if (details is Map<String, dynamic> && details[ApiKeys.partial] == true) {
         throw const app.AccountDeletionPartialException();
       }
       throw const app.AccountDeletionException();
