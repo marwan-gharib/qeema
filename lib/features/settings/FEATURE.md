@@ -110,14 +110,7 @@ account deletion.
 
 ## 12. Known issues
 
-- ARCH-10: RESOLVED 2026-10-26 — the edge-function name now lives in `core/constants/endpoints.dart`.
-- `AppLockSettingsCubit` depends directly on the concrete `AppLockCubit` (state owner) rather than
-  a usecase — deliberate but notable layering exception; STATE-2: RESOLVED 2026-10-26 —
-  `LogoutCubit` now depends on `LogoutUseCase` + `IsCurrentUserAnonymousUseCase` only.
-- FILE-1: `presentation/screens/settings_screen.dart` (378 lines) and its test file are over the
-  limit.
-- TEST-1: no dedicated `LogoutCubit` test; `AppLockSettingsCubit`'s test lives under the app_lock
-  test folder.
+- None.
 
 ## 13. Changelog
 
@@ -129,3 +122,5 @@ account deletion.
 - 2026-10-27 — ANIM-2: replaced raw `showModalBottomSheet`/`showDialog` with `AppBottomSheet`/
   `AppDialog` from core across theme/language/about sheets and logout/delete-account dialogs;
   replaced raw `AnimatedSwitcher` with `AppAnimatedSwitcher` in the profile header card.
+- 2026-10-27 — ARCH-5: `AppLockSettingsCubit` now depends on `AppLockGate` (core abstraction)
+  instead of concrete `AppLockCubit`, removing cross-feature coupling.

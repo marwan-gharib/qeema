@@ -109,8 +109,7 @@ failed refetch serves the stale entry, and pull-to-refresh bypasses the cache (`
 
 ## 12. Known issues
 
-- The detail screen has no pull-to-refresh, and every range change re-emits full Loading (content
-  flashes).
+- None.
 
 ## 13. Changelog
 
@@ -128,3 +127,5 @@ failed refetch serves the stale entry, and pull-to-refresh bypasses the cache (`
   screen tests.
 - 2026-10-27 — ANIM-2: replaced raw `AnimatedSwitcher` with `AppAnimatedSwitcher` from core in the
   detail screen state switch.
+- 2026-10-27 — RESP-2/ANIM-4: detail screen keeps previous chart visible during range changes and
+  refresh, showing a non-blocking "Updating..." indicator instead of flashing a loading spinner.

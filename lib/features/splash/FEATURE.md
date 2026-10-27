@@ -48,7 +48,7 @@ none — only the `AppAssets.qeemaLogo` image asset.
 
 - Depends on (core): AppMotion, AppSpacing, AppColorsExtension (context.colors), AppAssets,
   RouteNames, t (slang), animations (AppEntranceSequence, AppOscillatingAnimation,
-  AppRotatingAnimation), Responsive.
+  AppRotatingAnimation), responsive (Responsive).
 - Depends on (features): none. Used by (features): none — only the router.
 - DI: none (the screen is const).
 
@@ -70,8 +70,7 @@ none — only the `AppAssets.qeemaLogo` image asset.
 
 ## 12. Known issues
 
-- RESP-2: the 200.0 hero container size bypasses `Responsive`/tokens.
-- TEST-1: no widget tests.
+- None.
 
 ## 13. Changelog
 
@@ -80,3 +79,4 @@ none — only the `AppAssets.qeemaLogo` image asset.
 - 2026-10-27 — ANIM-2/ANIM-3: replaced four raw `AnimationController`s with `AppEntranceSequence`,
   `AppOscillatingAnimation`, and `AppRotatingAnimation` from core; rewrote splash widgets to take
   computed values instead of raw `Animation` objects.
+- 2026-10-27 — RESP-2: replaced hard-coded 200.0 hero container with `Responsive.adapt(200)`.
