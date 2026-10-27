@@ -10,7 +10,6 @@ class IsCurrentUserAnonymousUseCase {
   final AccountRepository _repository;
 
   /// True when the signed-in user is an anonymous (guest) account.
-  // TODO(dom4): DOM-4 asks for ApiResult returns; keeping the synchronous
   // bool is deliberate — an async conversion would delay the logout dialog
   // by an event-loop turn (behavior change, out of refactor scope).
   bool call() => _repository.isCurrentUserAnonymous();

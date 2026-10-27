@@ -1,0 +1,18 @@
+What to test in this build
+
+FIXED
+1. Delete account: the confirmation dialog now closes by itself after the account is deleted
+   (before, it stayed open). Try: Settings > Delete Account, type DELETE, confirm.
+   Expect: the dialog closes, a confirmation snackbar shows, and you land back on the settings screen.
+2. Small amounts in charts (under 1,000) are shown with 2 decimals again, e.g. 996.00.
+
+CHANGED
+1. Edit asset: the asset type name in the header and its unit now follow the app language.
+   Try: switch the app to Arabic, open an asset, and tap Edit.
+   Expect: the type name (cash, dollar, gold) and the gram unit appear in Arabic, not English.
+2. Assets work offline: the list opens instantly from the copy saved on the device and stays
+   visible without internet. Pull the list down to refresh; if the network fails, the saved copy
+   is kept instead of an error. Try: open Assets with airplane mode on.
+3. Market prices are remembered for 12 hours, so moving between the prices list and a price chart
+   no longer reloads every time. Pull the prices list down to force fresh prices; if that fails,
+   the last known prices stay on screen.
