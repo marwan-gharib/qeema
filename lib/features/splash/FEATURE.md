@@ -40,13 +40,15 @@ none — only the `AppAssets.qeemaLogo` image asset.
 
 ## 7. State
 
-- No Cubit: internal `SplashScreenState` with four AnimationControllers and a `_hasNavigated` guard.
+- No Cubit: internal `SplashScreenState` using `AppEntranceSequence`, `AppOscillatingAnimation`,
+  and `AppRotatingAnimation` from core (no raw `AnimationController`); a `_hasNavigated` guard.
 - Transition: the sequence completes → `context.goNamed(RouteNames.onboarding)` (exactly once).
 
 ## 8. Dependencies
 
 - Depends on (core): AppMotion, AppSpacing, AppColorsExtension (context.colors), AppAssets,
-  RouteNames, t (slang), Responsive.
+  RouteNames, t (slang), animations (AppEntranceSequence, AppOscillatingAnimation,
+  AppRotatingAnimation), Responsive.
 - Depends on (features): none. Used by (features): none — only the router.
 - DI: none (the screen is const).
 
@@ -68,17 +70,13 @@ none — only the `AppAssets.qeemaLogo` image asset.
 
 ## 12. Known issues
 
-- FILE-1: `presentation/screens/splash_screen.dart` is over the 300-line limit — split the
-  sequence by concern.
-- ANIM-2/ANIM-3: four raw AnimationControllers with manual reduced-motion handling instead of core
-  facade pieces.
 - RESP-2: the 200.0 hero container size bypasses `Responsive`/tokens.
-- UI-1: raw `Colors.black.withValues(...)` in `presentation/widgets/logo_3d_flip.dart`.
-- Bug: the ring widget always receives `isReducedMotion: false`, so the energy ring never disables
-  under reduced motion.
 - TEST-1: no widget tests.
 
 ## 13. Changelog
 
 - 2026-10-26 — Initial doc created from code (doc-sync).
 - 2026-10-27 — UI-1: the logo drop shadow uses the new `colors.shadow` token instead of `Colors.black`.
+- 2026-10-27 — ANIM-2/ANIM-3: replaced four raw `AnimationController`s with `AppEntranceSequence`,
+  `AppOscillatingAnimation`, and `AppRotatingAnimation` from core; rewrote splash widgets to take
+  computed values instead of raw `Animation` objects.

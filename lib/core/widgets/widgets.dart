@@ -3,9 +3,11 @@
 // Always import this file instead of an individual widget file, so callers stay
 // decoupled from core's internal file layout.
 
+export 'app_bottom_sheet.dart';
 export 'app_button.dart';
 export 'app_chart_directionality.dart';
 export 'app_content_box.dart';
+export 'app_dialog.dart';
 export 'app_empty_state.dart';
 export 'app_error_state.dart';
 export 'app_line_chart.dart';

@@ -23,9 +23,9 @@ market_prices.
 
 | Layer | Key files | Responsibility |
 |---|---|---|
-| screens | `presentation/screens/` — assets_list, add_asset, asset_detail, edit_asset | The four screens |
+| screens | `presentation/screens/` — assets_list, add_asset, asset_detail, edit_asset | The four screens | `AppAnimatedSwitcher` for state transitions (core/animations) |
 | cubits | `presentation/cubits/` — assets_list_cubit, asset_detail_cubit, add_asset_cubit, edit_asset_cubit (cubit + state each) | One cubit per flow |
-| widgets | `presentation/widgets/` — AssetListItem, AssetTypeTabBar, SortFilterBottomSheet, AssetsLoadingSkeleton, AssetsErrorState, AssetTypePicker, DynamicAssetFields, AddAssetSkeleton, EditAssetHeader, AssetDetailContent, AssetDetailSkeleton, AssetValueChartBody, CashFlatChart, AssetHistoryTimeline, AssetHistoryEntryTile, DeleteAssetConfirmationDialog | 16 feature-only widgets (WIDGET-2); AssetTypeTile + MarketPriceChart were promoted to core/widgets (WIDGET-3, 2026-10-26) |
+| widgets | `presentation/widgets/` — AssetListItem, AssetTypeTabBar, SortFilterBottomSheet, AssetsLoadingSkeleton, AssetsErrorState, AssetTypePicker, DynamicAssetFields, AddAssetSkeleton, EditAssetHeader, AssetDetailContent, AssetDetailSkeleton, AssetValueChartBody, CashFlatChart, AssetHistoryTimeline, AssetHistoryEntryTile, DeleteAssetConfirmationDialog | 16 feature-only widgets (WIDGET-2); AssetTypeTile + MarketPriceChart were promoted to core/widgets (WIDGET-3, 2026-10-26); SortFilterBottomSheet uses `AppBottomSheet` and DeleteAssetConfirmationDialog uses `AppDialog` from core/widgets |
 | domain entities | `domain/entities/asset_entity.dart` (enum `AssetType` lives in `core/domain/asset_type.dart`), `domain/entities/asset_type_entity.dart`, `domain/entities/asset_history_entry_entity.dart`, `domain/entities/market_price_entity.dart` | 4 entities |
 | domain repo | `domain/repositories/assets_repository.dart` | Abstract contract, 8 methods |
 | usecases | `domain/usecases/` — get_assets, refresh_assets, get_asset_types, add_asset, update_asset, soft_delete_asset, get_asset_history, get_market_price_history | 8 usecases |
@@ -84,7 +84,8 @@ market_prices.
 
 - Depends on (core): AppButton, AppTextField, AppContentBox, AppEmptyState, AppErrorState,
   AppSurfaceCard, PercentChangeBadge, AppLineChart, AppSnackBar, animations (AppAnimatedEntry,
-  TapScale, SuccessPulse, StaggeredListAnimator, shimmer), theme tokens, Responsive,
+  AppAnimatedSwitcher, TapScale, SuccessPulse, StaggeredListAnimator, shimmer), widgets
+  (AppBottomSheet, AppDialog), theme tokens, Responsive,
   CurrencyFormatter / DateFormatter / Validators, ApiResult, Failures, AssetsDao + AppDatabase,
   SupabaseClientProvider, AssetTypeCodes, route constants.
 - Depends on (features): none — assets is the foundation.
@@ -119,8 +120,9 @@ market_prices.
 
 ## 12. Known issues
 
-- ANIM-2: raw `AnimatedSwitcher`, dialogs and bottom sheets in presentation widgets wait for the
-  core primitives (needs a decision).
+- None. All ANIM-2 items resolved (2026-10-27): raw `AnimatedSwitcher`, `showDialog`, and
+  `showModalBottomSheet` replaced with `AppAnimatedSwitcher`, `AppDialog`, and `AppBottomSheet`
+  from core.
 
 ## 13. Changelog
 
@@ -142,3 +144,6 @@ market_prices.
   methods removed, silent cache catches replaced by logged warnings.
 - 2026-10-27 — TEST-1: added 4 screen tests, all missing usecase/model tests, repo cache tests;
   repo test file split at 300 lines.
+- 2026-10-27 — ANIM-2: replaced raw `AnimatedSwitcher`, `showDialog`, `showModalBottomSheet` with
+  `AppAnimatedSwitcher`, `AppDialog`, `AppBottomSheet` from core across add/edit/detail screens
+  and sort-filter/delete widgets.

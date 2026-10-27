@@ -1,6 +1,6 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:material_ui/material_ui.dart';
-import 'package:qeema/core/animations/app_motion.dart';
+import 'package:qeema/core/animations/app_animated_switcher.dart';
 import 'package:qeema/core/extensions/build_context_extensions.dart';
 import 'package:qeema/core/extensions/failure_localization_extension.dart';
 import 'package:qeema/core/i18n/strings.g.dart';
@@ -38,10 +38,7 @@ class MarketPriceDetailScreen extends StatelessWidget {
             },
           ),
           body: AppContentBox(
-            child: AnimatedSwitcher(
-              duration: MediaQuery.of(context).disableAnimations
-                  ? Duration.zero
-                  : AppMotion.normal,
+            child: AppAnimatedSwitcher(
               child: switch (state) {
                 MarketPriceDetailLoading() => const _DetailLoadingBody(),
                 MarketPriceDetailError(:final failure) => AppErrorState(

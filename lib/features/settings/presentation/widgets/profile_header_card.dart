@@ -1,5 +1,6 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:material_ui/material_ui.dart';
+import 'package:qeema/core/animations/app_animated_switcher.dart';
 import 'package:qeema/core/animations/app_motion.dart';
 import 'package:qeema/core/animations/loading/shimmer_box.dart';
 import 'package:qeema/core/extensions/build_context_extensions.dart';
@@ -41,7 +42,7 @@ class ProfileHeaderCard extends StatelessWidget {
           child: AppSurfaceCard(
             borderRadius: _radius,
             padding: _contentPadding,
-            child: AnimatedSwitcher(
+            child: AppAnimatedSwitcher(
               duration: AppMotion.normal,
               switchInCurve: AppMotion.entrance,
               switchOutCurve: AppMotion.exit,

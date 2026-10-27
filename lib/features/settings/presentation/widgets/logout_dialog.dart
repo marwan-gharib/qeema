@@ -6,6 +6,7 @@ import 'package:qeema/core/extensions/failure_localization_extension.dart';
 import 'package:qeema/core/i18n/strings.g.dart';
 import 'package:qeema/core/theme/app_spacing.dart';
 import 'package:qeema/core/widgets/app_button.dart';
+import 'package:qeema/core/widgets/app_dialog.dart';
 import 'package:qeema/core/widgets/app_snackbar.dart';
 import 'package:qeema/features/settings/presentation/cubits/logout_cubit/logout_cubit.dart';
 import 'package:qeema/features/settings/presentation/cubits/logout_cubit/logout_state.dart';
@@ -16,7 +17,7 @@ class LogoutDialog extends StatelessWidget {
   final bool isGuest;
 
   static Future<void> show(BuildContext context, {required bool isGuest}) {
-    return showDialog<void>(
+    return AppDialog.show<void>(
       context: context,
       builder: (_) => BlocProvider.value(
         value: context.read<LogoutCubit>(),

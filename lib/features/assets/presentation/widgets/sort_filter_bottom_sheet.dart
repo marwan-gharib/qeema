@@ -3,8 +3,8 @@ import 'package:go_router/go_router.dart';
 import 'package:material_ui/material_ui.dart';
 import 'package:qeema/core/i18n/strings.g.dart';
 import 'package:qeema/core/theme/app_colors_extension.dart';
-import 'package:qeema/core/theme/app_radius.dart';
 import 'package:qeema/core/theme/app_spacing.dart';
+import 'package:qeema/core/widgets/app_bottom_sheet.dart';
 import 'package:qeema/features/assets/presentation/cubits/assets_list_cubit/assets_list_cubit.dart';
 import 'package:qeema/features/assets/presentation/cubits/assets_list_cubit/assets_list_state.dart';
 
@@ -13,14 +13,11 @@ class SortFilterBottomSheet extends StatelessWidget {
 
   static void show(BuildContext context) {
     final cubit = context.read<AssetsListCubit>();
-    showModalBottomSheet<void>(
+    AppBottomSheet.show<void>(
       context: context,
       backgroundColor: Theme.of(
         context,
       ).extension<AppColorsExtension>()!.surface,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.vertical(top: Radius.circular(AppRadius.md)),
-      ),
       builder: (_) => BlocProvider.value(
         value: cubit,
         child: const SortFilterBottomSheet(),

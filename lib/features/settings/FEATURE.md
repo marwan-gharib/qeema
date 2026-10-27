@@ -68,10 +68,11 @@ account deletion.
 ## 8. Dependencies
 
 - Depends on (core): AppButton, AppSnackBar, AppTextField, AppSurfaceCard, AppContentBox,
-  AppAnimatedEntry/EntryAnimationType/AppMotion/TapScale/ShimmerBox, ThemeCubit + LocaleCubit
-  (core/cubits), theme tokens, Responsive, context extensions, failure localization,
-  api_result extensions, AppDatabase + CacheService + SecureStorageService, SupabaseClientProvider,
-  AppConstants, failure_mapper + exceptions, ApiResult, Logger, RoutePaths.
+  AppAnimatedEntry/EntryAnimationType/AppAnimatedSwitcher/AppMotion/TapScale/ShimmerBox, widgets
+  (AppBottomSheet, AppDialog), ThemeCubit + LocaleCubit (core/cubits), theme tokens, Responsive,
+  context extensions, failure localization, api_result extensions, AppDatabase + CacheService +
+  SecureStorageService, SupabaseClientProvider, AppConstants, failure_mapper + exceptions,
+  ApiResult, Logger, RoutePaths.
 - Depends on (features): auth (AuthUserEntity + WatchAuthUserUseCase); app_lock (4 usecases,
   AppLockCubit, AppLockStatus).
 - Used by (features): none. DI: `core/di/settings_module.dart`; note `AppLockSettingsCubit` is
@@ -113,8 +114,6 @@ account deletion.
 - `AppLockSettingsCubit` depends directly on the concrete `AppLockCubit` (state owner) rather than
   a usecase — deliberate but notable layering exception; STATE-2: RESOLVED 2026-10-26 —
   `LogoutCubit` now depends on `LogoutUseCase` + `IsCurrentUserAnonymousUseCase` only.
-- ANIM-2: raw showModalBottomSheet and showDialog in the sheets and dialogs (no core
-  AppBottomSheet/AppDialog exists yet — core gap).
 - FILE-1: `presentation/screens/settings_screen.dart` (378 lines) and its test file are over the
   limit.
 - TEST-1: no dedicated `LogoutCubit` test; `AppLockSettingsCubit`'s test lives under the app_lock
@@ -127,3 +126,6 @@ account deletion.
   (new) instead of `AccountRepository`; edge-function name moved to `Endpoints` (ARCH-10).
 - 2026-10-26 — Fix: DeleteAccountDialog now pops itself on DeleteAccountSuccess (the dialog used
   to stay open after the account was deleted).
+- 2026-10-27 — ANIM-2: replaced raw `showModalBottomSheet`/`showDialog` with `AppBottomSheet`/
+  `AppDialog` from core across theme/language/about sheets and logout/delete-account dialogs;
+  replaced raw `AnimatedSwitcher` with `AppAnimatedSwitcher` in the profile header card.

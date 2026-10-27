@@ -24,6 +24,8 @@ this file is fixed in the same task (DOC-1, DOC-6).
 | `PercentChangeBadge` | Signed-percentage pill: green gain / error loss / dash when null. |
 | `AssetTypeTile` | Selectable asset-type tile from a type code: localized name, icon, carat badge; `iconForType(code)`. |
 | `MarketPriceChart` | Value-trend chart card: caller-localized `title` + `List<AppChartPoint>`; fixed 250 height. |
+| `AppDialog` | Themed `showDialog` entry point; caller supplies `builder` content. |
+| `AppBottomSheet` | Themed `showModalBottomSheet` entry point with rounded top edge; caller supplies `builder` content. |
 
 ## Animations — `core/animations/`, import via `animations.dart`
 
@@ -34,10 +36,15 @@ Cheat sheet with the full API: `lib/core/animations/README.md`.
 | `AppMotion` | All motion tokens: durations (fast/normal/slow, staggerStep, hero*, splashSequence) and curves (entrance/exit/emphasized/standard). |
 | `EntryAnimationType` | fadeIn, fadeSlideUp/Down/Right, scaleIn, popIn, none. |
 | `AppAnimatedEntry` | Plays one entrance on mount; honours reduced motion. |
+| `AppAnimatedSwitcher` | Animated child swap using core motion tokens; honours reduced motion. |
+| `AppEntranceSequence` | One-shot staged entrance on mount: phase1/phase2/fade/scale/slideUp values. |
+| `AppOscillatingAnimation` | Continuous 0→1→0 oscillation via a core-managed `AnimationController`. |
+| `AppRotatingAnimation` | Continuous 0→1 turn rotation via a core-managed `AnimationController`. |
 | `StaggeredListAnimator` | Wraps list children in `AppAnimatedEntry` with a capped per-item delay. |
 | `TapScale` | Press-down scale feedback. |
 | `SuccessPulse` | One-shot pulse + checkmark when a trigger flips. |
 | `AnimatedCounter` | Counts between `Decimal` values with a formatter. |
+| `AppHaptics` | Central haptic entry point: `light`, `medium`, `heavy`, `selection`. |
 | `ShimmerBox` / `ShimmerLine` / `ShimmerCard` / `ShimmerListPlaceholder` | Skeleton placeholders. |
 | `fadeThroughPage` / `slideUpPage` / `sharedAxisPage` | go_router page transitions (used by core/router only). |
 
@@ -173,9 +180,8 @@ inside `lib/app_root.dart`).
 
 - Both barrels were just created; features still import core files directly — migrate
   opportunistically, never in a drive-by (CORE-8).
-- Rules reference pieces that do not exist yet: AppAnimatedSwitcher, AnimatedVisibility,
-  ExpandableSection, AppDialog/showAppDialog, AppBottomSheet, AppHaptics, AppLottie,
-  AppRoute.create, AppHero, PagedResult, BaseApiClient. Build the core piece before a feature
-  needs it (BASE-4, ANIM-3) — do not substitute the raw SDK.
+- Rules reference pieces that do not exist yet: AnimatedVisibility, ExpandableSection,
+  AppLottie, AppRoute.create, AppHero, PagedResult, BaseApiClient. Build the core piece before a
+  feature needs it (BASE-4, ANIM-3) — do not substitute the raw SDK.
 - drift + build_runner in `core/local/cache/app_database.dart` conflicts with ARCH-8 — pending
   decision (replace with hand-written persistence or approve an exception).

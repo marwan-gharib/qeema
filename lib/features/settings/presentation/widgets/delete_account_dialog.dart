@@ -6,6 +6,7 @@ import 'package:qeema/core/extensions/failure_localization_extension.dart';
 import 'package:qeema/core/i18n/strings.g.dart';
 import 'package:qeema/core/theme/app_spacing.dart';
 import 'package:qeema/core/widgets/app_button.dart';
+import 'package:qeema/core/widgets/app_dialog.dart';
 import 'package:qeema/core/widgets/app_snackbar.dart';
 import 'package:qeema/core/widgets/app_text_field.dart';
 import 'package:qeema/features/settings/presentation/cubits/delete_account_cubit/delete_account_cubit.dart';
@@ -15,7 +16,7 @@ class DeleteAccountDialog extends StatefulWidget {
   const DeleteAccountDialog({super.key});
 
   static Future<void> show(BuildContext context) {
-    return showDialog<void>(
+    return AppDialog.show<void>(
       context: context,
       builder: (_) => BlocProvider.value(
         value: context.read<DeleteAccountCubit>(),

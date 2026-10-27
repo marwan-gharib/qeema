@@ -1,7 +1,7 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:material_ui/material_ui.dart';
-import 'package:qeema/core/animations/app_motion.dart';
+import 'package:qeema/core/animations/app_animated_switcher.dart';
 import 'package:qeema/core/domain/asset_type.dart';
 import 'package:qeema/core/extensions/failure_localization_extension.dart';
 import 'package:qeema/core/i18n/strings.g.dart';
@@ -41,10 +41,7 @@ class AssetDetailScreen extends StatelessWidget {
             },
           ),
           body: AppContentBox(
-            child: AnimatedSwitcher(
-              duration: MediaQuery.of(context).disableAnimations
-                  ? Duration.zero
-                  : AppMotion.normal,
+            child: AppAnimatedSwitcher(
               child: switch (state) {
                 AssetDetailInitial() ||
                 AssetDetailLoading() => const AssetDetailSkeleton(),

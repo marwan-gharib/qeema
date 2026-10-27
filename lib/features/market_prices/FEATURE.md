@@ -73,7 +73,8 @@ failed refetch serves the stale entry, and pull-to-refresh bypasses the cache (`
 ## 8. Dependencies
 
 - Depends on (core): AppContentBox, AppEmptyState, AppErrorState, AppSurfaceCard, AppLineChart,
-  PercentChangeBadge, AppAnimatedEntry/EntryAnimationType/AppMotion, AppSpacing/AppRadius/AppSizes,
+  PercentChangeBadge, AppAnimatedEntry/EntryAnimationType/AppAnimatedSwitcher/AppMotion,
+  AppSpacing/AppRadius/AppSizes,
   Responsive, CurrencyFormatter, context extensions, failure localization, Decimal extensions,
   failures, ApiResult, RouteNames.
 - Depends on (features): assets — domain entities + 2 usecases (composed through the repository;
@@ -108,8 +109,6 @@ failed refetch serves the stale entry, and pull-to-refresh bypasses the cache (`
 
 ## 12. Known issues
 
-- ANIM-2: raw `AnimatedSwitcher` in presentation widgets waits for the core primitive (needs a
-  decision).
 - The detail screen has no pull-to-refresh, and every range change re-emits full Loading (content
   flashes).
 
@@ -127,3 +126,5 @@ failed refetch serves the stale entry, and pull-to-refresh bypasses the cache (`
   forceRefresh for pull-to-refresh; repo test split into main + cache files.
 - 2026-10-27 — TEST-1: added usecase, widget (sparkline, staleness, chips, disclosure) and detail
   screen tests.
+- 2026-10-27 — ANIM-2: replaced raw `AnimatedSwitcher` with `AppAnimatedSwitcher` from core in the
+  detail screen state switch.
