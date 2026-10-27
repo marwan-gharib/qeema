@@ -14,4 +14,7 @@ abstract final class AppConstants {
   /// The drift cache is not user-scoped: rows are stored under this placeholder
   /// id and the whole store is wiped on logout.
   static const String localCacheUserId = '';
+
+  static const String supabaseUrl = 'SUPABASE_URL';
+  static const String supabasePublishableKey = 'SUPABASE_PUBLISHABLE_KEY';
 }
