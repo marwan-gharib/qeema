@@ -2,6 +2,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:qeema/core/error/failures.dart';
 import 'package:qeema/features/assets/domain/entities/asset_type_entity.dart';
 import 'package:qeema/features/assets/domain/usecases/get_asset_types_usecase.dart';
+import 'package:qeema/features/market_prices/domain/entities/market_price_point_entity.dart';
 import 'package:qeema/features/market_prices/domain/params/get_market_price_range_params.dart';
 import 'package:qeema/features/market_prices/domain/usecases/get_market_price_range_usecase.dart';
 import 'package:qeema/features/market_prices/presentation/cubits/market_price_detail_cubit/market_price_detail_state.dart';
@@ -21,6 +22,8 @@ class MarketPriceDetailCubit extends Cubit<MarketPriceDetailState> {
 
   AssetTypeEntity? _assetType;
   MarketPriceRangeOption _selectedRange = MarketPriceRangeOption.oneWeek;
+  List<MarketPricePointEntity> _points = const [];
+  int _daysCovered = 0;
 
   MarketPriceRangeOption get lastRange => _selectedRange;
 
@@ -49,7 +52,21 @@ class MarketPriceDetailCubit extends Cubit<MarketPriceDetailState> {
   }
 
   Future<void> _fetchRange(MarketPriceRangeOption range) async {
-    emit(const MarketPriceDetailLoading());
+    // Keep the previous chart visible while refetching; only show a full
+    // loading spinner on the very first load (no prior data).
+    if (_assetType != null && _points.isNotEmpty) {
+      emit(
+        MarketPriceDetailLoaded(
+          assetType: _assetType!,
+          points: _points,
+          selectedRange: _selectedRange,
+          daysCovered: _daysCovered,
+          isRefreshing: true,
+        ),
+      );
+    } else {
+      emit(const MarketPriceDetailLoading());
+    }
     final now = DateTime.now();
     final to = DateTime(now.year, now.month, now.day);
     final from = to.subtract(Duration(days: _daysFor(range)));
@@ -62,14 +79,18 @@ class MarketPriceDetailCubit extends Cubit<MarketPriceDetailState> {
     );
     if (isClosed) return;
     result.fold(
-      onSuccess: (points) => emit(
-        MarketPriceDetailLoaded(
-          assetType: _assetType!,
-          points: points,
-          selectedRange: range,
-          daysCovered: points.length,
-        ),
-      ),
+      onSuccess: (points) {
+        _points = points;
+        _daysCovered = points.length;
+        emit(
+          MarketPriceDetailLoaded(
+            assetType: _assetType!,
+            points: points,
+            selectedRange: range,
+            daysCovered: points.length,
+          ),
+        );
+      },
       onFailure: (failure) => emit(MarketPriceDetailError(failure)),
     );
   }

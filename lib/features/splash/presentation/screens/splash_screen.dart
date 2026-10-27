@@ -8,6 +8,7 @@ import 'package:qeema/core/animations/app_motion.dart';
 import 'package:qeema/core/animations/app_oscillating_animation.dart';
 import 'package:qeema/core/animations/app_rotating_animation.dart';
 import 'package:qeema/core/i18n/strings.g.dart';
+import 'package:qeema/core/responsive/responsive.dart';
 import 'package:qeema/core/router/route_names.dart';
 import 'package:qeema/core/theme/app_spacing.dart';
 import 'package:qeema/features/splash/presentation/widgets/logo_3d_flip.dart';
@@ -15,8 +16,6 @@ import 'package:qeema/features/splash/presentation/widgets/logo_energy_ring.dart
 import 'package:qeema/features/splash/presentation/widgets/logo_pulse_glow.dart';
 import 'package:qeema/features/splash/presentation/widgets/splash_background.dart';
 import 'package:qeema/features/splash/presentation/widgets/splash_brand_text.dart';
-
-const double _heroContainerSize = 200.0;
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -72,8 +71,8 @@ class _SplashScreenState extends State<SplashScreen> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 SizedBox(
-                  width: _heroContainerSize,
-                  height: _heroContainerSize,
+                  width: Responsive.adapt(200),
+                  height: Responsive.adapt(200),
                   child: Stack(
                     alignment: Alignment.center,
                     children: [

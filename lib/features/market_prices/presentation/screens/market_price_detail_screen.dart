@@ -48,8 +48,16 @@ class MarketPriceDetailScreen extends StatelessWidget {
                         context.read<MarketPriceDetailCubit>().lastRange,
                       ),
                 ),
-                MarketPriceDetailLoaded(:final points, :final selectedRange) =>
-                  _DetailContent(points: points, selectedRange: selectedRange),
+                MarketPriceDetailLoaded(
+                  :final points,
+                  :final selectedRange,
+                  :final isRefreshing,
+                ) =>
+                  _DetailContent(
+                    points: points,
+                    selectedRange: selectedRange,
+                    isRefreshing: isRefreshing,
+                  ),
               },
             ),
           ),
@@ -60,10 +68,15 @@ class MarketPriceDetailScreen extends StatelessWidget {
 }
 
 class _DetailContent extends StatelessWidget {
-  const _DetailContent({required this.points, required this.selectedRange});
+  const _DetailContent({
+    required this.points,
+    required this.selectedRange,
+    this.isRefreshing = false,
+  });
 
   final List<MarketPricePointEntity> points;
   final MarketPriceRangeOption selectedRange;
+  final bool isRefreshing;
 
   @override
   Widget build(BuildContext context) {
@@ -80,6 +93,16 @@ class _DetailContent extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
+          if (isRefreshing) ...[
+            Text(
+              t.updating,
+              style: context.textTheme.bodySmall?.copyWith(
+                color: colors.textSecondary,
+              ),
+              textAlign: TextAlign.center,
+            ),
+            SizedBox(height: AppSpacing.md),
+          ],
           const DataSourceDisclosure(),
           RangeSelectorChips(
             selected: selectedRange,

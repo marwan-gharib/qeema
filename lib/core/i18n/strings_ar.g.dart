@@ -271,6 +271,7 @@ class _Translations$marketPrices$ar extends Translations$marketPrices$en {
 	);
 	@override String get emptyTitle => 'لا توجد أسعار سوق بعد';
 	@override String get emptyBody => 'ستظهر بيانات أسعار السوق هنا بمجرد توفرها.';
+	@override String get updating => 'جارٍ التحديث…';
 	@override late final _Translations$marketPrices$range$ar range = _Translations$marketPrices$range$ar._(_root);
 }
 
@@ -1039,6 +1040,7 @@ extension on TranslationsAr {
 			'marketPrices.showingAvailableData' => ({required num n}) => (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('ar'))(n, zero: 'عرض البيانات المتاحة (${n} يوم)', one: 'عرض البيانات المتاحة (يوم واحد)', two: 'عرض البيانات المتاحة (يومين)', few: 'عرض البيانات المتاحة (${n} أيام)', many: 'عرض البيانات المتاحة (${n} يوماً)', other: 'عرض البيانات المتاحة (${n} يوم)', ), 
 			'marketPrices.emptyTitle' => 'لا توجد أسعار سوق بعد',
 			'marketPrices.emptyBody' => 'ستظهر بيانات أسعار السوق هنا بمجرد توفرها.',
+			'marketPrices.updating' => 'جارٍ التحديث…',
 			'marketPrices.range.oneWeek' => 'أسبوع',
 			'marketPrices.range.oneMonth' => 'شهر',
 			'marketPrices.range.threeMonths' => '3 أشهر',

@@ -102,6 +102,7 @@ class AppLockCubit extends Cubit<AppLockState> implements AppLockGate {
   /// Runs [action] while the OS prompt is up on behalf of another flow, so a
   /// background/foreground round trip during that prompt neither re-locks the
   /// gate nor lets a resume start a second evaluation.
+  @override
   Future<T> duringAuthentication<T>(Future<T> Function() action) async {
     _foreignAuthenticationDepth++;
     try {

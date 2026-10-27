@@ -13,4 +13,9 @@ abstract interface class AppLockGate {
   /// True once the initial cold-start gate decision is completed (unlocked or disabled).
   /// Never resets during the process lifetime so the router subtree stays mounted.
   bool get hasCompletedFirstEntry;
+
+  /// Runs [action] while an OS auth prompt is in flight on behalf of another flow,
+  /// so a background/foreground round trip during that prompt neither re-locks the
+  /// gate nor lets a resume start a second evaluation.
+  Future<T> duringAuthentication<T>(Future<T> Function() action);
 }

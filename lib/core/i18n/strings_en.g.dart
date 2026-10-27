@@ -435,6 +435,9 @@ class Translations$marketPrices$en {
 	/// en: 'Market price data will appear here once it becomes available.'
 	String get emptyBody => 'Market price data will appear here once it becomes available.';
 
+	/// en: 'Updating…'
+	String get updating => 'Updating…';
+
 	late final Translations$marketPrices$range$en range = Translations$marketPrices$range$en.internal(_root);
 }
 
@@ -1519,6 +1522,7 @@ extension on Translations {
 			'marketPrices.showingAvailableData' => ({required num n}) => (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('en'))(n, one: 'Showing available data (${n} day)', other: 'Showing available data (${n} days)', ), 
 			'marketPrices.emptyTitle' => 'No market prices yet',
 			'marketPrices.emptyBody' => 'Market price data will appear here once it becomes available.',
+			'marketPrices.updating' => 'Updating…',
 			'marketPrices.range.oneWeek' => '1 week',
 			'marketPrices.range.oneMonth' => '1 month',
 			'marketPrices.range.threeMonths' => '3 months',
