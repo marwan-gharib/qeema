@@ -16,7 +16,9 @@ class MockGetMarketPriceSummariesUseCase
   int callCount = 0;
 
   @override
-  Future<ApiResult<List<MarketPriceSummaryEntity>>> call() async {
+  Future<ApiResult<List<MarketPriceSummaryEntity>>> call({
+    bool forceRefresh = false,
+  }) async {
     callCount++;
     return result;
   }

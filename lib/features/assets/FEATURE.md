@@ -1,6 +1,6 @@
 # Assets
 
-> Last verified: 2026-10-26
+> Last verified: 2026-10-27
 > Path: `lib/features/assets/`
 
 ## 1. Purpose
@@ -27,12 +27,12 @@ market_prices.
 | cubits | `presentation/cubits/` — assets_list_cubit, asset_detail_cubit, add_asset_cubit, edit_asset_cubit (cubit + state each) | One cubit per flow |
 | widgets | `presentation/widgets/` — AssetListItem, AssetTypeTabBar, SortFilterBottomSheet, AssetsLoadingSkeleton, AssetsErrorState, AssetTypePicker, DynamicAssetFields, AddAssetSkeleton, EditAssetHeader, AssetDetailContent, AssetDetailSkeleton, AssetValueChartBody, CashFlatChart, AssetHistoryTimeline, AssetHistoryEntryTile, DeleteAssetConfirmationDialog | 16 feature-only widgets (WIDGET-2); AssetTypeTile + MarketPriceChart were promoted to core/widgets (WIDGET-3, 2026-10-26) |
 | domain entities | `domain/entities/asset_entity.dart` (enum `AssetType` lives in `core/domain/asset_type.dart`), `domain/entities/asset_type_entity.dart`, `domain/entities/asset_history_entry_entity.dart`, `domain/entities/market_price_entity.dart` | 4 entities |
-| domain repo | `domain/repositories/assets_repository.dart` | Abstract contract, 7 methods |
-| usecases | `domain/usecases/` — get_assets, get_asset_types, add_asset, update_asset, soft_delete_asset, get_asset_history, get_market_price_history | 7 usecases |
+| domain repo | `domain/repositories/assets_repository.dart` | Abstract contract, 8 methods |
+| usecases | `domain/usecases/` — get_assets, refresh_assets, get_asset_types, add_asset, update_asset, soft_delete_asset, get_asset_history, get_market_price_history | 8 usecases |
 | params | `domain/params/add_asset_params.dart`, `domain/params/update_asset_params.dart` | 2 params |
-| datasources | `data/datasources/assets_remote_datasource.dart` | Supabase + Drift cache |
-| models | `data/models/asset_model_from_server.dart`, `data/models/asset_history_model.dart`, `data/models/market_price_model.dart`, `data/models/row_parsing.dart` (defensive row readers, DATA-3) | fromJson/fromRow + toEntity each |
-| repo impl | `data/repositories/assets_repository_impl.dart` + `data/repositories/assets_repository_impl_support.dart` | Remote + write-through cache |
+| datasources | `data/datasources/assets_remote_datasource.dart` | Supabase network only (no cache) |
+| models | `data/models/asset_model_from_server.dart`, `data/models/asset_history_model.dart`, `data/models/market_price_model.dart`, `data/models/cached_asset_model.dart` (drift row ↔ entity, DATA-3), `data/models/row_parsing.dart` (defensive row readers) | fromJson/fromRow + toEntity each |
+| repo impl | `data/repositories/assets_repository_impl.dart` + `data/repositories/assets_repository_impl_support.dart` | Cache-first reads, network-first refresh, server-mirror writes |
 
 ## 4. Entities & models
 
@@ -48,11 +48,12 @@ market_prices.
 
 | UseCase | Input | Output | Business rule (if any) |
 |---|---|---|---|
-| `GetAssetsUseCase` | none | ApiResult(List of AssetEntity) | pass-through |
+| `GetAssetsUseCase` | none | ApiResult(List of AssetEntity) | Cache-first: the mirror answers instantly, the network is the empty-cache fallback |
+| `RefreshAssetsUseCase` | none | ApiResult(List of AssetEntity) | Network-first; success rewrites the mirror, failure serves the stale mirror |
 | `GetAssetTypesUseCase` | none | ApiResult(List of AssetTypeEntity) | active types only |
 | `AddAssetUseCase` | `AddAssetParams` | ApiResult(AssetEntity) | Rejects amount ≤ 0 and market-based without price; cash priceAtEntry defaults to 1 |
-| `UpdateAssetUseCase` | `UpdateAssetParams` | ApiResult(AssetEntity) | Same validation; cache-first write-through |
-| `SoftDeleteAssetUseCase` | assetId | ApiResult(void) | Local delete + remote is_deleted flag |
+| `UpdateAssetUseCase` | `UpdateAssetParams` | ApiResult(AssetEntity) | Same validation; mirrors the updated server row to the cache |
+| `SoftDeleteAssetUseCase` | assetId | ApiResult(void) | Remote is_deleted flag; the cache row is dropped only after success |
 | `GetAssetHistoryUseCase` | assetId | ApiResult(List of AssetHistoryEntryEntity) | pass-through |
 | `GetMarketPriceHistoryUseCase` | assetTypeCode | ApiResult(List of MarketPriceEntity) | pass-through |
 
@@ -60,19 +61,17 @@ market_prices.
 
 | Key (constant) | Used by | Cache policy |
 |---|---|---|
-| `SupabaseTables.assets` | getAssets / add / update / softDelete | `AssetsDao.insertOrUpdate` write-through; reads are network-only |
+| `SupabaseTables.assets` | getAssets / refreshAssets / add / update / softDelete | network read + full mirror rewrite (`AssetsDao.replaceAll`); writes mirror the returned server row |
 | `SupabaseTables.marketPrices` | latest-price scan, getPriceHistory | none |
 | `SupabaseTables.assetTypes` | getAssetTypes | none |
 | `SupabaseTables.assetHistory` | getAssetHistory | none |
-| `AssetsDao` (drift cachedAssetsTable) | add / update / softDelete | pendingSync placeholder row with a local_ id before the remote call |
-
-The datasource currently writes table/column names as string literals even though the
-`SupabaseTables` constants exist (ARCH-10, see Known issues).
+| `AssetsDao` (drift `cachedAssetsTable`) | getAssets / refreshAssets / add / update / softDelete | cache-first reads; corrupt rows skipped with a logged warning; row removed only after a successful remote delete |
 
 ## 7. State
 
 - `AssetsListCubit`: Initial / Loading / Loaded(allAssets, filter, sortBy, visibleAssets getter) /
-  Error; methods loadAssets, refresh, changeFilter, changeSort (`AssetsSortBy` enum).
+  Error; methods loadAssets (cache-first), refresh (network-first, no Loading emission so the
+  RefreshIndicator owns the spinner), changeFilter, changeSort (`AssetsSortBy` enum).
 - `AssetDetailCubit` (assetId param): Loading → Loaded(asset, history, priceHistory); history/price
   failures degrade to empty lists; applyUpdate applies an optimistic patch; NotFound / Error.
 - `AddAssetCubit`: one state class (types loading, selectedType, isSubmitting, submit result);
@@ -113,25 +112,15 @@ The datasource currently writes table/column names as string literals even thoug
 
 | Area | Test files | Covered behaviors |
 |---|---|---|
-| data | test/features/assets/data/repositories/assets_repository_impl_test.dart (+ mocks) | repo flows |
-| domain | test/features/assets/domain/usecases/add_asset_usecase_test.dart | add validation |
-| cubits | test/features/assets/presentation/cubits/asset_detail_cubit_test.dart, add_asset_cubit_test.dart, assets_list_cubit/assets_list_state_test.dart | transitions; visibleAssets sorting/filtering (regression: never sorts an unmodifiable list) |
-| widgets | test/features/assets/presentation/widgets/market_price_chart_test.dart, asset_value_chart_content_test.dart | chart bodies |
+| data | test/features/assets/data/models/*_test.dart, data/repositories/assets_repository_impl_test.dart + assets_repository_impl_cache_test.dart (+ mocks) | row parsing/toEntity incl. corrupt rows; validation, cache-first and refresh fallbacks, write mirroring |
+| domain | test/features/assets/domain/usecases/*_test.dart (8 files) | every usecase delegates to the repository |
+| cubits | test/features/assets/presentation/cubits/asset_detail_cubit_test.dart, add_asset_cubit_test.dart, assets_list_cubit/assets_list_cubit_test.dart + assets_list_state_test.dart, edit_asset_cubit/edit_asset_cubit_test.dart | transitions; visibleAssets sorting/filtering (regression: never sorts an unmodifiable list) |
+| widgets/screens | test/features/assets/presentation/widgets/asset_value_chart_content_test.dart, presentation/screens/{assets_list,add_asset,asset_detail,edit_asset}_screen_test.dart | chart bodies + screen states (skeleton, content, empty, error) |
 
 ## 12. Known issues
 
-- ARCH-10 / DATA-3 / DATA-4/5 / ERR-2: RESOLVED 2026-10-26 — constants everywhere; defensive row
-  parsing via `data/models/row_parsing.dart` (malformed rows → same Failure types as before);
-  models own toEntity(), data/mappers dissolved; mapSupabaseError folded into core
-  mapExceptionToFailure (assetOperation param). See changelog.
-- STATE-3 / BASE-3 / UI-4: RESOLVED 2026-10-26 — exhaustive `switch` consumption; `AppLoader` for
-  loading bodies and `AppSnackBar` for snackbars; type names via `context.assetTypeName` and the
-  amount hint from `core.hints.amount` ('EGP'/'USD' unit codes stay — currency codes, not
-  translatable words). Still open: ANIM-2 raw AnimatedSwitcher and raw dialogs/sheets (blocked on
-  core primitives — needs a decision).
-- Offline-first unfinished: getAssets never reads the cache; the placeholder row is never removed;
-  three AssetsDao methods are unused; every cache write is wrapped in a silent catch.
-- TEST-1: no screen tests; missing usecase/model tests for get/update/delete/history.
+- ANIM-2: raw `AnimatedSwitcher`, dialogs and bottom sheets in presentation widgets wait for the
+  core primitives (needs a decision).
 
 ## 13. Changelog
 
@@ -148,3 +137,8 @@ The datasource currently writes table/column names as string literals even thoug
   longer imports this feature; consumers import the core enum directly.
 - 2026-10-26 — Fix: AssetsListLoaded.visibleAssets copied allAssets before sorting (sorting the
   unmodifiable const list threw); regression tests added in assets_list_state_test.dart.
+- 2026-10-27 — Offline-first: cache-first getAssets + network-first refreshAssets (stale-mirror
+  fallback), server-mirror writes via `replaceAll`, pendingSync placeholder removed, dead DAO
+  methods removed, silent cache catches replaced by logged warnings.
+- 2026-10-27 — TEST-1: added 4 screen tests, all missing usecase/model tests, repo cache tests;
+  repo test file split at 300 lines.

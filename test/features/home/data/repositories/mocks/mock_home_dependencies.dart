@@ -30,6 +30,9 @@ class MockAssetsRepository implements AssetsRepository {
   Future<ApiResult<List<AssetEntity>>> getAssets() async => assetsResult;
 
   @override
+  Future<ApiResult<List<AssetEntity>>> refreshAssets() async => assetsResult;
+
+  @override
   Future<ApiResult<List<AssetTypeEntity>>> getAssetTypes() async =>
       assetTypesResult;
 

@@ -8,6 +8,9 @@ import 'package:qeema/features/assets/domain/params/update_asset_params.dart';
 
 abstract class AssetsRepository {
   Future<ApiResult<List<AssetEntity>>> getAssets();
+
+  /// Network-first read with a cache fallback — used by pull-to-refresh.
+  Future<ApiResult<List<AssetEntity>>> refreshAssets();
   Future<ApiResult<List<AssetTypeEntity>>> getAssetTypes();
   Future<ApiResult<AssetEntity>> addAsset(AddAssetParams params);
   Future<ApiResult<AssetEntity>> updateAsset(UpdateAssetParams params);

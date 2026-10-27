@@ -6,6 +6,7 @@ class GetMarketPriceSummariesUseCase {
   const GetMarketPriceSummariesUseCase(this._repository);
   final MarketPricesRepository _repository;
 
-  Future<ApiResult<List<MarketPriceSummaryEntity>>> call() =>
-      _repository.getSummaries();
+  Future<ApiResult<List<MarketPriceSummaryEntity>>> call({
+    bool forceRefresh = false,
+  }) => _repository.getSummaries(forceRefresh: forceRefresh);
 }

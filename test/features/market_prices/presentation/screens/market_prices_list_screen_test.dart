@@ -22,7 +22,9 @@ class MockGetMarketPriceSummariesUseCase
   );
 
   @override
-  Future<ApiResult<List<MarketPriceSummaryEntity>>> call() async => result;
+  Future<ApiResult<List<MarketPriceSummaryEntity>>> call({
+    bool forceRefresh = false,
+  }) async => result;
 }
 
 const _usdType = AssetTypeEntity(

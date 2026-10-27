@@ -10,4 +10,8 @@ abstract final class AppConstants {
   static const String appThemeModeKey = 'app_theme_mode';
   static const String appLockEnabledKey = 'app_lock_enabled';
   static const String deleteAccountConfirmationPhrase = 'DELETE';
+
+  /// The drift cache is not user-scoped: rows are stored under this placeholder
+  /// id and the whole store is wiped on logout.
+  static const String localCacheUserId = '';
 }

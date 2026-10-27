@@ -3,7 +3,10 @@ import 'package:qeema/features/market_prices/domain/entities/market_price_point_
 import 'package:qeema/features/market_prices/domain/entities/market_price_summary_entity.dart';
 
 abstract class MarketPricesRepository {
-  Future<ApiResult<List<MarketPriceSummaryEntity>>> getSummaries();
+  /// TTL-cached history reads; [forceRefresh] bypasses the cache (pull-to-refresh).
+  Future<ApiResult<List<MarketPriceSummaryEntity>>> getSummaries({
+    bool forceRefresh = false,
+  });
   Future<ApiResult<List<MarketPricePointEntity>>> getRange({
     required String assetTypeCode,
     required DateTime from,

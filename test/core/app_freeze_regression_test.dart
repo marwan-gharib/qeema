@@ -24,6 +24,7 @@ import 'package:qeema/features/app_lock/presentation/widgets/app_lock_lifecycle_
 import 'package:qeema/features/assets/domain/entities/asset_entity.dart';
 import 'package:qeema/features/assets/domain/repositories/assets_repository.dart';
 import 'package:qeema/features/assets/domain/usecases/get_assets_usecase.dart';
+import 'package:qeema/features/assets/domain/usecases/refresh_assets_usecase.dart';
 import 'package:qeema/features/assets/presentation/cubits/assets_list_cubit/assets_list_cubit.dart';
 import 'package:qeema/features/home/domain/entities/dashboard_summary_entity.dart';
 import 'package:qeema/features/home/domain/usecases/get_dashboard_summary_usecase.dart';
@@ -62,7 +63,9 @@ class MockGetMarketPriceSummariesUseCase
   ApiResult<List<MarketPriceSummaryEntity>> result = const Success([]);
 
   @override
-  Future<ApiResult<List<MarketPriceSummaryEntity>>> call() async => result;
+  Future<ApiResult<List<MarketPriceSummaryEntity>>> call({
+    bool forceRefresh = false,
+  }) async => result;
 }
 
 class MockGetDashboardSummaryUseCase implements GetDashboardSummaryUseCase {
@@ -75,6 +78,16 @@ class MockGetDashboardSummaryUseCase implements GetDashboardSummaryUseCase {
 }
 
 class MockGetAssetsUseCase implements GetAssetsUseCase {
+  ApiResult<List<AssetEntity>> result = const Success([]);
+
+  @override
+  Future<ApiResult<List<AssetEntity>>> call() async => result;
+
+  @override
+  AssetsRepository get repository => throw UnimplementedError();
+}
+
+class MockRefreshAssetsUseCase implements RefreshAssetsUseCase {
   ApiResult<List<AssetEntity>> result = const Success([]);
 
   @override
@@ -184,7 +197,10 @@ void main() {
         // A const Success([]) is unmodifiable and AssetsListLoaded
         // .visibleAssets sorts it in place — the list must stay growable.
         // ignore: prefer_const_constructors
-        return AssetsListCubit(MockGetAssetsUseCase());
+        return AssetsListCubit(
+          MockGetAssetsUseCase(),
+          MockRefreshAssetsUseCase(),
+        );
       })
       ..registerFactory<MarketPricesListCubit>(() {
         marketCubitCreations++;

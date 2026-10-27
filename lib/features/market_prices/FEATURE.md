@@ -1,6 +1,6 @@
 # Market Prices
 
-> Last verified: 2026-10-26
+> Last verified: 2026-10-27
 > Path: `lib/features/market_prices/`
 
 ## 1. Purpose
@@ -30,7 +30,7 @@ detail chart with 1W/1M/3M range chips. Prices come from a backend cron — ther
 | cubits | `presentation/cubits/market_prices_list_cubit/` and `market_price_detail_cubit/` (cubit + state each) | List + detail state |
 | domain | `domain/entities/market_price_summary_entity.dart`, `domain/entities/market_price_point_entity.dart`, `domain/repositories/market_prices_repository.dart` | Entities + contract |
 | usecases | `domain/usecases/get_market_price_summaries_usecase.dart`, `domain/usecases/get_market_price_range_usecase.dart`, `domain/params/get_market_price_range_params.dart` | 2 usecases + params |
-| data | `data/repositories/market_prices_repository_impl.dart` (no datasource of its own) | Composes assets usecases; adapts price rows via `MarketPricePointEntity.fromMarketPrice` |
+| data | `data/repositories/market_prices_repository_impl.dart` (no datasource of its own) | Composes assets usecases; adapts price rows via `MarketPricePointEntity.fromMarketPrice`; owns an in-memory TTL cache + request de-duplication per type code |
 
 ## 4. Entities & models
 
@@ -44,8 +44,8 @@ detail chart with 1W/1M/3M range chips. Prices come from a backend cron — ther
 
 | UseCase | Input | Output | Business rule (if any) |
 |---|---|---|---|
-| `GetMarketPriceSummariesUseCase` | none | ApiResult(List of MarketPriceSummaryEntity) | One summary per market-based type; per-type failures are tolerated, only all-fail propagates |
-| `GetMarketPriceRangeUseCase` | `GetMarketPriceRangeParams` | ApiResult(List of MarketPricePointEntity) | Repo filters inclusive from..to |
+| `GetMarketPriceSummariesUseCase` | `forceRefresh` (named, default false) | ApiResult(List of MarketPriceSummaryEntity) | One summary per market-based type; per-type failures are tolerated, only all-fail propagates |
+| `GetMarketPriceRangeUseCase` | `GetMarketPriceRangeParams` | ApiResult(List of MarketPricePointEntity) | Repo filters inclusive from..to; shares the cached history read |
 
 ## 6. API & storage
 
@@ -54,13 +54,16 @@ detail chart with 1W/1M/3M range chips. Prices come from a backend cron — ther
 | (via assets) `SupabaseTables.assetTypes`, `SupabaseTables.marketPrices` | consumed through `GetAssetTypesUseCase` and `GetMarketPriceHistoryUseCase` | none of its own |
 
 No datasource: the feature is a pure read model over the assets feature's data layer.
-`AppConstants.marketPriceCacheDuration` exists but is unused.
+`AppConstants.marketPriceCacheDuration` (12h) bounds the repository's in-memory per-type history
+cache: reads inside the window are served locally, list/detail/range share one fetch per type, a
+failed refetch serves the stale entry, and pull-to-refresh bypasses the cache (`forceRefresh`).
 
 ## 7. State
 
 - `MarketPricesListCubit`: MarketPricesListLoading / Loaded(summaries) / Error. load() emits
   Loading; refresh() deliberately does not (keeps the list mounted so entrance animations do not
-  replay; the RefreshIndicator owns the spinner).
+  replay; the RefreshIndicator owns the spinner) and passes `forceRefresh: true` to skip the TTL
+  cache.
 - `MarketPriceDetailCubit` (typeId param): Loading / Loaded(assetType, points, selectedRange,
   daysCovered) / Error. Loads the default range (oneWeek) in the constructor; loadRange refetches;
   remembers the last range. `MarketPriceRangeOption`: oneWeek / oneMonth / threeMonths (7/30/90
@@ -98,21 +101,17 @@ No datasource: the feature is a pure read model over the assets feature's data l
 
 | Area | Test files | Covered behaviors |
 |---|---|---|
-| repo | test/features/market_prices/data/repositories/market_prices_repository_impl_test.dart | summary + range assembly |
+| repo | test/features/market_prices/data/repositories/market_prices_repository_impl_test.dart + market_prices_repository_impl_cache_test.dart (+ fixtures) | summary + range assembly; TTL window, forceRefresh, stale fallback, cache sharing |
+| domain | test/features/market_prices/domain/usecases/get_market_price_summaries_usecase_test.dart, get_market_price_range_usecase_test.dart | delegation to the repository |
 | cubits | test/features/market_prices/presentation/cubits/market_prices_list_cubit_test.dart, market_price_detail_cubit_test.dart | transitions + ranges |
-| widgets/screens | test/features/market_prices/presentation/widgets/market_price_card_test.dart, presentation/screens/market_prices_list_screen_test.dart | card + list screen |
+| widgets/screens | test/features/market_prices/presentation/widgets/{market_price_card,price_sparkline,stale_data_indicator,range_selector_chips,data_source_disclosure}_test.dart, presentation/screens/{market_prices_list,market_price_detail}_screen_test.dart | card, sparkline, staleness, chips, disclosure + both screens |
 
 ## 12. Known issues
 
-- ARCH-1: RESOLVED 2026-10-26 — the data mapper is gone (the adaptation lives on
-  `MarketPricePointEntity`) and the shared widgets moved to core/widgets; no feature imports
-  another feature's data or presentation anymore.
-- STATE-3: RESOLVED 2026-10-26 — exhaustive switch for the app bar title; BASE-3: RESOLVED —
-  `AppLoader` for the loading body. Still open: ANIM-2 raw AnimatedSwitcher (blocked on a core
-  `AppAnimatedSwitcher` primitive — needs a decision).
+- ANIM-2: raw `AnimatedSwitcher` in presentation widgets waits for the core primitive (needs a
+  decision).
 - The detail screen has no pull-to-refresh, and every range change re-emits full Loading (content
   flashes).
-- The repository adds no caching or request de-duplication over the assets usecases it composes.
 
 ## 13. Changelog
 
@@ -123,3 +122,8 @@ No datasource: the feature is a pure read model over the assets feature's data l
   the detail screen no longer imports the assets feature's presentation (ARCH-1 resolved).
 - 2026-10-26 — Refactor (STATE-3/BASE-3): exhaustive state switch for the app bar title; the
   loading body uses AppLoader.
+- 2026-10-27 — Caching: in-memory TTL cache per type code (AppConstants.marketPriceCacheDuration,
+  injectable clock), list/detail/range request de-duplication, stale-serve on refetch failure,
+  forceRefresh for pull-to-refresh; repo test split into main + cache files.
+- 2026-10-27 — TEST-1: added usecase, widget (sparkline, staleness, chips, disclosure) and detail
+  screen tests.

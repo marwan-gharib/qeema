@@ -16,11 +16,12 @@ class MarketPricesListCubit extends Cubit<MarketPricesListState> {
   Future<void> refresh() async {
     // No Loading emission: keeps the loaded list mounted so entrance
     // animations don't replay and the RefreshIndicator owns the spinner.
-    await _fetch();
+    // forceRefresh bypasses the repository's TTL cache.
+    await _fetch(forceRefresh: true);
   }
 
-  Future<void> _fetch() async {
-    final result = await _getSummaries();
+  Future<void> _fetch({bool forceRefresh = false}) async {
+    final result = await _getSummaries(forceRefresh: forceRefresh);
     if (isClosed) return;
     result.fold(
       onSuccess: (summaries) => emit(MarketPricesListLoaded(summaries)),

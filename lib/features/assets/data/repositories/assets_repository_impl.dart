@@ -32,16 +32,39 @@ class AssetsRepositoryImpl
 
   @override
   Future<ApiResult<List<AssetEntity>>> getAssets() async {
+    // Cache-first: the mirror answers instantly and works offline; the network
+    // is only the fallback for an empty cache.
+    final cached = await cachedAssets();
+    if (cached.isNotEmpty) return Success(cached);
+    return refreshAssets();
+  }
+
+  @override
+  Future<ApiResult<List<AssetEntity>>> refreshAssets() async {
+    Object? networkError;
     try {
       final models = await _remoteDataSource.getAssets();
-      return Success(models.map((model) => model.toEntity()).toList());
+      final entities = models.map((model) => model.toEntity()).toList();
+      await mirrorAssetsToCache(models);
+      return Success(entities);
     } on PostgrestException catch (e) {
-      return ResultFailure(
-        mapExceptionToFailure(e, assetOperation: AssetOperation.read),
-      );
+      networkError = e;
     } catch (e) {
-      return const ResultFailure(UnknownFailure());
+      networkError = e;
     }
+
+    // Offline fallback: a stale mirror beats an error when the cache has data.
+    final cached = await cachedAssets();
+    if (cached.isNotEmpty) return Success(cached);
+    if (networkError is PostgrestException) {
+      return ResultFailure(
+        mapExceptionToFailure(
+          networkError,
+          assetOperation: AssetOperation.read,
+        ),
+      );
+    }
+    return const ResultFailure(UnknownFailure());
   }
 
   @override
