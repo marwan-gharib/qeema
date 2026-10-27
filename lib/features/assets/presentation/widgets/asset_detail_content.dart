@@ -4,6 +4,7 @@ import 'package:intl/intl.dart';
 import 'package:material_ui/material_ui.dart';
 import 'package:qeema/core/animations/app_animated_entry.dart';
 import 'package:qeema/core/animations/entry_animation_type.dart';
+import 'package:qeema/core/domain/asset_type.dart';
 import 'package:qeema/core/extensions/build_context_extensions.dart';
 import 'package:qeema/core/extensions/failure_localization_extension.dart';
 import 'package:qeema/core/helpers/currency_formatter.dart';
@@ -13,6 +14,7 @@ import 'package:qeema/core/theme/app_radius.dart';
 import 'package:qeema/core/theme/app_sizes.dart';
 import 'package:qeema/core/theme/app_spacing.dart';
 import 'package:qeema/core/widgets/app_button.dart';
+import 'package:qeema/core/widgets/app_snackbar.dart';
 import 'package:qeema/core/widgets/app_surface_card.dart';
 import 'package:qeema/features/assets/domain/entities/asset_entity.dart';
 import 'package:qeema/features/assets/domain/entities/asset_history_entry_entity.dart';
@@ -187,13 +189,9 @@ class AssetDetailContent extends StatelessWidget {
                         result.fold(
                           onSuccess: (_) => context.pop(),
                           onFailure: (failure) {
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              SnackBar(
-                                content: Text(
-                                  failure.localizedMessage(context),
-                                ),
-                                backgroundColor: colors.error,
-                              ),
+                            AppSnackBar.show(
+                              context,
+                              failure.localizedMessage(context),
                             );
                           },
                         );

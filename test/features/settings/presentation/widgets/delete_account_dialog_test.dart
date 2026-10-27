@@ -1,5 +1,6 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:go_router/go_router.dart';
 import 'package:material_ui/material_ui.dart';
 import 'package:qeema/core/constants/app_constants.dart';
 import 'package:qeema/core/error/failures.dart';
@@ -15,22 +16,28 @@ import 'package:qeema/features/settings/presentation/widgets/delete_account_dial
 import '../../../../helpers/settings_mocks.dart';
 
 Widget _harness(DeleteAccountCubit cubit) {
-  return TranslationProvider(
-    child: BlocProvider<DeleteAccountCubit>.value(
-      value: cubit,
-      child: MaterialApp(
-        theme: AppTheme.light(),
-        home: Builder(
-          builder: (context) => Scaffold(
-            body: Center(
-              child: ElevatedButton(
-                onPressed: () => DeleteAccountDialog.show(context),
-                child: const Text('open'),
-              ),
+  // The dialog dismisses with GoRouter's `context.pop`, so the harness must
+  // pump a router-backed MaterialApp for the pop to find its GoRouter.
+  final router = GoRouter(
+    initialLocation: '/',
+    routes: [
+      GoRoute(
+        path: '/',
+        builder: (context, _) => Scaffold(
+          body: Center(
+            child: ElevatedButton(
+              onPressed: () => DeleteAccountDialog.show(context),
+              child: const Text('open'),
             ),
           ),
         ),
       ),
+    ],
+  );
+  return TranslationProvider(
+    child: BlocProvider<DeleteAccountCubit>.value(
+      value: cubit,
+      child: MaterialApp.router(theme: AppTheme.light(), routerConfig: router),
     ),
   );
 }

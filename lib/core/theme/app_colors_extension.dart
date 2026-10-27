@@ -15,6 +15,8 @@ class AppColorsExtension extends ThemeExtension<AppColorsExtension> {
     required this.error,
     required this.divider,
     required this.onPrimary,
+    required this.shadow,
+    required this.highlight,
   });
 
   factory AppColorsExtension.fromAppColors(AppColors colors) {
@@ -31,6 +33,8 @@ class AppColorsExtension extends ThemeExtension<AppColorsExtension> {
       error: colors.error,
       divider: colors.divider,
       onPrimary: colors.onPrimary,
+      shadow: colors.shadow,
+      highlight: colors.highlight,
     );
   }
   final Color primary;
@@ -45,6 +49,8 @@ class AppColorsExtension extends ThemeExtension<AppColorsExtension> {
   final Color error;
   final Color divider;
   final Color onPrimary;
+  final Color shadow;
+  final Color highlight;
 
   AppColors get asAppColors => AppColors(
     primary: primary,
@@ -59,6 +65,8 @@ class AppColorsExtension extends ThemeExtension<AppColorsExtension> {
     error: error,
     divider: divider,
     onPrimary: onPrimary,
+    shadow: shadow,
+    highlight: highlight,
   );
 
   @override
@@ -75,6 +83,8 @@ class AppColorsExtension extends ThemeExtension<AppColorsExtension> {
     Color? error,
     Color? divider,
     Color? onPrimary,
+    Color? shadow,
+    Color? highlight,
   }) {
     return AppColorsExtension(
       primary: primary ?? this.primary,
@@ -89,6 +99,8 @@ class AppColorsExtension extends ThemeExtension<AppColorsExtension> {
       error: error ?? this.error,
       divider: divider ?? this.divider,
       onPrimary: onPrimary ?? this.onPrimary,
+      shadow: shadow ?? this.shadow,
+      highlight: highlight ?? this.highlight,
     );
   }
 
@@ -112,6 +124,8 @@ class AppColorsExtension extends ThemeExtension<AppColorsExtension> {
       error: Color.lerp(error, other.error, t)!,
       divider: Color.lerp(divider, other.divider, t)!,
       onPrimary: Color.lerp(onPrimary, other.onPrimary, t)!,
+      shadow: Color.lerp(shadow, other.shadow, t)!,
+      highlight: Color.lerp(highlight, other.highlight, t)!,
     );
   }
 }

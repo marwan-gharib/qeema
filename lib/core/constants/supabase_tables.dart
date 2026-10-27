@@ -1,6 +1,4 @@
-class SupabaseTables {
-  const SupabaseTables._();
-
+abstract final class SupabaseTables {
   static const String assets = 'assets';
   static const String assetTypes = 'asset_types';
   static const String assetHistory = 'asset_history';

@@ -1,11 +1,11 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:qeema/core/extensions/api_result_extensions.dart';
 import 'package:qeema/core/i18n/strings.g.dart';
+import 'package:qeema/core/router/app_lock_gate.dart';
 import 'package:qeema/features/app_lock/domain/usecases/authenticate_device_usecase.dart';
 import 'package:qeema/features/app_lock/domain/usecases/check_device_lock_available_usecase.dart';
 import 'package:qeema/features/app_lock/domain/usecases/get_app_lock_enabled_usecase.dart';
 import 'package:qeema/features/app_lock/domain/usecases/set_app_lock_enabled_usecase.dart';
-import 'package:qeema/features/app_lock/presentation/cubits/app_lock_cubit/app_lock_cubit.dart';
 import 'package:qeema/features/settings/presentation/cubits/app_lock_settings_cubit/app_lock_settings_state.dart';
 import 'package:qeema/features/settings/presentation/mappers/app_lock_prompt_mapper.dart';
 
@@ -15,14 +15,14 @@ class AppLockSettingsCubit extends Cubit<AppLockSettingsState> {
     this._setEnabled,
     this._checkAvailable,
     this._authenticate,
-    this._appLock,
+    this._appLockGate,
   ) : super(const AppLockSettingsLoading());
 
   final GetAppLockEnabledUseCase _getEnabled;
   final SetAppLockEnabledUseCase _setEnabled;
   final CheckDeviceLockAvailableUseCase _checkAvailable;
   final AuthenticateDeviceUseCase _authenticate;
-  final AppLockCubit _appLock;
+  final AppLockGate _appLockGate;
 
   /// The Settings route is torn down as soon as the gate redirects to `/lock`,
   /// which closes this cubit while its own OS prompt is still in flight. Every
@@ -62,7 +62,7 @@ class AppLockSettingsCubit extends Cubit<AppLockSettingsState> {
       // The prompt must run inside the gate's authentication window: without
       // it, the pause the OS prompt causes re-locks the app and redirects to
       // `/lock` underneath this screen.
-      final authResult = await _appLock.duringAuthentication(
+      final authResult = await _appLockGate.duringAuthentication(
         () => _authenticate(t.app_lock.disableReason),
       );
       if (isClosed) return;

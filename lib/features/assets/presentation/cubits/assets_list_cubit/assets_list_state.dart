@@ -1,3 +1,4 @@
+import 'package:qeema/core/domain/asset_type.dart';
 import 'package:qeema/core/error/failures.dart';
 import 'package:qeema/features/assets/domain/entities/asset_entity.dart';
 
@@ -27,8 +28,10 @@ class AssetsListLoaded extends AssetsListState {
   final AssetsSortBy sortBy;
 
   List<AssetEntity> get visibleAssets {
+    // Copy before sorting: allAssets may be an unmodifiable (const) list, and
+    // a getter must never mutate its state.
     final list = activeFilter == null
-        ? allAssets
+        ? allAssets.toList()
         : allAssets.where((a) => a.assetType == activeFilter).toList();
 
     list.sort((a, b) {

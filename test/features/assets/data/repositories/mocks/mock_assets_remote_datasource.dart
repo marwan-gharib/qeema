@@ -1,4 +1,5 @@
 import 'package:qeema/features/assets/data/datasources/assets_remote_datasource.dart';
+import 'package:qeema/features/assets/data/models/asset_model_from_server.dart';
 
 class MockAssetsRemoteDataSource implements AssetsRemoteDataSource {
   MockAssetsRemoteDataSource();

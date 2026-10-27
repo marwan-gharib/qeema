@@ -1,4 +1,4 @@
-enum AssetType { egpCash, usdCash, gold21, gold24 }
+import 'package:qeema/core/domain/asset_type.dart';
 
 class AssetEntity {
   const AssetEntity({

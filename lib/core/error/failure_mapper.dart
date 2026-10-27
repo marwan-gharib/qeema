@@ -6,7 +6,11 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 
 /// Translates an exception into a typed [Failure]. No branch ever produces
 /// displayable text — messages are stored as `debugDetail` for logs only.
-Failure mapExceptionToFailure(Object error) {
+///
+/// [assetOperation] optionally refines the `PostgrestException` branch for
+/// repositories that attribute failures to a specific [AssetOperation]; the
+/// default mapping is unchanged when it is omitted.
+Failure mapExceptionToFailure(Object error, {AssetOperation? assetOperation}) {
   return switch (error) {
     final app.ServerException e => _mapServerException(e),
     final app.CacheException e => CacheFailure(e.message, 'cache'),
@@ -14,7 +18,7 @@ Failure mapExceptionToFailure(Object error) {
     final app.AccountDeletionPartialException e =>
       AccountDeletionPartialFailure(e.message),
     final app.AccountDeletionException e => AccountDeletionFailure(e.message),
-    final PostgrestException e => _mapPostgrestException(e),
+    final PostgrestException e => _mapPostgrestException(e, assetOperation),
     final AuthApiException e => _mapAuthApiException(e),
     final AuthException e => AuthFailure(e.message, e.code),
     final FunctionsHttpException e => AccountDeletionFailure(
@@ -47,9 +51,15 @@ Failure _mapServerException(app.ServerException e) {
   };
 }
 
-Failure _mapPostgrestException(PostgrestException e) {
+Failure _mapPostgrestException(
+  PostgrestException e,
+  AssetOperation? assetOperation,
+) {
   if (e.code == 'PGRST301' || e.message.contains('JWT')) {
     return SessionExpiredFailure(e.message, e.code);
+  }
+  if (assetOperation != null) {
+    return AssetOperationFailure(assetOperation, e.message, e.code);
   }
   return ServerFailure(e.message, e.code);
 }

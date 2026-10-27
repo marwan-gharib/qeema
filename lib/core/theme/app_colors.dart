@@ -14,6 +14,8 @@ class AppColors {
     required this.error,
     required this.divider,
     required this.onPrimary,
+    required this.shadow,
+    required this.highlight,
   });
   final Color primary;
   final Color primaryVariant;
@@ -27,6 +29,8 @@ class AppColors {
   final Color error;
   final Color divider;
   final Color onPrimary;
+  final Color shadow;
+  final Color highlight;
 
   static const light = AppColors(
     primary: Color(0xFFF5A623),
@@ -41,6 +45,8 @@ class AppColors {
     error: Color(0xFFDB7250),
     divider: Color(0xFFEFE7D6),
     onPrimary: Color(0xFF2B2A26),
+    shadow: Color(0xFF000000),
+    highlight: Color(0xFFFFFFFF),
   );
 
   static const dark = AppColors(
@@ -56,5 +62,7 @@ class AppColors {
     error: Color(0xFFE38468),
     divider: Color(0xFF3A3527),
     onPrimary: Color(0xFFFFFFFF),
+    shadow: Color(0xFF000000),
+    highlight: Color(0xFFFFFFFF),
   );
 }

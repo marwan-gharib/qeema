@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:decimal/decimal.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:qeema/core/domain/asset_type.dart';
 import 'package:qeema/core/error/failures.dart';
 import 'package:qeema/core/utils/api_result.dart';
 import 'package:qeema/features/assets/domain/entities/asset_entity.dart';

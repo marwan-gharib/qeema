@@ -22,7 +22,9 @@ class MockGetMarketPriceSummariesUseCase
   );
 
   @override
-  Future<ApiResult<List<MarketPriceSummaryEntity>>> call() async => result;
+  Future<ApiResult<List<MarketPriceSummaryEntity>>> call({
+    bool forceRefresh = false,
+  }) async => result;
 }
 
 const _usdType = AssetTypeEntity(
@@ -94,7 +96,7 @@ void main() {
     await pumpWithAnimation(tester);
     expect(find.byType(MarketPricesSkeleton), findsNothing);
     expect(find.byType(MarketPriceCard), findsNWidgets(2));
-    expect(find.text('US Dollar'), findsOneWidget);
+    expect(find.text('USD'), findsOneWidget);
     expect(find.text('Gold 21K'), findsOneWidget);
     expect(find.byType(DataSourceDisclosure), findsOneWidget);
 

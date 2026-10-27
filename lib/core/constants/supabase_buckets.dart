@@ -1,5 +1,3 @@
-class SupabaseBuckets {
-  const SupabaseBuckets._();
-
+abstract final class SupabaseBuckets {
   static const String userAvatars = 'user_avatars';
 }

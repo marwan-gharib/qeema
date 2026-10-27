@@ -90,6 +90,9 @@
     "unit": {
       "gram": "جرام"
     },
+    "hints": {
+      "amount": "0.00"
+    },
     "value": {
       "unavailable": "—"
     },
@@ -345,6 +348,7 @@
     },
     "emptyTitle": "لا توجد أسعار سوق بعد",
     "emptyBody": "ستظهر بيانات أسعار السوق هنا بمجرد توفرها.",
+    "updating": "جارٍ التحديث…",
     "range": {
       "oneWeek": "أسبوع",
       "oneMonth": "شهر",

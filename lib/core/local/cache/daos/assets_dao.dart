@@ -1,15 +1,8 @@
-import 'package:drift/drift.dart';
 import 'package:qeema/core/local/cache/app_database.dart';
 
 class AssetsDao {
   const AssetsDao(this._db);
   final AppDatabase _db;
-
-  Stream<List<CachedAssetsTableData>> watchActiveAssets(String userId) {
-    return (_db.select(
-      _db.cachedAssetsTable,
-    )..where((t) => t.userId.equals(userId))).watch();
-  }
 
   Future<List<CachedAssetsTableData>> getActiveAssets(String userId) async {
     return await (_db.select(
@@ -21,20 +14,19 @@ class AssetsDao {
     await _db.into(_db.cachedAssetsTable).insertOnConflictUpdate(entry);
   }
 
-  Future<void> markPendingSync(String id) async {
-    await (_db.update(_db.cachedAssetsTable)..where((t) => t.id.equals(id)))
-        .write(const CachedAssetsTableCompanion(pendingSync: Value(true)));
-  }
-
   Future<void> deleteById(String id) async {
     await (_db.delete(
       _db.cachedAssetsTable,
     )..where((t) => t.id.equals(id))).go();
   }
 
-  Future<List<CachedAssetsTableData>> pendingSyncItems() async {
-    return await (_db.select(
-      _db.cachedAssetsTable,
-    )..where((t) => t.pendingSync.equals(true))).get();
+  /// Replaces the whole cache with [entries] in one atomic batch — after a
+  /// successful fetch the cached mirror must match the server list exactly
+  /// (no stale rows from earlier sessions).
+  Future<void> replaceAll(List<CachedAssetsTableCompanion> entries) async {
+    await _db.batch((batch) {
+      batch.deleteAll(_db.cachedAssetsTable);
+      batch.insertAll(_db.cachedAssetsTable, entries);
+    });
   }
 }

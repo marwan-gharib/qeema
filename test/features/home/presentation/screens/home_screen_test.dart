@@ -159,7 +159,7 @@ void main() {
       await tester.pumpWidget(_buildTestApp(cubit));
       await pumpWithAnimation(tester);
 
-      expect(find.text('Something went wrong on our end.'), findsOneWidget);
+      expect(find.text('An unexpected error occurred.'), findsOneWidget);
 
       useCase.result = Success(_loadedSummary());
       await tester.tap(find.text('Try Again'));
@@ -195,7 +195,7 @@ void main() {
       await pumpWithAnimation(tester);
 
       expect(find.text('TOTAL SAVINGS'), findsOneWidget);
-      expect(find.textContaining('10000.00'), findsWidgets);
+      expect(find.textContaining('10,000.00'), findsWidgets);
       expect(find.text('Adjusted for Inflation'), findsOneWidget);
       expect(find.textContaining('5.0%'), findsWidgets);
       expect(find.text('Real Value — Last 30 Days'), findsOneWidget);

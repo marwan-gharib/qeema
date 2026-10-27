@@ -1,5 +1,6 @@
 import 'package:get_it/get_it.dart';
 import 'package:qeema/core/local/cache/cache_service.dart';
+import 'package:qeema/core/router/app_lock_gate.dart';
 import 'package:qeema/core/services/device_auth_service.dart';
 import 'package:qeema/core/services/window_security_service.dart';
 import 'package:qeema/features/app_lock/data/datasources/local/app_lock_local_datasource.dart';
@@ -53,13 +54,15 @@ void initAppLockModule(GetIt getIt) {
       getIt<SetRecentsPreviewHiddenUseCase>(),
     ),
   );
+  // The gate abstraction that features depend on instead of the concrete cubit.
+  getIt.registerLazySingleton<AppLockGate>(() => getIt<AppLockCubit>());
   getIt.registerFactory<AppLockSettingsCubit>(
     () => AppLockSettingsCubit(
       getIt<GetAppLockEnabledUseCase>(),
       getIt<SetAppLockEnabledUseCase>(),
       getIt<CheckDeviceLockAvailableUseCase>(),
       getIt<AuthenticateDeviceUseCase>(),
-      getIt<AppLockCubit>(),
+      getIt<AppLockGate>(),
     ),
   );
 }

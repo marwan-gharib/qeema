@@ -47,7 +47,6 @@ app.*.map.json
 # *.md
 !README.md
 *.env
-*.txt
 env.json
 # Widget Preview related
 .widget_preview/

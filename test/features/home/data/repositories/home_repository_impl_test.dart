@@ -1,5 +1,6 @@
 import 'package:decimal/decimal.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:qeema/core/domain/asset_type.dart';
 import 'package:qeema/core/error/failures.dart';
 import 'package:qeema/core/utils/api_result.dart';
 import 'package:qeema/features/assets/domain/entities/asset_entity.dart';
@@ -28,16 +29,15 @@ const _egpType = AssetTypeEntity(
 );
 
 void main() {
-  late MockGetAssetsUseCase assetsUseCase;
-  late MockGetAssetTypesUseCase typesUseCase;
+  late MockAssetsRepository assetsRepository;
   late MockHomeRemoteDataSource remoteDataSource;
   late MockCurrencyConverter currencyConverter;
   late MockInflationCalculator inflationCalculator;
   late HomeRepositoryImpl repository;
 
   setUp(() {
-    assetsUseCase = MockGetAssetsUseCase(
-      result: Success([
+    assetsRepository = MockAssetsRepository(
+      assetsResult: Success([
         AssetEntity(
           id: 'a-usd',
           assetType: AssetType.usdCash,
@@ -46,9 +46,7 @@ void main() {
           entryDate: DateTime(2026, 6, 15),
         ),
       ]),
-    );
-    typesUseCase = MockGetAssetTypesUseCase(
-      result: const Success([_usdType, _egpType]),
+      assetTypesResult: const Success([_usdType, _egpType]),
     );
     remoteDataSource = MockHomeRemoteDataSource();
     currencyConverter = MockCurrencyConverter(
@@ -56,8 +54,7 @@ void main() {
     );
     inflationCalculator = MockInflationCalculator();
     repository = HomeRepositoryImpl(
-      assetsUseCase,
-      typesUseCase,
+      assetsRepository,
       remoteDataSource,
       currencyConverter,
       inflationCalculator,
@@ -66,7 +63,7 @@ void main() {
 
   group('HomeRepositoryImpl', () {
     test('returns error when assets fetch fails', () async {
-      assetsUseCase.result = const ResultFailure(NetworkFailure());
+      assetsRepository.assetsResult = const ResultFailure(NetworkFailure());
 
       final result = await repository.getDashboardSummary();
 
@@ -213,7 +210,7 @@ void main() {
     );
 
     test('asset with no matching type is skipped', () async {
-      assetsUseCase.result = Success([
+      assetsRepository.assetsResult = Success([
         AssetEntity(
           id: 'a-unknown',
           assetType: AssetType.gold21,
@@ -222,7 +219,7 @@ void main() {
           entryDate: DateTime(2026, 6, 15),
         ),
       ]);
-      typesUseCase.result = const Success([_egpType]);
+      assetsRepository.assetTypesResult = const Success([_egpType]);
 
       final result = await repository.getDashboardSummary();
 

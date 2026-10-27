@@ -1,6 +1,6 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:material_ui/material_ui.dart';
-import 'package:qeema/core/animations/app_motion.dart';
+import 'package:qeema/core/animations/app_animated_switcher.dart';
 import 'package:qeema/core/extensions/build_context_extensions.dart';
 import 'package:qeema/core/extensions/failure_localization_extension.dart';
 import 'package:qeema/core/i18n/strings.g.dart';
@@ -9,9 +9,9 @@ import 'package:qeema/core/theme/app_spacing.dart';
 import 'package:qeema/core/widgets/app_content_box.dart';
 import 'package:qeema/core/widgets/app_empty_state.dart';
 import 'package:qeema/core/widgets/app_error_state.dart';
-import 'package:qeema/features/assets/presentation/widgets/asset_type_tile.dart';
-import 'package:qeema/features/assets/presentation/widgets/market_price_chart.dart';
-import 'package:qeema/features/market_prices/data/mappers/market_price_point_mapper.dart';
+import 'package:qeema/core/widgets/app_loader.dart';
+import 'package:qeema/core/widgets/asset_type_tile.dart';
+import 'package:qeema/core/widgets/market_price_chart.dart';
 import 'package:qeema/features/market_prices/domain/entities/market_price_point_entity.dart';
 import 'package:qeema/features/market_prices/presentation/cubits/market_price_detail_cubit/market_price_detail_cubit.dart';
 import 'package:qeema/features/market_prices/presentation/cubits/market_price_detail_cubit/market_price_detail_state.dart';
@@ -30,15 +30,15 @@ class MarketPriceDetailScreen extends StatelessWidget {
         return Scaffold(
           backgroundColor: colors.background,
           appBar: AppBar(
-            title: state is MarketPriceDetailLoaded
-                ? _TypeTitle(code: state.assetType.code)
-                : null,
+            title: switch (state) {
+              MarketPriceDetailLoaded(:final assetType) => _TypeTitle(
+                code: assetType.code,
+              ),
+              MarketPriceDetailLoading() || MarketPriceDetailError() => null,
+            },
           ),
           body: AppContentBox(
-            child: AnimatedSwitcher(
-              duration: MediaQuery.of(context).disableAnimations
-                  ? Duration.zero
-                  : AppMotion.normal,
+            child: AppAnimatedSwitcher(
               child: switch (state) {
                 MarketPriceDetailLoading() => const _DetailLoadingBody(),
                 MarketPriceDetailError(:final failure) => AppErrorState(
@@ -48,8 +48,16 @@ class MarketPriceDetailScreen extends StatelessWidget {
                         context.read<MarketPriceDetailCubit>().lastRange,
                       ),
                 ),
-                MarketPriceDetailLoaded(:final points, :final selectedRange) =>
-                  _DetailContent(points: points, selectedRange: selectedRange),
+                MarketPriceDetailLoaded(
+                  :final points,
+                  :final selectedRange,
+                  :final isRefreshing,
+                ) =>
+                  _DetailContent(
+                    points: points,
+                    selectedRange: selectedRange,
+                    isRefreshing: isRefreshing,
+                  ),
               },
             ),
           ),
@@ -60,19 +68,22 @@ class MarketPriceDetailScreen extends StatelessWidget {
 }
 
 class _DetailContent extends StatelessWidget {
-  const _DetailContent({required this.points, required this.selectedRange});
+  const _DetailContent({
+    required this.points,
+    required this.selectedRange,
+    this.isRefreshing = false,
+  });
 
   final List<MarketPricePointEntity> points;
   final MarketPriceRangeOption selectedRange;
+  final bool isRefreshing;
 
   @override
   Widget build(BuildContext context) {
     final colors = context.colors;
     final t = context.t.marketPrices;
 
-    final chartHistory = points
-        .map(MarketPricePointMapper.toMarketPrice)
-        .toList();
+    final chartHistory = points.map((point) => point.toMarketPrice()).toList();
     final daysCovered = points.length < 2
         ? null
         : points.last.date.difference(points.first.date).inDays + 1;
@@ -82,6 +93,16 @@ class _DetailContent extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
+          if (isRefreshing) ...[
+            Text(
+              t.updating,
+              style: context.textTheme.bodySmall?.copyWith(
+                color: colors.textSecondary,
+              ),
+              textAlign: TextAlign.center,
+            ),
+            SizedBox(height: AppSpacing.md),
+          ],
           const DataSourceDisclosure(),
           RangeSelectorChips(
             selected: selectedRange,
@@ -99,7 +120,12 @@ class _DetailContent extends StatelessWidget {
               padding: EdgeInsets.all(AppSpacing.lg),
             )
           else ...[
-            MarketPriceChart(priceHistory: chartHistory),
+            MarketPriceChart(
+              title: context.t.assets.detail.valueTrend,
+              points: chartHistory
+                  .map((point) => (date: point.priceDate, value: point.price))
+                  .toList(),
+            ),
             if (daysCovered != null &&
                 daysCovered < _expectedDays(selectedRange))
               Text(
@@ -129,7 +155,7 @@ class _DetailLoadingBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Center(child: CircularProgressIndicator());
+    return const AppLoader();
   }
 }
 

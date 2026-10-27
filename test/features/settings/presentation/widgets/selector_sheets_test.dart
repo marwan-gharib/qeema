@@ -1,5 +1,6 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:go_router/go_router.dart';
 import 'package:material_ui/material_ui.dart';
 import 'package:qeema/core/cubits/locale_cubit/locale_cubit.dart';
 import 'package:qeema/core/cubits/theme_cubit/theme_cubit.dart';
@@ -29,39 +30,46 @@ void main() {
   });
 
   Widget harness() {
+    // The sheets dismiss with GoRouter's `context.pop`, so the harness must
+    // pump a router-backed MaterialApp for the pop to find its GoRouter.
+    final router = GoRouter(
+      initialLocation: '/',
+      routes: [
+        GoRoute(
+          path: '/',
+          builder: (context, _) => Scaffold(
+            body: Center(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  ElevatedButton(
+                    onPressed: () => LanguageSelectorSheet.show(
+                      context,
+                      localeCubit.state.locale,
+                    ),
+                    child: const Text('open language'),
+                  ),
+                  ElevatedButton(
+                    onPressed: () =>
+                        ThemeSelectorSheet.show(context, themeCubit.state.mode),
+                    child: const Text('open theme'),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ),
+      ],
+    );
     return TranslationProvider(
       child: MultiBlocProvider(
         providers: [
           BlocProvider<LocaleCubit>.value(value: localeCubit),
           BlocProvider<ThemeCubit>.value(value: themeCubit),
         ],
-        child: MaterialApp(
+        child: MaterialApp.router(
           theme: AppTheme.light(),
-          home: Builder(
-            builder: (context) => Scaffold(
-              body: Center(
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    ElevatedButton(
-                      onPressed: () => LanguageSelectorSheet.show(
-                        context,
-                        localeCubit.state.locale,
-                      ),
-                      child: const Text('open language'),
-                    ),
-                    ElevatedButton(
-                      onPressed: () => ThemeSelectorSheet.show(
-                        context,
-                        themeCubit.state.mode,
-                      ),
-                      child: const Text('open theme'),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-          ),
+          routerConfig: router,
         ),
       ),
     );

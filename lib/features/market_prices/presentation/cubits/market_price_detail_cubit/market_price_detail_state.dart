@@ -18,12 +18,16 @@ final class MarketPriceDetailLoaded extends MarketPriceDetailState {
     required this.points,
     required this.selectedRange,
     required this.daysCovered,
+    this.isRefreshing = false,
   });
 
   final AssetTypeEntity assetType;
   final List<MarketPricePointEntity> points;
   final MarketPriceRangeOption selectedRange;
   final int daysCovered;
+
+  /// True when a range refetch is in flight but the previous chart is still shown.
+  final bool isRefreshing;
 }
 
 final class MarketPriceDetailError extends MarketPriceDetailState {

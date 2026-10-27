@@ -2,7 +2,7 @@ import 'package:decimal/decimal.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:material_ui/material_ui.dart';
-import 'package:qeema/core/animations/app_motion.dart';
+import 'package:qeema/core/animations/app_animated_switcher.dart';
 import 'package:qeema/core/animations/micro_interactions/success_pulse.dart';
 import 'package:qeema/core/extensions/failure_localization_extension.dart';
 import 'package:qeema/core/i18n/strings.g.dart';
@@ -98,7 +98,7 @@ class _AddAssetScreenState extends State<AddAssetScreen> {
 
     if (MediaQuery.of(context).disableAnimations) return content;
 
-    return AnimatedSwitcher(duration: AppMotion.normal, child: content);
+    return AppAnimatedSwitcher(child: content);
   }
 
   Widget _buildForm(BuildContext context, AddAssetState state) {

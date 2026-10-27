@@ -1,19 +1,22 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:material_ui/material_ui.dart';
+import 'package:qeema/core/animations/app_animated_switcher.dart';
 import 'package:qeema/core/animations/app_motion.dart';
 import 'package:qeema/core/animations/micro_interactions/tap_scale.dart';
 import 'package:qeema/core/animations/staggered_list_animator.dart';
+import 'package:qeema/core/constants/asset_type_codes.dart';
 import 'package:qeema/core/extensions/build_context_extensions.dart';
 import 'package:qeema/core/i18n/strings.g.dart';
 import 'package:qeema/core/responsive/responsive.dart';
 import 'package:qeema/core/theme/app_radius.dart';
 import 'package:qeema/core/theme/app_sizes.dart';
 import 'package:qeema/core/theme/app_spacing.dart';
+import 'package:qeema/core/widgets/app_bottom_sheet.dart';
+import 'package:qeema/core/widgets/asset_type_tile.dart';
 import 'package:qeema/features/assets/domain/entities/asset_type_entity.dart';
 import 'package:qeema/features/assets/presentation/cubits/add_asset_cubit/add_asset_cubit.dart';
 import 'package:qeema/features/assets/presentation/cubits/add_asset_cubit/add_asset_state.dart';
-import 'package:qeema/features/assets/presentation/widgets/asset_type_tile.dart';
 
 class AssetTypePicker extends StatelessWidget {
   const AssetTypePicker({super.key, required this.assetTypes});
@@ -64,7 +67,7 @@ class AssetTypePicker extends StatelessWidget {
       ),
       child: Row(
         children: [
-          AnimatedSwitcher(
+          AppAnimatedSwitcher(
             duration: AppMotion.fast,
             child: selectedType != null
                 ? _buildTypeBadge(context, selectedType)
@@ -74,7 +77,7 @@ class AssetTypePicker extends StatelessWidget {
                   ),
           ),
           SizedBox(width: AppSpacing.md),
-          AnimatedSwitcher(
+          AppAnimatedSwitcher(
             duration: AppMotion.fast,
             child: Text(
               selectedType == null
@@ -103,7 +106,7 @@ class AssetTypePicker extends StatelessWidget {
           size: AppSizes.iconLarge,
           color: colors.textPrimary,
         ),
-        if (type.code.startsWith('gold_'))
+        if (type.code.startsWith(AssetTypeCodes.goldPrefix))
           Positioned(
             right: Responsive.width(-10),
             top: Responsive.height(-6),
@@ -117,7 +120,7 @@ class AssetTypePicker extends StatelessWidget {
                 borderRadius: BorderRadius.circular(AppRadius.xxs),
               ),
               child: Text(
-                type.code == 'gold_21'
+                type.code == AssetTypeCodes.gold21
                     ? context.t.assets.carat.k21
                     : context.t.assets.carat.k24,
                 style: context.textStyles.caratBadge.copyWith(
@@ -131,11 +134,8 @@ class AssetTypePicker extends StatelessWidget {
   }
 
   void _showTypeSheet(BuildContext context, AssetTypeEntity? currentSelection) {
-    showModalBottomSheet<void>(
+    AppBottomSheet.show<void>(
       context: context,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.vertical(top: Radius.circular(AppRadius.md)),
-      ),
       builder: (sheetContext) {
         return SafeArea(
           child: SingleChildScrollView(
@@ -151,7 +151,7 @@ class AssetTypePicker extends StatelessWidget {
                         context.pop(sheetContext);
                       },
                       child: AssetTypeTile(
-                        type: type,
+                        code: type.code,
                         isSelected: currentSelection?.id == type.id,
                       ),
                     ),

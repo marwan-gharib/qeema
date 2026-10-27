@@ -1,4 +1,8 @@
+import 'package:qeema/core/constants/supabase_columns.dart';
+import 'package:qeema/core/constants/supabase_tables.dart';
 import 'package:qeema/core/network/supabase_client_provider.dart';
+import 'package:qeema/features/assets/data/models/asset_model_from_server.dart';
+import 'package:qeema/features/assets/data/models/row_parsing.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 class AssetsRemoteDataSource {
@@ -14,32 +18,39 @@ class AssetsRemoteDataSource {
     }
 
     final assetsResponse = await _client
-        .from('assets')
-        .select('*, asset_types(code, name, base_unit)')
-        .eq('user_id', userId)
-        .eq('is_deleted', false)
-        .order('entry_date', ascending: false);
+        .from(SupabaseTables.assets)
+        .select(
+          '*, ${SupabaseTables.assetTypes}(${SupabaseColumns.code}, '
+          '${SupabaseColumns.name}, ${SupabaseColumns.baseUnit})',
+        )
+        .eq(SupabaseColumns.userId, userId)
+        .eq(SupabaseColumns.isDeleted, false)
+        .order(SupabaseColumns.entryDate, ascending: false);
 
     final pricesResponse = await _client
-        .from('market_prices')
-        .select('*, asset_types!inner(code)')
-        .order('price_date', ascending: false);
+        .from(SupabaseTables.marketPrices)
+        .select(
+          '*, ${SupabaseTables.assetTypes}!inner(${SupabaseColumns.code})',
+        )
+        .order(SupabaseColumns.priceDate, ascending: false);
 
     final priceMap = <String, double>{};
     final seenTypes = <String>{};
     for (final row in pricesResponse as List) {
       final typeData =
-          (row as Map<String, dynamic>)['asset_types'] as Map<String, dynamic>?;
-      final code = typeData?['code'] as String?;
+          (row as Map<String, dynamic>)[SupabaseTables.assetTypes]
+              as Map<String, dynamic>?;
+      final code = typeData?[SupabaseColumns.code] as String?;
       if (code != null && seenTypes.add(code)) {
-        priceMap[code] = (row['price'] as num).toDouble();
+        priceMap[code] = requiredNum(row, SupabaseColumns.price).toDouble();
       }
     }
 
     return (assetsResponse as List).map((row) {
       final rowMap = row as Map<String, dynamic>;
-      final typeData = rowMap['asset_types'] as Map<String, dynamic>?;
-      final code = typeData?['code'] as String? ?? '';
+      final typeData =
+          rowMap[SupabaseTables.assetTypes] as Map<String, dynamic>?;
+      final code = typeData?[SupabaseColumns.code] as String? ?? '';
       return AssetModelFromServer.fromJson(
         rowMap,
         currentPrice: priceMap[code],
@@ -49,10 +60,14 @@ class AssetsRemoteDataSource {
 
   Future<List<Map<String, dynamic>>> getAssetTypes() async {
     final response = await _client
-        .from('asset_types')
-        .select('id, code, name, is_market_based, base_unit')
-        .eq('is_active', true)
-        .order('code');
+        .from(SupabaseTables.assetTypes)
+        .select(
+          '${SupabaseColumns.id}, ${SupabaseColumns.code}, '
+          '${SupabaseColumns.name}, ${SupabaseColumns.isMarketBased}, '
+          '${SupabaseColumns.baseUnit}',
+        )
+        .eq(SupabaseColumns.isActive, true)
+        .order(SupabaseColumns.code);
 
     return (response as List).cast<Map<String, dynamic>>();
   }
@@ -63,8 +78,8 @@ class AssetsRemoteDataSource {
       throw Exception('No authenticated user');
     }
 
-    final response = await _client.from('assets').insert({
-      'user_id': userId,
+    final response = await _client.from(SupabaseTables.assets).insert({
+      SupabaseColumns.userId: userId,
       ...assetData,
     }).select();
 
@@ -81,10 +96,10 @@ class AssetsRemoteDataSource {
     if (userId == null) throw Exception('No authenticated user');
 
     final response = await _client
-        .from('assets')
+        .from(SupabaseTables.assets)
         .update(data)
-        .eq('id', assetId)
-        .eq('user_id', userId)
+        .eq(SupabaseColumns.id, assetId)
+        .eq(SupabaseColumns.userId, userId)
         .select();
 
     final rows = response as List;
@@ -97,21 +112,21 @@ class AssetsRemoteDataSource {
     if (userId == null) throw Exception('No authenticated user');
 
     await _client
-        .from('assets')
+        .from(SupabaseTables.assets)
         .update({
-          'is_deleted': true,
-          'deleted_at': DateTime.now().toUtc().toIso8601String(),
+          SupabaseColumns.isDeleted: true,
+          SupabaseColumns.deletedAt: DateTime.now().toUtc().toIso8601String(),
         })
-        .eq('id', assetId)
-        .eq('user_id', userId);
+        .eq(SupabaseColumns.id, assetId)
+        .eq(SupabaseColumns.userId, userId);
   }
 
   Future<List<Map<String, dynamic>>> getAssetHistory(String assetId) async {
     final response = await _client
-        .from('asset_history')
+        .from(SupabaseTables.assetHistory)
         .select()
-        .eq('asset_id', assetId)
-        .order('changed_at', ascending: false);
+        .eq(SupabaseColumns.assetId, assetId)
+        .order(SupabaseColumns.changedAt, ascending: false);
 
     return (response as List).cast<Map<String, dynamic>>();
   }
@@ -120,48 +135,16 @@ class AssetsRemoteDataSource {
     String assetTypeCode,
   ) async {
     final response = await _client
-        .from('market_prices')
-        .select('*, asset_types!inner(code)')
-        .eq('asset_types.code', assetTypeCode)
-        .order('price_date', ascending: true);
+        .from(SupabaseTables.marketPrices)
+        .select(
+          '*, ${SupabaseTables.assetTypes}!inner(${SupabaseColumns.code})',
+        )
+        .eq(
+          '${SupabaseTables.assetTypes}.${SupabaseColumns.code}',
+          assetTypeCode,
+        )
+        .order(SupabaseColumns.priceDate, ascending: true);
 
     return (response as List).cast<Map<String, dynamic>>();
   }
-}
-
-class AssetModelFromServer {
-  AssetModelFromServer({
-    required this.id,
-    required this.assetTypeCode,
-    required this.amount,
-    required this.priceAtEntry,
-    required this.entryDate,
-    this.note,
-    this.currentPrice,
-  });
-
-  factory AssetModelFromServer.fromJson(
-    Map<String, dynamic> json, {
-    double? currentPrice,
-  }) {
-    final typeData = json['asset_types'] as Map<String, dynamic>?;
-    final typeCode = typeData?['code'] as String? ?? '';
-    return AssetModelFromServer(
-      id: json['id'] as String,
-      assetTypeCode: typeCode,
-      amount: (json['amount'] as num).toDouble(),
-      priceAtEntry: (json['price_at_entry'] as num).toDouble(),
-      entryDate: DateTime.parse(json['entry_date'] as String),
-      note: json['note'] as String?,
-      currentPrice: currentPrice,
-    );
-  }
-
-  final String id;
-  final String assetTypeCode;
-  final double amount;
-  final double priceAtEntry;
-  final DateTime entryDate;
-  final String? note;
-  final double? currentPrice;
 }

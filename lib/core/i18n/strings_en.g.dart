@@ -87,6 +87,7 @@ class Translations$core$en {
 	late final Translations$core$dates$en dates = Translations$core$dates$en.internal(_root);
 	late final Translations$core$currency$en currency = Translations$core$currency$en.internal(_root);
 	late final Translations$core$unit$en unit = Translations$core$unit$en.internal(_root);
+	late final Translations$core$hints$en hints = Translations$core$hints$en.internal(_root);
 	late final Translations$core$value$en value = Translations$core$value$en.internal(_root);
 
 	/// en: '; '
@@ -434,6 +435,9 @@ class Translations$marketPrices$en {
 	/// en: 'Market price data will appear here once it becomes available.'
 	String get emptyBody => 'Market price data will appear here once it becomes available.';
 
+	/// en: 'Updating…'
+	String get updating => 'Updating…';
+
 	late final Translations$marketPrices$range$en range = Translations$marketPrices$range$en.internal(_root);
 }
 
@@ -706,6 +710,18 @@ class Translations$core$unit$en {
 
 	/// en: 'gram'
 	String get gram => 'gram';
+}
+
+// Path: core.hints
+class Translations$core$hints$en {
+	Translations$core$hints$en.internal(this._root);
+
+	final Translations _root; // ignore: unused_field
+
+	// Translations
+
+	/// en: '0.00'
+	String get amount => '0.00';
 }
 
 // Path: core.value
@@ -1319,6 +1335,7 @@ extension on Translations {
 			'core.currency.egp' => 'EGP',
 			'core.currency.usd' => 'USD',
 			'core.unit.gram' => 'gram',
+			'core.hints.amount' => '0.00',
 			'core.value.unavailable' => '—',
 			'core.listSeparator' => '; ',
 			'core.actions.cancel' => 'Cancel',
@@ -1505,6 +1522,7 @@ extension on Translations {
 			'marketPrices.showingAvailableData' => ({required num n}) => (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('en'))(n, one: 'Showing available data (${n} day)', other: 'Showing available data (${n} days)', ), 
 			'marketPrices.emptyTitle' => 'No market prices yet',
 			'marketPrices.emptyBody' => 'Market price data will appear here once it becomes available.',
+			'marketPrices.updating' => 'Updating…',
 			'marketPrices.range.oneWeek' => '1 week',
 			'marketPrices.range.oneMonth' => '1 month',
 			'marketPrices.range.threeMonths' => '3 months',

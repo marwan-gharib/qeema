@@ -1,4 +1,5 @@
 import 'package:decimal/decimal.dart';
+import 'package:qeema/core/constants/app_constants.dart';
 import 'package:qeema/core/error/failures.dart';
 import 'package:qeema/core/extensions/decimal_extensions.dart';
 import 'package:qeema/core/utils/api_result.dart';
@@ -6,7 +7,6 @@ import 'package:qeema/features/assets/domain/entities/asset_type_entity.dart';
 import 'package:qeema/features/assets/domain/entities/market_price_entity.dart';
 import 'package:qeema/features/assets/domain/usecases/get_asset_types_usecase.dart';
 import 'package:qeema/features/assets/domain/usecases/get_market_price_history_usecase.dart';
-import 'package:qeema/features/market_prices/data/mappers/market_price_point_mapper.dart';
 import 'package:qeema/features/market_prices/domain/entities/market_price_point_entity.dart';
 import 'package:qeema/features/market_prices/domain/entities/market_price_summary_entity.dart';
 import 'package:qeema/features/market_prices/domain/repositories/market_prices_repository.dart';
@@ -14,29 +14,42 @@ import 'package:qeema/features/market_prices/domain/repositories/market_prices_r
 class MarketPricesRepositoryImpl implements MarketPricesRepository {
   MarketPricesRepositoryImpl(
     this._getAssetTypesUseCase,
-    this._getPriceHistoryUseCase,
-  );
+    this._getPriceHistoryUseCase, {
+    DateTime Function()? now,
+  }) : _now = now ?? DateTime.now;
 
   final GetAssetTypesUseCase _getAssetTypesUseCase;
   final GetMarketPriceHistoryUseCase _getPriceHistoryUseCase;
+  final DateTime Function() _now;
+
+  /// In-memory TTL cache per type code (DATA-8: caching policy lives here).
+  /// Request de-duplication: the list screen, the detail screen and range
+  /// changes all share one history read per type within the TTL window.
+  final _historyCache =
+      <String, ({DateTime fetchedAt, List<MarketPriceEntity> rows})>{};
 
   @override
-  Future<ApiResult<List<MarketPriceSummaryEntity>>> getSummaries() async {
+  Future<ApiResult<List<MarketPriceSummaryEntity>>> getSummaries({
+    bool forceRefresh = false,
+  }) async {
     final typesResult = await _getAssetTypesUseCase.call();
     return typesResult.fold(
-      onSuccess: (types) =>
-          _buildSummaries(types.where((t) => t.isMarketBased).toList()),
+      onSuccess: (types) => _buildSummaries(
+        types.where((t) => t.isMarketBased).toList(),
+        forceRefresh: forceRefresh,
+      ),
       onFailure: (failure) async => ResultFailure(failure),
     );
   }
 
   Future<ApiResult<List<MarketPriceSummaryEntity>>> _buildSummaries(
-    List<AssetTypeEntity> marketTypes,
-  ) async {
+    List<AssetTypeEntity> marketTypes, {
+    required bool forceRefresh,
+  }) async {
     final summaries = <MarketPriceSummaryEntity>[];
     Failure? firstFailure;
     for (final type in marketTypes) {
-      final result = await _getPriceHistoryUseCase.call(type.code);
+      final result = await _history(type.code, forceRefresh: forceRefresh);
       final history = result.fold<List<MarketPriceEntity>?>(
         onSuccess: (rows) => rows,
         onFailure: (failure) {
@@ -51,6 +64,31 @@ class MarketPricesRepositoryImpl implements MarketPricesRepository {
       return ResultFailure(firstFailure!);
     }
     return Success(summaries);
+  }
+
+  /// TTL-cached history read. On a failed refetch a stale entry is served —
+  /// an old chart beats an error when the network is down.
+  Future<ApiResult<List<MarketPriceEntity>>> _history(
+    String assetTypeCode, {
+    required bool forceRefresh,
+  }) async {
+    final cached = _historyCache[assetTypeCode];
+    if (!forceRefresh &&
+        cached != null &&
+        _now().difference(cached.fetchedAt) <
+            AppConstants.marketPriceCacheDuration) {
+      return Success(cached.rows);
+    }
+
+    final result = await _getPriceHistoryUseCase.call(assetTypeCode);
+    return result.fold(
+      onSuccess: (rows) {
+        _historyCache[assetTypeCode] = (fetchedAt: _now(), rows: rows);
+        return Success(rows);
+      },
+      onFailure: (failure) =>
+          cached != null ? Success(cached.rows) : ResultFailure(failure),
+    );
   }
 
   MarketPriceSummaryEntity _toSummary(
@@ -76,7 +114,7 @@ class MarketPricesRepositoryImpl implements MarketPricesRepository {
       weeklyChangePercent: weeklyChange,
       sparklinePoints: history
           .sublist(sparklineStart)
-          .map(MarketPricePointMapper.fromMarketPrice)
+          .map(MarketPricePointEntity.fromMarketPrice)
           .toList(),
     );
   }
@@ -106,7 +144,7 @@ class MarketPricesRepositoryImpl implements MarketPricesRepository {
     required DateTime from,
     required DateTime to,
   }) async {
-    final result = await _getPriceHistoryUseCase.call(assetTypeCode);
+    final result = await _history(assetTypeCode, forceRefresh: false);
     return result.fold(
       onSuccess: (history) => Success(
         history
@@ -114,7 +152,7 @@ class MarketPricesRepositoryImpl implements MarketPricesRepository {
               (row) =>
                   !row.priceDate.isBefore(from) && !row.priceDate.isAfter(to),
             )
-            .map(MarketPricePointMapper.fromMarketPrice)
+            .map(MarketPricePointEntity.fromMarketPrice)
             .toList(),
       ),
       onFailure: (failure) => ResultFailure(failure),

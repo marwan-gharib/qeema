@@ -22,7 +22,16 @@ class CurrencyFormatter {
     int decimalPlaces = 1,
     String? locale,
   }) {
-    final formatter = NumberFormat.compact(locale: _locale(locale))
+    final localeName = _locale(locale);
+    // Below the compact range the short scale would drop the cents, so small
+    // amounts always keep two decimals ('996.00', never '996').
+    if (amount.abs() < Decimal.fromInt(1000)) {
+      final plain = NumberFormat.decimalPattern(localeName)
+        ..minimumFractionDigits = 2
+        ..maximumFractionDigits = 2;
+      return plain.format(amount.toDouble());
+    }
+    final formatter = NumberFormat.compact(locale: localeName)
       ..maximumFractionDigits = decimalPlaces;
     return formatter.format(amount.toDouble());
   }

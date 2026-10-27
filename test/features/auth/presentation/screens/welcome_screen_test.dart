@@ -10,13 +10,15 @@ import 'package:qeema/core/router/route_names.dart';
 import 'package:qeema/core/router/route_paths.dart';
 import 'package:qeema/core/theme/app_theme.dart';
 import 'package:qeema/core/utils/api_result.dart';
+import 'package:qeema/features/auth/domain/usecases/google_sign_in_usecase.dart';
+import 'package:qeema/features/auth/presentation/cubits/google_sign_in_cubit/google_sign_in_cubit.dart';
 import 'package:qeema/features/auth/presentation/cubits/welcome_cubit/welcome_cubit.dart';
 import 'package:qeema/features/auth/presentation/cubits/welcome_cubit/welcome_state.dart';
 import 'package:qeema/features/auth/presentation/screens/welcome_screen.dart';
 
 import '../../../../helpers/mocks.dart';
 
-Widget _buildTestApp(WelcomeCubit cubit) {
+Widget _buildTestApp(WelcomeCubit cubit, GoogleSignInCubit googleCubit) {
   LocaleSettings.setLocaleSync(AppLocale.en);
   final router = GoRouter(
     initialLocation: RoutePaths.welcome,
@@ -24,8 +26,13 @@ Widget _buildTestApp(WelcomeCubit cubit) {
       GoRoute(
         path: RoutePaths.welcome,
         name: RouteNames.welcome,
-        builder: (_, _) =>
-            BlocProvider.value(value: cubit, child: const WelcomeScreen()),
+        builder: (_, _) => MultiBlocProvider(
+          providers: [
+            BlocProvider<WelcomeCubit>.value(value: cubit),
+            BlocProvider<GoogleSignInCubit>.value(value: googleCubit),
+          ],
+          child: const WelcomeScreen(),
+        ),
       ),
       GoRoute(
         path: RoutePaths.home,
@@ -48,25 +55,28 @@ Future<void> pumpWithAnimation(WidgetTester tester) async {
 void main() {
   late MockContinueAsGuestUseCase mockUseCase;
   late WelcomeCubit cubit;
+  late GoogleSignInCubit googleCubit;
 
   setUp(() {
     LocaleSettings.setLocaleSync(AppLocale.en);
     mockUseCase = MockContinueAsGuestUseCase();
     cubit = WelcomeCubit(mockUseCase);
+    googleCubit = GoogleSignInCubit(GoogleSignInUseCase(MockAuthRepository()));
   });
 
   tearDown(() {
     cubit.close();
+    googleCubit.close();
   });
 
   group('WelcomeScreen', () {
     testWidgets('renders primary CTA button and disclosure text', (
       tester,
     ) async {
-      await tester.pumpWidget(_buildTestApp(cubit));
+      await tester.pumpWidget(_buildTestApp(cubit, googleCubit));
       await pumpWithAnimation(tester);
 
-      expect(find.text('Start Tracking Your Savings'), findsOneWidget);
+      expect(find.text('Know what your money is really worth'), findsOneWidget);
       expect(
         find.text(
           'Track your savings against inflation and see your real '
@@ -77,12 +87,12 @@ void main() {
     });
 
     testWidgets('tapping primary CTA calls cubit', (tester) async {
-      await tester.pumpWidget(_buildTestApp(cubit));
+      await tester.pumpWidget(_buildTestApp(cubit, googleCubit));
       await pumpWithAnimation(tester);
 
       expect(cubit.state, isA<WelcomeInitial>());
 
-      await tester.tap(find.text('Start Tracking Your Savings'));
+      await tester.tap(find.text('Continue as Guest'));
       await tester.pump();
       await tester.pump(const Duration(milliseconds: 100));
 
@@ -92,7 +102,7 @@ void main() {
     testWidgets('shows loading on primary CTA while signing in', (
       tester,
     ) async {
-      await tester.pumpWidget(_buildTestApp(cubit));
+      await tester.pumpWidget(_buildTestApp(cubit, googleCubit));
       await pumpWithAnimation(tester);
 
       unawaited(cubit.continueAsGuest());
@@ -107,10 +117,10 @@ void main() {
         AnonymousSignInDisabledFailure(),
       );
 
-      await tester.pumpWidget(_buildTestApp(cubit));
+      await tester.pumpWidget(_buildTestApp(cubit, googleCubit));
       await pumpWithAnimation(tester);
 
-      await tester.tap(find.text('Start Tracking Your Savings'));
+      await tester.tap(find.text('Continue as Guest'));
       await tester.pump();
       await tester.pump(const Duration(seconds: 2));
 
@@ -128,12 +138,12 @@ void main() {
       await tester.pumpWidget(
         MediaQuery(
           data: const MediaQueryData(disableAnimations: true),
-          child: _buildTestApp(cubit),
+          child: _buildTestApp(cubit, googleCubit),
         ),
       );
       await tester.pump();
 
-      expect(find.text('Start Tracking Your Savings'), findsOneWidget);
+      expect(find.text('Know what your money is really worth'), findsOneWidget);
     });
 
     testWidgets('renders with dark theme without error', (tester) async {
@@ -144,8 +154,13 @@ void main() {
           GoRoute(
             path: RoutePaths.welcome,
             name: RouteNames.welcome,
-            builder: (_, _) =>
-                BlocProvider.value(value: cubit, child: const WelcomeScreen()),
+            builder: (_, _) => MultiBlocProvider(
+              providers: [
+                BlocProvider<WelcomeCubit>.value(value: cubit),
+                BlocProvider<GoogleSignInCubit>.value(value: googleCubit),
+              ],
+              child: const WelcomeScreen(),
+            ),
           ),
           GoRoute(
             path: RoutePaths.home,
@@ -164,7 +179,7 @@ void main() {
       );
       await pumpWithAnimation(tester);
 
-      expect(find.text('Start Tracking Your Savings'), findsOneWidget);
+      expect(find.text('Know what your money is really worth'), findsOneWidget);
     });
   });
 }

@@ -3,12 +3,13 @@ import 'package:material_ui/material_ui.dart';
 import 'package:qeema/core/extensions/build_context_extensions.dart';
 import 'package:qeema/core/i18n/strings.g.dart';
 import 'package:qeema/core/theme/app_radius.dart';
+import 'package:qeema/core/widgets/app_dialog.dart';
 
 class DeleteAssetConfirmationDialog extends StatelessWidget {
   const DeleteAssetConfirmationDialog({super.key});
 
   static Future<bool?> show(BuildContext context) {
-    return showDialog<bool>(
+    return AppDialog.show<bool>(
       context: context,
       builder: (_) => const DeleteAssetConfirmationDialog(),
     );

@@ -1,6 +1,4 @@
-class RoutePaths {
-  const RoutePaths._();
-
+abstract final class RoutePaths {
   static const String splash = '/';
   static const String onboarding = '/onboarding';
   static const String welcome = '/welcome';
@@ -9,4 +7,7 @@ class RoutePaths {
   static const String marketPrices = '/market-prices';
   static const String settings = '/settings';
   static const String lock = '/lock';
+
+  /// Detail route of one asset, built from the assets list path.
+  static String assetDetail(String assetId) => '$assets/$assetId';
 }

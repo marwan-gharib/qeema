@@ -35,6 +35,11 @@ class FakeAppLockGate implements AppLockGate {
 
   @override
   bool get hasCompletedFirstEntry => completedFirstEntry;
+
+  @override
+  Future<T> duringAuthentication<T>(Future<T> Function() action) async {
+    return await action();
+  }
 }
 
 class MockGetAppLockEnabledUseCase implements GetAppLockEnabledUseCase {

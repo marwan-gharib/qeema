@@ -1,8 +1,11 @@
+import 'package:qeema/core/constants/supabase_columns.dart';
+import 'package:qeema/core/error/failure_mapper.dart';
 import 'package:qeema/core/error/failures.dart';
 import 'package:qeema/core/local/cache/daos/assets_dao.dart';
 import 'package:qeema/core/utils/api_result.dart';
 import 'package:qeema/features/assets/data/datasources/assets_remote_datasource.dart';
-import 'package:qeema/features/assets/data/mappers/market_price_mapper.dart';
+import 'package:qeema/features/assets/data/models/market_price_model.dart';
+import 'package:qeema/features/assets/data/models/row_parsing.dart';
 import 'package:qeema/features/assets/data/repositories/assets_repository_impl_support.dart';
 import 'package:qeema/features/assets/domain/entities/asset_entity.dart';
 import 'package:qeema/features/assets/domain/entities/asset_history_entry_entity.dart';
@@ -29,14 +32,39 @@ class AssetsRepositoryImpl
 
   @override
   Future<ApiResult<List<AssetEntity>>> getAssets() async {
+    // Cache-first: the mirror answers instantly and works offline; the network
+    // is only the fallback for an empty cache.
+    final cached = await cachedAssets();
+    if (cached.isNotEmpty) return Success(cached);
+    return refreshAssets();
+  }
+
+  @override
+  Future<ApiResult<List<AssetEntity>>> refreshAssets() async {
+    Object? networkError;
     try {
       final models = await _remoteDataSource.getAssets();
-      return Success(toEntities(models));
+      final entities = models.map((model) => model.toEntity()).toList();
+      await mirrorAssetsToCache(models);
+      return Success(entities);
     } on PostgrestException catch (e) {
-      return ResultFailure(mapSupabaseError(e, AssetOperation.read));
+      networkError = e;
     } catch (e) {
-      return const ResultFailure(UnknownFailure());
+      networkError = e;
     }
+
+    // Offline fallback: a stale mirror beats an error when the cache has data.
+    final cached = await cachedAssets();
+    if (cached.isNotEmpty) return Success(cached);
+    if (networkError is PostgrestException) {
+      return ResultFailure(
+        mapExceptionToFailure(
+          networkError,
+          assetOperation: AssetOperation.read,
+        ),
+      );
+    }
+    return const ResultFailure(UnknownFailure());
   }
 
   @override
@@ -45,16 +73,18 @@ class AssetsRepositoryImpl
       final rows = await _remoteDataSource.getAssetTypes();
       final types = rows.map((row) {
         return AssetTypeEntity(
-          id: row['id'] as String,
-          code: row['code'] as String,
-          name: row['name'] as String,
-          isMarketBased: row['is_market_based'] as bool,
-          baseUnit: row['base_unit'] as String,
+          id: requiredString(row, SupabaseColumns.id),
+          code: requiredString(row, SupabaseColumns.code),
+          name: requiredString(row, SupabaseColumns.name),
+          isMarketBased: requiredBool(row, SupabaseColumns.isMarketBased),
+          baseUnit: requiredString(row, SupabaseColumns.baseUnit),
         );
       }).toList();
       return Success(types);
     } on PostgrestException catch (e) {
-      return ResultFailure(mapSupabaseError(e, AssetOperation.read));
+      return ResultFailure(
+        mapExceptionToFailure(e, assetOperation: AssetOperation.read),
+      );
     } catch (e) {
       return const ResultFailure(UnknownFailure());
     }
@@ -88,9 +118,13 @@ class AssetsRepositoryImpl
   ) async {
     try {
       final rows = await _remoteDataSource.getPriceHistory(assetTypeCode);
-      return Success(rows.map(MarketPriceMapper.fromRow).toList());
+      return Success(
+        rows.map(MarketPriceModel.fromRow).map((m) => m.toEntity()).toList(),
+      );
     } on PostgrestException catch (e) {
-      return ResultFailure(mapSupabaseError(e, AssetOperation.read));
+      return ResultFailure(
+        mapExceptionToFailure(e, assetOperation: AssetOperation.read),
+      );
     } catch (e) {
       return const ResultFailure(UnknownFailure());
     }

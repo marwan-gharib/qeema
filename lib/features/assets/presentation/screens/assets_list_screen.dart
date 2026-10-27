@@ -41,10 +41,14 @@ class AssetsListScreen extends StatelessWidget {
           children: [
             BlocBuilder<AssetsListCubit, AssetsListState>(
               builder: (context, state) {
-                if (state is AssetsListLoaded) {
-                  return AssetTypeTabBar(activeFilter: state.activeFilter);
-                }
-                return const SizedBox.shrink();
+                return switch (state) {
+                  AssetsListLoaded(:final activeFilter) => AssetTypeTabBar(
+                    activeFilter: activeFilter,
+                  ),
+                  AssetsListInitial() ||
+                  AssetsListLoading() ||
+                  AssetsListError() => const SizedBox.shrink(),
+                };
               },
             ),
             Expanded(

@@ -10,35 +10,25 @@ const double _gradientRadiusRange = 0.3;
 class SplashBackground extends StatelessWidget {
   const SplashBackground({
     super.key,
-    required this.breathAnimation,
-    required this.rotationYAnimation,
+    required this.breathValue,
+    required this.rotationValue,
   });
-  final Animation<double> breathAnimation;
-  final Animation<double> rotationYAnimation;
+  final double breathValue;
+  final double rotationValue;
 
   @override
   Widget build(BuildContext context) {
     final colors = Theme.of(context).extension<AppColorsExtension>()!;
-    return AnimatedBuilder(
-      animation: Listenable.merge([breathAnimation, rotationYAnimation]),
-      builder: (context, child) {
-        final parallaxX = math.sin(rotationYAnimation.value) * _parallaxFactor;
-        return Container(
-          decoration: BoxDecoration(
-            color: colors.background,
-            gradient: RadialGradient(
-              center: Alignment(parallaxX, 0),
-              radius:
-                  _gradientRadiusBase +
-                  (breathAnimation.value * _gradientRadiusRange),
-              colors: [
-                colors.primary.withValues(alpha: 0.15),
-                colors.background,
-              ],
-            ),
-          ),
-        );
-      },
+    final parallaxX = math.sin(rotationValue) * _parallaxFactor;
+    return Container(
+      decoration: BoxDecoration(
+        color: colors.background,
+        gradient: RadialGradient(
+          center: Alignment(parallaxX, 0),
+          radius: _gradientRadiusBase + (breathValue * _gradientRadiusRange),
+          colors: [colors.primary.withValues(alpha: 0.15), colors.background],
+        ),
+      ),
     );
   }
 }

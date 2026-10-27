@@ -133,7 +133,7 @@ class _DynamicAssetFieldsState extends State<DynamicAssetFields> {
           AppTextField(
             controller: widget.amountController,
             label: '${t.amount} ($unit)',
-            hint: '0.00',
+            hint: context.t.core.hints.amount,
             keyboardType: const TextInputType.numberWithOptions(decimal: true),
             prefixIcon: const Icon(Icons.numbers),
             autovalidateMode: AutovalidateMode.onUserInteraction,
@@ -149,7 +149,7 @@ class _DynamicAssetFieldsState extends State<DynamicAssetFields> {
               controller: widget.priceController,
               label:
                   '${t.priceAtEntry} (${CurrencyFormatter.currencyName('EGP')} / $unit)',
-              hint: widget.priceHint ?? '0.00',
+              hint: widget.priceHint ?? context.t.core.hints.amount,
               keyboardType: const TextInputType.numberWithOptions(
                 decimal: true,
               ),
