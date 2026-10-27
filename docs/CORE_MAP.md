@@ -45,7 +45,7 @@ Cheat sheet with the full API: `lib/core/animations/README.md`.
 
 - `AppTheme.light()` / `AppTheme.dark()` register two `ThemeExtension`s, read back via
   `context.colors` / `context.textStyles`.
-- `AppColors` (12 fields, `light`/`dark` presets) + `AppColorsExtension`; `AppTextStylesExtension`.
+- `AppColors` (14 fields, `light`/`dark` presets) + `AppColorsExtension`; `AppTextStylesExtension`.
 - Tokens: `AppSpacing` (xxxs..xxl), `AppRadius` (xxs..xl), `AppSizes` (icons, minTouchTarget,
   avatar, loader), `AppBorders` (hairline/emphasis), `AppElevation` (none/card), `AppTextTheme`,
   `appColorScheme()`.

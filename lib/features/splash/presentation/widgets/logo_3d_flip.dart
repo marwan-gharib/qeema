@@ -2,6 +2,7 @@ import 'dart:math' as math;
 
 import 'package:material_ui/material_ui.dart';
 import 'package:qeema/core/constants/app_assets.dart';
+import 'package:qeema/core/extensions/build_context_extensions.dart';
 
 const double _logoSize = 160.0;
 const double _shadowOffsetFactor = 20.0;
@@ -21,6 +22,7 @@ class Logo3DFlip extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final shadowColor = context.colors.shadow;
     return AnimatedBuilder(
       animation: Listenable.merge([logoRotationY, logoScale, logoOpacity]),
       builder: (context, child) {
@@ -42,7 +44,7 @@ class Logo3DFlip extends StatelessWidget {
                   boxShadow: [
                     if (shadowOffset > 0.01)
                       BoxShadow(
-                        color: Colors.black.withValues(alpha: _shadowAlpha),
+                        color: shadowColor.withValues(alpha: _shadowAlpha),
                         offset: Offset(shadowOffset, shadowOffset),
                         blurRadius: shadowBlur,
                       ),

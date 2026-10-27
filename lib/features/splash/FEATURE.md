@@ -1,6 +1,6 @@
 # Splash
 
-> Last verified: 2026-10-26
+> Last verified: 2026-10-27
 > Path: `lib/features/splash/`
 
 ## 1. Purpose
@@ -81,3 +81,4 @@ none — only the `AppAssets.qeemaLogo` image asset.
 ## 13. Changelog
 
 - 2026-10-26 — Initial doc created from code (doc-sync).
+- 2026-10-27 — UI-1: the logo drop shadow uses the new `colors.shadow` token instead of `Colors.black`.

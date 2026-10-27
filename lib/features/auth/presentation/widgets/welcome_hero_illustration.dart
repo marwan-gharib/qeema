@@ -18,6 +18,7 @@ class WelcomeHeroIllustration extends StatelessWidget {
         painter: _TrendMotifPainter(
           primary: colors.primary,
           secondary: colors.secondary,
+          highlight: colors.highlight,
         ),
       ),
     );
@@ -25,9 +26,14 @@ class WelcomeHeroIllustration extends StatelessWidget {
 }
 
 class _TrendMotifPainter extends CustomPainter {
-  _TrendMotifPainter({required this.primary, required this.secondary});
+  _TrendMotifPainter({
+    required this.primary,
+    required this.secondary,
+    required this.highlight,
+  });
   final Color primary;
   final Color secondary;
+  final Color highlight;
 
   @override
   void paint(Canvas canvas, Size size) {
@@ -96,12 +102,14 @@ class _TrendMotifPainter extends CustomPainter {
         coinSize * 0.6,
         Paint()
           ..style = PaintingStyle.fill
-          ..color = Colors.white.withValues(alpha: 0.5),
+          ..color = highlight.withValues(alpha: 0.5),
       );
     }
   }
 
   @override
   bool shouldRepaint(_TrendMotifPainter oldDelegate) =>
-      oldDelegate.primary != primary || oldDelegate.secondary != secondary;
+      oldDelegate.primary != primary ||
+      oldDelegate.secondary != secondary ||
+      oldDelegate.highlight != highlight;
 }

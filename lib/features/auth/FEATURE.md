@@ -1,6 +1,6 @@
 # Auth
 
-> Last verified: 2026-10-26
+> Last verified: 2026-10-27
 > Path: `lib/features/auth/`
 
 ## 1. Purpose
@@ -105,3 +105,5 @@ the settings profile header.
 - 2026-10-26 — Initial doc created from code (doc-sync).
 - 2026-10-26 — Refactor (DATA-4/5): AuthUserMapper dissolved into `AuthUserModel.fromSupabaseUser`;
   its test moved to test/features/auth/data/models/auth_user_model_test.dart.
+- 2026-10-27 — UI-1: the hero illustration's coin highlight uses the new `colors.highlight` token
+  instead of `Colors.white`.

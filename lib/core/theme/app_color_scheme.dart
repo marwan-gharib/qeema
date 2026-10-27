@@ -3,7 +3,7 @@ import 'package:qeema/core/theme/app_colors.dart';
 
 Color _onColor(Color bg) {
   final lum = 0.299 * bg.r + 0.587 * bg.g + 0.114 * bg.b;
-  return lum > 0.5 ? const Color(0xFF2B2A26) : Colors.white;
+  return lum > 0.5 ? AppColors.light.textPrimary : AppColors.light.surface;
 }
 
 ColorScheme appColorScheme(AppColors colors, Brightness brightness) {
